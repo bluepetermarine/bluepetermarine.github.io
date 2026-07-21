@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blue Peter Marine — Client Tools</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2efe8; --card:#fff; --navy:#1a2e4a; --navy-soft:#5a7080; --accent:#1a6fa8; --gold:#c8860a;
+    --ok:#1a7a4a; --text:#1e2c3a; --muted:#5a7080; --border:#ccd5dc; --line:#ccd5dc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;line-height:1.55}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 20px}
+
+  /* HERO */
+  .hero{background:linear-gradient(150deg,#16283f 0%,#1a2e4a 55%,#20364f 100%);color:#fff;padding:44px 0 40px;position:relative;overflow:hidden}
+  .hero::after{content:"";position:absolute;right:-60px;bottom:-90px;width:320px;height:320px;border:2px solid rgba(200,134,10,.16);border-radius:50%}
+  .hero .wrap{position:relative;z-index:1}
+  .eyebrow{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.14em;text-transform:uppercase;font-size:13px;color:var(--gold);margin-bottom:10px}
+  .hero h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:clamp(30px,5vw,44px);line-height:1.03;letter-spacing:.01em}
+  .hero p{color:#c3d1de;font-size:16px;margin-top:12px;max-width:60ch}
+
+  /* CONTROLS */
+  .controls{display:flex;gap:14px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:26px 0 8px}
+  .search{flex:1;min-width:220px;display:flex;align-items:center;gap:10px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:10px 14px}
+  .search input{border:none;outline:none;font-family:'Barlow',sans-serif;font-size:15px;width:100%;color:var(--text);background:transparent}
+  .count{font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--muted);white-space:nowrap}
+
+  /* CATEGORY */
+  .cat-title{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);margin:30px 0 14px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+
+  /* GRID */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+  a.tool{display:flex;flex-direction:column;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 20px 18px;text-decoration:none;color:inherit;transition:.15s;position:relative}
+  a.tool:hover{transform:translateY(-2px);border-color:var(--accent);box-shadow:0 6px 18px rgba(26,46,74,.08)}
+  a.tool .tname{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--navy);letter-spacing:.01em;margin-bottom:8px;padding-right:26px}
+  a.tool .tdesc{font-size:14px;color:var(--muted);line-height:1.5;flex:1}
+  a.tool .topen{margin-top:16px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:14px;letter-spacing:.04em;text-transform:uppercase;color:var(--accent);display:inline-flex;align-items:center;gap:7px}
+  a.tool .arrow{font-family:'JetBrains Mono',monospace}
+  a.tool .corner{position:absolute;top:18px;right:18px;color:var(--gold);font-family:'JetBrains Mono',monospace;font-size:16px}
+  .empty{color:var(--muted);font-size:15px;padding:30px 0}
+
+  footer{background:var(--navy);color:#c3d1de;text-align:center;padding:24px 0;font-size:14px;margin-top:56px}
+  footer a{color:var(--gold);text-decoration:none}
+
+  /* PASSCODE GATE */
+  #gate{position:fixed;inset:0;background:linear-gradient(150deg,#16283f,#1a2e4a);display:flex;align-items:center;justify-content:center;z-index:50;padding:20px}
+  #gate .box{background:#fff;border-radius:12px;padding:34px 32px;max-width:380px;width:100%;text-align:center;box-shadow:0 20px 50px rgba(0,0,0,.3)}
+  #gate .eyebrow{color:var(--gold);margin-bottom:12px}
+  #gate h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:24px;color:var(--navy);margin-bottom:6px}
+  #gate p{font-size:14px;color:var(--muted);margin-bottom:18px}
+  #gate input{width:100%;padding:12px 14px;border:1px solid var(--border);border-radius:8px;font-size:16px;font-family:'Barlow',sans-serif;text-align:center;letter-spacing:.04em}
+  #gate button{margin-top:14px;width:100%;background:var(--gold);color:#fff;border:none;padding:12px;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;letter-spacing:.04em;cursor:pointer}
+  #gate button:hover{background:#b3770a}
+  #gate .err{color:#b02020;font-size:13px;margin-top:10px;min-height:16px}
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       HOW TO ADD OR CHANGE TOOLS
+       Edit the TOOLS list in the script below. Each tool is one line:
+         { cat:"Category name", name:"Tool name", desc:"Short description", file: "tools/filename.html" }
+       Put the tool's HTML file in the tools/ subfolder and it will open.
+       The access code is set in access-gate.js (used by the portal and every tool).
+       ============================================================ -->
+
+
+  <div class="hero">
+    <div class="wrap">
+      <div class="eyebrow">Blue Peter Marine · Marine Certification &amp; Consultancy</div>
+      <h1>Client Tools</h1>
+      <p>Your compliance references, checklists and calculators in one place. Select a tool to open it.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <div class="controls">
+      <label class="search">
+        <span style="color:var(--muted)">&#128269;</span>
+        <input id="search" type="text" placeholder="Search tools…" oninput="render()">
+      </label>
+      <span class="count" id="count"></span>
+    </div>
+    <div id="list"></div>
+  </div>
+
+  <footer>
+    Blue Peter Marine · <a href="https://www.ceinspector.com">www.ceinspector.com</a> · info@ceinspector.com
+  </footer>
+
+<script>
+  /* ===== CONFIG ============================================================= */
+
+
+  // The tools shown on the portal. Add a new tool by copying one line.
+  const TOOLS = [
+    { cat:"Compliance reference", name:"RCD Essential Requirements & Documentation", desc:"Full Annex I.A and Annex II index with harmonised standards, submission documentation upload, and per-standard IMCI checklists.", file: "tools/rcd-master-index.html" },
+    { cat:"Compliance reference", name:"ISO 8666 Principal Data Reference", desc:"Definitions and reference sheet for small-craft principal data (lengths, beams, displacement, draught).", file: "tools/principal-data-reference.html" },
+    { cat:"Calculators", name:"Voltage Drop Calculator", desc:"DC cable voltage-drop sizing for small-craft electrical circuits.", file: "tools/voltage_drop_calculator.html" },
+    { cat:"Calculators", name:"ISO 13297 Electrical Systems Calculator", desc:"Voltage drop, conductor sizing and ampacity checks for AC and DC installations.", file: "tools/iso13297-electrical-calculator.html" },
+    { cat:"Calculators", name:"ISO 10239 LPG Ventilation Calculator", desc:"Minimum natural ventilation area for spaces with LPG appliances (Annex B).", file: "tools/iso10239-lpg-ventilation.html" },
+    { cat:"Calculators", name:"ISO 11105 Petrol Engine Ventilation Calculator", desc:"Ventilation requirements for petrol engine and petrol tank compartments.", file: "tools/iso11105-petrol-ventilation.html" },
+    { cat:"Calculators", name:"Angle of Heel at GZ Max Calculator", desc:"Determines the heel angle at which maximum righting arm occurs.", file: "tools/gzmax-calculator.html" },
+    { cat:"Calculators", name:"Catamaran GZ Curve", desc:"Righting-arm curve for catamarans (Marchaj method).", file: "tools/catamaran-gz-curve.html" },
+    { cat:"Generators", name:"ISO 10087 WIN Generator", desc:"Generates compliant Watercraft Identification Numbers for all vessel types.", file: "tools/win-generator.html" },
+    { cat:"Generators", name:"CE Builder's Plate Generator", desc:"Produces a compliant builder's plate layout for recreational craft.", file: "tools/builders-plate-generator.html" },
+    { cat:"Checklists", name:"Hull Openings, Bilge & Flooding", desc:"Through-hull fittings, seacocks, cockpit drainage and dewatering non-conformities.", file: "tools/hull-openings-bilge-checklist.html" },
+    { cat:"Checklists", name:"ISO 15085:2024 Reboarding & Fall Prevention", desc:"Protection from falling overboard and means of reboarding checklist.", file: "tools/iso15085-reboarding-checklist.html" },
+    { cat:"Checklists", name:"ISO 15084 Strong Points Checklist", desc:"Anchoring, mooring and towing strong-point compliance checklist.", file: "tools/iso15084-strong-points-checklist.html" },
+    { cat:"Checklists", name:"ISO 6185-3 Inflatable Boats Checklist", desc:"Compliance checklist for inflatable boats (15 kW and greater, under 8 m).", file: "tools/iso6185-3-checklist.html" },
+    { cat:"Checklists", name:"ISO 11591-2 Object Avoidance Test", desc:"Field-of-vision avoidance line test checklist for the steering position.", file: "tools/iso11591-2-object-avoidance.html" },
+    { cat:"Checklists", name:"ISO 10088 Petrol Fuel Systems Checklist", desc:"Permanently installed petrol fuel system compliance checklist.", file: "tools/iso10088-petrol-checklist.html" },
+    { cat:"Checklists", name:"ISO 10088 Diesel Fuel Systems Checklist", desc:"Permanently installed diesel fuel system compliance checklist.", file: "tools/iso10088-diesel-checklist.html" },
+    { cat:"Checklists", name:"ISO 21487 Petrol Metallic Tank Checklist", desc:"Permanently installed petrol metallic fuel tank compliance checklist.", file: "tools/iso21487-petrol-metallic-tank.html" },
+    { cat:"Checklists", name:"ISO 21487 Diesel Metallic Tank Checklist", desc:"Permanently installed diesel metallic fuel tank compliance checklist.", file: "tools/iso21487-diesel-metallic-tank.html" },
+    { cat:"Checklists", name:"ISO 21487 Diesel Non-Metallic Tank Checklist", desc:"Diesel non-metallic tank outside the engine room compliance checklist.", file: "tools/iso21487-diesel-nonmetallic-tank.html" },
+    { cat:"Test reports", name:"ISO 9093 Assembly Strength Test Report", desc:"Records seacock and through-hull assembly strength test results.", file: "tools/iso9093-assembly-test-report.html" },
+    { cat:"Test reports", name:"ISO 15085:2024 Test Report Generator", desc:"Generates the reboarding and fall-prevention test report.", file: "tools/iso15085-test-report.html" },
+  ];
+
+  /* ===== END CONFIG ========================================================= */
+
+
+  function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+
+  function render(){
+    const q = (document.getElementById('search').value || '').toLowerCase().trim();
+    const list = document.getElementById('list');
+    const matches = TOOLS.filter(function(t){
+      return !q || (t.name + ' ' + t.desc + ' ' + t.cat).toLowerCase().indexOf(q) >= 0;
+    });
+    document.getElementById('count').textContent = matches.length + ' of ' + TOOLS.length + ' tools';
+
+    if(!matches.length){ list.innerHTML = '<div class="empty">No tools match your search.</div>'; return; }
+
+    // group by category, preserving first-seen order
+    const cats = []; const byCat = {};
+    matches.forEach(function(t){ const c = t.cat || 'Tools'; if(!byCat[c]){ byCat[c] = []; cats.push(c); } byCat[c].push(t); });
+
+    let html = '';
+    cats.forEach(function(c){
+      html += '<div class="cat-title">' + esc(c) + '</div><div class="grid">';
+      byCat[c].forEach(function(t){
+        html += '<a class="tool" href="' + esc(t.file) + '" target="_blank" rel="noopener">'
+          + '<span class="corner">&#8599;</span>'
+          + '<span class="tname">' + esc(t.name) + '</span>'
+          + '<span class="tdesc">' + esc(t.desc) + '</span>'
+          + '<span class="topen">Open tool <span class="arrow">&rarr;</span></span>'
+          + '</a>';
+      });
+      html += '</div>';
+    });
+    list.innerHTML = html;
+  }
+
+  render();
+</script>
+<script src="tools/access-gate.js"></script>
+</body>
+</html>

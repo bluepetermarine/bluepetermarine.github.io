@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EN ISO 6185-3:2018 Compliance Checklist</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+            line-height: 1.4;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af, #3b82f6);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .imci-header {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .boat-info {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .info-grid input, .info-grid select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+        .info-grid label {
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 5px;
+            display: block;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        th {
+            background: linear-gradient(135deg, #374151, #4b5563);
+            color: white;
+            padding: 12px;
+            text-align: left;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        tr:hover {
+            background-color: #f9fafb;
+        }
+        .category-header {
+            background: linear-gradient(135deg, #059669, #10b981) !important;
+            color: white !important;
+            font-weight: bold;
+            text-align: center;
+            font-size: 15px;
+        }
+        .requirement-text {
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        .requirement-text strong {
+            color: #1f2937;
+        }
+        .requirement-text small {
+            color: #6b7280;
+        }
+        .checkbox-container {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+        .checkbox-group label {
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .yes { color: #059669; }
+        .no { color: #dc2626; }
+        .na { color: #7c2d12; }
+        .export-btn {
+            background: linear-gradient(135deg, #7c3aed, #6d28d9);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 10px 5px;
+            transition: transform 0.2s;
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+        }
+        .ref-column {
+            width: 60px;
+            text-align: center;
+            font-weight: bold;
+            background-color: #f8fafc;
+            border-right: 2px solid #e5e7eb;
+        }
+        .status-column {
+            width: 160px;
+            text-align: center;
+            border-left: 1px solid #e5e7eb;
+        }
+        .notes-column {
+            width: 200px;
+            border-left: 1px solid #e5e7eb;
+        }
+        .notes-input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 12px;
+            background-color: #ffffff;
+        }
+        .notes-input:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        .clause-column {
+            width: 120px;
+            font-weight: bold; 
+            background-color: #f1f5f9;
+            border-right: 1px solid #e5e7eb;
+            color: #1e40af;
+            font-size: 12px;
+        }
+        .calculation-results {
+            background: #f0f9ff; 
+            padding: 15px; 
+            border-radius: 6px; 
+            margin-top: 15px;
+            border-left: 4px solid #0ea5e9;
+        }
+        .calc-grid {
+            display: grid; 
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+            gap: 15px;
+        }
+        .calc-item {
+            background: white; 
+            padding: 12px; 
+            border-radius: 6px; 
+            border-left: 4px solid #3b82f6;
+        }
+        .calc-title {
+            margin: 0 0 8px 0; 
+            color: #1e40af; 
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .calc-formula {
+            margin: 0 0 4px 0; 
+            font-family: monospace; 
+            font-size: 12px; 
+            color: #6b7280;
+        }
+        .calc-result {
+            margin: 0 0 4px 0; 
+            font-weight: bold; 
+            color: #111827;
+        }
+        .calc-status {
+            margin: 0; 
+            font-size: 12px; 
+            color: #059669;
+        }
+        .signature-section {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .signature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-top: 15px;
+        }
+        .signature-box {
+            border: 2px dashed #d1d5db;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+            color: #6b7280;
+        }
+        .boat-types-info {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .boat-types-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 10px;
+        }
+        .boat-type-card {
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 15px;
+            background: #f8fafc;
+        }
+        .type-vii {
+            border-color: #059669;
+            background: #ecfdf5;
+        }
+        .type-viii {
+            border-color: #dc2626;
+            background: #fef2f2;
+        }
+        .compartment-table {
+            margin-top: 10px;
+            font-size: 12px;
+        }
+        .compartment-table th {
+            background: #374151;
+            color: white;
+            padding: 8px;
+            font-size: 11px;
+        }
+        .compartment-table td {
+            padding: 6px;
+            text-align: center;
+            border: 1px solid #d1d5db;
+        }
+    </style>
+</head>
+<body>
+    <div class="imci-header">
+        <h2>INTERNATIONAL MARINE CERTIFICATION INSTITUTE</h2>
+        <p>Recreational Craft Certification</p>
+    </div>
+
+    <div class="header">
+        <h1>EN ISO 6185-3:2018</h1>
+        <h2>Inflatable boats - Part 3: Boats with a hull length less than 8 m with a motor rating of 15 kW and greater</h2>
+        <p>Type VII (Design Categories C & D) | Type VIII (Design Category B)</p>
+        <p><strong>Second edition 2014-08-15</strong></p>
+    </div>
+
+    <div class="boat-types-info">
+        <h3>Boat Type Classification</h3>
+        <div class="boat-types-grid">
+            <div class="boat-type-card type-vii">
+                <h4 style="margin-top: 0; color: #059669;">Type VII Boats</h4>
+                <p><strong>Design Categories:</strong> C & D</p>
+                <p><strong>Motor Power:</strong> ≥ 15 kW</p>
+                <p><strong>Hull Length:</strong> < 8 m</p>
+                <p><strong>Description:</strong> Powered boats fitted with buoyancy tubes attached to port and starboard sides</p>
+            </div>
+            <div class="boat-type-card type-viii">
+                <h4 style="margin-top: 0; color: #dc2626;">Type VIII Boats</h4>
+                <p><strong>Design Category:</strong> B</p>
+                <p><strong>Motor Power:</strong> ≥ 75 kW</p>
+                <p><strong>Hull Length:</strong> < 8 m</p>
+                <p><strong>Description:</strong> Powered boats fitted with buoyancy tubes, suitable for offshore conditions</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="boat-info">
+        <h3>Vessel Information & Technical Data</h3>
+        <div class="info-grid">
+            <div>
+                <label for="manufacturer">Manufacturer:</label>
+                <input type="text" id="manufacturer" placeholder="Boat manufacturer">
+            </div>
+            <div>
+                <label for="modelName">Model Name:</label>
+                <input type="text" id="modelName" placeholder="Model designation">
+            </div>
+            <div>
+                <label for="winYear">WIN Model Year:</label>
+                <input type="text" id="winYear" placeholder="Watercraft ID year">
+            </div>
+            <div>
+                <label for="projectNumber">Project Number:</label>
+                <input type="text" id="projectNumber" placeholder="Project/Job number">
+            </div>
+
+            <div>
+                <label for="boatType">Boat Type:</label>
+                <select id="boatType" onchange="calculateValues()">
+                    <option value="">Select Type</option>
+                    <option value="Type VII">Type VII (Categories C & D)</option>
+                    <option value="Type VIII">Type VIII (Category B)</option>
+                </select>
+            </div>
+            <div>
+                <label for="designCategory">Design Category:</label>
+                <select id="designCategory" onchange="calculateValues()">
+                    <option value="">Select Category</option>
+                    <option value="B">B - Offshore</option>
+                    <option value="C">C - Inshore</option>
+                    <option value="D">D - Sheltered Waters</option>
+                </select>
+            </div>
+            <div>
+                <label for="length">Hull Length LH (m):</label>
+                <input type="number" id="length" step="0.1" onchange="calculateValues()" placeholder="< 8.0">
+            </div>
+            <div>
+                <label for="maxLength">Max Length Lmax (m):</label>
+                <input type="number" id="maxLength" step="0.1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="maxBeam">Max Beam Bmax (m):</label>
+                <input type="number" id="maxBeam" step="0.1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="lightMass">Light Craft Mass mLC (kg):</label>
+                <input type="number" id="lightMass" step="1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="loadedMass">Loaded Mass mLDC (kg):</label>
+                <input type="number" id="loadedMass" step="1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="maxLoad">Maximum Load (kg):</label>
+                <input type="number" id="maxLoad" step="1">
+            </div>
+            <div>
+                <label for="crewLimit">Crew Limit (persons):</label>
+                <input type="number" id="crewLimit" step="1">
+            </div>
+            <div>
+                <label for="maxPower">Max Engine Power (kW):</label>
+                <input type="number" id="maxPower" step="1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="tubeDiameter">Tube Diameter d (mm):</label>
+                <input type="number" id="tubeDiameter" step="1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="nominalPressure">Nominal Pressure p (bar):</label>
+                <input type="number" id="nominalPressure" step="0.1" onchange="calculateValues()">
+            </div>
+            <div>
+                <label for="totalTubeLength">Total Tube Length (m):</label>
+                <input type="number" id="totalTubeLength" step="0.1">
+            </div>
+            <div>
+                <label for="buoyantVolume">Total Buoyant Volume V (m³):</label>
+                <input type="number" id="buoyantVolume" step="0.001">
+            </div>
+            <div>
+                <label for="inspector">Inspector Name:</label>
+                <input type="text" id="inspector" placeholder="Certification inspector">
+            </div>
+            <div>
+                <label for="inspectionDate">Inspection Date:</label>
+                <input type="date" id="inspectionDate">
+            </div>
+        </div>
+        
+        <div id="calculationResults" class="calculation-results" style="display: none;">
+            <h4 style="color: #0369a1; margin-top: 0;">Automatic Calculations (EN ISO 6185-3:2018)</h4>
+            <div id="calculationGrid" class="calc-grid">
+                <!-- Calculations will be populated here -->
+            </div>
+            
+            <div id="compartmentTable" style="margin-top: 15px; display: none;">
+                <h5 style="color: #0369a1;">Minimum Compartmentation Requirements (Table 5)</h5>
+                <table class="compartment-table">
+                    <thead>
+                        <tr>
+                            <th>Max Motor Power (kW)</th>
+                            <th>Dimensional Factor F(d)</th>
+                            <th>Min Compartments</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>15 to 45</td><td>≤ 8</td><td>3</td></tr>
+                        <tr><td>15 to 45</td><td>> 8</td><td>4</td></tr>
+                        <tr><td>> 45</td><td>≤ 8</td><td>4</td></tr>
+                        <tr><td>> 45</td><td>> 8</td><td>5</td></tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 11px; color: #6b7280;">Note: Dimensional factor F(d) = LH × BH</p>
+            </div>
+        </div>
+    </div>
+
+    <div style="margin-bottom: 20px; text-align: center;">
+        <button class="export-btn" onclick="exportToExcel()">📊 Export to Excel</button>
+        <button class="export-btn" onclick="printChecklist()" style="background: linear-gradient(135deg, #dc2626, #b91c1c);">🖨️ Print Checklist</button>
+    </div>
+
+    <table id="checklistTable">
+        <thead>
+            <tr>
+                <th class="ref-column">Ref #</th>
+                <th class="clause-column">ISO Clause</th>
+                <th>Requirement Description</th>
+                <th class="status-column">Compliance Status</th>
+                <th class="notes-column">Notes</th>
+            </tr>
+        </thead>
+        <tbody id="checklistBody">
+            <!-- Content will be populated by JavaScript -->
+        </tbody>
+    </table>
+
+    <div class="signature-section">
+        <h3>Certification Declaration</h3>
+        <p>As the manufacturer or authorized representative, I declare under sole responsibility that the above product to which this declaration relates is in conformity with the referenced requirements of EN ISO 6185-3:2018.</p>
+        
+        <div class="signature-grid">
+            <div class="signature-box">
+                <p><strong>Manufacturer/Authorized Representative</strong></p>
+                <p>Name: ________________________</p>
+                <p>Title: _________________________</p>
+                <p>Date: _________________________</p>
+                <p>Signature: ____________________</p>
+            </div>
+            <div class="signature-box">
+                <p><strong>IMCI Inspector</strong></p>
+                <p>Name: ________________________</p>
+                <p>Inspector ID: ___________________</p>
+                <p>Date: _________________________</p>
+                <p>Signature & Stamp: _____________</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const requirements = [
+            // 1. SCOPE & IDENTIFICATION
+            {
+                category: "1. SCOPE & IDENTIFICATION",
+                items: [
+                    {ref: "1.1", clause: "Clause 1", text: "Boat hull length less than 8m (Auto-calculated above)"},
+                    {ref: "1.2", clause: "Clause 1", text: "Motor power rating ≥15kW (Type VII) or ≥75kW (Type VIII) (Auto-calculated above)"},
+                    {ref: "1.3", clause: "ISO 10087", text: "Craft identification number displayed and compliant"},
+                    {ref: "1.4", clause: "ISO 14945", text: "Builder's plate installed with required information"}
+                ]
+            },
+            
+            // 2. MATERIALS
+            {
+                category: "2. MATERIALS",
+                items: [
+                    {ref: "2.1", clause: "5.2.2.5", text: "Buoyancy tube materials meet tear resistance requirements (Auto-calculated above)"},
+                    {ref: "2.2", clause: "5.2.2.2", text: "Materials resist liquids (IRM 901 oil, salt water) - ≤100 g/m² mass change"},
+                    {ref: "2.3", clause: "5.2.2.3", text: "Materials resist ozone cracking (72h at 30°C, 0.5×10⁻⁶ concentration)"},
+                    {ref: "2.4", clause: "5.2.2.4", text: "Materials resist cold (-20°C bend test per ISO 4675)"},
+                    {ref: "2.5", clause: "5.2.2.6", text: "Coating adhesion ≥40N per 25mm (ISO 2411)"},
+                    {ref: "2.6", clause: "5.2.2.7", text: "Seam strength adequate (Auto-calculated above) - static load test at 60°C"},
+                    {ref: "2.7", clause: "5.3", text: "Wood materials comply with ISO 12215-3 and have weather protection"},
+                    {ref: "2.8", clause: "5.4", text: "Metal parts comply with ISO 12215-3:2002"},
+                    {ref: "2.9", clause: "5.5", text: "Glass-reinforced plastics properly arranged and protected"}
+                ]
+            },
+            
+            // 3. BUOYANCY REQUIREMENTS
+            {
+                category: "3. BUOYANCY REQUIREMENTS",
+                items: [
+                    {ref: "3.1", clause: "7.4.1", text: "Total buoyant volume V > k×mLDC/1000 (Auto-calculated above)"},
+                    {ref: "3.2", clause: "7.4.1", text: "Buoyancy tube volume ≥50% of total required buoyancy"},
+                    {ref: "3.3", clause: "7.4.3", text: "Level flotation when swamped (≤10° trim from unswamped waterline)"},
+                    {ref: "3.4", clause: "7.4.3", text: "≥2/3 of hull length above water when swamped"},
+                    {ref: "3.5", clause: "7.5", text: "Minimum compartmentation requirement met (Auto-calculated above)"},
+                    {ref: "3.6", clause: "7.5", text: "Each compartment volume within ±20% of mean volume"},
+                    {ref: "3.7", clause: "5.7", text: "Foam-filled buoyancy materials pass required tests (if applicable)"}
+                ]
+            },
+            
+            // 4. STABILITY & PERFORMANCE
+            {
+                category: "4. STABILITY & PERFORMANCE",
+                items: [
+                    {ref: "4.1", clause: "7.3", text: "Static stability complies with ISO 12217-1 or ISO 12217-3"},
+                    {ref: "4.2", clause: "7.3", text: "Offset load test passed (crew positioned over inboard tangent)"},
+                    {ref: "4.3", clause: "7.2", text: "Crew limit determined and does not exceed seating/space limits"},
+                    {ref: "4.4", clause: "7.1", text: "Maximum load capacity determined per ISO 14946"},
+                    {ref: "4.5", clause: "7.8", text: "Maximum motor power determined per ISO 11592 (Auto-calculated above)"},
+                    {ref: "4.6", clause: "8.6", text: "Maneuvering speed test (if capable of ≥30kn with remote steering)"},
+                    {ref: "4.7", clause: "7.14", text: "Safety sign displayed (Type VIII boats in Category B)"}
+                ]
+            },
+            
+            // 5. FUNCTIONAL COMPONENTS
+            {
+                category: "5. FUNCTIONAL COMPONENTS",
+                items: [
+                    {ref: "5.1", clause: "6.4.1", text: "Inflation valves accessible, secure, and properly designed"},
+                    {ref: "5.2", clause: "6.4.2", text: "Deflation system independent per compartment"},
+                    {ref: "5.3", clause: "6.6", text: "Transom adequate for motor loads (where applicable)"},
+                    {ref: "5.4", clause: "6.7", text: "Hull drainage provided (drainplug or bailing system)"},
+                    {ref: "5.5", clause: "6.8", text: "Remote steering system compliant (ISO 8847/8848/9775/10592/15652)"},
+                    {ref: "5.6", clause: "6.8", text: "Emergency steering provided (single inboard engines)"},
+                    {ref: "5.7", clause: "6.2", text: "Fittings bonded to flexible parts properly tested (2kN load)"},
+                    {ref: "5.8", clause: "6.5", text: "Rowlocks and oars meet requirements (if provided)"}
+                ]
+            },
+            
+            // 6. SAFETY EQUIPMENT
+            {
+                category: "6. SAFETY EQUIPMENT",
+                items: [
+                    {ref: "6.1", clause: "6.9", text: "Towing/anchoring/mooring devices comply with ISO 15084"},
+                    {ref: "6.2", clause: "6.10", text: "Seating meets strength requirements and design category needs"},
+                    {ref: "6.3", clause: "7.9", text: "Man overboard prevention/recovery (ISO 15085 - handholds, etc.)"},
+                    {ref: "6.4", clause: "7.10", text: "Field of vision from helm position (ISO 11591)"},
+                    {ref: "6.5", clause: "7.11", text: "Liferaft provision (Type VII >6m, all Type VIII)"},
+                    {ref: "6.6", clause: "6.15", text: "Lifting devices adequate (5×mMO design, 2×mMO test) if fitted"},
+                    {ref: "6.7", clause: "6.3", text: "Manual lifting/carrying devices provided (<9000N buoyancy)"}
+                ]
+            },
+            
+            // 7. ELECTRICAL & FUEL SYSTEMS
+            {
+                category: "7. ELECTRICAL & FUEL SYSTEMS",
+                items: [
+                    {ref: "7.1", clause: "6.11", text: "Electrical installations comply (ISO 10133/13297)"},
+                    {ref: "7.2", clause: "6.12.2", text: "Start-in-gear protection fitted (ISO 11547)"},
+                    {ref: "7.3", clause: "6.19", text: "Navigation lights comply with regulations (if fitted)"},
+                    {ref: "7.4", clause: "6.13", text: "Fuel systems comply (ISO 10088, ISO 21487)"},
+                    {ref: "7.5", clause: "6.13", text: "Type VIII has permanent fuel system with permanent tanks"},
+                    {ref: "7.6", clause: "6.14", text: "Petrol ventilation complies (ISO 11105) for spaces >1.5L"},
+                    {ref: "7.7", clause: "6.11", text: "Type VIII boats fitted with electrical system"}
+                ]
+            },
+            
+            // 8. ENGINE INSTALLATION
+            {
+                category: "8. ENGINE INSTALLATION",
+                items: [
+                    {ref: "8.1", clause: "6.12.1", text: "Inboard engine enclosure separated from living quarters"},
+                    {ref: "8.2", clause: "6.12.1", text: "Engine parts accessible for maintenance"},
+                    {ref: "8.3", clause: "6.12.1", text: "Sound insulation non-fuel-absorbent (ISO 9094)"},
+                    {ref: "8.4", clause: "6.12.2", text: "Outboard engines installed per manufacturer instructions"},
+                    {ref: "8.5", clause: "6.18", text: "Noise emissions comply with requirements"}
+                ]
+            },
+            
+            // 9. PRESSURE & STRENGTH TESTS
+            {
+                category: "9. PRESSURE & STRENGTH TESTS",
+                items: [
+                    {ref: "9.1", clause: "7.6", text: "Nominal pressures specified and marked on compartments"},
+                    {ref: "9.2", clause: "7.7.2.2", text: "Heat test passed (60°C, 6h at 1.2× nominal pressure)"},
+                    {ref: "9.3", clause: "7.7.2.3", text: "Overpressure test passed (1.5× nominal, 30min)"},
+                    {ref: "9.4", clause: "7.7.2.4", text: "Airtightness test passed (≤20% pressure drop/24h)"},
+                    {ref: "9.5", clause: "7.12", text: "Rigid structure strength per ISO 12215-5 or performance tests"},
+                    {ref: "9.6", clause: "7.13", text: "Principal fitted accessories strength tested (seats, consoles)"},
+                    {ref: "9.7", clause: "8.2", text: "Drop test passed (if structural integrity not demonstrated)"}
+                ]
+            },
+            
+            // 10. OPENINGS & FITTINGS
+            {
+                category: "10. OPENINGS & FITTINGS",
+                items: [
+                    {ref: "10.1", clause: "6.17", text: "Windows/portlights/hatches comply (ISO 12216)"},
+                    {ref: "10.2", clause: "6.17", text: "Seacocks comply (ISO 9093)"},
+                    {ref: "10.3", clause: "6.16", text: "Fire protection adequate (ISO 9094)"},
+                    {ref: "10.4", clause: "6.18", text: "LPG systems comply (ISO 10239)"},
+                    {ref: "10.5", clause: "6.20", text: "Discharge prevention measures in place"},
+                    {ref: "10.6", clause: "6.20", text: "Toilet systems comply (ISO 8099) if fitted"}
+                ]
+            },
+            
+            // 11. PERFORMANCE REQUIREMENTS
+            {
+                category: "11. PERFORMANCE REQUIREMENTS",
+                items: [
+                    {ref: "11.1", clause: "8.3", text: "In-water performance test completed successfully"},
+                    {ref: "11.2", clause: "8.4", text: "Rowing test completed (if rowlocks provided)"},
+                    {ref: "11.3", clause: "8.5", text: "Watertightness test passed (non-self-bailing boats)"},
+                    {ref: "11.4", clause: "8.7", text: "Self-draining within 5 minutes (Type VIII boats only)"},
+                    {ref: "11.5", clause: "8.7.2", text: "Residual water ≤100mm after self-draining (Type VIII)"}
+                ]
+            },
+            
+            // 12. DOCUMENTATION & EQUIPMENT
+            {
+                category: "12. DOCUMENTATION & EQUIPMENT",
+                items: [
+                    {ref: "12.1", clause: "Clause 10", text: "Owner's manual provided with required content"},
+                    {ref: "12.2", clause: "Clause 10", text: "Assembly/inflation instructions included"},
+                    {ref: "12.3", clause: "Clause 10", text: "Safety warnings and hazard information included"},
+                    {ref: "12.4", clause: "Clause 11", text: "Repair outfit provided suitable for small punctures"},
+                    {ref: "12.5", clause: "Clause 11", text: "Pump provided for maintaining pressure"},
+                    {ref: "12.6", clause: "Clause 9", text: "Builder's plate complies with ISO 14945"},
+                    {ref: "12.7", clause: "Clause 10", text: "Warning about completion process included in manual"}
+                ]
+            }
+        ];
+
+        function renderChecklist() {
+            const tbody = document.getElementById('checklistBody');
+            tbody.innerHTML = '';
+            
+            requirements.forEach(category => {
+                // Category header
+                const headerRow = document.createElement('tr');
+                headerRow.innerHTML = `
+                    <td colspan="5" class="category-header">${category.category}</td>
+                `;
+                tbody.appendChild(headerRow);
+                
+                // Category items
+                category.items.forEach(item => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td class="ref-column">${item.ref}</td>
+                        <td class="clause-column">${item.clause}</td>
+                        <td class="requirement-text">
+                            <strong>${item.text}</strong>
+                        </td>
+                        <td class="status-column">
+                            <div class="checkbox-container">
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="yes_${item.ref}" name="status_${item.ref}" value="yes" onchange="updateStatus('${item.ref}', 'yes')">
+                                    <label for="yes_${item.ref}" class="yes">Yes</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="no_${item.ref}" name="status_${item.ref}" value="no" onchange="updateStatus('${item.ref}', 'no')">
+                                    <label for="no_${item.ref}" class="no">No</label>
+                                </div>
+                                <div class="checkbox-group">
+                                    <input type="checkbox" id="na_${item.ref}" name="status_${item.ref}" value="na" onchange="updateStatus('${item.ref}', 'na')">
+                                    <label for="na_${item.ref}" class="na">N/A</label>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="notes-column">
+                            <input type="text" class="notes-input" placeholder="Comments..." id="notes_${item.ref}">
+                        </td>
+                    `;
+                    tbody.appendChild(row);
+                });
+            });
+        }
+
+        function updateStatus(ref, status) {
+            // Uncheck other options
+            const statuses = ['yes', 'no', 'na'];
+            statuses.forEach(s => {
+                if (s !== status) {
+                    document.getElementById(`${s}_${ref}`).checked = false;
+                }
+            });
+        }
+
+        function calculateValues() {
+            const length = parseFloat(document.getElementById('length').value) || 0;
+            const maxLength = parseFloat(document.getElementById('maxLength').value) || 0;
+            const maxBeam = parseFloat(document.getElementById('maxBeam').value) || 0;
+            const lightMass = parseFloat(document.getElementById('lightMass').value) || 0;
+            const loadedMass = parseFloat(document.getElementById('loadedMass').value) || 0;
+            const tubeDiameter = parseFloat(document.getElementById('tubeDiameter').value) || 0;
+            const nominalPressure = parseFloat(document.getElementById('nominalPressure').value) || 0;
+            const maxPower = parseFloat(document.getElementById('maxPower').value) || 0;
+            const boatType = document.getElementById('boatType').value;
+            const designCategory = document.getElementById('designCategory').value;
+            
+            const resultsDiv = document.getElementById('calculationResults');
+            const gridDiv = document.getElementById('calculationGrid');
+            const compartmentDiv = document.getElementById('compartmentTable');
+            
+            if (length > 0 || maxLength > 0 || maxBeam > 0 || lightMass > 0 || loadedMass > 0) {
+                resultsDiv.style.display = 'block';
+                
+                let calculations = [];
+                
+                // 1. Motor Power Calculation (ISO 11592 method)
+                if (maxLength > 0 && maxBeam > 0 && lightMass > 0) {
+                    const motorPowerCalc = maxLength * maxBeam * Math.pow(lightMass, 1/3);
+                    const motorPowerWaterjet = motorPowerCalc * 1.35;
+                    calculations.push({
+                        title: "Motor Power Calculation (ISO 11592)",
+                        formula: "Pcalc = Lmax × Bmax × ∛mLC",
+                        result: `${motorPowerCalc.toFixed(1)} kW (${motorPowerWaterjet.toFixed(1)} kW for waterjet)`,
+                        status: motorPowerCalc >= 15 ? (boatType === "Type VIII" && motorPowerCalc >= 75 ? "✅ Complies with Type VIII" : boatType === "Type VII" ? "✅ Complies with Type VII" : "⚠️ Check type classification") : "❌ Below 15kW minimum"
+                    });
+                }
+                
+                // 2. Buoyancy Requirements (Clause 7.4.1)
+                if (loadedMass > 0 && designCategory) {
+                    let k = 1.1; // Default for Category D
+                    if (designCategory === "B") k = 1.33;
+                    else if (designCategory === "C") k = 1.2;
+                    
+                    const requiredBuoyancy = (k * loadedMass) / 1000;
+                    const minTubeBuoyancy = requiredBuoyancy * 0.5;
+                    calculations.push({
+                        title: "Required Total Buoyancy (7.4.1)",
+                        formula: `V > ${k} × mLDC / 1000`,
+                        result: `${requiredBuoyancy.toFixed(3)} m³`,
+                        status: "📋 Verify actual buoyancy ≥ this value"
+                    });
+                    calculations.push({
+                        title: "Min Tube Buoyancy (7.4.1)",
+                        formula: "≥50% of total buoyancy",
+                        result: `${minTubeBuoyancy.toFixed(3)} m³`,
+                        status: "📋 Tube must provide ≥50% of total"
+                    });
+                }
+                
+                // 3. Tear Resistance Force (Clause 5.2.2.5)
+                if (tubeDiameter > 0 && nominalPressure > 0) {
+                    const tearResistance = 0.375 * tubeDiameter * (1.14 * nominalPressure + 0.14);
+                    const minTearResistance = Math.max(tearResistance, 75);
+                    calculations.push({
+                        title: "Min Tear Resistance (5.2.2.5)",
+                        formula: "Ft = 0.375d(1.14p + 0.14), min 75N",
+                        result: `${minTearResistance.toFixed(1)} N`,
+                        status: minTearResistance >= 75 ? "✅ Above 75N minimum" : "❌ Below 75N minimum"
+                    });
+                }
+                
+                // 4. Seam Strength (Clause 5.2.2.7)
+                if (tubeDiameter > 0 && nominalPressure > 0) {
+                    const seamStrength = 3.75 * (1.14 * nominalPressure + 0.14);
+                    calculations.push({
+                        title: "Required Seam Strength (5.2.2.7)",
+                        formula: "Fs = 3.75(1.14p + 0.14)",
+                        result: `${seamStrength.toFixed(1)} N`,
+                        status: "📋 Test seam strength ≥ this value"
+                    });
+                }
+                
+                // 5. Compartmentation (Table 5)
+                if (maxPower > 0 && length > 0 && maxBeam > 0) {
+                    const dimensionalFactor = length * maxBeam;
+                    let minCompartments = 3;
+                    
+                    if (maxPower <= 45) {
+                        minCompartments = dimensionalFactor <= 8 ? 3 : 4;
+                    } else {
+                        minCompartments = dimensionalFactor <= 8 ? 4 : 5;
+                    }
+                    
+                    calculations.push({
+                        title: "Compartmentation (Table 5)",
+                        formula: `F(d) = LH × BH = ${dimensionalFactor.toFixed(1)}`,
+                        result: `${minCompartments} compartments minimum`,
+                        status: minCompartments >= 3 ? "✅ Meets minimum requirements" : "❌ Below minimum"
+                    });
+                    
+                    compartmentDiv.style.display = 'block';
+                }
+                
+                // 6. Hull Length Check
+                if (length > 0) {
+                    calculations.push({
+                        title: "Hull Length Compliance (Clause 1)",
+                        formula: "LH < 8m",
+                        result: `${length}m`,
+                        status: length < 8 ? "✅ Within EN ISO 6185-3 scope" : "❌ Outside EN ISO 6185-3 scope"
+                    });
+                }
+                
+                // 7. Type Classification Check
+                if (maxPower > 0 && boatType) {
+                    const typeCheck = (boatType === "Type VII" && maxPower >= 15) || 
+                                    (boatType === "Type VIII" && maxPower >= 75);
+                    calculations.push({
+                        title: "Type Classification Check",
+                        formula: boatType === "Type VII" ? "≥15kW required" : "≥75kW required",
+                        result: `${maxPower}kW`,
+                        status: typeCheck ? "✅ Power adequate for type" : "❌ Power insufficient for type"
+                    });
+                }
+                
+                // Render calculations
+                gridDiv.innerHTML = calculations.map(calc => `
+                    <div class="calc-item">
+                        <h5 class="calc-title">${calc.title}</h5>
+                        <p class="calc-formula">${calc.formula}</p>
+                        <p class="calc-result">${calc.result}</p>
+                        <p class="calc-status">${calc.status}</p>
+                    </div>
+                `).join('');
+                
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+        }
+
+        function exportToExcel() {
+            let csvContent = "Reference,ISO Clause,Requirement,Status,Inspector Notes\n";
+            
+            // Add vessel information
+            const vesselInfo = `
+VESSEL CERTIFICATION DETAILS:
+Standard: EN ISO 6185-3:2018
+Manufacturer: ${document.getElementById('manufacturer').value}
+Model Name: ${document.getElementById('modelName').value}
+WIN Year: ${document.getElementById('winYear').value}
+Project Number: ${document.getElementById('projectNumber').value}
+Project Number: ${document.getElementById('projectNumber').value}
+Boat Type: ${document.getElementById('boatType').value}
+Design Category: ${document.getElementById('designCategory').value}
+Hull Length: ${document.getElementById('length').value}m
+Inspector: ${document.getElementById('inspector').value}
+Inspection Date: ${document.getElementById('inspectionDate').value}
+
+EN ISO 6185-3:2018 COMPLIANCE CHECKLIST:
+            `;
+            
+            requirements.forEach(category => {
+                category.items.forEach(item => {
+                    const yesChecked = document.getElementById(`yes_${item.ref}`).checked;
+                    const noChecked = document.getElementById(`no_${item.ref}`).checked;
+                    const naChecked = document.getElementById(`na_${item.ref}`).checked;
+                    
+                    let status = '';
+                    if (yesChecked) status = 'Yes';
+                    else if (noChecked) status = 'No';
+                    else if (naChecked) status = 'N/A';
+                    
+                    const notes = document.getElementById(`notes_${item.ref}`).value || '';
+                    
+                    csvContent += `"${item.ref}","${item.clause}","${item.text}","${status}","${notes}"\n`;
+                });
+            });
+            
+            const fullContent = vesselInfo + "\n\n" + csvContent;
+            
+            const blob = new Blob([fullContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            a.download = `EN_ISO_6185-3_2018_Checklist_${document.getElementById('projectNumber').value || document.getElementById('modelName').value || 'Vessel'}_${new Date().toISOString().split('T')[0]}.csv`;
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        }
+
+        function generateReport() {
+            let compliance = { yes: 0, no: 0, na: 0, total: 0 };
+            let nonCompliant = [];
+            
+            requirements.forEach(category => {
+                category.items.forEach(item => {
+                    compliance.total++;
+                    const yesChecked = document.getElementById(`yes_${item.ref}`).checked;
+                    const noChecked = document.getElementById(`no_${item.ref}`).checked;
+                    const naChecked = document.getElementById(`na_${item.ref}`).checked;
+                    
+                    if (yesChecked) compliance.yes++;
+                    else if (noChecked) {
+                        compliance.no++;
+                        nonCompliant.push(`${item.ref} - ${item.clause}: ${item.text}`);
+                    }
+                    else if (naChecked) compliance.na++;
+                });
+            });
+            
+            const complianceRate = Math.round((compliance.yes / (compliance.total - compliance.na)) * 100);
+            
+            let report = `EN ISO 6185-3:2018 COMPLIANCE REPORT\n`;
+            report += `=============================================\n\n`;
+            report += `VESSEL DETAILS:\n`;
+            report += `Manufacturer: ${document.getElementById('manufacturer').value}\n`;
+            report += `Model Name: ${document.getElementById('modelName').value}\n`;
+            report += `WIN Year: ${document.getElementById('winYear').value}\n`;
+            report += `Hull ID: ${document.getElementById('hullId').value}\n`;
+            report += `Boat Type: ${document.getElementById('boatType').value}\n`;
+            report += `Design Category: ${document.getElementById('designCategory').value}\n`;
+            report += `Inspector: ${document.getElementById('inspector').value}\n`;
+            report += `Inspection Date: ${document.getElementById('inspectionDate').value}\n\n`;
+            
+            report += `COMPLIANCE SUMMARY:\n`;
+            report += `- Compliant Items: ${compliance.yes}\n`;
+            report += `- Non-compliant Items: ${compliance.no}\n`;
+            report += `- Not Applicable Items: ${compliance.na}\n`;
+            report += `- Overall Compliance Rate: ${complianceRate}%\n\n`;
+            
+            if (nonCompliant.length > 0) {
+                report += `NON-COMPLIANT ITEMS REQUIRING ATTENTION:\n`;
+                report += `=========================================\n`;
+                nonCompliant.forEach((item, index) => report += `${index + 1}. ${item}\n`);
+                report += `\n`;
+            }
+            
+            if (complianceRate >= 100) {
+                report += `STATUS: ✅ FULL COMPLIANCE ACHIEVED\n`;
+                report += `The vessel meets all applicable requirements of EN ISO 6185-3:2018\n`;
+            } else if (complianceRate >= 95) {
+                report += `STATUS: ⚠️ MINOR NON-COMPLIANCE - CORRECTIVE ACTION REQUIRED\n`;
+                report += `Address the non-compliant items listed above before certification\n`;
+            } else {
+                report += `STATUS: ❌ MAJOR NON-COMPLIANCE - SIGNIFICANT CORRECTIVE ACTION REQUIRED\n`;
+                report += `Substantial work required to achieve EN ISO 6185-3:2018 compliance\n`;
+            }
+            
+            alert(report);
+        }
+
+        function printChecklist() {
+            window.print();
+        }
+
+        // Initialize the checklist
+        renderChecklist();
+        
+        // Auto-calculate on page load if data exists
+        calculateValues();
+    </script>
+</body>
+</html>

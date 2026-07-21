@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Catamaran GZ Curve - Marchaj</title>
+    <script src="https://cdn.plot.ly/plotly-2.26.0.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 25px;
+            font-size: 13px;
+            font-style: italic;
+        }
+        #plot {
+            width: 100%;
+            height: 550px;
+        }
+        .info-box {
+            background-color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        .info-item {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Catamaran GZ Curve</h1>
+        <div class="subtitle">From Marchaj's Sailing Theory and Practice</div>
+        
+        <div id="plot"></div>
+        
+        <div class="info-box">
+            <strong>Key Characteristics:</strong>
+            <div class="info-item">• GZ max occurs at approximately 12.5° when windward hull just lifts</div>
+            <div class="info-item">• Righting moment declines steadily after peak</div>
+            <div class="info-item">• Angle of vanishing stability: approximately 70°</div>
+            <div class="info-item">• Beyond 70°, the catamaran has zero righting moment and will capsize</div>
+            <div class="info-item">• Sharp early peak reflects the wide beam stability of the catamaran design</div>
+        </div>
+    </div>
+
+    <script>
+        // CATAMARAN curve from Marchaj data
+        const catAngles = [
+            0, 5, 10, 12.5, 15, 20, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70
+        ];
+        
+        const catGZ = [
+            0, 0.45, 0.85, 1.0, 0.88, 0.70, 0.58, 0.48, 0.40, 0.33, 0.27, 0.22, 0.16, 0.11, 0.05, 0.0
+        ];
+        
+        // Smooth interpolation
+        function interpolateSpline(x, y) {
+            const result = {x: [], y: []};
+            for (let i = 0; i < x.length - 1; i++) {
+                const steps = 20;
+                for (let j = 0; j < steps; j++) {
+                    const t = j / steps;
+                    result.x.push(x[i] + t * (x[i + 1] - x[i]));
+                    result.y.push(y[i] + t * (y[i + 1] - y[i]));
+                }
+            }
+            result.x.push(x[x.length - 1]);
+            result.y.push(y[y.length - 1]);
+            return result;
+        }
+        
+        const catSmooth = interpolateSpline(catAngles, catGZ);
+        
+        // Create trace
+        const catamaranTrace = {
+            x: catSmooth.x,
+            y: catSmooth.y,
+            mode: 'lines',
+            name: 'Catamaran',
+            line: {
+                color: '#e74c3c',
+                width: 4,
+                shape: 'spline',
+                smoothing: 1.2
+            },
+            hovertemplate: '<b>Catamaran</b><br>Heel: %{x:.1f}°<br>RM: %{y:.2f}<extra></extra>'
+        };
+        
+        // Show digitized points
+        const catPoints = {
+            x: catAngles,
+            y: catGZ,
+            mode: 'markers',
+            name: 'Data points',
+            marker: {
+                color: '#c0392b',
+                size: 7,
+                symbol: 'circle'
+            },
+            showlegend: false,
+            hovertemplate: '%{x}°: %{y:.2f}<extra></extra>'
+        };
+        
+        // Labels
+        const peakLabel = {
+            x: [12.5],
+            y: [1.0],
+            mode: 'text',
+            text: ['RM is max when<br>windward hull is<br>just lifting'],
+            textposition: 'top center',
+            textfont: {
+                size: 10,
+                color: '#c0392b'
+            },
+            showlegend: false,
+            hoverinfo: 'skip'
+        };
+        
+        const layout = {
+            xaxis: {
+                title: 'Angle of Heel (degrees)',
+                range: [0, 80],
+                dtick: 10,
+                gridcolor: '#e8e8e8',
+                showline: true,
+                linecolor: '#000',
+                linewidth: 2
+            },
+            yaxis: {
+                title: 'Righting Moment + RM',
+                range: [0, 1.15],
+                gridcolor: '#e8e8e8',
+                showline: true,
+                linecolor: '#000',
+                linewidth: 2,
+                zeroline: true,
+                zerolinecolor: '#000',
+                zerolinewidth: 1.5
+            },
+            plot_bgcolor: '#ffffff',
+            paper_bgcolor: '#ffffff',
+            hovermode: 'x unified',
+            showlegend: false,
+            annotations: [
+                {
+                    x: 70,
+                    y: 0,
+                    text: '70°<br>Capsize',
+                    showarrow: true,
+                    arrowhead: 2,
+                    arrowsize: 1,
+                    arrowwidth: 2,
+                    arrowcolor: '#e74c3c',
+                    ax: 0,
+                    ay: 40,
+                    font: {
+                        size: 11,
+                        color: '#e74c3c',
+                        family: 'Arial, sans-serif'
+                    }
+                },
+                {
+                    x: 0,
+                    y: 0,
+                    text: '0°',
+                    showarrow: false,
+                    yshift: -20,
+                    font: {size: 9}
+                },
+                {
+                    x: 12.5,
+                    y: 0,
+                    text: '12.5°',
+                    showarrow: false,
+                    yshift: -20,
+                    font: {size: 9}
+                },
+                {
+                    x: 30,
+                    y: 0,
+                    text: '30°',
+                    showarrow: false,
+                    yshift: -20,
+                    font: {size: 9}
+                },
+                {
+                    x: 50,
+                    y: 0,
+                    text: '50°',
+                    showarrow: false,
+                    yshift: -20,
+                    font: {size: 9}
+                },
+                {
+                    x: 70,
+                    y: 0,
+                    text: '70°',
+                    showarrow: false,
+                    yshift: -20,
+                    font: {size: 9}
+                }
+            ],
+            shapes: [
+                {
+                    type: 'line',
+                    x0: 0,
+                    y0: 0,
+                    x1: 0,
+                    y1: 1.15,
+                    line: {
+                        color: '#000',
+                        width: 2
+                    }
+                },
+                {
+                    type: 'line',
+                    x0: 70,
+                    y0: 0,
+                    x1: 70,
+                    y1: 0.5,
+                    line: {
+                        color: '#e74c3c',
+                        width: 1.5,
+                        dash: 'dot'
+                    }
+                }
+            ]
+        };
+        
+        const data = [catamaranTrace, catPoints, peakLabel];
+        
+        const config = {
+            responsive: true,
+            displayModeBar: true,
+            displaylogo: false
+        };
+        
+        Plotly.newPlot('plot', data, layout, config);
+    </script>
+</body>
+</html>

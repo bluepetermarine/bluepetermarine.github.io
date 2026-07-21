@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hull Openings &amp; Bilge Pumping — Common Non-Conformities — Blue Peter Marine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2efe8; --card:#fff; --navy:#1a2e4a; --accent:#1a6fa8; --gold:#c8860a;
+    --ok:#1a7a4a; --warn:#c85a00; --danger:#b02020; --text:#1e2c3a; --muted:#5a7080; --border:#ccd5dc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',sans-serif;line-height:1.5;padding:24px 16px 80px}
+  .wrap{max-width:920px;margin:0 auto}
+
+  header.masthead{background:var(--navy);color:#fff;border-radius:10px;padding:22px 26px;margin-bottom:20px}
+  .brand{font-family:'Barlow Condensed',sans-serif;font-weight:600;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:var(--gold);margin-bottom:4px}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:30px;line-height:1.05;letter-spacing:.01em}
+  .sub{color:#c3d1de;font-size:15px;margin-top:6px;max-width:640px}
+
+  .panel{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;margin-bottom:18px}
+
+  .warnbox{background:#fbecea;border:1px solid #e3b4ae;border-left:5px solid var(--danger);border-radius:8px;padding:16px 20px;margin-bottom:18px}
+  .warnbox .wt{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;letter-spacing:.04em;color:var(--danger);text-transform:uppercase;margin-bottom:7px}
+  .warnbox p{font-size:14.5px;color:var(--text);line-height:1.5}
+  .warnbox p+p{margin-top:8px}
+  .warnbox a{color:var(--accent);font-weight:600;text-decoration:none}
+  .warnbox a:hover{text-decoration:underline}
+  .panel h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:20px;color:var(--navy);letter-spacing:.02em;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+  .panel h2 .tag{font-family:'JetBrains Mono',monospace;font-size:12px;background:var(--accent);color:#fff;border-radius:4px;padding:2px 8px;font-weight:600}
+
+  .filters{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  @media(max-width:560px){.filters{grid-template-columns:1fr}}
+  label.f{display:block;font-weight:600;font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.05em;margin-bottom:6px}
+  select,input[type=text],input[type=number]{width:100%;font-family:'Barlow',sans-serif;font-size:16px;padding:10px 12px;border:1px solid var(--border);border-radius:7px;background:#fbfcfd;color:var(--text)}
+  select:focus,input:focus{outline:2px solid var(--accent);outline-offset:1px;border-color:var(--accent)}
+
+  .catline{margin-top:14px;font-size:14px;color:var(--muted);background:#f7f5ef;border-left:3px solid var(--gold);padding:10px 14px;border-radius:0 6px 6px 0}
+  .catline strong{color:var(--navy)}
+
+  .pumpgrid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:6px}
+  @media(max-width:560px){.pumpgrid{grid-template-columns:1fr}}
+  .unit{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--muted);margin-left:6px}
+  .guide{margin-top:12px;font-size:14px;background:#eef4f8;border:1px solid #d5e3ec;border-radius:7px;padding:12px 14px}
+  .guide .gl{display:flex;justify-content:space-between;gap:12px;padding:3px 0}
+  .guide .gl span:last-child{font-family:'JetBrains Mono',monospace;font-weight:600;color:var(--navy)}
+  .guide .gl.hl{background:#fbf6ea;margin:3px -8px;padding:7px 8px;border-radius:5px}
+  .guide .gl.hl span:first-child{color:var(--gold);font-weight:600}
+  .guide .gnote{color:var(--muted);font-size:12.5px;margin-top:6px;line-height:1.45}
+  .guide .guidehead{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--navy);text-transform:uppercase;margin-bottom:8px}
+
+  .comprow{margin-top:14px;max-width:360px}
+  .comprow.hidden{display:none}
+
+  .regintro{font-size:14px;color:var(--muted);margin-bottom:14px}
+
+  .esr{margin-top:2px}
+  .esr .esrnum{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;letter-spacing:.04em;color:var(--navy);text-transform:uppercase;margin:16px 0 6px}
+  .esr .esrnum:first-child{margin-top:0}
+  .esr p{font-size:14.5px;line-height:1.6;color:var(--text);white-space:pre-line;margin:0 0 4px}
+  .esr .src{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);margin-top:12px}
+  .emptyp{font-size:14px;color:var(--muted);background:#f7f5ef;border:1px dashed var(--border);border-radius:8px;padding:16px;text-align:center;margin-bottom:12px}
+  .pcard{border:1px solid var(--border);border-radius:8px;padding:12px 14px;margin-bottom:10px;background:#fbfcfd}
+  .pcard .line1{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+  .pcard .line2{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:10px}
+  .pcard select,.pcard input[type=text],.pcard input[type=number]{padding:8px 10px;font-size:15px;width:auto}
+  .pcard .rolez{width:130px}
+  .pcard .typez{width:150px}
+  .pcard .loc{flex:1;min-width:150px}
+  .pcard .cap{width:130px}
+  .pcard .auto{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted);white-space:nowrap}
+  .pcard .pnum{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;color:var(--muted)}
+  .pcard .rm{margin-left:auto;background:transparent;border:1px solid var(--border);color:var(--danger);border-radius:6px;width:30px;height:30px;cursor:pointer;font-size:18px;line-height:1}
+  .pcard .rm:hover{border-color:var(--danger);background:#fbecea}
+  .addpump{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.03em;background:var(--accent);color:#fff;border:none;border-radius:7px;padding:9px 16px;cursor:pointer}
+  .addpump:hover{background:#155d8f}
+  .totals{margin-top:14px;display:flex;gap:22px;flex-wrap:wrap;font-family:'JetBrains Mono',monospace;font-size:13.5px;background:#eef4f8;border:1px solid #d5e3ec;border-radius:7px;padding:12px 14px}
+  .totals b{color:var(--navy)}
+  .totals .short{color:var(--danger);font-weight:600}
+  .totals .meets{color:var(--ok);font-weight:600}
+
+  .regcheck{margin-top:12px;display:flex;flex-direction:column;gap:7px}
+  .regcheck:empty{display:none}
+  .rc{display:flex;align-items:center;gap:9px;font-size:14px}
+  .rc .ic{width:18px;height:18px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#fff;font-family:'JetBrains Mono',monospace}
+  .rc.ok .ic{background:var(--ok)}
+  .rc.warn .ic{background:var(--warn)}
+  .rc.miss .ic{background:var(--danger)}
+  .rc .lbl{color:var(--text)}
+
+  .item{display:flex;gap:14px;padding:13px 0;border-top:1px solid #eef0f2}
+  .item:first-of-type{border-top:none}
+  .item .body{flex:1}
+  .item .body .t{font-weight:500}
+  .item .body .h{font-size:13.5px;color:var(--muted);margin-top:3px}
+  .item.key{background:#fbf6ea;margin:0 -12px;padding:13px 12px;border-radius:8px;border-top:none}
+  .item.key .body .t::after{content:"KEY";font-family:'JetBrains Mono',monospace;font-size:10px;background:var(--gold);color:#fff;border-radius:3px;padding:1px 6px;margin-left:8px;vertical-align:middle;letter-spacing:.05em}
+
+  .states{display:flex;gap:6px;flex-shrink:0;align-self:flex-start}
+  .states button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13px;letter-spacing:.03em;border:1px solid var(--border);background:#fff;color:var(--muted);border-radius:6px;padding:6px 11px;cursor:pointer;transition:.12s}
+  .states button:hover{border-color:var(--accent)}
+  .states button.on[data-s=pass]{background:var(--ok);border-color:var(--ok);color:#fff}
+  .states button.on[data-s=fail]{background:var(--danger);border-color:var(--danger);color:#fff}
+  .states button.on[data-s=na]{background:var(--muted);border-color:var(--muted);color:#fff}
+
+  .hidden{display:none !important}
+
+  .summary{position:sticky;bottom:0;background:var(--navy);color:#fff;border-radius:10px;padding:16px 22px;display:flex;align-items:center;gap:22px;flex-wrap:wrap;margin-top:22px}
+  .summary .bar{flex:1;min-width:180px;height:12px;background:#2c435f;border-radius:6px;overflow:hidden}
+  .summary .bar i{display:block;height:100%;width:0;background:var(--ok);transition:width .25s}
+  .summary .nums{font-family:'JetBrains Mono',monospace;font-size:14px;display:flex;gap:16px}
+  .summary .nums b{font-weight:600}
+  .summary .p{color:#9fe6bf}.summary .f{color:#f6a9a9}.summary .n{color:#c3d1de}
+  .actions{display:flex;gap:10px}
+  .actions button{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.03em;border:none;border-radius:7px;padding:9px 16px;cursor:pointer}
+  .btn-print{background:var(--gold);color:#fff}
+  .btn-reset{background:transparent;color:#c3d1de;border:1px solid #3a5170}
+
+  .surveyline{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:4px}
+  @media(max-width:560px){.surveyline{grid-template-columns:1fr}}
+
+  footer{text-align:center;color:var(--muted);font-size:13px;margin-top:26px}
+  footer a{color:var(--accent);text-decoration:none}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .states button:not(.on){display:none}
+    .actions,.btn-print,.btn-reset{display:none}
+    .addpump,.pcard .rm{display:none}
+    .summary{position:static;background:#fff;color:var(--text);border:1px solid var(--border)}
+    .summary .p{color:var(--ok)}.summary .f{color:var(--danger)}.summary .n{color:var(--muted)}
+    .panel,header.masthead{break-inside:avoid}
+    header.masthead{background:#fff;color:var(--navy);border:1px solid var(--border)}
+    header.masthead .sub{color:var(--muted)}.brand{color:var(--gold)}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="brand">Blue Peter Marine · Survey Aide-Mémoire</div>
+    <h1>Hull Openings &amp; Bilge Pumping — Common Non-Conformities</h1>
+    <p class="sub">The points most often found wanting during inspection of through-hull fittings, seacocks, cockpit and well drainage, downflooding openings and the craft's dewatering arrangement. Set the craft type and design category to tailor the pump requirements, then work through each item.</p>
+  </header>
+
+  <div class="warnbox">
+    <div class="wt">Read this first — not a full checklist</div>
+    <p>These items are drawn from the non-conformities most frequently raised during inspection. They are a prompt for the things that fail most, not a complete assessment. Passing every line here does not mean the craft is compliant.</p>
+    <p>For a full inspection, work from the <a href="https://www.imci.org" target="_blank" rel="noopener">IMCI checklist</a> and the applicable standard in full. The standard must be purchased from your national standards body — it is not reproduced here.</p>
+  </div>
+
+  <!-- SURVEY DETAILS -->
+  <section class="panel">
+    <h2>Survey details</h2>
+    <div class="surveyline">
+      <div><label class="f" for="vessel">Vessel / model</label><input type="text" id="vessel" placeholder="Model designation"></div>
+      <div><label class="f" for="date">Date of inspection</label><input type="text" id="date" placeholder="dd / mm / yyyy"></div>
+    </div>
+  </section>
+
+  <!-- FILTER -->
+  <section class="panel">
+    <h2>Craft profile</h2>
+    <div class="filters">
+      <div>
+        <label class="f" for="boattype">Type of boat</label>
+        <select id="boattype">
+          <option value="motor">Motor boat</option>
+          <option value="mono">Sailing monohull</option>
+          <option value="multi">Sailing multihull</option>
+        </select>
+      </div>
+      <div>
+        <label class="f" for="enclosure">Hull configuration</label>
+        <select id="enclosure">
+          <option value="enclosed">Fully enclosed</option>
+          <option value="notenclosed">Not fully enclosed (open / partially protected)</option>
+        </select>
+      </div>
+      <div>
+        <label class="f" for="category">Design category</label>
+        <select id="category">
+          <option value="A">A</option>
+          <option value="B">B</option>
+          <option value="C" selected>C</option>
+          <option value="D">D</option>
+        </select>
+      </div>
+      <div>
+        <label class="f" for="hulllen">Length of hull <span class="unit">m</span></label>
+        <input type="number" id="hulllen" min="0" step="0.1" placeholder="e.g. 8.5">
+      </div>
+    </div>
+    <div class="comprow hidden" id="comprow">
+      <label class="f" for="compartments">Bilge water compartments</label>
+      <select id="compartments">
+        <option value="yes">Present</option>
+        <option value="no">None</option>
+      </select>
+    </div>
+    <div class="catline" id="catline"></div>
+  </section>
+
+  <!-- BILGE PUMP REGISTER -->
+  <section class="panel">
+    <h2>Bilge pump arrangement</h2>
+    <p class="regintro">Add every pump fitted, with its role, type, location and rated capacity. The combined capacity is checked against the figure for the hull length.</p>
+    <div id="pumplist"></div>
+    <button class="addpump" onclick="addPump()">+ Add pump</button>
+    <div class="totals" id="totals"></div>
+    <div class="regcheck" id="regcheck"></div>
+    <div class="guide" id="guide"></div>
+  </section>
+
+  <!-- CHECKLIST: HULL OPENINGS -->
+  <section class="panel">
+    <h2>Hull openings &amp; seacocks <span class="tag">A</span></h2>
+    <div id="listA"></div>
+  </section>
+
+  <!-- CHECKLIST: BILGE PUMPING -->
+  <section class="panel">
+    <h2>Bilge pumping &amp; dewatering <span class="tag">B</span></h2>
+    <div id="listB"></div>
+  </section>
+
+  <!-- CHECKLIST: COCKPITS, WELLS & DOWNFLOODING OPENINGS -->
+  <section class="panel">
+    <h2>Cockpits, wells &amp; downflooding openings <span class="tag">C</span></h2>
+    <div id="listC"></div>
+  </section>
+
+  <!-- SUMMARY -->
+  <div class="summary">
+    <div class="bar"><i id="progfill"></i></div>
+    <div class="nums">
+      <span class="p">Pass <b id="np">0</b></span>
+      <span class="f">Fail <b id="nf">0</b></span>
+      <span class="n">N/A <b id="nn">0</b></span>
+      <span>Left <b id="nl">0</b></span>
+    </div>
+    <div class="actions">
+      <button class="btn-print" onclick="window.print()">Print / PDF</button>
+      <button class="btn-reset" onclick="resetAll()">Reset</button>
+    </div>
+  </div>
+
+  <footer>Blue Peter Marine · <a href="https://www.ceinspector.com">www.ceinspector.com</a> · A working aid, not a substitute for the surveyor's judgement.</footer>
+</div>
+
+<script>
+// ---- Craft profile guidance ----
+const catText = {
+  A:"Winds above Beaufort force 8 and significant wave heights of 4 m and above may be met. The dewatering arrangement should assume no outside help.",
+  B:"Up to and including wind force 8 and significant wave heights up to and including 4 m.",
+  C:"Up to and including wind force 6 and significant wave heights up to and including 2 m.",
+  D:"Up to and including wind force 4 and significant wave heights up to and including 0.3 m, with occasional waves to 0.5 m."
+};
+
+// Bilge-pumping requirement for the selected craft, following the Table 2 summary
+// (type / number of pumps or means of bailing) plus activation and capacity rules.
+function bilgeProfile(enc, comp, cat, lh){
+  let primary, secondary, activation, bailing = '';
+  const abc = (cat==='A'||cat==='B'||cat==='C');
+
+  if(enc === 'notenclosed'){
+    if(comp === 'no'){
+      primary   = "None required";
+      bailing   = "1 means of bailing — stated in the owner's manual";
+      secondary = "Not required";
+    } else {
+      primary   = "1 pump — manual, mechanical or electric";
+      secondary = "Not required";
+    }
+    activation = "—";
+  } else { // fully enclosed
+    if(abc){
+      primary   = "1 pump — manual, mechanical or electric";
+      secondary = "1 pump — manual, mechanical or electric" + (cat==='C' ? " (none for category C meeting basic or level flotation)" : "");
+      activation= "Readily accessible from the main steering position";
+    } else { // D
+      if(lh && lh>6){
+        primary = "1 pump — manual, mechanical or electric";
+      } else {
+        primary = "1 pump, or a means of bailing";
+        bailing = "Means of bailing acceptable at 6 m or under — stated in the owner's manual";
+      }
+      secondary  = "Not required";
+      activation = "—";
+    }
+  }
+
+  let cap;
+  if(!lh || lh<=0) cap = "Enter hull length";
+  else if(lh<=6)   cap = "≥ 600 l/h combined";
+  else if(lh<12)   cap = "≥ 900 l/h combined";
+  else             cap = "≥ 1 800 l/h combined";
+
+  return {primary, secondary, activation, bailing, cap, manual:"Manual pumps rated at 45 strokes/min or less; allow for water-head losses"};
+}
+
+// ---- Checklist items ----
+// key:true marks the power-indication / switch-location items the user asked to highlight
+// show: function(type,cat) -> whether the row is relevant
+const itemsA = [
+  {t:"Fittings below the loaded waterline are corrosion-resistant", h:"Material suited to salt, brackish and waste-water media it will carry."},
+  {t:"Any brass components are dezincification-resistant (DZR)", h:"Confirm marking or manufacturer declaration."},
+  {t:"Dissimilar metals galvanically isolated", h:"No non-aluminium metals in an aluminium system unless isolated."},
+  {t:"A seacock is fitted to every opening below the heeled waterline", h:"Centreline of the through-hull below the heeled waterline."},
+  {t:"Seacocks below the maximum load waterline are readily accessible", h:"Reachable quickly and safely, without tools, in an emergency."},
+  {t:"Each seacock shows a clear open / closed indication", h:"Handle position or marking gives an unambiguous visual check."},
+  {t:"Seacock handles operate freely with adequate clearance", h:"No part comes loose in normal service."},
+  {t:"Hoses below the heeled waterline are double-clamped", h:"Or a single T-bolt clamp above 25.4 mm bore."},
+  {t:"Clamps are stainless steel, not spring-tension", h:"Reusable, corrosion-resistant band clamps."},
+  {t:"Plate / nut / counterplate edges rounded or chamfered", h:"No sharp edge bearing against the hull."},
+  {t:"Assembly is watertight and secure; hull locally reinforced where needed", h:"Sandwich cores supported so tightening cannot crush the laminate."},
+  {t:"Outboard strainers or scoops are removable for cleaning", h:"Where the intake cannot be cleared by other means."}
+];
+
+const itemsB = [
+  {t:"Every separate bilge compartment can be cleared", h:"The system reaches all compartments where water can collect."},
+  {t:"Number of pumps fitted matches the requirement for this craft", h:"Cross-check the count entered against the profile above."},
+  {t:"Primary system is permanently attached to the structure", h:"Not a loose or portable unit where a fixed system is required.", show:p=>p.enc==='enclosed'&&p.abc},
+  {t:"Primary system activation is readily accessible from the main steering position", key:true, h:"The crew can start the system from the helm without leaving it.", show:p=>p.enc==='enclosed'&&p.abc},
+  {t:"An independent secondary pump or system is fitted", key:true, h:"An additional pump — manual, mechanical or electric — able to clear all compartments from a readily accessible position, so one failure does not leave the craft without dewatering. Not required for category C craft meeting basic or level flotation.", show:p=>p.enc==='enclosed'&&p.abc},
+  {t:"Each electric pump has its own readily accessible manual power-supply switch", key:true, h:"Every electric pump can be switched on by hand, independently of the others."},
+  {t:"Automatic-control pumps also have a readily accessible manual power-supply switch", h:"A manual path exists alongside the automatic control.", show:p=>p.enc==='enclosed'&&p.abc},
+  {t:"Automatic pumps give a visual indication when set to automatic", key:true, h:"Switch position or a light shows the pump is in automatic mode.", show:p=>p.enc==='enclosed'&&p.abc},
+  {t:"Where several pumps share one outlet, no back-feed and no loss of combined capacity", h:"Operating one pump does not feed back through another; running them together does not reduce total flow."},
+  {t:"Non-submersible pump motors are above the critical bilge water level", h:"Motors stay clear of the level at which water reaches machinery or wiring."},
+  {t:"Discharge is above the heeled waterline, or via a seacock with anti-backflow", h:"Outlets that can submerge are protected against water entering the craft."},
+  {t:"Intakes / strainers minimise debris and are accessible for cleaning; intake hoses do not collapse", h:"Suction guarded against blockage; hose holds shape under full suction."},
+  {t:"Hose connections secured with non-corrosive clamps or permanent end-fittings", h:"Connections stay made up in service."},
+  {t:"Manual pump handle secured against loss; manual pump reaches its rated capacity", h:"Handle retained unless permanently fitted; pump installed so it can be worked fully."},
+  {t:"System does not discharge into a recess or recess drains, and prevents accidental pollutant discharge", h:"No oil or fuel carried overboard in the upright or heeled position."},
+  {t:"Combined capacity meets the figure for the hull length", h:"Compare the combined capacity entered against the requirement in the profile above."}
+];
+
+const itemsC = [
+  {t:"Cockpit and well soles sit above the loaded waterline", h:"So retained water drains outboard by gravity in the design trim, not into the interior."},
+  {t:"Cockpit or well is quick-draining", h:"Fill it and time it — the water clears within the expected time without reaching the interior."},
+  {t:"Drains are adequately sized and free of blockage", h:"Sufficient combined outlet area; no reliance on a single small drain that can clog."},
+  {t:"Cockpit drainage cannot back-flow inboard", h:"Heeled, pooped or discharge water cannot siphon or wash back through the drains."},
+  {t:"Lowest downflooding opening is high enough above the waterline for the design category", h:"Companionway sill, vents and openings stay clear of the heeled or immersed line.", show:p=>p.enc==='enclosed'},
+  {t:"Companionway and access openings close weathertight and can be secured", h:"Boards, hatches and lids stay shut and fastened when the craft is boarded by a wave.", show:p=>p.enc==='enclosed'},
+  {t:"Cockpit lockers opening into the interior are self-draining or sealed", h:"A flooded or open locker cannot down-flood the hull.", show:p=>p.enc==='enclosed'},
+  {t:"Ventilation fittings are positioned or shaped to keep water out", h:"Cowls, louvres and dorade boxes sited and baffled against green water and heavy spray."},
+  {t:"Opening portlights and windows below the downflooding line are secured and watertight", h:"Fixed, or lockable and gasketed, so they cannot admit water when required to be shut.", show:p=>p.enc==='enclosed'},
+  {t:"Water retained in the cockpit or well does not endanger the craft while it drains", h:"The volume held before it clears is small enough not to impair stability or freeboard."}
+];
+
+const state = {}; // id -> 'pass'|'fail'|'na'
+
+function rowHTML(prefix,i,item){
+  const id = prefix+i;
+  return `<div class="item ${item.key?'key':''}" data-row="${id}">
+    <div class="body"><div class="t">${item.t}</div><div class="h">${item.h}</div></div>
+    <div class="states" data-id="${id}">
+      <button data-s="pass" onclick="setState('${id}','pass')">Pass</button>
+      <button data-s="fail" onclick="setState('${id}','fail')">Fail</button>
+      <button data-s="na" onclick="setState('${id}','na')">N/A</button>
+    </div>
+  </div>`;
+}
+
+function build(){
+  document.getElementById('listA').innerHTML = itemsA.map((it,i)=>rowHTML('A',i,it)).join('');
+  document.getElementById('listB').innerHTML = itemsB.map((it,i)=>rowHTML('B',i,it)).join('');
+  document.getElementById('listC').innerHTML = itemsC.map((it,i)=>rowHTML('C',i,it)).join('');
+  renderPumps();
+  applyFilter();
+  restoreStates();
+}
+
+/* ---- Bilge pump register ---- */
+let pumps = [];
+let pidSeq = 0;
+function esc(s){return (s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+function addPump(){
+  pumps.push({id:++pidSeq, role:'primary', type:'electric', location:'', cap:0, auto:false});
+  renderPumps();
+}
+function removePump(id){ pumps = pumps.filter(p=>p.id!==id); renderPumps(); }
+function updatePump(id, field, val){
+  const p = pumps.find(x=>x.id===id); if(!p) return;
+  if(field==='cap') p.cap = parseFloat(val)||0;
+  else if(field==='auto') p.auto = val;
+  else p[field]=val;
+  updateTotals();
+}
+function opt(v,cur,label){return `<option value="${v}"${cur===v?' selected':''}>${label}</option>`;}
+function renderPumps(){
+  const wrap = document.getElementById('pumplist');
+  if(pumps.length===0){
+    wrap.innerHTML = '<div class="emptyp">No pumps added yet — use “Add pump” for each pump fitted, including manual pumps and any means of bailing.</div>';
+  } else {
+    wrap.innerHTML = pumps.map((p,idx)=>`
+      <div class="pcard" data-pid="${p.id}">
+        <div class="line1">
+          <span class="pnum">#${idx+1}</span>
+          <select class="rolez" onchange="updatePump(${p.id},'role',this.value)">
+            ${opt('primary',p.role,'Primary')}${opt('secondary',p.role,'Secondary')}${opt('peak',p.role,'Peak')}${opt('bailing',p.role,'Means of bailing')}${opt('other',p.role,'Other')}
+          </select>
+          <select class="typez" onchange="updatePump(${p.id},'type',this.value)">
+            ${opt('manual',p.type,'Manual')}${opt('mechanical',p.type,'Mechanical')}${opt('electric',p.type,'Electric')}
+          </select>
+          <button class="rm" title="Remove pump" onclick="removePump(${p.id})">&times;</button>
+        </div>
+        <div class="line2">
+          <input class="loc" type="text" placeholder="Location (e.g. main bilge, aft)" value="${esc(p.location)}" oninput="updatePump(${p.id},'location',this.value)">
+          <input class="cap" type="number" min="0" step="10" placeholder="Capacity l/h" value="${p.cap||''}" oninput="updatePump(${p.id},'cap',this.value)">
+          <label class="auto"><input type="checkbox" ${p.auto?'checked':''} onchange="updatePump(${p.id},'auto',this.checked)"> Auto control</label>
+        </div>
+      </div>`).join('');
+  }
+  updateTotals();
+}
+function requiredCapacity(lh){
+  if(!lh || lh<=0) return null;
+  if(lh<=6) return 600;
+  if(lh<12) return 900;
+  return 1800;
+}
+function updateTotals(){
+  const count = pumps.length;
+  const combined = pumps.reduce((s,p)=>s+(p.cap||0),0);
+  const lh = parseFloat(document.getElementById('hulllen').value) || 0;
+  const req = requiredCapacity(lh);
+  let capCell;
+  if(req===null) capCell = `<span>Required: <b>enter hull length</b></span>`;
+  else if(combined>=req) capCell = `<span>Required: <b>≥ ${req} l/h</b> — <span class="meets">met</span></span>`;
+  else capCell = `<span>Required: <b>≥ ${req} l/h</b> — <span class="short">short by ${req-combined} l/h</span></span>`;
+  document.getElementById('totals').innerHTML =
+    `<span>Pumps: <b>${count}</b></span>`+
+    `<span>Combined capacity: <b>${combined} l/h</b></span>`+
+    capCell;
+  updateRegisterChecks();
+}
+
+function currentProfile(){
+  const enc = document.getElementById('enclosure').value;
+  const cat = document.getElementById('category').value;
+  const lh  = parseFloat(document.getElementById('hulllen').value) || 0;
+  const comp= document.getElementById('compartments').value;
+  return {enc, cat, lh, comp, abc:(cat==='A'||cat==='B'||cat==='C')};
+}
+
+// Cross-check the logged pumps against what the craft requires
+function updateRegisterChecks(){
+  const {enc, cat, lh, comp, abc} = currentProfile();
+  const hasRole = r => pumps.some(p=>p.role===r);
+  const hasPrimary = hasRole('primary');
+  const hasSecondary = hasRole('secondary');
+  const hasBailing = hasRole('bailing');
+  const nonBailingCount = pumps.filter(p=>p.role!=='bailing').length;
+  const combined = pumps.reduce((s,p)=>s+(p.cap||0),0);
+  const req = requiredCapacity(lh);
+  const checks = [];
+  let pumpRequired = false;
+
+  if(enc==='notenclosed' && comp==='no'){
+    checks.push(hasBailing
+      ? {s:'ok',   t:'Means of bailing logged'}
+      : {s:'miss', t:'Log a means of bailing (required in the owner\u2019s manual)'});
+  } else if(enc==='notenclosed'){ // with bilge compartments
+    pumpRequired = true;
+    checks.push(hasPrimary
+      ? {s:'ok',   t:'Primary pump logged'}
+      : {s:'miss', t:'Log a primary pump — bilge compartments present'});
+  } else { // fully enclosed
+    if(abc){
+      pumpRequired = true;
+      checks.push(hasPrimary ? {s:'ok',t:'Primary pump logged'} : {s:'miss',t:'Log a primary pump'});
+      if(hasSecondary){
+        checks.push({s:'ok', t:'Secondary pump logged'});
+      } else if(cat==='C'){
+        checks.push({s:'warn', t:'No secondary pump logged — required unless this category C craft meets basic or level flotation'});
+      } else {
+        checks.push({s:'miss', t:'Log a secondary pump'});
+      }
+    } else { // D
+      if(lh>6){
+        pumpRequired = true;
+        checks.push(hasPrimary ? {s:'ok',t:'Primary pump logged'} : {s:'miss',t:'Log a primary pump'});
+      } else {
+        checks.push((hasPrimary||hasBailing)
+          ? {s:'ok',   t:'Primary pump or means of bailing logged'}
+          : {s:'miss', t:'Log a pump, or a means of bailing'});
+      }
+    }
+  }
+
+  const capacityRelevant = pumpRequired || nonBailingCount>0;
+  if(capacityRelevant){
+    if(req===null)          checks.push({s:'warn', t:'Enter hull length to check combined capacity'});
+    else if(combined>=req)  checks.push({s:'ok',   t:`Combined capacity meets \u2265 ${req} l/h`});
+    else                    checks.push({s:'miss', t:`Combined capacity short of \u2265 ${req} l/h`});
+  }
+
+  const ic  = {ok:'\u2713', warn:'!', miss:'\u2715'};
+  document.getElementById('regcheck').innerHTML = checks.map(c=>
+    `<div class="rc ${c.s}"><span class="ic">${ic[c.s]}</span><span class="lbl">${c.t}</span></div>`).join('');
+}
+
+function setState(id,s){
+  state[id] = (state[id]===s) ? null : s;
+  const box = document.querySelector(`.states[data-id="${id}"]`);
+  box.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.s===state[id]));
+  updateSummary();
+}
+function restoreStates(){
+  Object.keys(state).forEach(id=>{
+    const box = document.querySelector(`.states[data-id="${id}"]`);
+    if(box) box.querySelectorAll('button').forEach(b=>b.classList.toggle('on', b.dataset.s===state[id]));
+  });
+}
+
+function applyFilter(){
+  const ty  = document.getElementById('boattype').value;
+  const enc = document.getElementById('enclosure').value;
+  const c   = document.getElementById('category').value;
+  const lh  = parseFloat(document.getElementById('hulllen').value) || 0;
+  const abc = (c==='A'||c==='B'||c==='C');
+
+  // compartments question only relevant when not fully enclosed
+  const comprow = document.getElementById('comprow');
+  comprow.classList.toggle('hidden', enc!=='notenclosed');
+  const comp = document.getElementById('compartments').value;
+
+  const p = {ty, enc, cat:c, lh, abc, comp};
+
+  document.getElementById('catline').innerHTML = `<strong>Category ${c}:</strong> ${catText[c]}`;
+
+  const g = bilgeProfile(enc, comp, c, lh);
+  document.getElementById('guide').innerHTML =
+    `<div class="guidehead">What this craft requires</div>`+
+    `<div class="gl"><span>Primary system</span><span>${g.primary}</span></div>`+
+    (g.bailing?`<div class="gl"><span>Means of bailing</span><span>${g.bailing}</span></div>`:'')+
+    `<div class="gl hl"><span>Secondary system</span><span>${g.secondary}</span></div>`+
+    `<div class="gl hl"><span>Activation location</span><span>${g.activation}</span></div>`+
+    `<div class="gl hl"><span>Combined capacity</span><span>${g.cap}</span></div>`+
+    `<div class="gl"><span>Manual pumps</span><span>${g.manual}</span></div>`+
+    `<div class="gnote">A single pump is a single point of failure — the craft should keep dewatering if one pump, its power feed or its switch fails. Confirm the number, arrangement and capacity against the rule set that applies to the vessel.</div>`;
+
+  itemsB.forEach((it,i)=>{
+    const row = document.querySelector('[data-row="B'+i+'"]');
+    if(!row) return;
+    const visible = it.show ? it.show(p) : true;
+    row.classList.toggle('hidden', !visible);
+  });
+  itemsC.forEach((it,i)=>{
+    const row = document.querySelector('[data-row="C'+i+'"]');
+    if(!row) return;
+    const visible = it.show ? it.show(p) : true;
+    row.classList.toggle('hidden', !visible);
+  });
+  updateTotals();
+  updateSummary();
+}
+
+function updateSummary(){
+  let p=0,f=0,n=0,total=0;
+  document.querySelectorAll('.item:not(.hidden)').forEach(row=>{
+    total++;
+    const id = row.dataset.row;
+    if(state[id]==='pass')p++; else if(state[id]==='fail')f++; else if(state[id]==='na')n++;
+  });
+  const done=p+f+n, left=total-done;
+  document.getElementById('np').textContent=p;
+  document.getElementById('nf').textContent=f;
+  document.getElementById('nn').textContent=n;
+  document.getElementById('nl').textContent=left;
+  const pct = total? Math.round(done/total*100):0;
+  const fill=document.getElementById('progfill');
+  fill.style.width=pct+'%';
+  fill.style.background = f>0 ? 'var(--warn)' : (left===0 ? 'var(--ok)' : 'var(--accent)');
+}
+
+function resetAll(){
+  for(const k in state) delete state[k];
+  document.querySelectorAll('.states button.on').forEach(b=>b.classList.remove('on'));
+  updateSummary();
+}
+
+document.getElementById('boattype').addEventListener('change',applyFilter);
+document.getElementById('enclosure').addEventListener('change',applyFilter);
+document.getElementById('compartments').addEventListener('change',applyFilter);
+document.getElementById('category').addEventListener('change',applyFilter);
+document.getElementById('hulllen').addEventListener('input',applyFilter);
+build();
+</script>
+</body>
+</html>
