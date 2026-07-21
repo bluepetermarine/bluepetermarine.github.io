@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RCD Annex I.A — Essential Requirements Index — Blue Peter Marine</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f2efe8;
+    --navy: #1a2e4a;
+    --gold: #c8860a;
+    --navy-soft: #2c4361;
+    --line: #d8d2c4;
+    --white: #ffffff;
+    --built: #4a7a5a;
+    --partial: #b8860b;
+    --gap: #a04040;
+    --component: #1a6fa8;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--navy);
+    font-family: 'Barlow', sans-serif;
+    padding: 32px 20px 80px;
+  }
+  .wrap { max-width: 980px; margin: 0 auto; }
+  header {
+    border-bottom: 3px solid var(--navy);
+    padding-bottom: 16px;
+    margin-bottom: 8px;
+  }
+  h1 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 32px;
+    letter-spacing: 0.5px;
+    margin: 0 0 4px;
+    color: var(--navy);
+    text-transform: uppercase;
+  }
+  .subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    letter-spacing: 0.3px;
+  }
+  .legend {
+    display: flex;
+    gap: 18px;
+    flex-wrap: wrap;
+    margin: 18px 0 24px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+  .dot.built { background: var(--built); }
+  .dot.partial { background: var(--partial); }
+  .dot.gap { background: var(--gap); }
+  .dot.component { background: var(--component); }
+
+  .part-heading {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    text-transform: uppercase;
+    letter-spacing: 0.4px;
+    margin: 34px 0 12px;
+    padding-bottom: 6px;
+    border-bottom: 2px solid var(--navy);
+  }
+
+  .part-intro { font-size:14px; line-height:1.6; color:var(--navy); background:#fff; border:1px solid var(--line); border-left:3px solid var(--component); border-radius:4px; padding:12px 16px; margin:2px 0 14px; }
+  .clause {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  .clause-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 18px;
+    cursor: pointer;
+    gap: 12px;
+  }
+  .clause-head:hover { background: rgba(200,134,10,0.04); }
+  .clause-head-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .clause-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--gold);
+    background: rgba(200,134,10,0.08);
+    padding: 3px 8px;
+    border-radius: 3px;
+    flex-shrink: 0;
+    min-width: 42px;
+    text-align: center;
+  }
+  .clause-title {
+    font-weight: 600;
+    font-size: 16px;
+  }
+  .status-badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 3px;
+    color: var(--white);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .status-badge.built { background: var(--built); }
+  .status-badge.partial { background: var(--partial); }
+  .status-badge.gap { background: var(--gap); }
+  .status-badge.component { background: var(--component); }
+  .chevron {
+    font-size: 12px;
+    color: var(--navy-soft);
+    transition: transform 0.15s ease;
+    flex-shrink: 0;
+  }
+  .clause.open .chevron { transform: rotate(90deg); }
+  .clause-body {
+    display: none;
+    padding: 0 18px 18px;
+    border-top: 1px solid var(--line);
+  }
+  .clause.open .clause-body { display: block; }
+  .directive-text {
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--navy);
+    margin-top: 14px;
+    white-space: pre-line;
+  }
+  .directive-text p { margin: 0 0 10px; }
+  .source-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--navy-soft);
+    margin-top: 12px;
+  }
+  .tool-link {
+    display: inline-block;
+    margin-top: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--white);
+    background: var(--navy);
+    padding: 7px 14px;
+    border-radius: 3px;
+    text-decoration: none;
+  }
+  .tool-link:hover { background: var(--navy-soft); }
+.note { background: rgba(200,134,10,0.06); border-left: 3px solid var(--gold); padding: 10px 14px; margin-top: 14px; font-size: 13.5px; line-height: 1.6; color: var(--navy); white-space: pre-line; }
+  .note .note-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy-soft); margin-bottom:6px; }
+  .stds { margin-top: 14px; }
+  .stds .stds-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy-soft); margin-bottom:6px; }
+  .stds ul { margin:0; padding:0; list-style:none; }
+  .stds li { font-size:13px; line-height:1.5; padding:3px 0; color:var(--navy); }
+  .stds li .code { font-family:'JetBrains Mono',monospace; font-weight:500; color:var(--gold); margin-right:8px; white-space:nowrap; }
+    .gap-note {
+    font-size: 13.5px;
+    color: var(--gap);
+    margin-top: 12px;
+    font-style: italic;
+  }
+  footer {
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    color: var(--navy-soft);
+    margin-top: 40px;
+  }
+  @media (max-width: 600px) {
+    h1 { font-size: 24px; }
+    .clause-title { font-size: 14px; }
+  }
+  /* ---- documentation collection feature ---- */
+  #docsummary { background:#fff; border:1px solid var(--line); border-radius:6px; padding:12px 16px; margin:0 0 6px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  #docsummary .ds-text { font-size:13.5px; color:var(--navy); }
+  #docsummary .ds-text b { font-family:'JetBrains Mono',monospace; color:var(--gold); }
+  #docsummary .ds-actions { display:flex; gap:10px; flex-wrap:wrap; }
+  #docsummary button { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.03em; background:var(--navy); color:#fff; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; }
+  #docsummary button:hover { background:var(--navy-soft); }
+  .doccap { font-size:12px; color:var(--navy-soft); margin:0 0 22px; line-height:1.5; }
+  #generalDocs .clause { border-left:3px solid var(--gold); }
+
+  .docs { margin-top:16px; border-top:1px dashed var(--line); padding-top:14px; }
+  .docs .docs-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:var(--navy); margin-bottom:8px; }
+  .docs .docnote { font-size:12px; color:var(--navy-soft); font-family:'JetBrains Mono',monospace; margin-bottom:12px; }
+  .reqlist { list-style:none; margin:0 0 14px; padding:0; }
+  .reqlist li { font-size:13.5px; padding:4px 0; display:flex; gap:9px; align-items:flex-start; color:var(--navy); line-height:1.45; }
+  .reqlist li input { margin-top:3px; flex-shrink:0; width:15px; height:15px; }
+  .reqlist li.done label { text-decoration:line-through; color:var(--navy-soft); }
+  .uploader { background:var(--bg); border:1px dashed #b9c2cc; border-radius:6px; padding:12px 14px; }
+  .uploader .up-label { font-size:11.5px; font-weight:600; color:var(--navy-soft); margin-bottom:9px; text-transform:uppercase; letter-spacing:0.04em; }
+  .uploader input[type=file] { font-size:13px; max-width:100%; }
+  .filelist { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .chip { display:inline-flex; align-items:center; gap:8px; background:#fff; border:1px solid var(--line); border-radius:20px; padding:5px 6px 5px 12px; font-size:12.5px; color:var(--navy); }
+  .chip .sz { color:var(--navy-soft); font-family:'JetBrains Mono',monospace; font-size:11px; }
+  .chip a.dl { color:var(--gold); text-decoration:none; font-weight:700; font-size:14px; }
+  .chip button { border:none; background:#eceae3; color:#8a4b4b; width:20px; height:20px; border-radius:50%; cursor:pointer; font-size:13px; line-height:1; padding:0; }
+  .chip button:hover { background:var(--gap); color:#fff; }
+  .docprog { font-size:12px; color:var(--navy-soft); margin-top:11px; font-family:'JetBrains Mono',monospace; }
+
+  /* ---- checklist workbook version bar ---- */
+  #workbookbar { background:#fff; border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:6px; padding:12px 16px; margin:0 0 12px; display:flex; align-items:center; justify-content:space-between; gap:14px; flex-wrap:wrap; }
+  #workbookbar .wb-info { font-size:13.5px; color:var(--navy); display:flex; align-items:center; gap:8px; line-height:1.45; }
+  #workbookbar .wb-info b { font-family:'JetBrains Mono',monospace; color:var(--gold); }
+  #workbookbar .wb-file { color:var(--navy-soft); font-size:12px; }
+  #workbookbar .wb-dot { width:9px; height:9px; border-radius:50%; display:inline-block; flex-shrink:0; }
+  #workbookbar .wb-dot.ok { background:var(--built); }
+  #workbookbar .wb-dot.warn { background:var(--partial); }
+  #workbookbar .wb-actions { display:flex; gap:10px; align-items:center; flex-wrap:wrap; }
+  #workbookbar button, #workbookbar .wb-upload { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.03em; color:#fff; border:none; padding:8px 16px; border-radius:5px; cursor:pointer; display:inline-block; }
+  #workbookbar button { background:var(--navy); }
+  #workbookbar button:hover { background:var(--navy-soft); }
+  #workbookbar .wb-upload { background:var(--gold); }
+  #workbookbar .wb-upload:hover { background:#b3770a; }
+
+  .checklist { margin-top:14px; background:rgba(26,111,168,0.05); border:1px solid #cfe0ec; border-radius:6px; padding:12px 14px; }
+  .checklist-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--component); margin-bottom:6px; }
+  .checklist-sheets { font-size:13px; color:var(--navy); line-height:1.5; margin-bottom:10px; }
+  .checklist-sheets b { font-family:'JetBrains Mono',monospace; font-weight:600; }
+  .checklist .clbtn { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.03em; background:var(--component); color:#fff; border:none; padding:7px 14px; border-radius:5px; cursor:pointer; }
+  .checklist .clbtn:hover { background:#155d8f; }
+  .checklist-links { display:flex; flex-wrap:wrap; gap:8px; }
+  .checklist a.clbtn { text-decoration:none; display:inline-block; }
+  #workbookbar a.wb-upload { text-decoration:none; }
+
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>RCD Annex I.A — Essential Requirements</h1>
+    <div class="subtitle">Blue Peter Marine — Directive 2013/53/EU, design and construction of recreational craft</div>
+  </header>
+
+  <div class="legend">
+    <span><span class="dot built"></span> Tool or checklist built</span>
+    <span><span class="dot partial"></span> Partial, more needed</span>
+    <span><span class="dot gap"></span> Not yet built</span>
+    <span><span class="dot component"></span> Annex II component</span>
+  </div>
+
+  <div id="workbookbar"></div>
+  <div id="docsummary"><div class="ds-text"></div><div class="ds-actions"><button id="zipBtn" onclick="downloadZip()">Download all documentation (ZIP)</button><button onclick="exportManifest()">Export status (CSV)</button></div></div>
+  <div class="doccap">Attach the documents for each essential requirement below. Files are kept in this browser only (not sent to any server), so you can assemble an IMCI Module B submission and pick up where you left off. Tick each required item as you collect it and use Export to save the status list.</div>
+  <div id="generalDocs"></div>
+
+  <div id="clauses"></div>
+
+  <footer>Blue Peter Marine — ceinspector.com — official text reproduced from Directive 2013/53/EU, Annex I, Part A. This index is a navigation aid, always confirm against the current Official Journal listing.</footer>
+</div>
+
+<script>
+const clauses = [
+  {
+    part: "1. Watercraft design categories",
+    num: "1",
+    title: "Design categories A, B, C, D",
+    status: "gap",
+    statusLabel: "content to write",
+    text: `Design category  Wind force (Beaufort scale)  Significant wave height (H 1/3, metres)
+A  exceeding 8  exceeding 4
+B  up to, and including, 8  up to, and including, 4
+C  up to, and including, 6  up to, and including, 2
+D  up to, and including, 4  up to, and including, 0,3
+
+Explanatory notes:
+
+A. A recreational craft given design category A is considered to be designed for winds that may exceed wind force 8 (Beaufort scale) and significant wave height of 4 m and above but excluding abnormal conditions, such as storm, violent storm, hurricane, tornado and extreme sea conditions or rogue waves.
+
+B. A recreational craft given design category B is considered to be designed for a wind force up to, and including, 8 and significant wave height up to, and including, 4 m.
+
+C. A watercraft given design category C is considered to be designed for a wind force up to, and including, 6 and significant wave height up to, and including, 2 m.
+
+D. A watercraft given design category D is considered to be designed for a wind force up to, and including, 4 and significant wave height up to, and including, 0,3 m, with occasional waves of 0,5 m maximum height.
+
+Watercraft in each design category must be designed and constructed to withstand the parameters in respect of stability, buoyancy, and other relevant essential requirements listed in this Annex, and to have good handling characteristics.`,
+    link: null
+  },
+  {
+    part: "2. General requirements",
+    num: "2.1",
+    title: "Watercraft identification",
+    status: "built",
+    statusLabel: "WIN generator",
+    text: `Each watercraft shall be marked with an identification number including the following information:
+
+(1) country code of the manufacturer,
+(2) unique code of the manufacturer assigned by the national authority of the Member State,
+(3) unique serial number,
+(4) month and year of production,
+(5) model year.
+
+Detailed requirements for the identification number referred to in the first paragraph are set out in the relevant harmonised standard.`,
+    link: { label: "Open WIN generator", href: "win-generator.html" }
+  },
+  {
+    part: "2. General requirements",
+    num: "2.2",
+    title: "Watercraft builder's plate",
+    status: "built",
+    statusLabel: "Builder's plate generator",
+    text: `Each watercraft shall carry a permanently affixed plate mounted separately from the watercraft identification number, containing at least the following information:
+
+(a) manufacturer's name, registered trade name or registered trade mark, as well as contact address;
+(b) CE marking, as provided for in Article 18;
+(c) watercraft design category in accordance with Section 1;
+(d) manufacturer's maximum recommended load derived from point 3.6 excluding the weight of the contents of the fixed tanks when full;
+(e) number of persons recommended by the manufacturer for which the watercraft was designed.
+
+In the case of post-construction assessment, the contact details and the requirements referred to in point (a) shall include those of the notified body which has carried out the conformity assessment.`,
+    link: { label: "Open Builder's Plate generator", href: "builders-plate-generator.html" }
+  },
+  {
+    part: "2. General requirements",
+    num: "2.3",
+    title: "Protection from falling overboard and means of reboarding",
+    status: "built",
+    statusLabel: "reboarding test and checklist",
+    text: `Watercraft shall be designed to minimise the risks of falling overboard and to facilitate reboarding. Means of reboarding shall be accessible to or deployable by a person in the water unaided.`,
+    link: { label: "Open reboarding test and checklist", href: "reboarding-checklist.html" }
+  },
+  {
+    part: "2. General requirements",
+    num: "2.4",
+    title: "Visibility from the main steering position",
+    status: "built",
+    statusLabel: "visibility checklist",
+    text: `For recreational craft, the main steering position shall give the operator, under normal conditions of use (speed and load), good all-round visibility.`,
+    link: { label: "Open visibility checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "2. General requirements",
+    num: "2.5",
+    title: "Owner's manual",
+    status: "gap",
+    statusLabel: "not yet addressed",
+    text: `Each product shall be provided with an owner's manual in accordance with Article 7(7) and Article 9(4). That manual shall provide all the information necessary for safe use of the product drawing particular attention to set up, maintenance, regular operation, prevention of risks and risk management.`,
+    link: null
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.1",
+    title: "Structure",
+    status: "gap",
+    statusLabel: "needs hull scantlings tool",
+    text: `The choice and combination of materials and its construction shall ensure that the watercraft is strong enough in all respects. Special attention shall be paid to the design category in accordance with Section 1, and the manufacturer's maximum recommended load in accordance with point 3.6.`,
+    link: null
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.2",
+    title: "Stability and freeboard",
+    status: "partial",
+    statusLabel: "GZ calculator only",
+    text: `The watercraft shall have sufficient stability and freeboard considering its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6.`,
+    link: { label: "Open GZ calculator", href: "gz-calculator.html" }
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.3",
+    title: "Buoyancy and flotation",
+    status: "partial",
+    statusLabel: "GZ calculator only",
+    text: `The watercraft shall be constructed as to ensure that it has buoyancy characteristics appropriate to its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6. All habitable multihull recreational craft susceptible of inversion shall have sufficient buoyancy to remain afloat in the inverted position.
+
+Watercraft of less than 6 metres in length that are susceptible to swamping when used in their design category shall be provided with appropriate means of flotation in the swamped condition.`,
+    link: { label: "Open GZ calculator", href: "gz-calculator.html" }
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.4",
+    title: "Openings in hull, deck and superstructure",
+    status: "built",
+    statusLabel: "through-hull fitting test checklist",
+    text: `Openings in hull, deck(s) and superstructure shall not impair the structural integrity of the watercraft or its weather tight integrity when closed.
+
+Windows, port lights, doors and hatch covers shall withstand the water pressure likely to be encountered in their specific position, as well as point loads applied by the weight of persons moving on deck.
+
+Through hull fittings designed to allow water passage into the hull or out of the hull, below the waterline corresponding to the manufacturer's maximum recommended load in accordance with point 3.6, shall be fitted with a means of shutoff which shall be readily accessible.`,
+    link: { label: "Open through-hull fitting checklist", href: "through-hull-checklist.html" }
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.5",
+    title: "Flooding",
+    status: "built",
+    statusLabel: "flooding & dewatering tool",
+    text: `All watercraft shall be designed so as to minimise the risk of sinking.
+
+Where appropriate, particular attention shall be paid to:
+
+(a) cockpits and wells, which should be self-draining or have other means of keeping water out of the watercraft interior;
+(b) ventilation fittings;
+(c) removal of water by pumps or other means.`,
+    link: { label: "Open flooding & dewatering tool", href: "hull-openings-bilge-checklist.html" }
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.6",
+    title: "Manufacturer's maximum recommended load",
+    status: "gap",
+    statusLabel: "straightforward artifact to build",
+    text: `The manufacturer's maximum recommended load (fuel, water, provisions, miscellaneous equipment and people (in kilograms)) for which the watercraft was designed, shall be determined in accordance with the design category (Section 1), stability and freeboard (point 3.2) and buoyancy and flotation (point 3.3).`,
+    link: null
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.7",
+    title: "Life raft stowage",
+    status: "gap",
+    statusLabel: "explanatory content, no real spec base",
+    text: `All recreational craft of design categories A and B, and recreational craft of design categories C and D longer than 6 metres shall be provided with one or more stowage points for a life raft (life rafts) large enough to hold the number of persons the recreational craft was designed to carry as recommended by the manufacturer. Life raft stowage point(s) shall be readily accessible at all times.`,
+    link: null
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.8",
+    title: "Escape",
+    status: "gap",
+    statusLabel: "explanatory content on sizes and distances",
+    text: `All habitable multihull recreational craft susceptible of inversion shall be provided with viable means of escape in the event of inversion. Where there is a means of escape provided for use in the inverted position, it shall not compromise the structure (point 3.1), the stability (point 3.2) or buoyancy (point 3.3) whether the recreational craft is upright or inverted.
+
+Every habitable recreational craft shall be provided with viable means of escape in the event of fire.`,
+    link: null
+  },
+  {
+    part: "3. Integrity and structural requirements",
+    num: "3.9",
+    title: "Anchoring, mooring and towing",
+    status: "built",
+    statusLabel: "cleat checklist",
+    text: `All watercraft, taking into account their design category and their characteristics, shall be fitted with one or more strong points or other means capable of safely accepting anchoring, mooring and towing loads.`,
+    link: { label: "Open cleat checklist", href: "cleat-checklist.html" }
+  },
+  {
+    part: "4. Handling characteristics",
+    num: "4",
+    title: "Handling characteristics",
+    status: "built",
+    statusLabel: "object avoidance checklist",
+    text: `The manufacturer shall ensure that the handling characteristics of the watercraft are satisfactory with the most powerful propulsion engine for which the watercraft is designed and constructed. For all propulsion engines, the maximum rated engine power shall be declared in the owner's manual.`,
+    link: { label: "Open object avoidance checklist", href: "object-avoidance-checklist.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.1",
+    title: "Engines and engine compartments — inboard engine",
+    status: "built",
+    statusLabel: "engine compartment checklist",
+    text: `All inboard mounted engines shall be placed within an enclosure separated from living quarters and installed so as to minimise the risk of fires or spread of fires as well as hazards from toxic fumes, heat, noise or vibrations in the living quarters.
+
+Engine parts and accessories that require frequent inspection and/or servicing shall be readily accessible.
+
+The insulating materials inside the engine compartment shall not sustain combustion.`,
+    link: { label: "Open engine compartment checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.2",
+    title: "Engines and engine compartments — ventilation",
+    status: "built",
+    statusLabel: "engine compartment checklist",
+    text: `The engine compartment shall be ventilated. The ingress of water into the engine compartment through openings must be minimised.`,
+    link: { label: "Open engine compartment checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.3",
+    title: "Engines and engine compartments — exposed parts",
+    status: "built",
+    statusLabel: "engine compartment checklist",
+    text: `Unless the engine is protected by a cover or its own enclosure, exposed moving or hot parts of the engine that could cause personal injury shall be effectively shielded.`,
+    link: { label: "Open engine compartment checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.4",
+    title: "Outboard propulsion engine starting",
+    status: "built",
+    statusLabel: "engine compartment checklist",
+    text: `Every outboard propulsion engine fitted on any watercraft shall have a device to prevent the engine being started in gear, except:
+
+(a) when the engine produces less than 500 Newtons (N) of static thrust;
+(b) when the engine has a throttle limiting device to limit thrust to 500 N at the time of starting the engine.`,
+    link: { label: "Open engine compartment checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.5",
+    title: "Personal watercraft running without driver",
+    status: "partial",
+    statusLabel: "out of scope, PWC only",
+    text: `Personal watercraft shall be designed either with an automatic propulsion engine cut-off or with an automatic device to provide reduced speed, circular, forward movement when the driver dismounts deliberately or falls overboard.`,
+    link: null
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.1.6",
+    title: "Tiller-controlled outboard engines",
+    status: "built",
+    statusLabel: "engine compartment checklist",
+    text: `Tiller-controlled outboard propulsion engines shall be equipped with an emergency stopping device which can be linked to the helmsman.`,
+    link: { label: "Open engine compartment checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.2.1",
+    title: "Fuel system — general",
+    status: "built",
+    statusLabel: "fuel tank tests",
+    text: `The filling, storage, venting and fuel-supply arrangements and installations shall be designed and installed so as to minimise the risk of fire and explosion.`,
+    link: { label: "Open fuel tank tests", href: "fuel-tank-tests.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.2.2",
+    title: "Fuel tanks",
+    status: "built",
+    statusLabel: "fuel tank tests",
+    text: `Fuel tanks, lines and hoses shall be secured and separated or protected from any source of significant heat. The material the tanks are made of and their method of construction shall be in accordance with their capacity and the type of fuel.
+
+Petrol fuel tank spaces shall be ventilated.
+
+Petrol fuel tanks shall not form part of the hull and shall be:
+
+(a) protected against fire from any engine and from all other sources of ignition;
+(b) separated from living quarters.
+
+Diesel fuel tanks may be integral with the hull.`,
+    link: { label: "Open fuel tank tests", href: "fuel-tank-tests.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.3",
+    title: "Electrical system",
+    status: "built",
+    statusLabel: "cable size checklist",
+    text: `Electrical systems shall be designed and installed so as to ensure proper operation of the watercraft under normal conditions of use and shall be such as to minimise risk of fire and electric shock.
+
+All electrical circuits, except engine starting circuits supplied from batteries, shall remain safe when exposed to overload.
+
+Electric propulsion circuits shall not interact with other circuits in such a way that either would fail to operate as intended.
+
+Ventilation shall be provided to prevent the accumulation of explosive gases which might be emitted from batteries. Batteries shall be firmly secured and protected from ingress of water.`,
+    link: { label: "Open cable size checklist", href: "cable-size-checklist.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.4.1",
+    title: "Steering system — general",
+    status: "built",
+    statusLabel: "four checklists by steering type",
+    text: `Steering and propulsion control systems shall be designed, constructed and installed in order to allow the transmission of steering loads under foreseeable operating conditions.`,
+    link: { label: "Open steering checklists", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.4.2",
+    title: "Steering system — emergency arrangements",
+    status: "built",
+    statusLabel: "four checklists by steering type",
+    text: `Every sailing recreational craft and single-propulsion engine non-sailing recreational craft with remote-controlled rudder steering systems shall be provided with emergency means of steering the recreational craft at reduced speed.`,
+    link: { label: "Open steering checklists", href: "rcd-checklists.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.5",
+    title: "Gas system",
+    status: "built",
+    statusLabel: "ventilation checklist",
+    text: `Gas systems for domestic use shall be of the vapour-withdrawal type and shall be designed and installed so as to avoid leaks and the risk of explosion and be capable of being tested for leaks. Materials and components shall be suitable for the specific gas used to withstand the stresses and exposures found in the marine environment.
+
+Each gas appliance intended by the manufacturer for the application for which it is used shall be so installed in accordance with the manufacturer's instructions. Each gas-consuming appliance must be supplied by a separate branch of the distribution system, and each appliance must be controlled by a separate closing device. Adequate ventilation must be provided to prevent hazards from leaks and products of combustion.
+
+All watercraft with a permanently installed gas system shall be fitted with an enclosure to contain all gas cylinders. The enclosure shall be separated from the living quarters, accessible only from the outside and ventilated to the outside so that any escaping gas drains overboard.
+
+In particular, any permanently installed gas system shall be tested after installation.`,
+    link: { label: "Open ventilation checklist", href: "ventilation-checklist.html" }
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.6.1",
+    title: "Fire protection — general",
+    status: "gap",
+    statusLabel: "needs scoping, size and fuel type dependent",
+    text: `The type of equipment installed and the layout of the watercraft shall take account of the risk and spread of fire. Special attention shall be paid to the surroundings of open flame devices, hot areas or engines and auxiliary machines, oil and fuel overflows, uncovered oil and fuel pipes and routing of electrical wiring in particular away from heat sources and hot areas.`,
+    link: null
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.6.2",
+    title: "Fire-fighting equipment",
+    status: "gap",
+    statusLabel: "needs scoping, size and fuel type dependent",
+    text: `Recreational craft shall be supplied with fire-fighting equipment appropriate to the fire hazard, or the position and capacity of fire-fighting equipment appropriate to the fire hazard shall be indicated. The craft shall not be put into service until the appropriate fire-fighting equipment is in place. Petrol engine compartments shall be protected by a fire extinguishing system that avoids the need to open the compartment in the event of fire. Where fitted, portable fire extinguishers shall be readily accessible and one shall be so positioned that it can easily be reached from the main steering position of the recreational craft.`,
+    link: null
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.7",
+    title: "Navigation lights, shapes and sound signals",
+    status: "gap",
+    statusLabel: "checklist not yet built",
+    text: `Where navigation lights, shapes and sound signals are fitted, they shall comply with the 1972 COLREG (The International Regulations for Preventing Collisions at Sea) or CEVNI (European Code for Interior Navigations for inland waterways) Regulations as appropriate.`,
+    link: null
+  },
+  {
+    part: "5. Installation requirements",
+    num: "5.8",
+    title: "Discharge prevention and installations facilitating the delivery ashore of waste",
+    status: "built",
+    statusLabel: "discharge prevention checklist",
+    text: `Watercraft shall be constructed so as to prevent the accidental discharge of pollutants (oil, fuel, etc.) overboard.
+
+Any toilet fitted in a recreational craft shall be connected solely to a holding tank system or water treatment system.
+
+Recreational craft with installed holding tanks shall be fitted with a standard discharge connection to enable pipes of reception facilities to be connected with the recreational craft discharge pipeline. In addition, any through-the-hull pipes for human waste shall be fitted with valves which are capable of being secured in the closed position.`,
+    link: { label: "Open discharge prevention checklist", href: "rcd-checklists.html" }
+  },
+  {
+    part: "Annex II - Components requiring separate conformity assessment",
+    num: "II.1",
+    title: "Ignition-protected equipment for inboard and stern drive petrol engines and petrol tank spaces",
+    status: "component",
+    statusLabel: "Annex II component",
+    text: `Refer to Annex I.A, points 5.1.1 and 5.2.2 (first indent). The intention is to emphasise the risk of ignition of flammable gases. This risk is significantly greater with petrol than with other, less-volatile fuels, so petrol (low-flashpoint fuel) engine installations are specified directly. Ignition risks should, however, be recognised in all installations.`,
+    link: null
+  },
+  {
+    part: "Annex II - Components requiring separate conformity assessment",
+    num: "II.2",
+    title: "Start-in-gear protection devices for outboard engines",
+    status: "component",
+    statusLabel: "Annex II component",
+    text: `Refer to Annex I.A, point 5.1.4.`,
+    link: null
+  },
+  {
+    part: "Annex II - Components requiring separate conformity assessment",
+    num: "II.3",
+    title: "Steering wheels, steering mechanisms and cable assemblies",
+    status: "component",
+    statusLabel: "Annex II component",
+    text: `Refer to Annex I.A, points 5.4.1 and 5.4.2.`,
+    link: null
+  },
+  {
+    part: "Annex II - Components requiring separate conformity assessment",
+    num: "II.4",
+    title: "Fuel tanks intended for fixed installations and fuel hoses",
+    status: "component",
+    statusLabel: "Annex II component",
+    text: `Fuel tanks intended for fixed (permanent) installation are covered by Annex II only when placed on the market separately as components. Portable fuel tanks of any capacity are excluded from Annex II and should not bear the CE marking for this Directive. Fuel tanks forming an integral part of the structure of the watercraft are likewise excluded and should not bear the CE marking. Refer to Annex I.A, point 5.2.2 for fuel tanks and point 5.2.1 for fuel hoses; see component (1) regarding petrol.`,
+    link: null
+  },
+  {
+    part: "Annex II - Components requiring separate conformity assessment",
+    num: "II.5",
+    title: "Prefabricated hatches and port lights",
+    status: "component",
+    statusLabel: "Annex II component",
+    text: `Refer to Annex I.A, point 3.4. A portlight is any port or window above the maximum load waterline whose watertightness is essential to maintain the integrity of the freeboard area.`,
+    link: null
+  }
+];
+
+const stds = {
+  "2.1": [{code:"EN ISO 10087",title:"Craft identification - coding system"}],
+  "2.2": [{code:"EN ISO 14945",title:"Builder's plate"}],
+  "2.3": [{code:"EN ISO 15085",title:"Protection from falling overboard and means of reboarding"}],
+  "2.4": [{code:"EN ISO 11591",title:"Field of vision from the helm position (not currently in OJ list)"}],
+  "2.5": [{code:"EN ISO 10240",title:"Owner's manual (not currently in OJ list)"}, {code:"EN ISO 11192",title:"Graphical symbols"}],
+  "3.1": [{code:"EN ISO 12215 (Parts 1-6, 8, 9)",title:"Hull construction and scantlings"}, {code:"EN ISO 6185 (Parts 1-4)",title:"Inflatable boats"}, {code:"EN ISO 13590",title:"Personal watercraft - construction and system installation"}],
+  "3.2": [{code:"EN ISO 12217 (Parts 1-3)",title:"Stability and buoyancy assessment and categorisation"}],
+  "3.3": [{code:"EN ISO 12217 (Parts 1-3)",title:"Stability and buoyancy assessment and categorisation"}],
+  "3.4": [{code:"EN ISO 9093",title:"Seacocks and through-hull fittings"}, {code:"EN ISO 12216",title:"Windows, portlights, hatches, deadlights and doors"}],
+  "3.5": [{code:"EN ISO 11812",title:"Watertight and quick-draining cockpits"}, {code:"EN ISO 15083",title:"Bilge-pumping systems"}, {code:"EN ISO 8849",title:"Electrically operated bilge-pumps"}],
+  "3.6": [{code:"EN ISO 14946",title:"Maximum load capacity"}],
+  "3.8": [{code:"EN ISO 9094",title:"Fire protection"}, {code:"EN ISO 12216",title:"Windows, portlights, hatches, deadlights and doors"}],
+  "3.9": [{code:"EN ISO 15084",title:"Anchoring, mooring and towing - strong points"}],
+  "4": [{code:"EN ISO 8665",title:"Marine propulsion reciprocating IC engines - power measurements and declarations"}, {code:"EN ISO 8665-2",title:"Power measurements and declarations - electric marine propulsion"}, {code:"EN ISO 11592 (Parts 1-2)",title:"Determination of maximum propulsion power rating"}],
+  "5.1.1": [{code:"EN ISO 8846",title:"Electrical devices - protection against ignition of flammable gases"}, {code:"EN ISO 9094",title:"Fire protection"}, {code:"EN ISO 7840",title:"Fire-resistant fuel hoses"}, {code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 11105",title:"Ventilation of petrol engine and/or petrol tank compartments"}, {code:"EN ISO 15584",title:"Inboard petrol engines - engine-mounted fuel and electrical components"}, {code:"EN ISO 16147",title:"Inboard diesel engines - engine-mounted fuel, oil and electrical components"}],
+  "5.1.2": [{code:"EN ISO 11105",title:"Ventilation of petrol engine and/or petrol tank compartments"}, {code:"EN ISO 12217 (Parts 1-3)",title:"Stability and buoyancy assessment - downflooding openings"}],
+  "5.2.1": [{code:"EN ISO 7840",title:"Fire-resistant fuel hoses"}, {code:"EN ISO 8469",title:"Non-fire-resistant fuel hoses"}, {code:"EN ISO 9094",title:"Fire protection"}, {code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 21487",title:"Permanently installed petrol and diesel fuel tanks"}, {code:"EN ISO 11105",title:"Ventilation of petrol engines and/or petrol tank compartments"}, {code:"EN ISO 14895",title:"Liquid-fuelled galley stoves"}, {code:"EN ISO 15584",title:"Inboard petrol engines - engine-mounted fuel and electrical components"}, {code:"EN ISO 16147",title:"Inboard diesel engines - engine-mounted fuel, oil and electrical components"}],
+  "5.2.2": [{code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 21487",title:"Permanently installed petrol and diesel fuel tanks"}],
+  "5.3": [{code:"EN ISO 13297",title:"Electrical systems - alternating and direct current installations"}, {code:"EN ISO 8846",title:"Electrical devices - protection against ignition of flammable gases"}, {code:"EN ISO 16315",title:"Electric propulsion system"}, {code:"EN ISO 15584",title:"Inboard petrol engines - engine-mounted fuel and electrical components"}, {code:"EN ISO 16147",title:"Inboard diesel engines - engine-mounted fuel, oil and electrical components"}, {code:"EN 60092-507",title:"Electrical installations in ships, Part 507: pleasure craft (three-phase systems)"}],
+  "5.4.1": [{code:"EN ISO 8847",title:"Steering gear - cable over pulley systems"}, {code:"EN ISO 8848",title:"Remote mechanical steering systems"}, {code:"EN ISO 10592",title:"Remote hydraulic steering systems"}, {code:"EN ISO 9775",title:"Remote steering systems for single outboard motors 15-40 kW"}, {code:"EN ISO 13929",title:"Steering gear - geared link systems"}, {code:"EN ISO 15652",title:"Remote steering systems for inboard mini jet boats (not currently in OJ list)"}, {code:"EN ISO 23411",title:"Steering wheels"}, {code:"EN ISO 25197",title:"Electrical/electronic control systems for steering, shift and throttle"}],
+  "5.5": [{code:"EN ISO 10239",title:"Liquefied petroleum gas (LPG) systems"}, {code:"EN 15609",title:"LPG propulsion systems for boats, yachts and other watercraft"}],
+  "5.6.1": [{code:"EN ISO 9094",title:"Fire protection"}],
+  "5.6.2": [{code:"EN ISO 9094",title:"Fire protection"}],
+  "5.7": [{code:"EN ISO 16180",title:"Navigation lights - installation, placement and visibility"}, {code:"EN ISO 19009",title:"Electric navigation lights - performance of LED lights"}],
+  "5.8": [{code:"EN ISO 8099-1",title:"Waste systems - waste water retention"}, {code:"EN ISO 8099-2",title:"Waste systems - sewage treatment systems"}],
+  "II.1": [{code:"EN ISO 8846",title:"Electrical devices - protection against ignition of flammable gases"}],
+  "II.2": [{code:"EN ISO 11547",title:"Start-in-gear protection"}],
+  "II.3": [{code:"EN ISO 8847",title:"Steering gear - cable over pulley systems"}, {code:"EN ISO 8848",title:"Remote mechanical steering systems"}, {code:"EN ISO 9775",title:"Remote steering systems for single outboard motors 15-40 kW"}, {code:"EN ISO 13929",title:"Steering gear - geared link systems"}, {code:"EN ISO 15652",title:"Remote steering systems for inboard mini jet boats (not currently in OJ list)"}, {code:"EN ISO 23411",title:"Steering wheels"}, {code:"EN ISO 25197",title:"Electrical/electronic control systems for steering, shift and throttle"}],
+  "II.4": [{code:"EN ISO 21487",title:"Permanently installed petrol and diesel fuel tanks"}, {code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 7840",title:"Fire-resistant fuel hoses"}, {code:"EN ISO 8469",title:"Non-fire-resistant fuel hoses"}],
+  "II.5": [{code:"EN ISO 12216",title:"Windows, portlights, hatches, deadlights and doors"}],
+};
+const extraLinks = { "5.3": [{label:"Open voltage drop calculator", href:"voltage_drop_calculator.html"}] };
+const notes = {"2.1": "Country code of the manufacturer indicates where the manufacturer is established. It means the country where the manufacturer has its registered office, in case of a legal person, or a permanent address, in case of a natural person.\n\nThe unique code of the manufacturer shall be assigned only by a national authority or national body appointed by the EU Member State. A third country manufacturer has to apply to a national authority or national body of an EU Member State to get this code.", "2.2": "The requirement to state the manufacturer’s maximum recommended load on the builder’s plate has been amended by excluding the weight of the liquids in any fixed tanks from the weight shown on the builder’s plate. This is to avoid the possibility of users accidentally overloading their watercraft because they thought that the weight shown for the content of tanks could be used for carry-on items, luggage etc.", "3.7": "It is specified that this essential requirement applies to recreational craft. The requirement refers only to the need to provide a suitable point or space for a liferaft, where appropriate. It does not lay down dimensions for liferaft stowage nor does it specify that any specific fittings, brackets, lockers or tie-down points should be provided."};
+const reqDocs = {"_general": {"note": "Schemes and drawings shall be numbered and include revision dates in case of changes.", "items": ["IMCI application form", "IMCI evaluation form", "General description of the type", "Installation scheme - fresh and seawater system", "Installation scheme - grey water system", "Installation scheme - heating system", "Installation scheme - exhaust system", "Installation scheme - air-conditioning system", "Installation scheme - hydraulic system", "Installation scheme - other as applicable"]}, "2.3": {"note": "IMCI checklist, sheet for ISO 15085", "items": ["Detailed information about means of reboarding (location and characteristic)", "Test report(s) with photos and/or videos"]}, "2.4": {"note": "IMCI checklist, sheet for ISO 11592 (per source; visibility standard is ISO 11591)", "items": ["Documentation with drawings", "If installed, information about cameras and mirrors for the view astern"]}, "2.5": {"note": "IMCI checklist, sheet for ISO 10240", "items": ["The owner's manual shall be submitted to the inspector"]}, "3.1": {"note": "In case other rules have been applied to achieve structural integrity, please contact IMCI head office up-front.", "items": ["Calculations according to applicable ISO 12215 parts or other accepted rules"]}, "3.2": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.3": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.4": {"note": "IMCI calculation tool ISO 12216; IMCI checklist ISO 9093", "items": ["Documentation about all built-in closing appliances (windows, portlights, hatches, doors, seacocks) - type, location, calculation, position and characteristic", "Calculation according to ISO 12216 for windows, portlights, hatches, doors etc.", "Information according to ISO 9093 for seacocks", "Test reports for watertightness with photos and/or videos"]}, "3.5": {"note": "IMCI checklist and calculation tool ISO 11812", "items": ["Position and characteristic of any recess (drawings and/or photos)", "Cockpit calculation", "Test reports for watertightness test(s) with photos and/or video documentation", "Installation scheme - bilge pumping system", "Installation scheme - piping system with all thru-hull points and seacock information"]}, "3.7": {"note": "No checklist", "items": ["Information about liferaft stowage location (statement, photo etc.)"]}, "3.8": {"note": "See also ISO 12217-1, -2 and ISO 9094", "items": ["Escape for habitable multihull craft susceptible of inversion - description with drawings, photos, calculations or other documentation", "Escape routes with distances and dimensions"]}, "3.9": {"note": "IMCI checklist, sheet for ISO 15083 (per source; anchoring standard is ISO 15084)", "items": ["Drawings, sketches, photos of strong points", "Calculations and/or test report for strength"]}, "4": {"note": "IMCI checklist, sheet for ISO 11592-1, -2", "items": ["Test report with photos and/or video"]}, "5.1.1": {"note": "", "items": ["Information and proof of compartment separation", "Documentation for insulation material"]}, "5.1.2": {"note": "IMCI checklist, sheet for ISO 11105", "items": ["Drawing, sketch, photos, description of the ventilation system", "Net volume calculation of engine room compartment"]}, "5.1.3": {"note": "No checklist", "items": ["Information about exposed parts and their protection"]}, "5.2.1": {"note": "IMCI checklist, sheet for ISO 10088 and ISO 21487", "items": ["Description, drawings, photos, sketches for fuel system", "Test report(s) according to ISO 10088 and ISO 21487"]}, "5.3": {"note": "IMCI checklist, sheet for ISO 10133 and ISO 13297; electrical propulsion per ISO 16315", "items": ["Wire diagram", "Description of fuses and breakers", "Information about used conductors and/or wires (type, colour, diameter)", "Voltage drop calculation", "Documentation about electrical devices that must have ignition protection (IGP)", "Description of battery installation and testing", "Electrical propulsion system - full information and test report according to ISO 16315"]}, "5.4.1": {"note": "IMCI checklist, sheet for the applicable type of system", "items": ["Description and list of used parts", "Documentation for emergency steering"]}, "5.5": {"note": "IMCI checklist, sheet for ISO 10239", "items": ["Description of the system, including list of used components and devices", "Drawings, sketches, photos, work instructions for installation", "Tightness test report", "Installation scheme - LPG system"]}, "5.6.2": {"note": "IMCI checklist, sheet for ISO 9094", "items": ["Overview of the fire-fighting equipment (portable and fixed fire systems)", "Net volume of engine room compartment"]}, "5.7": {"note": "IMCI checklist, sheet for ISO 16180", "items": ["Description of installed navigation light devices"]}, "5.8": {"note": "IMCI checklist, sheet for ISO 8099", "items": ["Description of installed parts/devices in the system", "Test report for waste tank", "Installation scheme - black water system"]}, "II.1": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.2": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.3": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.4": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.5": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}};
+const checklistStds = new Set(["8099", "8099-1", "8099-2", "8847", "8848", "9093", "9094", "10087", "10088", "10239", "10240", "10592", "11105", "11591", "11592", "11592-1", "11592-2", "11812", "12216", "12217", "13297", "13929", "14895", "14945", "14946", "15083", "15084", "15085", "16180", "16315", "21487", "23411", "25197"]);
+let workbook = null;
+const CHECKLIST_DIR = 'checklists/';
+const checklistFiles = new Set(["8099-1", "8099-2", "8847", "8848", "9093", "9094", "10087", "10088", "10239", "10240", "10592", "11105", "11591", "11592-1", "11592-2", "11812", "12216", "13297", "13929", "14895", "14945", "14946", "15083", "15084", "15085", "16180", "16315", "21487", "23411", "25197"]);
+
+const partIntros = {"Annex II - Components requiring separate conformity assessment": "Annex II lists five specific components which, when placed on the market separately for installation, require their own conformity assessment and CE marking. Under Article 20(3), six modules or combinations of modules may be applied, all involving a third party - in the design phase only (B+C) or in design and production (B+D, B+E, B+F, G or H) - before the component is placed separately on the market."};
+const container = document.getElementById('clauses');
+let currentPart = null;
+
+clauses.forEach((c, i) => {
+  if (c.part !== currentPart) {
+    currentPart = c.part;
+    const heading = document.createElement('div');
+    heading.className = 'part-heading';
+    heading.textContent = currentPart;
+    container.appendChild(heading);
+    if (partIntros[currentPart]) { const pin=document.createElement('div'); pin.className='part-intro'; pin.textContent=partIntros[currentPart]; container.appendChild(pin); }
+  }
+
+  const div = document.createElement('div');
+  div.className = 'clause';
+  div.id = 'clause-' + i;
+
+  const head = document.createElement('div');
+  head.className = 'clause-head';
+  head.onclick = () => div.classList.toggle('open');
+
+  const left = document.createElement('div');
+  left.className = 'clause-head-left';
+  left.innerHTML = `<span class="clause-num">${c.num}</span><span class="clause-title">${c.title}</span>`;
+
+  const right = document.createElement('div');
+  right.style.display = 'flex';
+  right.style.alignItems = 'center';
+  right.style.gap = '10px';
+  right.innerHTML = `<span class="status-badge ${c.status}">${c.statusLabel}</span><span class="chevron">&#9656;</span>`;
+
+  head.appendChild(left);
+  head.appendChild(right);
+
+  const body = document.createElement('div');
+  body.className = 'clause-body';
+
+  const textDiv = document.createElement('div');
+  textDiv.className = 'directive-text';
+  textDiv.textContent = c.text;
+  body.appendChild(textDiv);
+
+  const noteTxt = notes[c.num];
+  if (noteTxt) {
+    const nd = document.createElement('div');
+    nd.className = 'note';
+    const nh = document.createElement('div'); nh.className = 'note-h'; nh.textContent = 'Guidance note';
+    const np = document.createElement('div'); np.textContent = noteTxt;
+    nd.appendChild(nh); nd.appendChild(np);
+    body.appendChild(nd);
+  }
+
+  const sourceTag = document.createElement('div');
+  sourceTag.className = 'source-tag';
+  sourceTag.textContent = (c.num.indexOf('II.')===0) ? 'Directive 2013/53/EU, Annex II, component ' + c.num.slice(3) : 'Directive 2013/53/EU, Annex I, Part A, point ' + c.num;
+  body.appendChild(sourceTag);
+
+  const sList = stds[c.num];
+  if (sList && sList.length) {
+    const sd = document.createElement('div');
+    sd.className = 'stds';
+    sd.innerHTML = '<div class="stds-h">Applicable harmonised standards</div><ul>' +
+      sList.map(function(s){return '<li><span class="code">'+s.code+'</span>'+s.title+'</li>';}).join('') + '</ul>';
+    body.appendChild(sd);
+  }
+  appendChecklistBlock(body, c.num);
+
+  if (c.link) {
+    const a = document.createElement('a');
+    a.className = 'tool-link';
+    a.href = c.link.href;
+    a.textContent = c.link.label;
+    body.appendChild(a);
+  } else if (c.status !== 'component') {
+    const gapNote = document.createElement('div');
+    gapNote.className = 'gap-note';
+    gapNote.textContent = 'No tool linked yet for this requirement.';
+    body.appendChild(gapNote);
+  }
+
+
+  const ex = extraLinks[c.num];
+  if (ex) ex.forEach(function(l){ const a=document.createElement('a'); a.className='tool-link'; a.href=l.href; a.textContent=l.label; a.style.marginLeft='8px'; body.appendChild(a); });
+  div.appendChild(head);
+  div.appendChild(body);
+  appendDocPanel(body, c.num);
+  container.appendChild(div);
+});
+
+/* ================= documentation collection feature ================= */
+const memFiles = {};   // esr -> [ {name,size,type,blob,dbId} ]
+const memChecks = {};  // esr -> { index: true }
+let DB = null;
+
+function esc(s){ return String(s).replace(/[&<>"]/g, function(c){ return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]; }); }
+function fmtSize(b){ if(b<1024) return b+' B'; if(b<1048576) return Math.round(b/1024)+' KB'; return (b/1048576).toFixed(1)+' MB'; }
+
+function openDB(){
+  return new Promise(function(res){
+    try {
+      const r = indexedDB.open('rcdDocsDB', 2);
+      r.onupgradeneeded = function(e){
+        const db = e.target.result;
+        if(!db.objectStoreNames.contains('files')){ const s = db.createObjectStore('files', {keyPath:'id', autoIncrement:true}); s.createIndex('esr','esr',{unique:false}); }
+        if(!db.objectStoreNames.contains('checks')){ db.createObjectStore('checks', {keyPath:'key'}); }
+        if(!db.objectStoreNames.contains('workbook')){ db.createObjectStore('workbook', {keyPath:'key'}); }
+      };
+      r.onsuccess = function(e){ res(e.target.result); };
+      r.onerror = function(){ res(null); };
+    } catch(err){ res(null); }
+  });
+}
+
+async function initStore(){
+  DB = await openDB();
+  if(DB){
+    try {
+      await new Promise(function(res){ const rq = DB.transaction('files','readonly').objectStore('files').getAll();
+        rq.onsuccess = function(){ (rq.result||[]).forEach(function(f){ (memFiles[f.esr]=memFiles[f.esr]||[]).push({name:f.name,size:f.size,type:f.type,blob:f.blob,dbId:f.id}); }); res(); };
+        rq.onerror = function(){ res(); }; });
+      await new Promise(function(res){ const rq = DB.transaction('checks','readonly').objectStore('checks').getAll();
+        rq.onsuccess = function(){ (rq.result||[]).forEach(function(c){ const p=c.key.split('|'); (memChecks[p[0]]=memChecks[p[0]]||{})[p[1]]=true; }); res(); };
+        rq.onerror = function(){ res(); }; });
+    } catch(err){}
+  }
+  await loadWorkbook();
+  document.querySelectorAll('.docs').forEach(function(d){ refreshPanel(d.dataset.esr); });
+  updateDocSummary();
+  renderWorkbookBar();
+}
+
+function addFiles(esr, fileList){
+  const arr = memFiles[esr] = memFiles[esr] || [];
+  Array.from(fileList).forEach(function(file){
+    const rec = {name:file.name, size:file.size, type:file.type, blob:file, dbId:null};
+    arr.push(rec);
+    if(DB){ try { const put = DB.transaction('files','readwrite').objectStore('files').add({esr:esr, name:file.name, size:file.size, type:file.type, blob:file}); put.onsuccess = function(){ rec.dbId = put.result; }; } catch(err){} }
+  });
+  refreshPanel(esr); updateDocSummary();
+}
+
+function removeFile(esr, idx){
+  const arr = memFiles[esr] || []; const rec = arr[idx]; if(!rec) return;
+  arr.splice(idx,1);
+  if(DB && rec.dbId!=null){ try { DB.transaction('files','readwrite').objectStore('files').delete(rec.dbId); } catch(err){} }
+  refreshPanel(esr); updateDocSummary();
+}
+
+function toggleCheck(esr, i, on){
+  memChecks[esr] = memChecks[esr] || {};
+  if(on) memChecks[esr][i] = true; else delete memChecks[esr][i];
+  if(DB){ try { const st = DB.transaction('checks','readwrite').objectStore('checks'); const key = esr+'|'+i; if(on) st.put({key:key}); else st.delete(key); } catch(err){} }
+  const panel = document.querySelector('.docs[data-esr="'+esr+'"]');
+  if(panel){ const li = panel.querySelectorAll('.reqlist li')[i]; if(li) li.classList.toggle('done', !!on); }
+  refreshPanel(esr); updateDocSummary();
+}
+
+function refreshPanel(esr){
+  const panel = document.querySelector('.docs[data-esr="'+esr+'"]'); if(!panel) return;
+  const arr = memFiles[esr] || [];
+  const fl = panel.querySelector('.filelist'); fl.innerHTML = '';
+  arr.forEach(function(rec, idx){
+    const chip = document.createElement('span'); chip.className = 'chip';
+    let dl = '';
+    try { const url = URL.createObjectURL(rec.blob); dl = '<a class="dl" href="'+url+'" download="'+esc(rec.name)+'" title="Download">&#8681;</a>'; } catch(e){}
+    chip.innerHTML = dl + '<span>'+esc(rec.name)+'</span><span class="sz">'+fmtSize(rec.size)+'</span>';
+    const btn = document.createElement('button'); btn.innerHTML = '&times;'; btn.title = 'Remove';
+    btn.onclick = function(){ removeFile(esr, idx); };
+    chip.appendChild(btn); fl.appendChild(chip);
+  });
+  const checks = memChecks[esr] || {};
+  panel.querySelectorAll('.reqlist li').forEach(function(li, i){ const cb = li.querySelector('input'); if(cb){ cb.checked = !!checks[i]; li.classList.toggle('done', !!checks[i]); } });
+  const def = reqDocs[esr]; const total = (def && def.items) ? def.items.length : 0; const done = Object.keys(checks).length;
+  panel.querySelector('.docprog').textContent = (total ? (done+' of '+total+' required items ticked \u00b7 ') : '') + arr.length + ' file' + (arr.length===1?'':'s') + ' attached';
+}
+
+function makeDocsPanel(esr){
+  const def = reqDocs[esr];
+  const wrap = document.createElement('div'); wrap.className = 'docs'; wrap.dataset.esr = esr;
+  let html = '<div class="docs-h">Documentation for submission</div>';
+  if(def && def.note) html += '<div class="docnote">' + esc(def.note) + '</div>';
+  if(def && def.items && def.items.length){
+    html += '<ul class="reqlist">' + def.items.map(function(it,i){ return '<li><input type="checkbox" data-i="'+i+'"><label>'+esc(it)+'</label></li>'; }).join('') + '</ul>';
+  }
+  const upLabel = (def && def.items && def.items.length) ? 'Attach the documents above, plus any additional files' : 'Attach documents';
+  html += '<div class="uploader"><div class="up-label">'+upLabel+'</div><input type="file" multiple><div class="filelist"></div></div><div class="docprog"></div>';
+  wrap.innerHTML = html;
+  const fi = wrap.querySelector('input[type=file]');
+  fi.addEventListener('change', function(e){ addFiles(esr, e.target.files); e.target.value=''; });
+  wrap.querySelectorAll('.reqlist input[type=checkbox]').forEach(function(cb, i){ cb.addEventListener('change', function(){ toggleCheck(esr, i, cb.checked); }); });
+  return wrap;
+}
+
+function appendDocPanel(body, esr){ body.appendChild(makeDocsPanel(esr)); }
+
+function updateDocSummary(){
+  let files = 0, reqTotal = 0, reqDone = 0;
+  Object.keys(memFiles).forEach(function(e){ files += memFiles[e].length; });
+  Object.keys(reqDocs).forEach(function(e){ reqTotal += reqDocs[e].items ? reqDocs[e].items.length : 0; });
+  Object.keys(memChecks).forEach(function(e){ reqDone += Object.keys(memChecks[e]).length; });
+  const el = document.getElementById('docsummary'); if(!el) return;
+  el.querySelector('.ds-text').innerHTML = 'Documentation collected: <b>'+reqDone+'</b> of <b>'+reqTotal+'</b> required items ticked \u00b7 <b>'+files+'</b> file'+(files===1?'':'s')+' attached';
+}
+
+function buildManifestRows(){
+  const rows = [['Essential requirement','Required item','Ticked','Attached files']];
+  function push(esr, label){
+    const def = reqDocs[esr]; const checks = memChecks[esr] || {}; const files = (memFiles[esr]||[]).map(function(f){ return f.name; }).join('; ');
+    if(def && def.items){ def.items.forEach(function(it,i){ rows.push([label, it, checks[i]?'yes':'no', i===0?files:'']); }); }
+    else { rows.push([label, '(additional documents only)', '', files]); }
+  }
+  push('_general', 'General submission documents');
+  clauses.forEach(function(c){ if(reqDocs[c.num] || memFiles[c.num]) push(c.num, c.num + ' ' + c.title); });
+  return rows;
+}
+function rowsToCsv(rows){ return rows.map(function(r){ return r.map(function(v){ return '"'+String(v).replace(/"/g,'""')+'"'; }).join(','); }).join('\n'); }
+
+function exportManifest(){
+  const csv = rowsToCsv(buildManifestRows());
+  const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'documentation-status.csv'; a.click();
+}
+
+function zipFolderName(esr){
+  if(esr === '_general') return 'General submission documents';
+  let c = null; clauses.forEach(function(x){ if(x.num === esr) c = x; });
+  let name = esr + (c ? ' ' + c.title : '');
+  return name.replace(/[\\/:*?"<>|]/g, '-').slice(0, 80);
+}
+
+async function downloadZip(){
+  if(typeof JSZip === 'undefined'){ alert('The ZIP library did not load. Check your connection and reload the page.'); return; }
+  const zip = new JSZip();
+  let count = 0;
+  Object.keys(memFiles).forEach(function(esr){
+    const arr = memFiles[esr]; if(!arr || !arr.length) return;
+    const folder = zip.folder(zipFolderName(esr));
+    const used = {};
+    arr.forEach(function(rec){
+      let n = rec.name;
+      if(used[rec.name]){ const dot = n.lastIndexOf('.'); const base = dot>0 ? n.slice(0,dot) : n; const ext = dot>0 ? n.slice(dot) : ''; n = base + '-' + used[rec.name] + ext; }
+      used[rec.name] = (used[rec.name] || 0) + 1;
+      folder.file(n, rec.blob); count++;
+    });
+  });
+  if(count === 0){ alert('No files have been attached yet.'); return; }
+  zip.file('documentation-status.csv', rowsToCsv(buildManifestRows()));
+  const btn = document.getElementById('zipBtn'); const label = btn ? btn.textContent : '';
+  if(btn){ btn.disabled = true; btn.textContent = 'Building ZIP...'; }
+  try {
+    const blob = await zip.generateAsync({type:'blob'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a'); a.href = url; a.download = 'RCD-documentation-package.zip'; a.click();
+  } catch(err){ alert('Could not build the ZIP: ' + err.message); }
+  if(btn){ btn.disabled = false; btn.textContent = label; }
+}
+
+/* build the general documents card + init storage */
+(function(){
+  const gd = document.getElementById('generalDocs'); if(!gd) return;
+  const card = document.createElement('div'); card.className = 'clause open';
+  const head = document.createElement('div'); head.className = 'clause-head';
+  head.innerHTML = '<div class="clause-head-left"><span class="clause-num">DOC</span><span class="clause-title">General submission documents</span></div><span class="chevron">&#9656;</span>';
+  head.onclick = function(){ card.classList.toggle('open'); };
+  const bodyG = document.createElement('div'); bodyG.className = 'clause-body';
+  bodyG.appendChild(makeDocsPanel('_general'));
+  card.appendChild(head); card.appendChild(bodyG); gd.appendChild(card);
+})();
+initStore();
+
+
+/* ================= checklist workbook (latest-version) feature ================= */
+function parseWbVersion(name){
+  const m = name.match(/en(\d{2})(\d{2})(\d{2})/i);
+  if(m) return '20'+m[1]+'-'+m[2]+'-'+m[3];
+  return name.replace(/\.[^.]+$/, '');
+}
+
+async function loadWorkbook(){
+  if(!DB) return;
+  try {
+    await new Promise(function(res){
+      const rq = DB.transaction('workbook','readonly').objectStore('workbook').get('current');
+      rq.onsuccess = function(){ if(rq.result) workbook = rq.result; res(); };
+      rq.onerror = function(){ res(); };
+    });
+  } catch(err){}
+}
+
+function saveWorkbook(file){
+  workbook = { key:'current', name:file.name, version:parseWbVersion(file.name), blob:file, added:Date.now() };
+  if(DB){ try { DB.transaction('workbook','readwrite').objectStore('workbook').put(workbook); } catch(err){} }
+  renderWorkbookBar();
+}
+
+function openWorkbook(){
+  if(!workbook || !workbook.blob){ alert('No checklist workbook has been uploaded yet. Use "Upload latest workbook" at the top of the page to add the current IMCI Module B / G workbook.'); return; }
+  try { const url = URL.createObjectURL(workbook.blob); window.open(url, '_blank'); }
+  catch(err){ alert('Could not open the workbook.'); }
+}
+
+function renderWorkbookBar(){
+  const el = document.getElementById('workbookbar'); if(!el) return;
+  el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>Each requirement links to its own IMCI checklist sheet. The PDFs live in the <b>/' + CHECKLIST_DIR + '</b> folder beside this page &mdash; when IMCI reissues the workbook, re-run the split script and replace that folder.</span></div>'
+    + '<div class="wb-actions"><a class="wb-upload" href="' + CHECKLIST_DIR + '00-front-matter.pdf" target="_blank" rel="noopener">Open front matter</a></div>';
+}
+
+function stdCore(code){
+  const m = code.match(/(\d{4,5})(?:-(\d))?/);
+  if(!m) return [null, null];
+  return [m[1], m[2] ? m[1]+'-'+m[2] : null];
+}
+
+function applicableChecklists(num){
+  const list = stds[num] || []; const out = [];
+  list.forEach(function(s){
+    const c = stdCore(s.code); const base = c[0], part = c[1];
+    if(base && (checklistStds.has(part||'') || checklistStds.has(base))){ if(out.indexOf(s.code) < 0) out.push(s.code); }
+  });
+  return out;
+}
+
+function expandCores(code){
+  const cands = [];
+  const dashM = code.match(/(\d{4,5})-(\d)/);
+  if(dashM){ cands.push(dashM[1]+'-'+dashM[2]); return cands; }
+  const baseM = code.match(/(\d{4,5})/); const base = baseM ? baseM[1] : null;
+  const partsM = code.match(/\(Parts?\s*([\d,\s\-]+)\)/i);
+  if(partsM && base){
+    partsM[1].split(',').forEach(function(seg){
+      seg = seg.trim(); const r = seg.match(/^(\d)\s*-\s*(\d)$/);
+      if(r){ for(let k=+r[1]; k<=+r[2]; k++) cands.push(base+'-'+k); }
+      else if(/^\d$/.test(seg)) cands.push(base+'-'+seg);
+    });
+    return cands;
+  }
+  if(base) cands.push(base);
+  return cands;
+}
+
+function appendChecklistBlock(body, num){
+  const list = stds[num] || []; const targets = []; const seen = {};
+  list.forEach(function(s){
+    expandCores(s.code).forEach(function(core){
+      if(checklistFiles.has(core) && !seen[core]){ seen[core] = 1; targets.push(core); }
+    });
+  });
+  if(!targets.length) return;
+  const d = document.createElement('div'); d.className = 'checklist';
+  d.innerHTML = '<div class="checklist-h">Applicable IMCI checklist</div>'
+    + '<div class="checklist-links">'
+    + targets.map(function(core){ return '<a class="clbtn" href="' + CHECKLIST_DIR + core + '.pdf" target="_blank" rel="noopener">EN ISO ' + core + ' &#8599;</a>'; }).join('')
+    + '</div>';
+  body.appendChild(d);
+}
+
+renderWorkbookBar();
+
+
+</script>
+</body>
+</html>

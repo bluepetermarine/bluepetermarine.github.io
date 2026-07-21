@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EN ISO 15084:2018 Strong Points Compliance Checklist</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        .header h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        .vessel-info {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .vessel-info h3 {
+            margin: 0 0 20px 0;
+            color: #1e40af;
+            font-size: 1.4em;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+        .input-group input, .input-group select {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        .calculate-btn {
+            background: linear-gradient(135deg, #059669 0%, #10b981 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+        }
+        .calculations {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #0ea5e9;
+            display: none;
+        }
+        .calc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 15px;
+        }
+        .calc-item {
+            background: white;
+            padding: 15px;
+            border-radius: 6px;
+            border-left: 4px solid #3b82f6;
+        }
+        .calc-title {
+            margin: 0 0 8px 0;
+            color: #1e40af;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .calc-formula {
+            margin: 0 0 8px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            color: #6b7280;
+            background: #f8fafc;
+            padding: 5px;
+            border-radius: 3px;
+        }
+        .calc-result {
+            margin: 0 0 8px 0;
+            font-weight: bold;
+            color: #111827;
+            font-size: 18px;
+        }
+        .calc-status {
+            margin: 0;
+            font-size: 13px;
+            padding: 5px 10px;
+            border-radius: 4px;
+            background: #ecfccb;
+            color: #365314;
+        }
+        .checklist {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin: 25px 0;
+        }
+        .category {
+            margin-bottom: 0;
+        }
+        .category-header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 700;
+            font-size: 1.1em;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .category-content {
+            display: block;
+        }
+        .checklist-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .checklist-table th {
+            background: #f1f5f9;
+            padding: 12px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+        .checklist-table td {
+            padding: 12px;
+            border-bottom: 1px solid #e5e7eb;
+            vertical-align: top;
+        }
+        .checklist-table tr:hover {
+            background-color: #f8fafc;
+        }
+        .status-select {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .clause-column {
+            width: 100px;
+            font-weight: bold;
+            background-color: #f8fafc;
+            border-right: 1px solid #e5e7eb;
+            color: #1e40af;
+            font-size: 12px;
+        }
+        .ref-column {
+            width: 80px;
+            text-align: center;
+            font-weight: bold;
+            color: #374151;
+        }
+        .notes-input {
+            width: 100%;
+            padding: 6px;
+            border: 1px solid #d1d5db;
+            border-radius: 4px;
+            font-size: 13px;
+            min-height: 60px;
+        }
+        .export-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>EN ISO 15084:2018</h1>
+        <h2>Small craft — Anchoring, mooring and towing — Strong points (ISO 15084:2003)</h2>
+        <p>European Standard - Valid from 30-10-2018</p>
+        <p>Compliance Checklist & Strength Calculations</p>
+        <p style="margin-top: 15px; font-size: 0.9em; opacity: 0.95;">Powered by Blue Peter Marine | <a href="http://www.ceinspector.com" target="_blank" style="color: white; text-decoration: underline;">www.ceinspector.com</a></p>
+    </div>
+
+    <div class="vessel-info">
+        <h3>Vessel Information & Calculations</h3>
+        <div class="input-grid">
+            <div class="input-group">
+                <label for="vesselName">Vessel Name:</label>
+                <input type="text" id="vesselName" placeholder="Enter vessel name">
+            </div>
+            <div class="input-group">
+                <label for="hullLength">Hull Length LH (m):</label>
+                <input type="number" id="hullLength" step="0.1" placeholder="Enter hull length">
+            </div>
+            <div class="input-group">
+                <label for="waterlineLength">Waterline Length LWL (m):</label>
+                <input type="number" id="waterlineLength" step="0.1" placeholder="Enter waterline length">
+            </div>
+            <div class="input-group">
+                <label for="loadedMass">Loaded Displacement mLDC (kg):</label>
+                <input type="number" id="loadedMass" step="1" placeholder="Enter loaded displacement">
+            </div>
+            <div class="input-group">
+                <label for="designCategory">Design Category:</label>
+                <select id="designCategory">
+                    <option value="">Select category</option>
+                    <option value="A">Category A - Ocean</option>
+                    <option value="B">Category B - Offshore</option>
+                    <option value="C">Category C - Inshore</option>
+                    <option value="D">Category D - Sheltered</option>
+                </select>
+            </div>
+        </div>
+        <button type="button" class="calculate-btn" id="calcButton">Calculate Strength Requirements</button>
+        
+        <div id="calculationResults" class="calculations">
+            <h4 style="margin:0 0 6px 0; color:#0369a1; font-size:1.1em;">Minimum Required Breaking Strength — ISO 15084:2003 Clause 6.2</h4>
+            <p style="margin:0 0 15px 0; font-size:0.88em; color:#475569;">
+                The values below are the <strong>minimum required breaking strengths</strong> of each strong point and its surrounding structure, expressed in kN.
+                The standard defines these as the horizontal load P<sub>n</sub> that the fitting must withstand without failure or permanent deformation.
+                No additional safety factor is applied on top of these values — the design category coefficient <em>f</em> already provides the appropriate margin for the sea conditions.
+                Lines and chains attached to any strong point must not exceed <strong>80&nbsp;% of that strong point's breaking strength</strong> (Annex A, clause A.1).
+                Where LC = (L<sub>H</sub> + L<sub>WL</sub>) / 2.
+            </p>
+            <div id="calcGrid" class="calc-grid"></div>
+        </div>
+    </div>
+
+    <div class="checklist">
+        <div class="category">
+            <div class="category-header">
+                1. GENERAL REQUIREMENTS (Clause 5)
+            </div>
+            <div class="category-content">
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th class="ref-column">Ref</th>
+                            <th class="clause-column">Clause</th>
+                            <th>Requirement</th>
+                            <th style="width: 120px;">Status</th>
+                            <th style="width: 200px;">Inspector Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody id="generalRequirementsBody">
+                        <tr>
+                            <td class="ref-column">1.1</td>
+                            <td class="clause-column">5.1</td>
+                            <td>Strong point may be used for different purposes (anchoring/towing/mooring)</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">1.2</td>
+                            <td class="clause-column">5.2</td>
+                            <td>All craft: one anchoring/towing point forward</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-header">
+                2. STRENGTH REQUIREMENTS (Clause 6)
+            </div>
+            <div class="category-content">
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th class="ref-column">Ref</th>
+                            <th class="clause-column">Clause</th>
+                            <th>Requirement</th>
+                            <th style="width: 120px;">Status</th>
+                            <th style="width: 200px;">Inspector Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ref-column">2.1</td>
+                            <td class="clause-column">6.2</td>
+                            <td>Forward anchoring/towing — min. required breaking strength: Pn = (4.3 × LC − 5.4) × f (kN)</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter calculated breaking strength and evidence..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">2.2</td>
+                            <td class="clause-column">6.2</td>
+                            <td>Forward mooring — min. required breaking strength: Pn = (3.5 × LC − 4.3) × f (kN)</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter calculated breaking strength and evidence..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">2.3</td>
+                            <td class="clause-column">6.2</td>
+                            <td>Aft mooring — min. required breaking strength: Pn = (3.0 × LC − 3.8) × f (kN)</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter calculated breaking strength and evidence..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">2.4</td>
+                            <td class="clause-column">6.2</td>
+                            <td>Breaking strength not required higher than boat mass (mLDC)</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter mass limit applied..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">2.5</td>
+                            <td class="clause-column">6.3</td>
+                            <td>Direct calculation method (if used) accounts for design category, windage, hull form</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter calculation method details..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">2.6</td>
+                            <td class="clause-column">6.4</td>
+                            <td>Strong point strength ≥125% of specified rope/chain breaking strength</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter rope/chain specifications..."></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-header">
+                3. DETAILED REQUIREMENTS (Clause 7)
+            </div>
+            <div class="category-content">
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th class="ref-column">Ref</th>
+                            <th class="clause-column">Clause</th>
+                            <th>Requirement</th>
+                            <th style="width: 120px;">Status</th>
+                            <th style="width: 200px;">Inspector Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ref-column">3.1</td>
+                            <td class="clause-column">7.1</td>
+                            <td>Craft structures reinforced to take calculated loads</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter structural reinforcement details..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">3.2</td>
+                            <td class="clause-column">7.1</td>
+                            <td>Doubling plates or washers of adequate size used for bolted connections</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter backing plate specifications..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">3.3</td>
+                            <td class="clause-column">7.2</td>
+                            <td>Strong points made of corrosion resistant or protected materials</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter material specifications..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">3.4</td>
+                            <td class="clause-column">7.2</td>
+                            <td>Non-metallic strong points are UV stabilized</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter UV stabilization details..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">3.5</td>
+                            <td class="clause-column">7.2</td>
+                            <td>Warning notice for non-metallic strong points in owner's manual</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">3.6</td>
+                            <td class="clause-column">7.3</td>
+                            <td>Strong points labeled where intended use not self-evident</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter labeling details..."></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="category">
+            <div class="category-header">
+                4. OWNER'S MANUAL REQUIREMENTS (Clause 8 & Annex A)
+            </div>
+            <div class="category-content">
+                <table class="checklist-table">
+                    <thead>
+                        <tr>
+                            <th class="ref-column">Ref</th>
+                            <th class="clause-column">Clause</th>
+                            <th>Requirement</th>
+                            <th style="width: 120px;">Status</th>
+                            <th style="width: 200px;">Inspector Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="ref-column">4.1</td>
+                            <td class="clause-column">A.1</td>
+                            <td>Breaking strength of strong points provided in manual</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.2</td>
+                            <td class="clause-column">A.1</td>
+                            <td>Caution: lines/chains should not exceed 80% of strong point breaking strength</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.3</td>
+                            <td class="clause-column">A.2</td>
+                            <td>Labeling and manual information for non-obvious strong point purposes</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.4</td>
+                            <td class="clause-column">A.3</td>
+                            <td>Caution: Always tow at slow speed, never exceed hull speed</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.5</td>
+                            <td class="clause-column">A.4</td>
+                            <td>Caution: Tow line must be releasable under load</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.6</td>
+                            <td class="clause-column">A.5</td>
+                            <td>Owner responsibility statement for adequate lines/chains/anchors</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                        <tr>
+                            <td class="ref-column">4.7</td>
+                            <td class="clause-column">A.6</td>
+                            <td>Non-metallic strong points: lifetime considerations and replacement criteria</td>
+                            <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                            <td><textarea class="notes-input" placeholder="Enter manual section reference..."></textarea></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <button type="button" class="export-btn" onclick="exportToExcel()">📊 Export to Excel</button>
+        <button type="button" class="export-btn" onclick="window.print()">📄 Export to PDF</button>
+    </div>
+
+    <div style="background: white; padding: 25px; border-radius: 8px; margin-top: 25px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+        <h3>Certification Signatures</h3>
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 20px;">
+            <div style="border: 2px dashed #d1d5db; padding: 20px; border-radius: 6px; text-align: center; color: #6b7280; min-height: 80px;">
+                <p><strong>Inspector</strong></p>
+                <p>Name: ___________________________</p>
+                <p>Signature: _______________________</p>
+                <p>Date: ____________________________</p>
+            </div>
+            <div style="border: 2px dashed #d1d5db; padding: 20px; border-radius: 6px; text-align: center; color: #6b7280; min-height: 80px;">
+                <p><strong>Manufacturer</strong></p>
+                <p>Name: ___________________________</p>
+                <p>Signature: _______________________</p>
+                <p>Date: ____________________________</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded successfully');
+            
+            const calcButton = document.getElementById('calcButton');
+            const hullInput = document.getElementById('hullLength');
+            const wlInput = document.getElementById('waterlineLength');
+            const massInput = document.getElementById('loadedMass');
+            const catSelect = document.getElementById('designCategory');
+            
+            if (calcButton) {
+                calcButton.addEventListener('click', calculateStrengthRequirements);
+            }
+            
+            if (hullInput) {
+                hullInput.addEventListener('input', function() {
+                    calculateStrengthRequirements();
+                    updateGeneralRequirements();
+                });
+            }
+            if (wlInput) wlInput.addEventListener('input', calculateStrengthRequirements);
+            if (massInput) massInput.addEventListener('input', calculateStrengthRequirements);
+            if (catSelect) catSelect.addEventListener('change', calculateStrengthRequirements);
+            
+            updateGeneralRequirements();
+        });
+        
+        function updateGeneralRequirements() {
+            const hullLength = parseFloat(document.getElementById('hullLength').value);
+            const tbody = document.getElementById('generalRequirementsBody');
+            
+            console.log('Updating requirements for hull length:', hullLength);
+            
+            if (!tbody) return;
+            
+            let html = `
+                <tr>
+                    <td class="ref-column">1.1</td>
+                    <td class="clause-column">5.1</td>
+                    <td>Strong point may be used for different purposes (anchoring/towing/mooring)</td>
+                    <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                    <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                </tr>
+                <tr>
+                    <td class="ref-column">1.2</td>
+                    <td class="clause-column">5.2</td>
+                    <td>All craft: one anchoring/towing point forward</td>
+                    <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                    <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                </tr>
+            `;
+            
+            if (hullLength > 6) {
+                console.log('Adding requirement 1.3 for craft over 6m');
+                html += `
+                    <tr>
+                        <td class="ref-column">1.3</td>
+                        <td class="clause-column">5.2</td>
+                        <td>Craft over 6m LH: at least one mooring point aft (LH = ${hullLength}m)</td>
+                        <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                        <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                    </tr>
+                `;
+            }
+            
+            if (hullLength > 12) {
+                console.log('Adding requirement 1.4 for craft over 12m');
+                html += `
+                    <tr>
+                        <td class="ref-column">1.4</td>
+                        <td class="clause-column">5.2</td>
+                        <td>Craft over 12m LH: at least one additional mooring point both forward and aft (LH = ${hullLength}m)</td>
+                        <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                        <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                    </tr>
+                `;
+            }
+            
+            if (hullLength > 18) {
+                console.log('Adding requirement 1.5 for craft over 18m');
+                html += `
+                    <tr>
+                        <td class="ref-column">1.5</td>
+                        <td class="clause-column">5.2</td>
+                        <td>Craft over 18m LH: at least one additional mooring point both port and starboard (LH = ${hullLength}m)</td>
+                        <td><select class="status-select"><option>Select</option><option>✅ Compliant</option><option>❌ Non-compliant</option><option>⚠️ Needs review</option><option>N/A</option></select></td>
+                        <td><textarea class="notes-input" placeholder="Enter inspection notes..."></textarea></td>
+                    </tr>
+                `;
+            }
+            
+            tbody.innerHTML = html;
+        }
+        
+        function calculateStrengthRequirements() {
+            console.log('Calculating strength requirements');
+            
+            const hullLength = parseFloat(document.getElementById('hullLength').value);
+            const waterlineLength = parseFloat(document.getElementById('waterlineLength').value);
+            const loadedMass = parseFloat(document.getElementById('loadedMass').value);
+            const designCategory = document.getElementById('designCategory').value;
+            
+            const resultsDiv = document.getElementById('calculationResults');
+            const calcGrid = document.getElementById('calcGrid');
+            
+            if (!resultsDiv || !calcGrid) return;
+            
+            if (hullLength && waterlineLength && loadedMass && designCategory) {
+                resultsDiv.style.display = 'block';
+                
+                const LC = (hullLength + waterlineLength) / 2;
+                
+                let f;
+                switch (designCategory) {
+                    case 'A':
+                    case 'B':
+                        f = 1.0;
+                        break;
+                    case 'C':
+                        f = 0.9;
+                        break;
+                    case 'D':
+                        f = 0.75;
+                        break;
+                    default:
+                        f = 1.0;
+                }
+                
+                const forwardAnchoringTowing = Math.max(0, (4.3 * LC - 5.4) * f);
+                const forwardMooring = Math.max(0, (3.5 * LC - 4.3) * f);
+                const aftMooring = Math.max(0, (3.0 * LC - 3.8) * f);
+                
+                const massLimitkN = (loadedMass * 9.81) / 1000;
+                
+                const finalForwardAnchoringTowing = Math.min(forwardAnchoringTowing, massLimitkN);
+                const finalForwardMooring = Math.min(forwardMooring, massLimitkN);
+                const finalAftMooring = Math.min(aftMooring, massLimitkN);
+                
+                calcGrid.innerHTML = `
+                    <div class="calc-item">
+                        <div class="calc-title">Calculation Length (LC)</div>
+                        <div class="calc-formula">LC = (LH + LWL) / 2 = (${hullLength} + ${waterlineLength}) / 2</div>
+                        <div class="calc-result">${LC.toFixed(2)} m</div>
+                        <div class="calc-status">Base parameter for all load calculations</div>
+                    </div>
+                    <div class="calc-item">
+                        <div class="calc-title">Design Category Factor (f)</div>
+                        <div class="calc-formula">Category ${designCategory}: f = ${f}</div>
+                        <div class="calc-result">${f}</div>
+                        <div class="calc-status">${designCategory === 'A' || designCategory === 'B' ? 'Ocean/Offshore conditions' : designCategory === 'C' ? 'Inshore conditions' : 'Sheltered waters'}</div>
+                    </div>
+                    <div class="calc-item">
+                        <div class="calc-title">Forward Anchoring/Towing — Min. Required Breaking Strength</div>
+                        <div class="calc-formula">Pn = (4.3 × LC − 5.4) × f = (4.3 × ${LC.toFixed(2)} − 5.4) × ${f} = ${forwardAnchoringTowing.toFixed(2)} kN</div>
+                        <div class="calc-result">${finalForwardAnchoringTowing.toFixed(2)} kN</div>
+                        <div class="calc-status">${forwardAnchoringTowing !== finalForwardAnchoringTowing ? '⚠️ Limited by boat mass (mLDC cap applied)' : '✅ Standard formula result'}</div>
+                    </div>
+                    <div class="calc-item">
+                        <div class="calc-title">Forward Mooring — Min. Required Breaking Strength</div>
+                        <div class="calc-formula">Pn = (3.5 × LC − 4.3) × f = (3.5 × ${LC.toFixed(2)} − 4.3) × ${f} = ${forwardMooring.toFixed(2)} kN</div>
+                        <div class="calc-result">${finalForwardMooring.toFixed(2)} kN</div>
+                        <div class="calc-status">${forwardMooring !== finalForwardMooring ? '⚠️ Limited by boat mass (mLDC cap applied)' : '✅ Standard formula result'}</div>
+                    </div>
+                    <div class="calc-item">
+                        <div class="calc-title">Aft Mooring — Min. Required Breaking Strength</div>
+                        <div class="calc-formula">Pn = (3.0 × LC − 3.8) × f = (3.0 × ${LC.toFixed(2)} − 3.8) × ${f} = ${aftMooring.toFixed(2)} kN</div>
+                        <div class="calc-result">${finalAftMooring.toFixed(2)} kN</div>
+                        <div class="calc-status">${aftMooring !== finalAftMooring ? '⚠️ Limited by boat mass (mLDC cap applied)' : '✅ Standard formula result'}</div>
+                    </div>
+                    <div class="calc-item">
+                        <div class="calc-title">Mass Limit Cap (Clause 6.2)</div>
+                        <div class="calc-formula">mLDC (kg) × 9.81 ÷ 1000 = ${loadedMass} × 9.81 ÷ 1000</div>
+                        <div class="calc-result">${massLimitkN.toFixed(2)} kN</div>
+                        <div class="calc-status">📋 Breaking strength need not exceed this value — cap is in kN, not N</div>
+                    </div>
+                `;
+            } else {
+                resultsDiv.style.display = 'none';
+            }
+        }
+        
+        function exportToExcel() {
+            let csvContent = "Reference,Standard Clause,Requirement,Status,Inspector Notes\n";
+            
+            const vesselName = document.getElementById('vesselName').value || 'Not specified';
+            const hullLength = document.getElementById('hullLength').value || 'Not specified';
+            const designCategory = document.getElementById('designCategory').value || 'Not specified';
+            
+            csvContent += `\nVESSEL INFORMATION\n`;
+            csvContent += `Vessel Name,${vesselName}\n`;
+            csvContent += `Hull Length,${hullLength} m\n`;
+            csvContent += `Design Category,${designCategory}\n\n`;
+            
+            const tables = document.querySelectorAll('.checklist-table');
+            tables.forEach((table) => {
+                const categoryName = table.closest('.category').querySelector('.category-header').textContent;
+                csvContent += `\n"${categoryName}"\n`;
+                
+                const rows = table.querySelectorAll('tbody tr');
+                rows.forEach(row => {
+                    const ref = row.cells[0].textContent;
+                    const clause = row.cells[1].textContent;
+                    const requirement = row.cells[2].textContent;
+                    const status = row.cells[3].querySelector('select').value;
+                    const notes = row.cells[4].querySelector('textarea').value.replace(/"/g, '""');
+                    
+                    csvContent += `"${ref}","${clause}","${requirement}","${status}","${notes}"\n`;
+                });
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement("a");
+            const url = URL.createObjectURL(blob);
+            link.setAttribute("href", url);
+            link.setAttribute("download", `EN_ISO_15084_2018_Checklist_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>

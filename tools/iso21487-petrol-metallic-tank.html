@@ -1,0 +1,1499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ISO 21487:2022 - Petrol Metallic Tank Compliance Checklist with Enhanced Type Tests</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+            background-color: #f8fafc;
+            color: #334155;
+        }
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .header h1 {
+            margin: 0 0 10px 0;
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+        .header h2 {
+            margin: 0 0 15px 0;
+            font-size: 1.3em;
+            font-weight: 400;
+            opacity: 0.9;
+        }
+        .header p {
+            margin: 5px 0;
+            opacity: 0.95;
+            font-size: 0.95em;
+        }
+        .project-info {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .project-info h3 {
+            margin: 0 0 20px 0;
+            color: #1e40af;
+            font-size: 1.4em;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .input-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .input-group label {
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+        }
+        .input-group .label-description {
+            font-size: 0.85em;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+        .input-group input, .input-group select, .input-group textarea {
+            padding: 10px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+        .input-group textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
+        .input-group input:focus, .input-group select:focus, .input-group textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 1px #3b82f6;
+        }
+        .calculation-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .calculation-section h3 {
+            margin: 0 0 20px 0;
+            color: #1e40af;
+            font-size: 1.4em;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+        .test-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 6px solid #3b82f6;
+        }
+        .test-section h4 {
+            margin: 0 0 15px 0;
+            color: #1e40af;
+            font-size: 1.3em;
+        }
+        .test-description {
+            background: #f0f9ff;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 15px 0;
+            border-left: 4px solid #0ea5e9;
+        }
+        .test-description h5 {
+            margin: 0 0 10px 0;
+            color: #1e40af;
+            font-size: 1.1em;
+        }
+        .test-description p {
+            margin: 8px 0;
+            color: #374151;
+        }
+        .test-description ul {
+            margin: 10px 0;
+            padding-left: 25px;
+        }
+        .test-description li {
+            margin: 6px 0;
+            color: #4b5563;
+        }
+        .test-form {
+            background: #fefce8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border-left: 4px solid #facc15;
+        }
+        .test-form h5 {
+            margin: 0 0 15px 0;
+            color: #854d0e;
+            font-size: 1.1em;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        .form-full-width {
+            grid-column: 1 / -1;
+        }
+        .note {
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #374151;
+        }
+        .note strong {
+            color: #1e40af;
+        }
+        .warning {
+            background: #fef3c7;
+            border-left: 4px solid #f59e0b;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #78350f;
+        }
+        .warning strong {
+            color: #92400e;
+        }
+        .critical {
+            background: #fee2e2;
+            border-left: 4px solid #dc2626;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #7f1d1d;
+        }
+        .critical strong {
+            color: #991b1b;
+        }
+        .success-box {
+            background: #dcfce7;
+            border-left: 4px solid #22c55e;
+            padding: 15px 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            font-size: 14px;
+            color: #14532d;
+        }
+        .success-box strong {
+            color: #166534;
+        }
+        .export-btn {
+            background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin: 10px 5px;
+        }
+        .export-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+        }
+        .calculation-result {
+            background: #dbeafe;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+            border-left: 4px solid #2563eb;
+        }
+        .calculation-result h5 {
+            margin: 0 0 10px 0;
+            color: #1e40af;
+        }
+        .calculation-result p {
+            margin: 5px 0;
+            font-family: 'Courier New', monospace;
+            color: #1e3a8a;
+        }
+        .result-pass {
+            color: #166534;
+            font-weight: bold;
+        }
+        .result-fail {
+            color: #991b1b;
+            font-weight: bold;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        th {
+            background-color: #f8fafc;
+            font-weight: 600;
+            color: #1e40af;
+        }
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        .signature-section {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 30px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .signature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .signature-box {
+            border: 2px solid #e5e7eb;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        @media print {
+            .export-btn {
+                display: none;
+            }
+            body {
+                background: white;
+            }
+            .calculation-section, .project-info, .test-section {
+                box-shadow: none;
+                page-break-inside: avoid;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>ISO 21487:2022</h1>
+        <h2>Petrol Metallic Tank Compliance Checklist</h2>
+        <p>With Enhanced Type Test Documentation</p>
+        <p>Small Craft - Permanently Installed Petrol and Diesel Fuel Tanks</p>
+        <p>Third Edition 2022-11</p>
+    </div>
+
+    <div class="project-info">
+        <h3>Project Information</h3>
+        <div class="input-grid">
+            <div class="input-group">
+                <label>Project Number</label>
+                <input type="text" id="projectNumber" placeholder="Enter project number">
+            </div>
+            <div class="input-group">
+                <label>Assessment Date</label>
+                <input type="date" id="assessmentDate">
+            </div>
+            <div class="input-group">
+                <label>Inspector Name</label>
+                <input type="text" id="inspectorName" placeholder="Enter inspector name">
+            </div>
+            <div class="input-group">
+                <label>Tank Manufacturer</label>
+                <input type="text" id="tankManufacturer" placeholder="Enter manufacturer">
+            </div>
+            <div class="input-group">
+                <label>Tank Model/Type</label>
+                <input type="text" id="tankModel" placeholder="Enter model designation">
+            </div>
+            <div class="input-group">
+                <label>Tank Serial Number</label>
+                <input type="text" id="tankSerial" placeholder="Enter serial number">
+            </div>
+            <div class="input-group">
+                <label>Tank Material</label>
+                <select id="tankMaterial">
+                    <option value="">Select material</option>
+                    <option value="aluminium">Aluminium alloy (≤0.1% Cu) - Min 2.0mm</option>
+                    <option value="stainless">Stainless steel - Min 1.0mm</option>
+                    <option value="copper">Copper (internally tin-coated) - Min 1.5mm</option>
+                    <option value="mild-galv">Mild steel (hot-dip zinc-coated both sides) - Min 1.5mm</option>
+                    <option value="aluminized">Aluminized steel - Min 1.2mm</option>
+                </select>
+            </div>
+            <div class="input-group">
+                <label>Tank Capacity (L)</label>
+                <input type="number" id="tankCapacity" placeholder="Enter capacity in litres" step="0.1">
+            </div>
+            <div class="input-group">
+                <label>Tank Wall Thickness (mm)</label>
+                <input type="number" id="tankThickness" placeholder="Measured thickness" step="0.01">
+            </div>
+        </div>
+    </div>
+
+    <div class="note">
+        <strong>About Type Tests:</strong> Type tests are laboratory tests performed on representative tank samples to verify that the tank design meets all safety and performance requirements of ISO 21487:2022. These tests need only be conducted once for each tank design or model range. Once a tank design has successfully passed type testing, individual production tanks of that design only require production quality tests (leakage test), not the full type test series.
+    </div>
+
+    <div class="test-section">
+        <h4>5.2 Type Tests for Petrol Metallic Tanks (Table 2)</h4>
+        
+        <div class="note">
+            <strong>Type Test Overview:</strong> Per ISO 21487:2022 Table 2, metallic petrol fuel tanks must undergo THREE mandatory type tests:
+            <ul style="margin-top: 10px;">
+                <li>Test 1: Leakage Test (Clause 7.2.1)</li>
+                <li>Test 2: Pressure/Strength Test (Clause 7.2.2)</li>
+                <li>Test 3: Pressure-Impulse Test (Clause 7.3)</li>
+            </ul>
+            Fire testing (Clauses 7.4 and 7.5) is NOT required for metallic tanks.
+        </div>
+
+        <div class="test-section">
+            <h4>Type Test 1: Leakage Test (Clause 7.2.1)</h4>
+            
+            <div class="test-description">
+                <h5>Test Purpose and Objective</h5>
+                <p>The leakage test verifies the integrity of all tank seams, welds, fittings, and connections under normal operating pressure conditions. This test ensures that the tank will not leak fuel during normal service use.</p>
+                
+                <h5>Test Procedure</h5>
+                <p><strong>Step 1: Test Setup</strong></p>
+                <ul>
+                    <li>Tank must be tested with all fittings, connections, and closures installed as they would be in service</li>
+                    <li>Tank must be mounted or supported to prevent distortion during testing</li>
+                    <li>All openings except the test pressure connection must be sealed</li>
+                </ul>
+                
+                <p><strong>Step 2: Pressure Calculation</strong></p>
+                <p>Calculate the required test pressure as the GREATER of:</p>
+                <ul>
+                    <li>20 kPa (minimum absolute value)</li>
+                    <li>1.5 times the highest hydrostatic pressure to which the tank will be subjected in normal service</li>
+                    <li>For sealed systems: 1.5 times (maximum hydrostatic head + system relief valve pressure)</li>
+                </ul>
+                
+                <p><strong>Step 3: Pressurization Method</strong></p>
+                <ul>
+                    <li>Use clean, dry air or inert gas (nitrogen recommended)</li>
+                    <li>Gradually increase pressure to the calculated test pressure</li>
+                    <li>Avoid sudden pressure application that could damage the tank</li>
+                </ul>
+                
+                <p><strong>Step 4: Static Pressure Hold</strong></p>
+                <ul>
+                    <li>Maintain the test pressure for a minimum of 5 minutes</li>
+                    <li>Monitor pressure gauge to ensure no pressure drop or rise occurs</li>
+                    <li>Record initial and final pressure readings</li>
+                </ul>
+                
+                <p><strong>Step 5: Leak Detection</strong></p>
+                <ul>
+                    <li>Visual inspection: Look for bubbles using leak detection solution (soapy water) applied to all welds, seams, fittings, and connections</li>
+                    <li>Alternative methods: Ultrasonic leak detector, electronic gas detector</li>
+                    <li>DO NOT rely solely on pressure drop as the only leak detection method</li>
+                </ul>
+                
+                <h5>Pass Criteria</h5>
+                <ul>
+                    <li>No visible leakage at any point during the 5-minute test period</li>
+                    <li>No pressure drop or rise during the static pressure hold period</li>
+                    <li>No bubbles or leakage detected at welds, seams, or fittings</li>
+                    <li>Tank structure shows no signs of distortion or damage</li>
+                </ul>
+                
+                <h5>Failure Indicators</h5>
+                <ul>
+                    <li>Visible fuel or test gas leakage at any location</li>
+                    <li>Continuous pressure drop indicating a leak</li>
+                    <li>Bubbles forming at welds, seams, or connections</li>
+                    <li>Structural deformation or damage to tank</li>
+                </ul>
+            </div>
+
+            <div class="test-form">
+                <h5>Test 1: Leakage Test - Data Recording Form</h5>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Date</label>
+                        <input type="date" id="leakageTestDate">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Operator</label>
+                        <input type="text" id="leakageTestOperator" placeholder="Name of person conducting test">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Laboratory</label>
+                        <input type="text" id="leakageTestLab" placeholder="Testing facility name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Tank Capacity (L)</label>
+                        <input type="number" id="leakageCapacity" placeholder="Tank capacity" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Ambient Temperature (°C)</label>
+                        <input type="number" id="leakageTemp" placeholder="Test temperature" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Medium</label>
+                        <select id="leakageTestMedium">
+                            <option value="">Select medium</option>
+                            <option value="air">Compressed Air</option>
+                            <option value="nitrogen">Nitrogen</option>
+                            <option value="other">Other (specify in notes)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Max Hydrostatic Pressure in Service (kPa)</label>
+                        <input type="number" id="leakageServicePressure" placeholder="Operating pressure" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>System Relief Valve Pressure (kPa)</label>
+                        <input type="number" id="leakageReliefPressure" placeholder="If sealed system" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Calculated Test Pressure (kPa)</label>
+                        <input type="number" id="leakageCalculatedPressure" placeholder="Greater of 20 or 1.5x service" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Applied Test Pressure (kPa)</label>
+                        <input type="number" id="leakageAppliedPressure" placeholder="Actual pressure used" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Initial Pressure Reading (kPa)</label>
+                        <input type="number" id="leakageInitialPressure" placeholder="At start of 5 min hold" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Final Pressure Reading (kPa)</label>
+                        <input type="number" id="leakageFinalPressure" placeholder="After 5 min hold" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Duration (minutes)</label>
+                        <input type="number" id="leakageTestDuration" placeholder="Minimum 5 minutes" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Leak Detection Method</label>
+                        <select id="leakageDetectionMethod">
+                            <option value="">Select method</option>
+                            <option value="soap">Soapy Water Solution</option>
+                            <option value="ultrasonic">Ultrasonic Detector</option>
+                            <option value="electronic">Electronic Gas Detector</option>
+                            <option value="multiple">Multiple Methods</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Test Result</label>
+                        <select id="leakageTestResult">
+                            <option value="">Select result</option>
+                            <option value="pass">PASS - No Leakage Detected</option>
+                            <option value="fail">FAIL - Leakage Detected</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Leakage Locations (if any)</label>
+                        <textarea id="leakageLocations" placeholder="Describe any leakage points or areas of concern"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Test Observations and Notes</label>
+                        <textarea id="leakageNotes" placeholder="Any additional observations, unusual findings, or relevant notes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h4>Type Test 2: Pressure/Strength Test (Clause 7.2.2)</h4>
+            
+            <div class="test-description">
+                <h5>Test Purpose and Objective</h5>
+                <p>The pressure/strength test verifies that the tank structure can withstand pressures significantly higher than normal operating conditions without cracking or catastrophic failure. This test ensures adequate safety margins and structural integrity. Permanent deformation is acceptable, but the tank must not crack or leak.</p>
+                
+                <h5>Test Method Selection</h5>
+                <p>There are TWO acceptable test methods per ISO 21487:2022:</p>
+                <ul>
+                    <li><strong>Method 7.2.2.2 (Standard Method)</strong>: Suitable for all metallic tanks</li>
+                    <li><strong>Method 7.2.2.3 (Alternate Method)</strong>: Only for tanks meeting specific structural and welding quality requirements</li>
+                </ul>
+                
+                <h5>Method 7.2.2.2 - Standard Pressure Test</h5>
+                
+                <p><strong>Applicability:</strong> All metallic petrol fuel tanks</p>
+                
+                <p><strong>Test Pressure Calculation:</strong></p>
+                <p>Test pressure must be the GREATER of:</p>
+                <ul>
+                    <li>20 kPa (minimum absolute value)</li>
+                    <li>1.5 times the maximum hydrostatic pressure in service</li>
+                    <li>For sealed systems: 1.5 times (maximum hydrostatic head + system relief valve pressure)</li>
+                </ul>
+                
+                <p><strong>Test Procedure:</strong></p>
+                <ul>
+                    <li>Conduct AFTER successful completion of leakage test (7.2.1)</li>
+                    <li>Tank may be partially or fully filled with water to simulate service conditions</li>
+                    <li>Apply calculated test pressure using compressed air or inert gas</li>
+                    <li>Maintain test pressure for minimum 5 minutes</li>
+                    <li>Monitor for any cracks, ruptures, or leakage</li>
+                    <li>Permanent deformation is acceptable</li>
+                </ul>
+                
+                <h5>Method 7.2.2.3 - Alternate Method (Qualifying Tanks Only)</h5>
+                
+                <p><strong>Applicability Requirements:</strong></p>
+                <p>This method may ONLY be used if ALL the following conditions are met:</p>
+                <ul>
+                    <li>Tank structure complies with ISO 12215-5:2019 (plating thickness, section modulus, web shear areas as for integral tanks)</li>
+                    <li>Tank structural details follow ISO 12215-6:2008 (metal construction guidelines)</li>
+                    <li>Welding quality meets minimum Class B per ISO 5817</li>
+                    <li>All welders are qualified per ISO 9606 series or equivalent recognized standards</li>
+                    <li>Complete technical drawings available showing material grades, thicknesses, dimensions, welding details</li>
+                </ul>
+                
+                <p><strong>Test Pressure Calculation:</strong></p>
+                <p>Test pressure must be the GREATER of:</p>
+                <ul>
+                    <li>30 kPa (minimum absolute value - note this is HIGHER than standard method)</li>
+                    <li>1.5 times the maximum hydrostatic pressure in service + 10 kPa</li>
+                </ul>
+                
+                <p><strong>Test Procedure:</strong></p>
+                <ul>
+                    <li>Same procedure as Method 7.2.2.2</li>
+                    <li>Apply calculated test pressure for minimum 5 minutes</li>
+                    <li>Monitor for cracks, ruptures, or leakage</li>
+                    <li>Permanent deformation is acceptable</li>
+                </ul>
+                
+                <h5>Pass Criteria (Both Methods)</h5>
+                <ul>
+                    <li>No cracks develop anywhere in the tank structure</li>
+                    <li>No rupture or catastrophic failure occurs</li>
+                    <li>No fuel leakage detected during or after test</li>
+                    <li>Tank maintains pressure for full 5-minute duration</li>
+                    <li>Permanent deformation is acceptable (tank does not need to return to original shape)</li>
+                </ul>
+                
+                <h5>Failure Indicators</h5>
+                <ul>
+                    <li>Any crack formation in welds, seams, or base material</li>
+                    <li>Rupture or catastrophic structural failure</li>
+                    <li>Leakage of test medium</li>
+                    <li>Inability to maintain test pressure for 5 minutes</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>Important Note on Alternate Method 7.2.2.3:</strong>
+                <p>Before selecting the alternate method, verify that your tank design meets ALL structural and welding requirements. If you are unsure, use the standard method 7.2.2.2. Using the alternate method without meeting all requirements invalidates the test results.</p>
+            </div>
+
+            <div class="test-form">
+                <h5>Test 2: Pressure/Strength Test - Data Recording Form</h5>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Date</label>
+                        <input type="date" id="strengthTestDate">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Operator</label>
+                        <input type="text" id="strengthTestOperator" placeholder="Name of person conducting test">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Laboratory</label>
+                        <input type="text" id="strengthTestLab" placeholder="Testing facility name">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Test Method Used</label>
+                        <select id="strengthTestMethod">
+                            <option value="">Select test method</option>
+                            <option value="7.2.2.2">Method 7.2.2.2 - Standard Pressure Test (All Tanks)</option>
+                            <option value="7.2.2.3">Method 7.2.2.3 - Alternate Method (Qualifying Tanks Only)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="alternateMethodVerification" style="display: none;">
+                    <div class="critical">
+                        <strong>Alternate Method 7.2.2.3 - Compliance Verification</strong>
+                        <p>Before proceeding with alternate method testing, verify ALL requirements are met:</p>
+                        
+                        <div style="margin-top: 15px;">
+                            <label style="display: block; margin: 8px 0;">
+                                <input type="checkbox" id="verifyStructural"> Structural design complies with ISO 12215-5:2019
+                            </label>
+                            <label style="display: block; margin: 8px 0;">
+                                <input type="checkbox" id="verifyConstruction"> Structural details follow ISO 12215-6:2008
+                            </label>
+                            <label style="display: block; margin: 8px 0;">
+                                <input type="checkbox" id="verifyWelding"> Welding quality meets ISO 5817 Class B minimum
+                            </label>
+                            <label style="display: block; margin: 8px 0;">
+                                <input type="checkbox" id="verifyWelders"> All welders qualified per ISO 9606 or equivalent
+                            </label>
+                            <label style="display: block; margin: 8px 0;">
+                                <input type="checkbox" id="verifyDrawings"> Complete technical drawings available
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Ambient Temperature (°C)</label>
+                        <input type="number" id="strengthTemp" placeholder="Test temperature" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Medium</label>
+                        <select id="strengthTestMedium">
+                            <option value="">Select medium</option>
+                            <option value="air">Compressed Air</option>
+                            <option value="nitrogen">Nitrogen</option>
+                            <option value="air-water">Air + Water Fill</option>
+                            <option value="other">Other (specify in notes)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Water Fill Level (%)</label>
+                        <input type="number" id="strengthWaterFill" placeholder="If using water fill" min="0" max="100" step="1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Max Hydrostatic Pressure in Service (kPa)</label>
+                        <input type="number" id="strengthServicePressure" placeholder="Operating pressure" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>System Relief Valve Pressure (kPa)</label>
+                        <input type="number" id="strengthReliefPressure" placeholder="If sealed system" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Calculated Test Pressure (kPa)</label>
+                        <input type="number" id="strengthCalculatedPressure" placeholder="Per selected method" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Applied Test Pressure (kPa)</label>
+                        <input type="number" id="strengthAppliedPressure" placeholder="Actual pressure used" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Duration (minutes)</label>
+                        <input type="number" id="strengthTestDuration" placeholder="Minimum 5 minutes" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label>Pressure Maintained Throughout Test?</label>
+                        <select id="strengthPressureMaintained">
+                            <option value="">Select</option>
+                            <option value="yes">Yes - Stable throughout</option>
+                            <option value="no">No - Pressure dropped</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Permanent Deformation Observed?</label>
+                        <select id="strengthDeformation">
+                            <option value="">Select</option>
+                            <option value="none">No - Tank returned to original shape</option>
+                            <option value="slight">Slight deformation (acceptable)</option>
+                            <option value="moderate">Moderate deformation (acceptable)</option>
+                            <option value="severe">Severe deformation (review required)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Cracks or Ruptures Detected?</label>
+                        <select id="strengthCracks">
+                            <option value="">Select</option>
+                            <option value="no">No cracks detected</option>
+                            <option value="yes">YES - Cracks detected (FAILURE)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Test Result</label>
+                        <select id="strengthTestResult">
+                            <option value="">Select result</option>
+                            <option value="pass">PASS - No cracks or leaks</option>
+                            <option value="fail">FAIL - Cracks, rupture, or leakage</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Deformation Measurements and Description</label>
+                        <textarea id="strengthDeformationDescription" placeholder="Describe any permanent deformation, measurements of deflection, affected areas"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Crack/Failure Locations (if any)</label>
+                        <textarea id="strengthFailureLocations" placeholder="Describe any crack locations, failure modes, or structural issues"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Test Observations and Notes</label>
+                        <textarea id="strengthNotes" placeholder="Any additional observations, unusual findings, or relevant notes"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="test-section">
+            <h4>Type Test 3: Pressure-Impulse Test (Clause 7.3)</h4>
+            
+            <div class="test-description">
+                <h5>Test Purpose and Objective</h5>
+                <p>The pressure-impulse test (also known as fatigue testing or cyclic pressure testing) simulates the effects of long-term pressure cycling that occurs during normal vessel operation. Pressure fluctuations in the fuel system occur due to engine operation, fuel pump cycling, wave action, and thermal expansion/contraction. This test ensures the tank can withstand these repeated pressure cycles over its service life without developing cracks or leaks.</p>
+                
+                <h5>Test Scope and Applicability</h5>
+                <p><strong>Important:</strong> This test is performed on a REPRESENTATIVE tank sample, not on every production tank. Once a tank design has passed the pressure-impulse test, all tanks manufactured to that same design are considered qualified.</p>
+                
+                <p><strong>Representative Sample:</strong> The test tank must represent the tank range/family in terms of:</p>
+                <ul>
+                    <li>Materials and material thickness</li>
+                    <li>Manufacturing methods and welding techniques</li>
+                    <li>Overall design and geometry</li>
+                    <li>Critical stress areas and structural details</li>
+                </ul>
+                
+                <h5>Pre-Test Requirements</h5>
+                <p>Before beginning the pressure-impulse test:</p>
+                <ul>
+                    <li>Tank must FIRST pass the leakage test per Clause 7.2.1</li>
+                    <li>Record baseline leakage test results for comparison</li>
+                    <li>Inspect tank thoroughly for any pre-existing defects</li>
+                    <li>Document tank condition with photographs</li>
+                </ul>
+                
+                <h5>Test Setup and Configuration</h5>
+                
+                <p><strong>Tank Mounting:</strong></p>
+                <ul>
+                    <li>Tank must be installed using its normal support system (brackets, chocks, hangers)</li>
+                    <li>Mounting must replicate actual installation conditions</li>
+                    <li>Tank must be able to move and flex as it would in service</li>
+                    <li>Do not over-constrain or rigidly fix the tank in unnatural ways</li>
+                </ul>
+                
+                <p><strong>Tank Filling:</strong></p>
+                <ul>
+                    <li>Tank must be COMPLETELY filled with clean water (100% full)</li>
+                    <li>No air pockets should remain in the tank</li>
+                    <li>All air must be bled from the system before testing</li>
+                    <li>Temperature of water should be recorded</li>
+                </ul>
+                
+                <h5>Test Parameters and Procedure</h5>
+                
+                <p><strong>Pressure Cycle Specifications:</strong></p>
+                <ul>
+                    <li>Cycle from: 0 kPa → 20 kPa → 0 kPa</li>
+                    <li>Each complete cycle consists of: pressurization + hold + depressurization</li>
+                    <li>Total number of cycles: 25,000 complete cycles</li>
+                    <li>Cycling rate: Maximum 15 cycles per minute (to prevent overheating)</li>
+                    <li>Test medium: Water (tank must remain fully filled throughout)</li>
+                </ul>
+                
+                <p><strong>Cycle Pattern:</strong></p>
+                <ul>
+                    <li>Ramp UP from 0 kPa to 20 kPa</li>
+                    <li>Brief hold at 20 kPa</li>
+                    <li>Ramp DOWN from 20 kPa to 0 kPa</li>
+                    <li>Brief period at 0 kPa before next cycle begins</li>
+                    <li>Pattern repeats 25,000 times</li>
+                </ul>
+                
+                <p><strong>Test Duration:</strong></p>
+                <ul>
+                    <li>At maximum rate (15 cycles/min): approximately 28 hours of continuous testing</li>
+                    <li>More typically: 30-40 hours depending on actual cycling rate</li>
+                    <li>Test may be paused for inspections but total cycle count must be maintained</li>
+                </ul>
+                
+                <h5>Monitoring During Test</h5>
+                <p>Throughout the 25,000 cycle test, monitor and record:</p>
+                <ul>
+                    <li>Pressure readings (peak and valley of each cycle)</li>
+                    <li>Water temperature (should not exceed safe limits)</li>
+                    <li>Visual inspection at regular intervals (every 5,000-10,000 cycles recommended)</li>
+                    <li>Any unusual sounds, vibrations, or tank movements</li>
+                    <li>Signs of fatigue crack initiation or propagation</li>
+                    <li>Leakage at welds, seams, or fittings</li>
+                </ul>
+                
+                <h5>Post-Test Inspection</h5>
+                <p>After completing 25,000 cycles:</p>
+                <ul>
+                    <li>Drain tank and allow to dry</li>
+                    <li>Conduct thorough visual inspection of all welds and seams</li>
+                    <li>Use dye penetrant or magnetic particle inspection for crack detection</li>
+                    <li>Perform complete leakage test per Clause 7.2.1 (same as pre-test)</li>
+                    <li>Compare post-test condition to pre-test baseline</li>
+                    <li>Document any changes in tank condition</li>
+                </ul>
+                
+                <h5>Pass Criteria</h5>
+                <p>Tank passes the pressure-impulse test if ALL the following conditions are met:</p>
+                <ul>
+                    <li>No leakage detected during the 25,000 cycle test</li>
+                    <li>No structural failure or rupture occurs</li>
+                    <li>Tank passes post-test leakage test (7.2.1) with same results as pre-test</li>
+                    <li>No cracks detected in visual or non-destructive inspection</li>
+                    <li>No separation of seams or fittings</li>
+                    <li>Tank remains structurally sound throughout testing</li>
+                </ul>
+                
+                <h5>Failure Indicators</h5>
+                <ul>
+                    <li>Any leakage at any point during the 25,000 cycles</li>
+                    <li>Fatigue crack development (especially at welds or stress concentrations)</li>
+                    <li>Separation of welded joints or fittings</li>
+                    <li>Rupture or catastrophic failure</li>
+                    <li>Failure of post-test leakage test (7.2.1)</li>
+                    <li>Inability to maintain pressure cycling due to tank failure</li>
+                </ul>
+            </div>
+
+            <div class="warning">
+                <strong>Important Testing Notes:</strong>
+                <ul style="margin-top: 10px;">
+                    <li>This test takes several days to complete and requires specialized pressure cycling equipment</li>
+                    <li>Water temperature must be monitored to prevent overheating from rapid cycling</li>
+                    <li>Test should be conducted in a controlled environment with safety barriers</li>
+                    <li>Tank should be monitored continuously or with automatic shutdown on failure detection</li>
+                </ul>
+            </div>
+
+            <div class="test-form">
+                <h5>Test 3: Pressure-Impulse Test - Data Recording Form</h5>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Start Date</label>
+                        <input type="date" id="impulseTestStartDate">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Completion Date</label>
+                        <input type="date" id="impulseTestEndDate">
+                    </div>
+                    <div class="input-group">
+                        <label>Total Test Duration (hours)</label>
+                        <input type="number" id="impulseTestDuration" placeholder="Total hours" step="0.1">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Operator</label>
+                        <input type="text" id="impulseTestOperator" placeholder="Name of person conducting test">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Laboratory</label>
+                        <input type="text" id="impulseTestLab" placeholder="Testing facility name">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Equipment Model</label>
+                        <input type="text" id="impulseTestEquipment" placeholder="Cycling equipment identification">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Tank Mounting Configuration</label>
+                        <textarea id="impulseMountingConfig" placeholder="Describe how tank was mounted/supported during test (brackets, chocks, restraints, etc.)"></textarea>
+                    </div>
+                </div>
+                
+                <div class="success-box">
+                    <strong>Pre-Test Leakage Test Results (per 7.2.1):</strong>
+                    <div style="margin-top: 10px;">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Pre-Test Leakage Test Date</label>
+                                <input type="date" id="impulsePreLeakageDate">
+                            </div>
+                            <div class="input-group">
+                                <label>Pre-Test Result</label>
+                                <select id="impulsePreLeakageResult">
+                                    <option value="">Select result</option>
+                                    <option value="pass">PASS</option>
+                                    <option value="fail">FAIL - Cannot proceed</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Test Medium</label>
+                        <input type="text" id="impulseTestMedium" value="Clean Water (100% full)" readonly style="background-color: #f3f4f6;">
+                    </div>
+                    <div class="input-group">
+                        <label>Water Temperature Range (°C)</label>
+                        <input type="text" id="impulseWaterTemp" placeholder="Min - Max temperature during test">
+                    </div>
+                    <div class="input-group">
+                        <label>Ambient Temperature Range (°C)</label>
+                        <input type="text" id="impulseAmbientTemp" placeholder="Min - Max ambient temperature">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Peak Pressure (kPa)</label>
+                        <input type="number" id="impulsePeakPressure" value="20" step="0.1" readonly style="background-color: #f3f4f6;">
+                    </div>
+                    <div class="input-group">
+                        <label>Valley Pressure (kPa)</label>
+                        <input type="number" id="impulseValleyPressure" value="0" step="0.1" readonly style="background-color: #f3f4f6;">
+                    </div>
+                    <div class="input-group">
+                        <label>Average Cycling Rate (cycles/min)</label>
+                        <input type="number" id="impulseCyclingRate" placeholder="Must not exceed 15" step="0.1" max="15">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Target Cycle Count</label>
+                        <input type="number" id="impulseTargetCycles" value="25000" readonly style="background-color: #f3f4f6;">
+                    </div>
+                    <div class="input-group">
+                        <label>Actual Completed Cycles</label>
+                        <input type="number" id="impulseActualCycles" placeholder="Total cycles achieved">
+                    </div>
+                    <div class="input-group">
+                        <label>Test Completed to Full Duration?</label>
+                        <select id="impulseFullDuration">
+                            <option value="">Select</option>
+                            <option value="yes">Yes - 25,000 cycles completed</option>
+                            <option value="no">No - Test stopped early (explain why)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Interim Inspection Schedule and Findings</label>
+                        <textarea id="impulseInterimInspections" placeholder="Document when interim inspections were performed (e.g., every 5,000 cycles) and any observations at each interval"></textarea>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group">
+                        <label>Leakage Detected During Test?</label>
+                        <select id="impulseLeakageDuring">
+                            <option value="">Select</option>
+                            <option value="no">No leakage detected</option>
+                            <option value="yes">YES - Leakage detected (FAILURE)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>If Leakage, at What Cycle Count?</label>
+                        <input type="number" id="impulseLeakageCycle" placeholder="Cycle number when leak appeared">
+                    </div>
+                    <div class="input-group">
+                        <label>Structural Failure During Test?</label>
+                        <select id="impulseStructuralFailure">
+                            <option value="">Select</option>
+                            <option value="no">No structural failure</option>
+                            <option value="yes">YES - Structural failure (FAILURE)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Leakage/Failure Location and Description (if applicable)</label>
+                        <textarea id="impulseFailureDescription" placeholder="Describe location and nature of any leakage or failure"></textarea>
+                    </div>
+                </div>
+                
+                <div class="success-box" style="background: #fef3c7; border-left-color: #f59e0b;">
+                    <strong>Post-Test Inspection and Leakage Test (per 7.2.1):</strong>
+                    <div style="margin-top: 10px;">
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Post-Test Visual Inspection Date</label>
+                                <input type="date" id="impulsePostInspectionDate">
+                            </div>
+                            <div class="input-group">
+                                <label>NDT Method Used</label>
+                                <select id="impulseNDTMethod">
+                                    <option value="">Select method</option>
+                                    <option value="visual">Visual Only</option>
+                                    <option value="dye">Dye Penetrant</option>
+                                    <option value="magnetic">Magnetic Particle</option>
+                                    <option value="multiple">Multiple Methods</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="input-group">
+                                <label>Cracks Detected in Post-Test Inspection?</label>
+                                <select id="impulsePostCracks">
+                                    <option value="">Select</option>
+                                    <option value="no">No cracks detected</option>
+                                    <option value="yes">YES - Cracks detected (FAILURE)</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label>Post-Test Leakage Test Date</label>
+                                <input type="date" id="impulsePostLeakageDate">
+                            </div>
+                            <div class="input-group">
+                                <label>Post-Test Leakage Result</label>
+                                <select id="impulsePostLeakageResult">
+                                    <option value="">Select result</option>
+                                    <option value="pass">PASS</option>
+                                    <option value="fail">FAIL</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="input-group form-full-width">
+                                <label>Post-Test Inspection Findings</label>
+                                <textarea id="impulsePostInspectionFindings" placeholder="Detailed description of post-test condition, any crack locations, comparison to pre-test condition"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Overall Test Result</label>
+                        <select id="impulseOverallResult">
+                            <option value="">Select overall result</option>
+                            <option value="pass">PASS - No leakage or failure, passed post-test leakage test</option>
+                            <option value="fail-during">FAIL - Leakage or failure during cycling</option>
+                            <option value="fail-post">FAIL - Failed post-test leakage test or inspection</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="input-group form-full-width">
+                        <label>Test Observations and Notes</label>
+                        <textarea id="impulseNotes" placeholder="Any additional observations, unusual findings, equipment issues, or relevant notes about the test"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="calculation-section">
+        <h3>Type Test Summary and Compliance Status</h3>
+        
+        <div class="note">
+            <strong>Type Test Results Overview:</strong> Review the results from all three mandatory type tests. The tank design can only be considered compliant with ISO 21487:2022 if ALL three tests have been passed successfully.
+        </div>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Test Number</th>
+                    <th>Test Name</th>
+                    <th>ISO Clause</th>
+                    <th>Status</th>
+                    <th>Test Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td>Leakage Test</td>
+                    <td>7.2.1</td>
+                    <td id="summaryLeakageStatus">Not Tested</td>
+                    <td id="summaryLeakageDate">-</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td>Pressure/Strength Test</td>
+                    <td>7.2.2</td>
+                    <td id="summaryStrengthStatus">Not Tested</td>
+                    <td id="summaryStrengthDate">-</td>
+                </tr>
+                <tr>
+                    <td>3</td>
+                    <td>Pressure-Impulse Test</td>
+                    <td>7.3</td>
+                    <td id="summaryImpulseStatus">Not Tested</td>
+                    <td id="summaryImpulseDate">-</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <div id="overallCompliance" style="margin-top: 20px; padding: 20px; border-radius: 8px; font-weight: bold; font-size: 1.2em; text-align: center;">
+            Overall Type Test Status: Not Complete
+        </div>
+    </div>
+
+    <div class="signature-section">
+        <h3>Test Report Certification</h3>
+        
+        <div class="signature-grid">
+            <div class="signature-box">
+                <div class="input-group">
+                    <label>Test Engineer Name</label>
+                    <input type="text" id="testEngineerName" placeholder="Print name">
+                </div>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Signature</label>
+                    <div style="border-bottom: 2px solid #94a3b8; padding-top: 30px;"></div>
+                </div>
+                <div class="input-group" style="margin-top: 10px;">
+                    <label>Date</label>
+                    <input type="date" id="testEngineerDate">
+                </div>
+            </div>
+            
+            <div class="signature-box">
+                <div class="input-group">
+                    <label>Laboratory Manager Name</label>
+                    <input type="text" id="labManagerName" placeholder="Print name">
+                </div>
+                <div class="input-group" style="margin-top: 15px;">
+                    <label>Signature</label>
+                    <div style="border-bottom: 2px solid #94a3b8; padding-top: 30px;"></div>
+                </div>
+                <div class="input-group" style="margin-top: 10px;">
+                    <label>Date</label>
+                    <input type="date" id="labManagerDate">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div style="text-align: center; margin: 30px 0;">
+        <button class="export-btn" onclick="exportToCSV()">📊 Export to CSV</button>
+        <button class="export-btn" onclick="window.print()">🖨️ Print Report</button>
+        <button class="export-btn" onclick="saveProgress()">💾 Save Progress</button>
+    </div>
+
+    <div style="text-align: center; padding: 30px; background: #f8fafc; border-radius: 8px; margin-top: 30px;">
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">ISO 21487:2022 - Small Craft - Permanently Installed Petrol and Diesel Fuel Tanks</p>
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">Third Edition 2022-11</p>
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">This checklist references ISO 21487:2022 for informational purposes only.</p>
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">ISO standards are copyright of the International Organization for Standardization.</p>
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">Users must obtain the official standard from ISO or authorized distributors.</p>
+        <p style="color: #1e40af; margin: 15px 0 5px 0; font-weight: 600;">Powered by Blue Peter Marine</p>
+        <p style="color: #6b7280; margin: 5px 0; font-size: 0.9em;">www.ceinspector.com</p>
+    </div>
+
+    <script>
+        document.getElementById('strengthTestMethod').addEventListener('change', function() {
+            const verification = document.getElementById('alternateMethodVerification');
+            if (this.value === '7.2.2.3') {
+                verification.style.display = 'block';
+            } else {
+                verification.style.display = 'none';
+            }
+            saveProgress();
+        });
+
+        function updateSummaryTable() {
+            const leakageResult = document.getElementById('leakageTestResult').value;
+            const leakageDate = document.getElementById('leakageTestDate').value;
+            const strengthResult = document.getElementById('strengthTestResult').value;
+            const strengthDate = document.getElementById('strengthTestDate').value;
+            const impulseResult = document.getElementById('impulseOverallResult').value;
+            const impulseDate = document.getElementById('impulseTestEndDate').value;
+            
+            const summaryLeakageStatus = document.getElementById('summaryLeakageStatus');
+            const summaryStrengthStatus = document.getElementById('summaryStrengthStatus');
+            const summaryImpulseStatus = document.getElementById('summaryImpulseStatus');
+            
+            if (leakageResult === 'pass') {
+                summaryLeakageStatus.textContent = 'PASS';
+                summaryLeakageStatus.style.color = '#166534';
+                summaryLeakageStatus.style.fontWeight = 'bold';
+            } else if (leakageResult === 'fail') {
+                summaryLeakageStatus.textContent = 'FAIL';
+                summaryLeakageStatus.style.color = '#991b1b';
+                summaryLeakageStatus.style.fontWeight = 'bold';
+            }
+            
+            if (strengthResult === 'pass') {
+                summaryStrengthStatus.textContent = 'PASS';
+                summaryStrengthStatus.style.color = '#166534';
+                summaryStrengthStatus.style.fontWeight = 'bold';
+            } else if (strengthResult === 'fail') {
+                summaryStrengthStatus.textContent = 'FAIL';
+                summaryStrengthStatus.style.color = '#991b1b';
+                summaryStrengthStatus.style.fontWeight = 'bold';
+            }
+            
+            if (impulseResult === 'pass') {
+                summaryImpulseStatus.textContent = 'PASS';
+                summaryImpulseStatus.style.color = '#166534';
+                summaryImpulseStatus.style.fontWeight = 'bold';
+            } else if (impulseResult && impulseResult !== 'pass') {
+                summaryImpulseStatus.textContent = 'FAIL';
+                summaryImpulseStatus.style.color = '#991b1b';
+                summaryImpulseStatus.style.fontWeight = 'bold';
+            }
+            
+            document.getElementById('summaryLeakageDate').textContent = leakageDate || '-';
+            document.getElementById('summaryStrengthDate').textContent = strengthDate || '-';
+            document.getElementById('summaryImpulseDate').textContent = impulseDate || '-';
+            
+            const overallCompliance = document.getElementById('overallCompliance');
+            if (leakageResult === 'pass' && strengthResult === 'pass' && impulseResult === 'pass') {
+                overallCompliance.textContent = 'Overall Type Test Status: COMPLIANT - All Tests Passed';
+                overallCompliance.style.backgroundColor = '#dcfce7';
+                overallCompliance.style.color = '#166534';
+                overallCompliance.style.borderLeft = '6px solid #22c55e';
+            } else if (leakageResult === 'fail' || strengthResult === 'fail' || (impulseResult && impulseResult !== 'pass')) {
+                overallCompliance.textContent = 'Overall Type Test Status: NON-COMPLIANT - One or More Tests Failed';
+                overallCompliance.style.backgroundColor = '#fee2e2';
+                overallCompliance.style.color = '#991b1b';
+                overallCompliance.style.borderLeft = '6px solid #dc2626';
+            } else {
+                overallCompliance.textContent = 'Overall Type Test Status: Testing In Progress';
+                overallCompliance.style.backgroundColor = '#fef3c7';
+                overallCompliance.style.color = '#92400e';
+                overallCompliance.style.borderLeft = '6px solid #f59e0b';
+            }
+        }
+
+        document.querySelectorAll('input, select, textarea').forEach(element => {
+            element.addEventListener('change', function() {
+                updateSummaryTable();
+                saveProgress();
+            });
+        });
+
+        function saveProgress() {
+            const data = {
+                projectNumber: document.getElementById('projectNumber').value,
+                assessmentDate: document.getElementById('assessmentDate').value,
+                inspectorName: document.getElementById('inspectorName').value,
+                tankManufacturer: document.getElementById('tankManufacturer').value,
+                tankModel: document.getElementById('tankModel').value,
+                tankSerial: document.getElementById('tankSerial').value,
+                tankMaterial: document.getElementById('tankMaterial').value,
+                tankCapacity: document.getElementById('tankCapacity').value,
+                tankThickness: document.getElementById('tankThickness').value,
+                
+                leakageTestDate: document.getElementById('leakageTestDate').value,
+                leakageTestOperator: document.getElementById('leakageTestOperator').value,
+                leakageTestLab: document.getElementById('leakageTestLab').value,
+                leakageCapacity: document.getElementById('leakageCapacity').value,
+                leakageTemp: document.getElementById('leakageTemp').value,
+                leakageTestMedium: document.getElementById('leakageTestMedium').value,
+                leakageServicePressure: document.getElementById('leakageServicePressure').value,
+                leakageReliefPressure: document.getElementById('leakageReliefPressure').value,
+                leakageCalculatedPressure: document.getElementById('leakageCalculatedPressure').value,
+                leakageAppliedPressure: document.getElementById('leakageAppliedPressure').value,
+                leakageInitialPressure: document.getElementById('leakageInitialPressure').value,
+                leakageFinalPressure: document.getElementById('leakageFinalPressure').value,
+                leakageTestDuration: document.getElementById('leakageTestDuration').value,
+                leakageDetectionMethod: document.getElementById('leakageDetectionMethod').value,
+                leakageTestResult: document.getElementById('leakageTestResult').value,
+                leakageLocations: document.getElementById('leakageLocations').value,
+                leakageNotes: document.getElementById('leakageNotes').value,
+                
+                strengthTestDate: document.getElementById('strengthTestDate').value,
+                strengthTestOperator: document.getElementById('strengthTestOperator').value,
+                strengthTestLab: document.getElementById('strengthTestLab').value,
+                strengthTestMethod: document.getElementById('strengthTestMethod').value,
+                strengthTemp: document.getElementById('strengthTemp').value,
+                strengthTestMedium: document.getElementById('strengthTestMedium').value,
+                strengthWaterFill: document.getElementById('strengthWaterFill').value,
+                strengthServicePressure: document.getElementById('strengthServicePressure').value,
+                strengthReliefPressure: document.getElementById('strengthReliefPressure').value,
+                strengthCalculatedPressure: document.getElementById('strengthCalculatedPressure').value,
+                strengthAppliedPressure: document.getElementById('strengthAppliedPressure').value,
+                strengthTestDuration: document.getElementById('strengthTestDuration').value,
+                strengthPressureMaintained: document.getElementById('strengthPressureMaintained').value,
+                strengthDeformation: document.getElementById('strengthDeformation').value,
+                strengthCracks: document.getElementById('strengthCracks').value,
+                strengthTestResult: document.getElementById('strengthTestResult').value,
+                strengthDeformationDescription: document.getElementById('strengthDeformationDescription').value,
+                strengthFailureLocations: document.getElementById('strengthFailureLocations').value,
+                strengthNotes: document.getElementById('strengthNotes').value,
+                
+                impulseTestStartDate: document.getElementById('impulseTestStartDate').value,
+                impulseTestEndDate: document.getElementById('impulseTestEndDate').value,
+                impulseTestDuration: document.getElementById('impulseTestDuration').value,
+                impulseTestOperator: document.getElementById('impulseTestOperator').value,
+                impulseTestLab: document.getElementById('impulseTestLab').value,
+                impulseTestEquipment: document.getElementById('impulseTestEquipment').value,
+                impulseMountingConfig: document.getElementById('impulseMountingConfig').value,
+                impulsePreLeakageDate: document.getElementById('impulsePreLeakageDate').value,
+                impulsePreLeakageResult: document.getElementById('impulsePreLeakageResult').value,
+                impulseWaterTemp: document.getElementById('impulseWaterTemp').value,
+                impulseAmbientTemp: document.getElementById('impulseAmbientTemp').value,
+                impulseCyclingRate: document.getElementById('impulseCyclingRate').value,
+                impulseActualCycles: document.getElementById('impulseActualCycles').value,
+                impulseFullDuration: document.getElementById('impulseFullDuration').value,
+                impulseInterimInspections: document.getElementById('impulseInterimInspections').value,
+                impulseLeakageDuring: document.getElementById('impulseLeakageDuring').value,
+                impulseLeakageCycle: document.getElementById('impulseLeakageCycle').value,
+                impulseStructuralFailure: document.getElementById('impulseStructuralFailure').value,
+                impulseFailureDescription: document.getElementById('impulseFailureDescription').value,
+                impulsePostInspectionDate: document.getElementById('impulsePostInspectionDate').value,
+                impulseNDTMethod: document.getElementById('impulseNDTMethod').value,
+                impulsePostCracks: document.getElementById('impulsePostCracks').value,
+                impulsePostLeakageDate: document.getElementById('impulsePostLeakageDate').value,
+                impulsePostLeakageResult: document.getElementById('impulsePostLeakageResult').value,
+                impulsePostInspectionFindings: document.getElementById('impulsePostInspectionFindings').value,
+                impulseOverallResult: document.getElementById('impulseOverallResult').value,
+                impulseNotes: document.getElementById('impulseNotes').value,
+                
+                testEngineerName: document.getElementById('testEngineerName').value,
+                testEngineerDate: document.getElementById('testEngineerDate').value,
+                labManagerName: document.getElementById('labManagerName').value,
+                labManagerDate: document.getElementById('labManagerDate').value
+            };
+
+            localStorage.setItem('iso21487TypeTests', JSON.stringify(data));
+        }
+
+        function loadProgress() {
+            const saved = localStorage.getItem('iso21487TypeTests');
+            if (saved) {
+                const data = JSON.parse(saved);
+                Object.keys(data).forEach(key => {
+                    const element = document.getElementById(key);
+                    if (element && data[key]) {
+                        element.value = data[key];
+                    }
+                });
+                
+                if (data.strengthTestMethod === '7.2.2.3') {
+                    document.getElementById('alternateMethodVerification').style.display = 'block';
+                }
+                
+                updateSummaryTable();
+            }
+        }
+
+        function exportToCSV() {
+            let csv = 'ISO 21487:2022 - Petrol Metallic Tank Type Test Report\n\n';
+            
+            csv += 'PROJECT INFORMATION\n';
+            csv += `Project Number,${document.getElementById('projectNumber').value}\n`;
+            csv += `Assessment Date,${document.getElementById('assessmentDate').value}\n`;
+            csv += `Inspector Name,${document.getElementById('inspectorName').value}\n`;
+            csv += `Tank Manufacturer,${document.getElementById('tankManufacturer').value}\n`;
+            csv += `Tank Model/Type,${document.getElementById('tankModel').value}\n`;
+            csv += `Tank Serial Number,${document.getElementById('tankSerial').value}\n`;
+            csv += `Tank Material,${document.getElementById('tankMaterial').value}\n`;
+            csv += `Tank Capacity (L),${document.getElementById('tankCapacity').value}\n`;
+            csv += `Tank Wall Thickness (mm),${document.getElementById('tankThickness').value}\n\n`;
+
+            csv += 'TYPE TEST 1: LEAKAGE TEST (7.2.1)\n';
+            csv += `Test Date,${document.getElementById('leakageTestDate').value}\n`;
+            csv += `Test Operator,${document.getElementById('leakageTestOperator').value}\n`;
+            csv += `Test Laboratory,${document.getElementById('leakageTestLab').value}\n`;
+            csv += `Test Medium,${document.getElementById('leakageTestMedium').value}\n`;
+            csv += `Applied Pressure (kPa),${document.getElementById('leakageAppliedPressure').value}\n`;
+            csv += `Test Duration (min),${document.getElementById('leakageTestDuration').value}\n`;
+            csv += `Test Result,${document.getElementById('leakageTestResult').value}\n`;
+            csv += `Notes,"${document.getElementById('leakageNotes').value}"\n\n`;
+
+            csv += 'TYPE TEST 2: PRESSURE/STRENGTH TEST (7.2.2)\n';
+            csv += `Test Date,${document.getElementById('strengthTestDate').value}\n`;
+            csv += `Test Operator,${document.getElementById('strengthTestOperator').value}\n`;
+            csv += `Test Laboratory,${document.getElementById('strengthTestLab').value}\n`;
+            csv += `Test Method,${document.getElementById('strengthTestMethod').value}\n`;
+            csv += `Applied Pressure (kPa),${document.getElementById('strengthAppliedPressure').value}\n`;
+            csv += `Test Duration (min),${document.getElementById('strengthTestDuration').value}\n`;
+            csv += `Test Result,${document.getElementById('strengthTestResult').value}\n`;
+            csv += `Notes,"${document.getElementById('strengthNotes').value}"\n\n`;
+
+            csv += 'TYPE TEST 3: PRESSURE-IMPULSE TEST (7.3)\n';
+            csv += `Test Start Date,${document.getElementById('impulseTestStartDate').value}\n`;
+            csv += `Test End Date,${document.getElementById('impulseTestEndDate').value}\n`;
+            csv += `Test Duration (hours),${document.getElementById('impulseTestDuration').value}\n`;
+            csv += `Test Operator,${document.getElementById('impulseTestOperator').value}\n`;
+            csv += `Test Laboratory,${document.getElementById('impulseTestLab').value}\n`;
+            csv += `Completed Cycles,${document.getElementById('impulseActualCycles').value}\n`;
+            csv += `Overall Result,${document.getElementById('impulseOverallResult').value}\n`;
+            csv += `Notes,"${document.getElementById('impulseNotes').value}"\n\n`;
+
+            csv += 'CERTIFICATION\n';
+            csv += `Test Engineer,${document.getElementById('testEngineerName').value}\n`;
+            csv += `Test Engineer Date,${document.getElementById('testEngineerDate').value}\n`;
+            csv += `Laboratory Manager,${document.getElementById('labManagerName').value}\n`;
+            csv += `Lab Manager Date,${document.getElementById('labManagerDate').value}\n\n`;
+
+            csv += 'ISO 21487:2022 - Small Craft - Permanently Installed Petrol and Diesel Fuel Tanks\n';
+            csv += 'Third Edition 2022-11\n';
+            csv += 'Powered by Blue Peter Marine | www.ceinspector.com\n';
+
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+            const link = document.createElement('a');
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', `ISO_21487_Type_Tests_${new Date().toISOString().split('T')[0]}.csv`);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        window.addEventListener('load', function() {
+            loadProgress();
+            updateSummaryTable();
+        });
+    </script>
+</body>
+</html>

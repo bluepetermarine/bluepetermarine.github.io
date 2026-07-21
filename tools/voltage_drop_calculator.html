@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Voltage Drop Calculator — Blue Peter Marine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2efe8; --card:#fff; --navy:#1a2e4a; --accent:#1a6fa8; --gold:#c8860a;
+    --ok:#1a7a4a; --warn:#c85a00; --danger:#b02020; --text:#1e2c3a; --muted:#5a7080; --border:#ccd5dc;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--bg);color:var(--text);font-family:'Barlow',system-ui,sans-serif;font-size:15px;line-height:1.45;padding:20px 16px 60px}
+  .wrap{max-width:1180px;margin:0 auto}
+
+  header{border-bottom:3px solid var(--navy);padding-bottom:14px;margin-bottom:22px;display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap}
+  .brand{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.18em;text-transform:uppercase;color:var(--accent)}
+  h1{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:34px;line-height:1;color:var(--navy);text-transform:uppercase;letter-spacing:.01em}
+  .sub{color:var(--muted);font-size:13.5px;margin-top:4px;max-width:52ch}
+  .stamp{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-align:right;line-height:1.7}
+
+  .card{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:16px 18px;margin-bottom:18px}
+  .card > h2{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:17px;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);margin-bottom:12px;border-bottom:1px solid var(--border);padding-bottom:7px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+  .tag{font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 7px;border-radius:2px;background:var(--bg);color:var(--muted);border:1px solid var(--border);text-transform:none}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:14px}
+  label{display:block;font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);margin-bottom:4px}
+  input,select{width:100%;font-family:'JetBrains Mono',monospace;font-size:13px;color:var(--text);background:#fff;border:1px solid var(--border);border-radius:2px;padding:7px 8px}
+  input:focus,select:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+  .hint{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4}
+
+  .explain{margin-top:14px;border-left:3px solid var(--gold);background:#faf7f0;padding:11px 14px;border-radius:0 2px 2px 0}
+  .ex-h{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:13px;letter-spacing:.09em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+  .explain p{font-size:13px;color:var(--text);margin-bottom:7px;line-height:1.5}
+  .explain p:last-child{margin-bottom:0}
+  .explain b{font-weight:600}
+
+  .refer{border-left:3px solid var(--warn);background:#fdf5ef;padding:11px 14px;border-radius:0 2px 2px 0;margin-bottom:14px}
+  .refer .ex-h{color:var(--warn)}
+  .refer p{font-size:13px;line-height:1.5}
+  .refer a{color:var(--accent);font-weight:600}
+
+  .tabs{display:flex;gap:4px;margin-bottom:-1px}
+  .tab{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:15px;letter-spacing:.09em;text-transform:uppercase;padding:9px 20px;border:1px solid var(--border);border-bottom:none;border-radius:3px 3px 0 0;background:#e7e3da;color:var(--muted);cursor:pointer}
+  .tab[aria-selected="true"]{background:var(--card);color:var(--navy);box-shadow:inset 0 3px 0 var(--accent)}
+  .panelcard{border-radius:0 3px 3px 3px}
+
+  .scroll{overflow-x:auto;margin:0 -18px;padding:0 18px}
+  table{width:100%;border-collapse:collapse;min-width:940px}
+  th{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:11.5px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);text-align:left;padding:0 6px 7px;border-bottom:1px solid var(--border);white-space:nowrap;vertical-align:bottom}
+  th small{display:block;font-family:'JetBrains Mono',monospace;font-size:9.5px;letter-spacing:0;text-transform:none;font-weight:400;color:var(--muted);opacity:.8}
+  td{padding:4px 6px;border-bottom:1px solid #eceff1;vertical-align:middle}
+  td input{padding:5px 6px}
+  .n{width:46px;font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--muted);text-align:right;padding-right:10px}
+  .out{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500;text-align:right;white-space:nowrap}
+  .pct{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;text-align:right;white-space:nowrap}
+  .badge{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:10px;font-weight:700;letter-spacing:.05em;padding:2px 7px;border-radius:2px;color:#fff;white-space:nowrap}
+  .b-ok{background:var(--ok)} .b-warn{background:var(--warn)} .b-danger{background:var(--danger)} .b-idle{background:#c3ccd3;color:var(--muted)}
+  .kill{border:none;background:none;color:var(--muted);cursor:pointer;font-size:17px;line-height:1;padding:3px 7px;border-radius:2px}
+  .kill:hover{background:#fbeaea;color:var(--danger)}
+  .chk{width:auto;margin:0 auto;display:block;accent-color:var(--accent)}
+  tr.over td{background:#fdf3f3}
+
+  .bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:14px;padding-top:13px;border-top:1px solid var(--border)}
+  button.act{font-family:'Barlow Condensed',sans-serif;font-weight:600;font-size:13.5px;letter-spacing:.08em;text-transform:uppercase;padding:8px 15px;border-radius:2px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer}
+  button.act:hover{background:#24405f}
+  button.ghost{background:none;color:var(--navy)}
+  button.ghost:hover{background:#e7e3da}
+  button.act:disabled{opacity:.35;cursor:not-allowed}
+  .count{margin-left:auto;font-family:'JetBrains Mono',monospace;font-size:11.5px;color:var(--muted)}
+
+  .sum{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:1px;background:var(--border);border:1px solid var(--border);border-radius:3px;overflow:hidden}
+  .sum div{background:var(--card);padding:11px 13px}
+  .sum .k{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--muted)}
+  .sum .v{font-family:'JetBrains Mono',monospace;font-size:19px;font-weight:700;color:var(--navy);margin-top:2px}
+  .sum .v.bad{color:var(--danger)} .sum .v.good{color:var(--ok)}
+
+  footer{font-size:12px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:12px}
+  footer b{color:var(--text);font-weight:600}
+  code{font-family:'JetBrains Mono',monospace;font-size:12px;background:#fff;border:1px solid var(--border);padding:1px 5px;border-radius:2px;color:var(--navy)}
+
+  @media print{
+    body{background:#fff;padding:0} .bar,.tabs,.kill{display:none!important}
+    .card{border:1px solid #999;break-inside:avoid} .scroll{overflow:visible}
+    .panel{display:block!important}
+  }
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div>
+    <div class="brand">Blue Peter Marine</div>
+    <h1>Voltage Drop Calculator</h1>
+    <div class="sub">Circuit-by-circuit drop for AC and DC conductors, with the smallest cross-section that stays inside the target.</div>
+  </div>
+  <div class="stamp">
+    DROP&nbsp;=&nbsp;k · I · L / S<br>
+    k = <span id="kEcho">0.0164</span> Ω·mm²/m<br>
+    <span id="dateEcho"></span>
+  </div>
+</header>
+
+<div class="card">
+  <h2>Settings <span class="tag">applies to every circuit</span></h2>
+  <div class="grid">
+    <div>
+      <label for="vac">AC nominal voltage (V)</label>
+      <input id="vac" type="number" value="230" min="1" step="1">
+    </div>
+    <div>
+      <label for="vdc">DC nominal voltage (V)</label>
+      <select id="vdc">
+        <option value="12" selected>12</option>
+        <option value="24">24</option>
+        <option value="48">48</option>
+      </select>
+    </div>
+    <div>
+      <label for="lenmode">Length entered as</label>
+      <select id="lenmode">
+        <option value="one" selected>One-way run</option>
+        <option value="total">Total out and back</option>
+      </select>
+    </div>
+    <div>
+      <label for="genlim">Standard limit (%)</label>
+      <input id="genlim" type="number" value="10" min="0.1" step="0.5">
+    </div>
+    <div>
+      <label for="critlim">Critical limit (%)</label>
+      <input id="critlim" type="number" value="3" min="0.1" step="0.5">
+    </div>
+    <div>
+      <label for="kval">Copper constant k</label>
+      <input id="kval" type="number" value="0.0164" min="0.001" step="0.0001">
+    </div>
+  </div>
+  <div class="hint">One-way run is doubled internally to give the full out-and-back path.</div>
+
+  <div class="explain">
+    <div class="ex-h">What the Crit column does</div>
+    <p>Every circuit is checked against a percentage limit. Leave <b>Crit</b> unticked and the circuit is measured against the <b>standard limit</b> above. Tick it and the circuit is measured against the tighter <b>critical limit</b> instead.</p>
+    <p>Ticking Crit changes only the pass/fail threshold and the minimum section figure. The drop in volts is the same either way.</p>
+    <p><b>Tick it for circuits that stop performing properly when the voltage sags</b> — anything vital to safety that needs close to full voltage to work as rated. Typically: navigation lights, bilge pumps, bilge blowers, and panel board main feeds. Leave it clear for general loads such as cabin lighting, sockets and accessories.</p>
+  </div>
+</div>
+
+<div class="tabs" role="tablist">
+  <button class="tab" role="tab" id="tabDC" aria-selected="true" aria-controls="panelDC">DC circuits</button>
+  <button class="tab" role="tab" id="tabAC" aria-selected="false" aria-controls="panelAC">AC circuits</button>
+</div>
+
+<div class="card panelcard panel" id="panelDC" role="tabpanel" aria-labelledby="tabDC">
+  <h2>DC circuits <span class="tag" id="tagDC">12 V</span></h2>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th style="min-width:190px">Circuit</th>
+          <th style="width:96px">Current<small>A</small></th>
+          <th style="width:96px">Length<small id="lhDC">m, one-way</small></th>
+          <th style="width:106px">Cross-section<small>mm²</small></th>
+          <th style="width:54px" title="Tick for circuits vital to safety that need close to full voltage. Uses the tighter critical limit instead of the standard limit.">Crit<small>tight</small></th>
+          <th style="width:84px">Drop<small>V</small></th>
+          <th style="width:78px">Drop<small>%</small></th>
+          <th style="width:104px">Min. section<small>mm²</small></th>
+          <th style="width:78px">Result<small>drop only</small></th>
+          <th style="width:34px"></th>
+        </tr>
+      </thead>
+      <tbody id="bodyDC"></tbody>
+    </table>
+  </div>
+  <div class="bar">
+    <button class="act" id="addDC">Add circuit</button>
+    <button class="act ghost" id="clearDC">Clear all</button>
+    <button class="act ghost" id="csvDC">Export CSV</button>
+    <span class="count" id="countDC"></span>
+  </div>
+</div>
+
+<div class="card panelcard panel" id="panelAC" role="tabpanel" aria-labelledby="tabAC" hidden>
+  <h2>AC circuits <span class="tag" id="tagAC">230 V</span></h2>
+  <div class="scroll">
+    <table>
+      <thead>
+        <tr>
+          <th></th>
+          <th style="min-width:190px">Circuit</th>
+          <th style="width:96px">Current<small>A</small></th>
+          <th style="width:96px">Length<small id="lhAC">m, one-way</small></th>
+          <th style="width:106px">Cross-section<small>mm²</small></th>
+          <th style="width:54px" title="Tick for circuits vital to safety that need close to full voltage. Uses the tighter critical limit instead of the standard limit.">Crit<small>tight</small></th>
+          <th style="width:84px">Drop<small>V</small></th>
+          <th style="width:78px">Drop<small>%</small></th>
+          <th style="width:104px">Min. section<small>mm²</small></th>
+          <th style="width:78px">Result<small>drop only</small></th>
+          <th style="width:34px"></th>
+        </tr>
+      </thead>
+      <tbody id="bodyAC"></tbody>
+    </table>
+  </div>
+  <div class="bar">
+    <button class="act" id="addAC">Add circuit</button>
+    <button class="act ghost" id="clearAC">Clear all</button>
+    <button class="act ghost" id="csvAC">Export CSV</button>
+    <span class="count" id="countAC"></span>
+  </div>
+</div>
+
+<div class="card">
+  <h2>Summary</h2>
+  <div class="sum">
+    <div><div class="k">Circuits entered</div><div class="v" id="sTotal">0</div></div>
+    <div><div class="k">Within limit</div><div class="v good" id="sPass">0</div></div>
+    <div><div class="k">Over limit</div><div class="v" id="sFail">0</div></div>
+    <div><div class="k">Worst drop</div><div class="v" id="sWorst">—</div></div>
+    <div><div class="k">Worst circuit</div><div class="v" id="sWho" style="font-size:13px;font-weight:500;color:var(--muted)">—</div></div>
+  </div>
+  <div class="bar">
+    <button class="act ghost" onclick="window.print()">Print / save as PDF</button>
+    <button class="act ghost" id="demo">Load sample circuits</button>
+  </div>
+</div>
+
+<div class="refer">
+  <div class="ex-h">This tool does not size for current-carrying capacity</div>
+  <p>Voltage drop is only half of conductor sizing. A conductor that passes here can still be undersized once allowable current, insulation temperature rating, engine-space conditions and bundling derating are applied — and the governing constraint is whichever demands the larger section.</p>
+  <p>Run every circuit through the <b>Electrical Calculator</b> under Tools on <a href="https://www.ceinspector.com/">www.ceinspector.com</a> as well, and fit the larger of the two results.</p>
+</div>
+
+<footer>
+  <b>Method.</b> Drop is calculated as <code>k · I · L / S</code>, where <b>L</b> is the full out-and-back conductor path, <b>I</b> the load current, <b>S</b> the conductor cross-section and <b>k</b> the copper constant set above. Percentage is drop against the nominal system voltage. Minimum section is the smallest listed size holding the circuit inside its target, chosen from 0.75 / 1 / 1.5 / 2.5 / 4 / 6 / 10 / 16 / 25 / 35 / 50 / 70 / 95 / 120 / 150 mm².<br>
+  <b>Blue Peter Marine</b> · info@ceinspector.com · www.ceinspector.com
+</footer>
+
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var SIZES=[0.75,1,1.5,2.5,4,6,10,16,25,35,50,70,95,120,150];
+  var MAX=20;
+  var data={DC:[],AC:[]};
+  var seq=0;
+
+  var $=function(id){return document.getElementById(id);};
+  var num=function(v){var n=parseFloat(v);return isFinite(n)?n:0;};
+
+  function cfg(){
+    return {
+      k:num($('kval').value)||0.0164,
+      vac:num($('vac').value)||230,
+      vdc:num($('vdc').value)||12,
+      doubled:$('lenmode').value==='one',
+      gen:num($('genlim').value)||10,
+      crit:num($('critlim').value)||3
+    };
+  }
+
+  function blank(){return {id:++seq,desc:'',i:'',l:'',s:'',crit:false};}
+
+  function calc(row,sys,c){
+    var V=sys==='DC'?c.vdc:c.vac;
+    var lim=row.crit?c.crit:c.gen;
+    var I=num(row.i), L=num(row.l), S=num(row.s);
+    var Lt=c.doubled?L*2:L;
+    var r={ready:false,drop:0,pct:0,lim:lim,min:null,V:V};
+    if(I<=0||Lt<=0) return r;
+    var allowed=V*lim/100;
+    var need=c.k*I*Lt/allowed;
+    for(var x=0;x<SIZES.length;x++){ if(SIZES[x]>=need-1e-9){r.min=SIZES[x];break;} }
+    if(S<=0) return r;
+    r.ready=true;
+    r.drop=c.k*I*Lt/S;
+    r.pct=r.drop/V*100;
+    return r;
+  }
+
+  function render(sys){
+    var c=cfg();
+    var body=$('body'+sys);
+    body.innerHTML='';
+    data[sys].forEach(function(row,idx){
+      var r=calc(row,sys,c);
+      var tr=document.createElement('tr');
+      if(r.ready&&r.pct>r.lim) tr.className='over';
+
+      var status='<span class="badge b-idle">—</span>';
+      if(r.ready){
+        if(r.pct>r.lim) status='<span class="badge b-danger">OVER</span>';
+        else if(r.pct>r.lim*0.9) status='<span class="badge b-warn">CLOSE</span>';
+        else status='<span class="badge b-ok">OK</span>';
+      }
+      var pcol=r.ready?(r.pct>r.lim?'var(--danger)':(r.pct>r.lim*0.9?'var(--warn)':'var(--ok)')):'var(--muted)';
+      var minTxt=r.min?r.min.toFixed(2).replace(/\.00$/,''):'—';
+      var minCol=(r.ready&&r.min&&num(row.s)<r.min)?'var(--danger)':'var(--muted)';
+
+      tr.innerHTML=
+        '<td class="n">'+(idx+1)+'</td>'+
+        '<td><input data-f="desc" type="text" placeholder="e.g. flybridge socket" value="'+String(row.desc).replace(/"/g,'&quot;')+'"></td>'+
+        '<td><input data-f="i" type="number" min="0" step="0.1" value="'+row.i+'"></td>'+
+        '<td><input data-f="l" type="number" min="0" step="0.1" value="'+row.l+'"></td>'+
+        '<td><input data-f="s" type="number" min="0" step="0.25" list="sizes" value="'+row.s+'"></td>'+
+        '<td><input data-f="crit" class="chk" type="checkbox"'+(row.crit?' checked':'')+'></td>'+
+        '<td class="out">'+(r.ready?r.drop.toFixed(2):'—')+'</td>'+
+        '<td class="pct" style="color:'+pcol+'">'+(r.ready?r.pct.toFixed(2):'—')+'</td>'+
+        '<td class="out" style="color:'+minCol+'">'+minTxt+'</td>'+
+        '<td>'+status+'</td>'+
+        '<td><button class="kill" title="Remove circuit" aria-label="Remove circuit '+(idx+1)+'">&times;</button></td>';
+
+      tr.querySelectorAll('input').forEach(function(inp){
+        inp.addEventListener('input',function(){
+          var f=inp.getAttribute('data-f');
+          row[f]=(f==='crit')?inp.checked:inp.value;
+          if(f==='desc'){summary();return;}
+          render(sys);summary();
+        });
+      });
+      tr.querySelector('.kill').addEventListener('click',function(){
+        data[sys].splice(idx,1);render(sys);summary();
+      });
+      body.appendChild(tr);
+    });
+
+    $('count'+sys).textContent=data[sys].length+' of '+MAX+' circuits';
+    $('add'+sys).disabled=data[sys].length>=MAX;
+    $('tagDC').textContent=c.vdc+' V';
+    $('tagAC').textContent=c.vac+' V';
+    var lh=c.doubled?'m, one-way':'m, out and back';
+    $('lhDC').textContent=lh;$('lhAC').textContent=lh;
+    $('kEcho').textContent=c.k;
+  }
+
+  function summary(){
+    var c=cfg(),total=0,pass=0,fail=0,worst=-1,who='—';
+    ['DC','AC'].forEach(function(sys){
+      data[sys].forEach(function(row){
+        var r=calc(row,sys,c);
+        if(!r.ready) return;
+        total++;
+        if(r.pct>r.lim) fail++; else pass++;
+        if(r.pct>worst){worst=r.pct;who=(row.desc||'Unnamed')+' · '+sys;}
+      });
+    });
+    $('sTotal').textContent=total;
+    $('sPass').textContent=pass;
+    $('sFail').textContent=fail;
+    $('sFail').className='v'+(fail>0?' bad':'');
+    $('sWorst').textContent=worst<0?'—':worst.toFixed(2)+'%';
+    $('sWorst').className='v'+(worst<0?'':(fail>0?' bad':' good'));
+    $('sWho').textContent=who;
+  }
+
+  function csv(sys){
+    var c=cfg(),rows=[['#','Circuit','Current A','Length m','Section mm2','Critical','Drop V','Drop %','Limit %','Min section mm2','Result']];
+    data[sys].forEach(function(row,i){
+      var r=calc(row,sys,c);
+      rows.push([i+1,row.desc||'',row.i,row.l,row.s,row.crit?'Y':'N',
+        r.ready?r.drop.toFixed(3):'',r.ready?r.pct.toFixed(2):'',r.lim,
+        r.min||'',r.ready?(r.pct>r.lim?'OVER':'OK'):'']);
+    });
+    var txt=rows.map(function(r){return r.map(function(x){return '"'+String(x).replace(/"/g,'""')+'"';}).join(',');}).join('\n');
+    var a=document.createElement('a');
+    a.href=URL.createObjectURL(new Blob([txt],{type:'text/csv'}));
+    a.download='voltage_drop_'+sys.toLowerCase()+'.csv';
+    a.click();URL.revokeObjectURL(a.href);
+  }
+
+  ['DC','AC'].forEach(function(sys){
+    $('add'+sys).addEventListener('click',function(){
+      if(data[sys].length<MAX){data[sys].push(blank());render(sys);summary();}
+    });
+    $('clear'+sys).addEventListener('click',function(){
+      data[sys]=[blank()];render(sys);summary();
+    });
+    $('csv'+sys).addEventListener('click',function(){csv(sys);});
+  });
+
+  ['vac','vdc','lenmode','genlim','critlim','kval'].forEach(function(id){
+    $(id).addEventListener('input',function(){render('DC');render('AC');summary();});
+  });
+
+  function tab(on,off){
+    $('tab'+on).setAttribute('aria-selected','true');
+    $('tab'+off).setAttribute('aria-selected','false');
+    $('panel'+on).hidden=false;
+    $('panel'+off).hidden=true;
+  }
+  $('tabDC').addEventListener('click',function(){tab('DC','AC');});
+  $('tabAC').addEventListener('click',function(){tab('AC','DC');});
+
+  $('demo').addEventListener('click',function(){
+    data.DC=[
+      {id:++seq,desc:'Navigation lights',i:'4',l:'12',s:'2.5',crit:true},
+      {id:++seq,desc:'Bilge pump, forward',i:'8',l:'9',s:'2.5',crit:true},
+      {id:++seq,desc:'Cabin lighting',i:'6',l:'7',s:'1.5',crit:false},
+      {id:++seq,desc:'Windlass feed',i:'80',l:'11',s:'35',crit:false}
+    ];
+    data.AC=[
+      {id:++seq,desc:'Flybridge socket',i:'13',l:'16',s:'2.5',crit:false},
+      {id:++seq,desc:'Galley ring',i:'16',l:'9',s:'2.5',crit:false},
+      {id:++seq,desc:'Battery charger',i:'10',l:'6',s:'1.5',crit:false}
+    ];
+    render('DC');render('AC');summary();
+  });
+
+  var dl=document.createElement('datalist');dl.id='sizes';
+  SIZES.forEach(function(s){var o=document.createElement('option');o.value=s;dl.appendChild(o);});
+  document.body.appendChild(dl);
+
+  $('dateEcho').textContent=new Date().toISOString().slice(0,10);
+
+  data.DC=[blank(),blank(),blank()];
+  data.AC=[blank(),blank(),blank()];
+  render('DC');render('AC');summary();
+})();
+</script>
+</body>
+</html>
