@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 25197:2020 Checklist — Blue Peter Marine</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Barlow+Condensed:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+:root{
+  --bg:#f2efe8; --navy:#1a2e4a; --accent:#1a6fa8; --gold:#c8860a;
+  --paper:#fbfaf6; --line:#d9d3c6; --ink:#25292f; --muted:#6a6459;
+  --pass:#1f7a4d; --fail:#b02a2a; --na:#8a8578;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{
+  font-family:'Barlow',system-ui,sans-serif;
+  background:var(--bg); color:var(--ink);
+  font-size:15.5px; line-height:1.5;
+}
+.wrap{max-width:1020px; margin:0 auto; padding:0 18px 80px}
+
+/* Header */
+header.masthead{
+  background:var(--navy); color:#fff;
+  border-bottom:4px solid var(--gold);
+}
+.masthead-inner{max-width:1020px; margin:0 auto; padding:20px 18px}
+.brand{font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  letter-spacing:.06em; text-transform:uppercase; font-size:15px; color:var(--gold)}
+.masthead h1{font-family:'Barlow Condensed',sans-serif; font-weight:700;
+  font-size:30px; margin:2px 0 4px; letter-spacing:.01em; line-height:1.1}
+.masthead p{margin:0; color:#c9d4e2; font-size:14px}
+.stdref{font-family:'JetBrains Mono',monospace; font-size:12px; color:#9fb0c4; margin-top:6px}
+
+/* Job info card */
+.card{
+  background:var(--paper); border:1px solid var(--line);
+  border-radius:8px; padding:16px; margin-top:18px;
+}
+.job-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(170px,1fr)); gap:12px}
+.field label{display:block; font-family:'Barlow Condensed',sans-serif; font-weight:600;
+  text-transform:uppercase; letter-spacing:.05em; font-size:11.5px; color:var(--muted); margin-bottom:3px}
+.field input{width:100%; padding:7px 9px; border:1px solid var(--line); border-radius:5px;
+  font-family:'Barlow',sans-serif; font-size:14.5px; background:#fff; color:var(--ink)}
+.field input:focus{outline:2px solid var(--accent); outline-offset:-1px; border-color:var(--accent)}
+
+/* Filter section */
+.filters{margin-top:18px}
+.filter-group{margin-bottom:12px}
+.filter-group .glabel{font-family:'Barlow Condensed',sans-serif; font-weight:600;
+  text-transform:uppercase; letter-spacing:.06em; font-size:12px; color:var(--navy); margin-bottom:7px}
+.chips{display:flex; flex-wrap:wrap; gap:8px}
+.chip{
+  font-family:'Barlow',sans-serif; font-size:14px; font-weight:500;
+  padding:7px 13px; border:1.5px solid var(--line); border-radius:20px;
+  background:#fff; color:var(--ink); cursor:pointer; user-select:none;
+  transition:background .12s,border-color .12s,color .12s;
+}
+.chip:hover{border-color:var(--accent)}
+.chip.on{background:var(--accent); border-color:var(--accent); color:#fff}
+.chip.cond.on{background:var(--gold); border-color:var(--gold)}
+.filter-actions{display:flex; flex-wrap:wrap; gap:8px; margin-top:6px}
+.btn{
+  font-family:'Barlow Condensed',sans-serif; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; font-size:13px; padding:7px 13px; border-radius:6px; cursor:pointer;
+  border:1.5px solid var(--navy); background:#fff; color:var(--navy);
+}
+.btn:hover{background:var(--navy); color:#fff}
+.btn.solid{background:var(--navy); color:#fff}
+.btn.solid:hover{background:var(--accent); border-color:var(--accent)}
+.btn.ghost{border-color:var(--line); color:var(--muted)}
+.btn.ghost:hover{background:var(--muted); color:#fff; border-color:var(--muted)}
+
+/* Progress */
+.progress{
+  position:sticky; top:0; z-index:5;
+  background:var(--bg); padding:12px 0 10px; margin-top:8px;
+  border-bottom:1px solid var(--line);
+}
+.pbar{height:9px; background:#e4dfd3; border-radius:5px; overflow:hidden; display:flex}
+.pbar span{display:block; height:100%}
+.pseg-pass{background:var(--pass)} .pseg-fail{background:var(--fail)} .pseg-na{background:var(--na)}
+.pcounts{display:flex; flex-wrap:wrap; gap:14px; margin-top:8px; font-size:13.5px}
+.pcounts b{font-family:'JetBrains Mono',monospace; font-weight:500}
+.dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:5px; vertical-align:middle}
+.d-pass{background:var(--pass)} .d-fail{background:var(--fail)} .d-na{background:var(--na)} .d-out{background:#c3bcac}
+
+/* Sections + items */
+.section{margin-top:22px}
+.section-head{
+  font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:20px;
+  color:var(--navy); border-bottom:2px solid var(--gold); padding-bottom:5px;
+  display:flex; align-items:baseline; gap:10px;
+}
+.section-head .snum{font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--accent); font-weight:500}
+.section-head .scount{margin-left:auto; font-size:12px; color:var(--muted); font-family:'JetBrains Mono',monospace; font-weight:400}
+
+.item{
+  background:var(--paper); border:1px solid var(--line); border-left:4px solid var(--line);
+  border-radius:7px; padding:12px 14px; margin-top:10px;
+}
+.item.s-pass{border-left-color:var(--pass)}
+.item.s-fail{border-left-color:var(--fail)}
+.item.s-na{border-left-color:var(--na)}
+.item-top{display:flex; gap:12px; align-items:flex-start}
+.clause{font-family:'JetBrains Mono',monospace; font-size:12.5px; font-weight:500;
+  color:var(--accent); background:#eaf1f7; padding:2px 7px; border-radius:4px; white-space:nowrap; margin-top:1px}
+.item-text{flex:1}
+.item-text .t{font-size:15px}
+.tags{margin-top:5px; display:flex; flex-wrap:wrap; gap:5px}
+.tag{font-family:'JetBrains Mono',monospace; font-size:10.5px; color:var(--muted);
+  border:1px solid var(--line); border-radius:3px; padding:1px 6px; text-transform:uppercase; letter-spacing:.03em}
+
+.status{display:flex; gap:6px; margin-top:10px; flex-wrap:wrap}
+.sbtn{
+  font-family:'Barlow Condensed',sans-serif; font-weight:600; text-transform:uppercase;
+  letter-spacing:.04em; font-size:12.5px; padding:5px 12px; border-radius:5px; cursor:pointer;
+  border:1.5px solid var(--line); background:#fff; color:var(--muted);
+}
+.sbtn[data-s="pass"].on{background:var(--pass); border-color:var(--pass); color:#fff}
+.sbtn[data-s="fail"].on{background:var(--fail); border-color:var(--fail); color:#fff}
+.sbtn[data-s="na"].on{background:var(--na); border-color:var(--na); color:#fff}
+.sbtn:hover{border-color:var(--navy)}
+.note-toggle{margin-left:auto; font-size:12.5px; color:var(--accent); background:none; border:none;
+  cursor:pointer; font-family:'Barlow',sans-serif; text-decoration:underline; padding:5px 2px}
+.note-box{width:100%; margin-top:9px; padding:8px 10px; border:1px solid var(--line); border-radius:5px;
+  font-family:'Barlow',sans-serif; font-size:14px; resize:vertical; min-height:44px; display:none; background:#fff}
+.note-box.show{display:block}
+.item.has-note .note-toggle::after{content:" •"; color:var(--gold)}
+
+.empty{padding:26px; text-align:center; color:var(--muted); font-size:15px;
+  background:var(--paper); border:1px dashed var(--line); border-radius:8px; margin-top:18px}
+
+footer.tools{
+  position:fixed; bottom:0; left:0; right:0; background:var(--navy);
+  padding:10px 18px; display:flex; gap:8px; flex-wrap:wrap; justify-content:center;
+  border-top:3px solid var(--gold); z-index:10;
+}
+footer .btn{border-color:#3a4c66; background:transparent; color:#fff}
+footer .btn:hover{background:#fff; color:var(--navy)}
+.savenote{font-size:12px; color:#9fb0c4; align-self:center; font-family:'JetBrains Mono',monospace}
+
+@media print{
+  header.masthead{background:#fff!important; color:#000; border-bottom:3px solid #000}
+  .brand,.stdref{color:#000}
+  .masthead p{color:#333}
+  .filters,footer.tools,.progress .pbar,.note-toggle{display:none!important}
+  .status{display:none}
+  .item{break-inside:avoid; border-left-width:4px}
+  .item.s-pass::after{content:"PASS"; color:var(--pass); font-weight:700; font-family:'JetBrains Mono',monospace; font-size:12px}
+  .item.s-fail::after{content:"FAIL"; color:var(--fail); font-weight:700; font-family:'JetBrains Mono',monospace; font-size:12px}
+  .item.s-na::after{content:"N/A"; color:var(--na); font-weight:700; font-family:'JetBrains Mono',monospace; font-size:12px}
+  .note-box.show{display:block; border:1px solid #999}
+  body{background:#fff}
+  .progress{position:static}
+}
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="masthead-inner">
+    <div class="brand">Blue Peter Marine · CE &amp; Marine Survey</div>
+    <h1>ISO 25197:2020 Compliance Checklist</h1>
+    <p>Small craft — Electrical/electronic control systems for steering, shift and throttle</p>
+    <div class="stdref">EN ISO 25197:2020 · RCD 2013/53/EU Annex I 5.4 / 2.5 / Annex II(3) · craft ≤ 24 m LH</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="card">
+    <div class="job-grid">
+      <div class="field"><label>Vessel model</label><input id="m_model" placeholder="e.g. NovaCat 270"></div>
+      <div class="field"><label>WIN</label><input id="m_win" placeholder="Watercraft Identification Number"></div>
+      <div class="field"><label>Manufacturer</label><input id="m_mfr" placeholder="Builder"></div>
+      <div class="field"><label>System / component</label><input id="m_sys" placeholder="e.g. joystick DP helm"></div>
+      <div class="field"><label>Surveyor</label><input id="m_surv" value="Peter"></div>
+      <div class="field"><label>Date</label><input id="m_date" type="date"></div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <div class="filter-group">
+      <div class="glabel">Equipment fitted — tap to reveal its checks</div>
+      <div class="chips" id="eqChips">
+        <span class="chip" data-f="steering">Steering</span>
+        <span class="chip" data-f="shiftthrottle">Shift &amp; throttle</span>
+        <span class="chip" data-f="controlhead">Control head / joystick</span>
+        <span class="chip" data-f="dps">Dynamic positioning (DPS)</span>
+        <span class="chip" data-f="portable">Portable / wireless helm</span>
+      </div>
+    </div>
+    <div class="filter-group">
+      <div class="glabel">Installation conditions</div>
+      <div class="chips" id="condChips">
+        <span class="chip cond" data-f="hydraulic">Hydraulic steering</span>
+        <span class="chip cond" data-f="petrol">Petrol engine / tank compartment</span>
+        <span class="chip cond" data-f="uv">Solar / UV-exposed parts</span>
+        <span class="chip cond" data-f="multistation">Multiple helm stations</span>
+      </div>
+    </div>
+    <div class="filter-actions">
+      <button class="btn" id="btnAll">Show all clauses</button>
+      <button class="btn ghost" id="btnClear">Clear filters</button>
+      <button class="btn ghost" id="btnHideDone">Hide assessed</button>
+    </div>
+  </div>
+
+  <div class="progress">
+    <div class="pbar" id="pbar"><span class="pseg-pass" style="width:0"></span><span class="pseg-fail" style="width:0"></span><span class="pseg-na" style="width:0"></span></div>
+    <div class="pcounts">
+      <span><span class="dot d-pass"></span><b id="c_pass">0</b> Pass</span>
+      <span><span class="dot d-fail"></span><b id="c_fail">0</b> Fail</span>
+      <span><span class="dot d-na"></span><b id="c_na">0</b> N/A</span>
+      <span><span class="dot d-out"></span><b id="c_out">0</b> Outstanding</span>
+      <span style="color:var(--muted)"><b id="c_total">0</b> shown</span>
+    </div>
+  </div>
+
+  <div id="list"></div>
+  <div class="empty" id="empty" style="display:none">Select the equipment fitted above to load its specific checks. General requirements and the common test programme always show.</div>
+
+</div>
+
+<footer class="tools">
+  <button class="btn" id="btnExport">Export record</button>
+  <button class="btn" id="btnImport">Import record</button>
+  <button class="btn" id="btnPrint">Print / PDF</button>
+  <button class="btn" id="btnReset">Reset</button>
+  <span class="savenote" id="saveNote">Saved locally</span>
+  <input type="file" id="fileIn" accept="application/json" style="display:none">
+</footer>
+
+<script>
+/* ---------- ISO 25197:2020 requirement set (paraphrased for survey use) ----------
+   tag 'general' = always shown. Others reveal with the matching filter chip. */
+const ITEMS = [
+ // 4 General requirements
+ {id:"4.1", sec:"4", t:"Components withstand a reversed-polarity connection and still work once reconnected correctly (external fuse replacement is acceptable).", tags:["general"]},
+ {id:"4.2", sec:"4", t:"Reverse-polarity protection provided against internal surges.", tags:["general"]},
+ {id:"4.3", sec:"4", t:"DC systems comply with ISO 10133:2012; AC systems with ISO 13297:2014 (IEC 60092-507:2014 accepted as an alternative).", tags:["general"]},
+ {id:"4.4", sec:"4", t:"System is energised whenever the propulsion engine(s) are running.", tags:["general"]},
+ {id:"4.5", sec:"4", t:"System (except DPS and displays) is fully operational within 5 s of power-on.", tags:["general"]},
+ {id:"4.6", sec:"4", t:"Multi-engine installations retain manoeuvrability with a control-system fault present (reduced speed permitted).", tags:["general"]},
+ {id:"4.7", sec:"4", t:"Each helm station shows a visual 'active' indication; a main steering position is designated per ISO 11591:2019 and its location is in the owner's manual.", tags:["general","steering"]},
+ {id:"4.8", sec:"4", t:"Each helm station alerts the operator (visible and/or audible) when the system enters fail-safe mode.", tags:["general"]},
+ {id:"4.9", sec:"4", t:"Audible alarm is 75–85 dB(A) at 1 m from the command station; a mute keeps the visual alert while the failure persists; audible-only alarms cannot be muted.", tags:["general"]},
+ {id:"4.10", sec:"4", t:"Manufacturer makes installation and use instructions for the steering system available.", tags:["general"]},
+ {id:"4.11", sec:"4", t:"Operating characteristics, instructions and warnings appear in the owner's manual and/or on-product labelling.", tags:["general"]},
+ {id:"4.12", sec:"4", t:"Propulsion can only be started in neutral (except an optional temporary emergency override).", tags:["general","shiftthrottle"]},
+ {id:"4.13", sec:"4", t:"Steering, shift and throttle actuators respond to a physical input command within 0.5 s.", tags:["general"]},
+ {id:"4.14", sec:"4", t:"Steering wheels comply with ISO 8848:1990.", tags:["steering"]},
+ {id:"4.15", sec:"4", t:"Hydraulic systems comply with ISO 10592:1994.", tags:["hydraulic","steering"]},
+ {id:"4.16", sec:"4", t:"Electrical components in petrol engine or petrol tank compartments are ignition-protected per ISO 8846:1990.", tags:["petrol"]},
+ {id:"4.17", sec:"4", t:"A risk identification/analysis (e.g. FMEA or FTA) is carried out for each system design (IEC 61508:2010 optional).", tags:["general"]},
+ {id:"4.18", sec:"4", t:"Systems with both cruising and manoeuvring modes indicate the current mode and do not change mode without operator input.", tags:["general"]},
+
+ // 5 Control head
+ {id:"5.1", sec:"5", t:"Control head operation permitted in both cruising and manoeuvring modes.", tags:["controlhead"]},
+ {id:"5.2", sec:"5", t:"In manoeuvring mode the control head returns to neutral X, Y and Z on release; a neutral indication is shown at the active helm.", tags:["controlhead"]},
+ {id:"5.3", sec:"5", t:"In cruising mode the engine need not return to idle / low RPM when the grip is released.", tags:["controlhead"]},
+ {id:"5.4", sec:"5", t:"Releasing in manoeuvring mode gives a disengaged transmission / water-jet bucket AND a manufacturer idle state (or motors stopped).", tags:["controlhead"]},
+ {id:"5.5", sec:"5", t:"Craft moves in the same direction the control head is oriented relative to the craft.", tags:["controlhead"]},
+ {id:"5.6", sec:"5", t:"Portable helms clearly indicate their orientation relative to the craft.", tags:["controlhead","portable"]},
+ {id:"5.7", sec:"5", t:"If a rotation function is fitted, clockwise / counter-clockwise activation rotates the craft the same way.", tags:["controlhead"]},
+
+ // 6 Command station transfer
+ {id:"6", sec:"6", t:"Transfer of command from one station to another is completed at the helm station intended to be active.", tags:["general","multistation"]},
+
+ // 7 Portable helm station controls
+ {id:"7.1", sec:"7", t:"Portable helm controls are restricted to use only when manoeuvring mode is selected.", tags:["portable"]},
+ {id:"7.2", sec:"7", t:"On loss of comms / malfunction: engines return to idle, electric motors stop, transmission disengages; operator is notified and transfer to another helm is not prevented.", tags:["portable"]},
+ {id:"7.3", sec:"7", t:"A warning label (text or ISO symbols) on the helm or its storage/charging point: keep proper lookout; hold on, boat may move suddenly; read owner's manual (ISO 7000-0790).", tags:["portable"]},
+ {id:"7.4", sec:"7", t:"Wireless: signal strength is displayed, or an audible warning alerts the operator that the signal is weak and control is about to be lost.", tags:["portable"]},
+ {id:"7.5", sec:"7", t:"Wireless device can only control its boat of origin.", tags:["portable"]},
+ {id:"7.6", sec:"7", t:"Wireless: charge-status indication; activation is prevented if charge cannot hold the link for 15 min.", tags:["portable"]},
+ {id:"7.7", sec:"7", t:"Wireless: operator is notified when the device is 15 min from deactivation due to low charge.", tags:["portable"]},
+
+ // 8 DPS
+ {id:"8.1", sec:"8", t:"DPS can only be activated manually.", tags:["dps"]},
+ {id:"8.2", sec:"8", t:"A display at the main helm station shows the DPS precision value.", tags:["dps"]},
+ {id:"8.3", sec:"8", t:"On activation, warnings are conveyed (symbols or text): boat underway; keep lookout; stay out of water, props spinning; hold on; read owner's manual (ISO 7000-0790).", tags:["dps"]},
+ {id:"8.4", sec:"8", t:"Activation is only possible when the DPS precision value is within manufacturer-set limits.", tags:["dps"]},
+ {id:"8.5", sec:"8", t:"If precision goes out of limits during autonomous mode, the operator is alerted visually and audibly of DPS disengagement.", tags:["dps"]},
+ {id:"8.6", sec:"8", t:"Maximum envelope/radius and heading deviation are manufacturer-set, not operator-adjustable.", tags:["dps"]},
+ {id:"8.7", sec:"8", t:"Maximum engine speed for DP is manufacturer-set, not operator-adjustable.", tags:["dps"]},
+ {id:"8.8", sec:"8", t:"Helm stations without a display screen carry the same warnings as clause 8.3.", tags:["dps"]},
+
+ // 9 Failure modes and responses
+ {id:"9.1.1", sec:"9", t:"Single-station system: on command-station failure the system switches to fail-safe and audibly alerts that the station is not working (reduced performance allowed).", tags:["general"]},
+ {id:"9.1.2", sec:"9", t:"Multiple helm system: on command-station malfunction the system switches to fail-safe, does not block transfer/operation from other stations, and audibly alerts.", tags:["general","multistation"]},
+ {id:"9.1.3", sec:"9", t:"Multi-engine: loss of steering on one engine still leaves the boat steerable.", tags:["steering"]},
+ {id:"9.1.4", sec:"9", t:"Single-engine rudder or strut: on loss of steering, emergency control of the rudder is possible.", tags:["steering"]},
+ {id:"9.2", sec:"9", t:"System notifies the operator of loss or malfunction of the computer command logic.", tags:["general"]},
+
+ // 10 Test requirements
+ {id:"10.1", sec:"10", t:"A representative sample of each electronic and electromechanical component (as sold) is environmentally and mechanically tested.", tags:["general"]},
+ {id:"10.2", sec:"10", t:"Steering load tests: durability (100 000 cycles, ≥80% range, ≥10°/s, opposing max steering force) and high-load (2× that force at mid-travel), at high and low ambient temps (Table 1, ±2 °C) and 120±2% nominal voltage; no failure afterward.", tags:["steering"]},
+ {id:"10.3", sec:"10", t:"Shift/throttle control-lever load test: 75 000 cycles with defined shift loads (67 N, 178 N over-stroke) and throttle load (22→111 N), ≥6 cycles/min, at high and low temps and 120% voltage; no failure afterward.", tags:["shiftthrottle"]},
+ {id:"10.4", sec:"10", t:"Joystick load test: 500 000 cycles end-stop to end-stop each axis; 350±5 N tangential in X and Y; 7.5±0.5 Nm torque in Z; no failure afterward.", tags:["controlhead"]},
+ {id:"10.5", sec:"10", t:"Environmental tests per Table 1 by installation area (interior / engine bay / damp / wet / immersion); insulation-resistance test before and after each damp-heat, low-temp, high-temp and salt-mist test.", tags:["general"]},
+ {id:"10.5.2", sec:"10", t:"Salt mist test (per area) — IEC 60068-2-52:2017 or ASTM B117:2016; cyclic or continuous; one performance cycle afterward with only superficial corrosion.", tags:["general"]},
+ {id:"10.5.3–4", sec:"10", t:"Damp heat — cyclic (ISO 16750-4, four cycles) and steady state (ISO 16750-4); performance cycle afterward.", tags:["general"]},
+ {id:"10.5.5–8", sec:"10", t:"High-temp operation (48 h) & storage, and low-temp operation (16 h) & storage (72 h) per ISO 16750-4 and Table 1; performance cycle afterward.", tags:["general"]},
+ {id:"10.6", sec:"10", t:"Vibration: engine/gear-mounted per ISO 16750-3:2012 4.1.2.6; other locations random (0.0284 g²/Hz, 20–2000 Hz, 8 h/axis) and resonant; meet performance criterion A.", tags:["general"]},
+ {id:"10.7", sec:"10", t:"Shock test IEC 60068-2-27:2008 — 500 m/s², 11 ms, 18 shocks over six directions; any malfunction is a failure.", tags:["general"]},
+ {id:"10.8", sec:"10", t:"Drop test for non-rigidly-mounted parts (portable helm, transmitters): 1 m onto concrete in six orientations; UV test passed first; any malfunction is a failure.", tags:["portable","general"]},
+ {id:"10.9", sec:"10", t:"UV resistance: solar-exposed components given accelerated light exposure (ISO 4892 series); no permanent deformation and still function.", tags:["uv"]},
+ {id:"10.10", sec:"10", t:"EMC programme: immunity (LF conducted, RF conducted, radiated RF, bursts, surges, ESD, power-supply variation) and radiated/conducted emissions; meet the stated criteria A or B per test.", tags:["general"]},
+ {id:"10.11", sec:"10", t:"Compass safe distance per IEC 60945:2002, tested at maximum load in the worst-case direction.", tags:["general"]},
+ {id:"10.12", sec:"10", t:"Insulation resistance per ISO 16750-2:2012 (Table 2: ≥10 MΩ before test, ≥1 MΩ after).", tags:["general"]},
+
+ // 11 Labelling
+ {id:"11", sec:"11", t:"DPS craft without an electronic display: helm label (text or symbols): underway; keep lookout; props spinning, swimming dangerous; boat may move suddenly, hold on; read owner's manual.", tags:["dps"]},
+
+ // 12 Owner's manual
+ {id:"12", sec:"12", t:"Owner's manual per ISO 10240:2004/Amd1:2015 plus: correct operation; maintenance; helm-station locations; all visual indicators and audible alerts; command transfer; and (for DPS) the do-not-leave-unattended / underway / lookout / stay-clear-of-props / hold-on warnings.", tags:["general"]},
+];
+
+const SEC_TITLES = {
+ "4":"General requirements", "5":"Control head", "6":"Command station transfer",
+ "7":"Portable helm station controls", "8":"Dynamic-positioning system (DPS)",
+ "9":"Failure modes and responses", "10":"Test requirements", "11":"Labelling",
+ "12":"Owner's manual"
+};
+const TAG_LABEL = {
+ steering:"steering", shiftthrottle:"shift/throttle", controlhead:"control head/joystick",
+ dps:"DPS", portable:"portable helm", hydraulic:"hydraulic", petrol:"petrol",
+ uv:"UV-exposed", multistation:"multi-station"
+};
+
+const KEY = "bpm_iso25197_checklist_v1";
+let state = {meta:{}, filters:{}, showAll:false, hideDone:false, items:{}};
+let memFallback = false;
+
+function load(){
+  try{ const raw = localStorage.getItem(KEY); if(raw) state = Object.assign(state, JSON.parse(raw)); }
+  catch(e){ memFallback = true; }
+  if(!state.filters) state.filters = {};
+  if(!state.items) state.items = {};
+  if(!state.meta) state.meta = {};
+}
+function save(){
+  try{ localStorage.setItem(KEY, JSON.stringify(state)); document.getElementById('saveNote').textContent = memFallback ? "Not saved (export to keep)" : "Saved locally"; }
+  catch(e){ memFallback = true; document.getElementById('saveNote').textContent = "Not saved here — use Export"; }
+}
+
+function activeFilters(){ return Object.keys(state.filters).filter(k=>state.filters[k]); }
+function isVisible(it){
+  if(state.showAll) return true;
+  if(it.tags.includes("general")) return true;
+  const af = activeFilters();
+  return it.tags.some(t=>af.includes(t));
+}
+
+function render(){
+  // meta fields
+  document.getElementById('m_model').value = state.meta.model||"";
+  document.getElementById('m_win').value = state.meta.win||"";
+  document.getElementById('m_mfr').value = state.meta.mfr||"";
+  document.getElementById('m_sys').value = state.meta.sys||"";
+  document.getElementById('m_surv').value = state.meta.surv!==undefined?state.meta.surv:"Peter";
+  document.getElementById('m_date').value = state.meta.date||"";
+
+  // chips
+  document.querySelectorAll('.chip').forEach(c=>{
+    c.classList.toggle('on', !!state.filters[c.dataset.f]);
+  });
+  document.getElementById('btnAll').textContent = state.showAll ? "Filter by equipment" : "Show all clauses";
+  document.getElementById('btnHideDone').textContent = state.hideDone ? "Show assessed" : "Hide assessed";
+
+  const list = document.getElementById('list');
+  list.innerHTML = "";
+  let shownTotal=0, pass=0, fail=0, na=0;
+
+  Object.keys(SEC_TITLES).forEach(secId=>{
+    const secItems = ITEMS.filter(it=>it.sec===secId && isVisible(it));
+    const rendered = secItems.filter(it=>{
+      const st = (state.items[it.id]||{}).status||"";
+      return !(state.hideDone && st);
+    });
+    if(rendered.length===0) return;
+
+    const sec = document.createElement('div'); sec.className="section";
+    const head = document.createElement('div'); head.className="section-head";
+    head.innerHTML = `<span class="snum">${secId}</span><span>${SEC_TITLES[secId]}</span><span class="scount">${secItems.length} check${secItems.length>1?'s':''}</span>`;
+    sec.appendChild(head);
+
+    rendered.forEach(it=>{
+      const rec = state.items[it.id]||{status:"",note:""};
+      const st = rec.status||"";
+      shownTotal++; if(st==="pass")pass++; else if(st==="fail")fail++; else if(st==="na")na++;
+
+      const el = document.createElement('div');
+      el.className = "item" + (st?(" s-"+st):"") + (rec.note?" has-note":"");
+      const tags = it.tags.filter(t=>t!=="general").map(t=>`<span class="tag">${TAG_LABEL[t]||t}</span>`).join("");
+      el.innerHTML = `
+        <div class="item-top">
+          <span class="clause">${it.id}</span>
+          <div class="item-text">
+            <div class="t">${it.t}</div>
+            ${tags?`<div class="tags">${tags}</div>`:""}
+          </div>
+        </div>
+        <div class="status">
+          <button class="sbtn ${st==='pass'?'on':''}" data-id="${it.id}" data-s="pass">Pass</button>
+          <button class="sbtn ${st==='fail'?'on':''}" data-id="${it.id}" data-s="fail">Fail</button>
+          <button class="sbtn ${st==='na'?'on':''}" data-id="${it.id}" data-s="na">N/A</button>
+          <button class="note-toggle" data-note="${it.id}">Note</button>
+        </div>
+        <textarea class="note-box ${rec.note?'show':''}" data-notebox="${it.id}" placeholder="Finding / evidence / clause reference">${rec.note||""}</textarea>
+      `;
+      sec.appendChild(el);
+    });
+    list.appendChild(sec);
+  });
+
+  document.getElementById('empty').style.display = shownTotal? "none":"block";
+
+  const out = shownTotal - pass - fail - na;
+  document.getElementById('c_pass').textContent=pass;
+  document.getElementById('c_fail').textContent=fail;
+  document.getElementById('c_na').textContent=na;
+  document.getElementById('c_out').textContent=out;
+  document.getElementById('c_total').textContent=shownTotal;
+  const tot = shownTotal||1;
+  const bar = document.getElementById('pbar').children;
+  bar[0].style.width=(pass/tot*100)+"%";
+  bar[1].style.width=(fail/tot*100)+"%";
+  bar[2].style.width=(na/tot*100)+"%";
+}
+
+/* events */
+document.addEventListener('click', e=>{
+  const chip = e.target.closest('.chip');
+  if(chip){ const f=chip.dataset.f; state.filters[f]=!state.filters[f]; if(state.showAll) state.showAll=false; save(); render(); return; }
+
+  const sb = e.target.closest('.sbtn');
+  if(sb){ const id=sb.dataset.id, s=sb.dataset.s;
+    if(!state.items[id]) state.items[id]={status:"",note:""};
+    state.items[id].status = state.items[id].status===s ? "" : s;
+    save(); render(); return; }
+
+  const nt = e.target.closest('.note-toggle');
+  if(nt){ const box=document.querySelector(`[data-notebox="${nt.dataset.note}"]`); if(box){ box.classList.toggle('show'); if(box.classList.contains('show')) box.focus(); } return; }
+});
+
+document.addEventListener('input', e=>{
+  const nb = e.target.closest('[data-notebox]');
+  if(nb){ const id=nb.dataset.notebox; if(!state.items[id]) state.items[id]={status:"",note:""}; state.items[id].note=nb.value; e.target.closest('.item').classList.toggle('has-note', !!nb.value); save(); return; }
+  if(e.target.id && e.target.id.startsWith('m_')){
+    const map={m_model:'model',m_win:'win',m_mfr:'mfr',m_sys:'sys',m_surv:'surv',m_date:'date'};
+    state.meta[map[e.target.id]] = e.target.value; save();
+  }
+});
+
+document.getElementById('btnAll').onclick=()=>{ state.showAll=!state.showAll; save(); render(); };
+document.getElementById('btnClear').onclick=()=>{ state.filters={}; state.showAll=false; save(); render(); };
+document.getElementById('btnHideDone').onclick=()=>{ state.hideDone=!state.hideDone; save(); render(); };
+
+document.getElementById('btnExport').onclick=()=>{
+  const blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  const a=document.createElement('a');
+  const nm=(state.meta.model||"vessel").replace(/[^a-z0-9]+/gi,'_');
+  a.href=URL.createObjectURL(blob); a.download=`ISO25197_${nm}.json`; a.click();
+};
+document.getElementById('btnImport').onclick=()=>document.getElementById('fileIn').click();
+document.getElementById('fileIn').onchange=ev=>{
+  const f=ev.target.files[0]; if(!f) return; const r=new FileReader();
+  r.onload=()=>{ try{ state=Object.assign({meta:{},filters:{},items:{},showAll:false,hideDone:false}, JSON.parse(r.result)); save(); render(); }catch(e){ alert("That file could not be read as a saved record."); } };
+  r.readAsText(f);
+};
+document.getElementById('btnPrint').onclick=()=>window.print();
+document.getElementById('btnReset').onclick=()=>{
+  if(confirm("Clear all statuses, notes and job details on this device?")){
+    state={meta:{surv:"Peter"},filters:{},items:{},showAll:false,hideDone:false}; save(); render();
+  }
+};
+
+load(); render();
+</script>
+</body>
+</html>
