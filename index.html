@@ -729,7 +729,36 @@ const stds = {
   "II.4": [{code:"EN ISO 21487",title:"Permanently installed petrol and diesel fuel tanks"}, {code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 7840",title:"Fire-resistant fuel hoses"}, {code:"EN ISO 8469",title:"Non-fire-resistant fuel hoses"}],
   "II.5": [{code:"EN ISO 12216",title:"Windows, portlights, hatches, deadlights and doors"}],
 };
-const extraLinks = { "5.3": [{label:"Open voltage drop calculator", href:"voltage_drop_calculator.html"}] };
+const extraLinks = {
+  "5.2.1": [{label:"Open diesel fuel system checklist", href:"tools/iso10088-diesel-checklist.html"}],
+  "5.2.2": [{label:"Diesel metallic tank checklist", href:"tools/iso21487-diesel-metallic-tank.html"}, {label:"Diesel non-metallic tank checklist", href:"tools/iso21487-diesel-nonmetallic-tank.html"}],
+  "5.3": [{label:"Open voltage drop calculator", href:"tools/voltage_drop_calculator.html"}]
+};
+// Corrected tool links: current ISO-named files in the tools/ folder. null = no tool exists yet for that requirement.
+const linkFix = {
+  "2.1":"tools/win-generator.html",
+  "2.2":"tools/builders-plate-generator.html",
+  "2.3":"tools/iso15085-reboarding-checklist.html",
+  "2.4":null,
+  "3.2":"tools/gzmax-calculator.html",
+  "3.3":"tools/gzmax-calculator.html",
+  "3.4":"tools/ISO9093_Assembly_Test_Report.html",
+  "3.5":"tools/hull-openings-bilge-checklist.html",
+  "3.9":"tools/iso15084-strong-points-checklist.html",
+  "4":"tools/iso11591-2-object-avoidance.html",
+  "5.1.1":null,
+  "5.1.2":"tools/iso11105-petrol-ventilation.html",
+  "5.1.3":null,
+  "5.1.4":null,
+  "5.1.6":null,
+  "5.2.1":"tools/iso10088-petrol-checklist.html",
+  "5.2.2":"tools/iso21487-petrol-metallic-tank.html",
+  "5.3":"tools/iso13297-electrical-calculator.html",
+  "5.4.1":"tools/iso25197_checklist.html",
+  "5.4.2":"tools/iso25197_checklist.html",
+  "5.5":"tools/iso10239-lpg-ventilation.html",
+  "5.8":null
+};
 // Endorsed Recommendations for Use (ERFU) mapped to each essential requirement. Numbers link to the sheet page in the RSG Guidelines PDF.
 // Symbols and label reference pages (Blue Peter Marine) mapped to each essential requirement.
 const LABELS_DIR = '';
@@ -860,11 +889,13 @@ clauses.forEach((c, i) => {
   appendChecklistBlock(body, c.num);
   appendLabelsBlock(body, c.num);
 
-  if (c.link) {
+  var fxHref = Object.prototype.hasOwnProperty.call(linkFix, c.num) ? linkFix[c.num] : (c.link ? c.link.href : null);
+  var fxLabel = c.link ? c.link.label : 'Open tool';
+  if (fxHref) {
     const a = document.createElement('a');
     a.className = 'tool-link';
-    a.href = c.link.href;
-    a.textContent = c.link.label;
+    a.href = fxHref;
+    a.textContent = fxLabel;
     body.appendChild(a);
   } else if (c.status !== 'component') {
     const gapNote = document.createElement('div');
@@ -875,7 +906,7 @@ clauses.forEach((c, i) => {
 
 
   const ex = extraLinks[c.num];
-  if (ex) ex.forEach(function(l){ const a=document.createElement('a'); a.className='tool-link'; a.href=l.href; a.textContent=l.label; a.style.marginLeft='8px'; body.appendChild(a); });
+  if (ex && fxHref) ex.forEach(function(l){ const a=document.createElement('a'); a.className='tool-link'; a.href=l.href; a.textContent=l.label; a.style.marginLeft='8px'; body.appendChild(a); });
   div.appendChild(head);
   div.appendChild(body);
   appendDocPanel(body, c.num);
