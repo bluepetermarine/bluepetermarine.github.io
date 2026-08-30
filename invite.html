@@ -76,6 +76,17 @@
   .field input:focus{outline:none; border-color:var(--teal); box-shadow:0 0 0 3px rgba(43,122,120,.18)}
   .hp{position:absolute; left:-9999px; opacity:0; height:0; width:0}
 
+  .plusone{display:flex; align-items:center; gap:11px; margin:14px 2px 2px; cursor:pointer; user-select:none}
+  .plusone input{position:absolute; opacity:0; width:0; height:0}
+  .plusone .box{flex:none; width:24px; height:24px; border:1.5px solid rgba(18,50,74,.4); background:var(--paper); display:flex; align-items:center; justify-content:center; transition:background .15s ease, border-color .15s ease}
+  .plusone .box svg{width:16px; height:16px; color:var(--rope); opacity:0; transform:scale(.6); transition:opacity .15s ease, transform .15s ease}
+  .plusone input:checked + .box{background:var(--teal); border-color:var(--teal)}
+  .plusone input:checked + .box svg{opacity:1; transform:scale(1)}
+  .plusone input:focus-visible + .box{outline:3px solid var(--teal); outline-offset:2px}
+  .plusone .txt{font-size:16.5px; color:var(--ink)}
+  .guestField{display:none}
+  .guestField.show{display:block; animation:rise .35s ease both}
+
   .send{width:100%; margin:18px 2px 2px; padding:16px; cursor:pointer; font-family:"Fraunces",serif; font-weight:600; text-transform:uppercase; letter-spacing:.24em; font-size:14px; color:var(--rope); background:var(--ink); border:1px solid var(--ink); transition:background .15s ease, transform .1s ease}
   .send:hover{background:var(--teal); border-color:var(--teal)}
   .send:active{transform:translateY(1px)}
@@ -159,6 +170,17 @@
           <input id="guestName" type="text" autocomplete="name" placeholder="So we know who&rsquo;s aboard">
         </div>
 
+        <label class="plusone" for="bringGuest">
+          <input id="bringGuest" type="checkbox" onchange="toggleGuest()">
+          <span class="box"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 12 10 18 20 6"/></svg></span>
+          <span class="txt">I&rsquo;m bringing one guest</span>
+        </label>
+
+        <div class="field guestField" id="guestField">
+          <label for="guestName2">Guest&rsquo;s name <span style="text-transform:none;letter-spacing:0;font-style:italic;color:var(--ink2)">(optional)</span></label>
+          <input id="guestName2" type="text" autocomplete="name" placeholder="Who&rsquo;s joining you?">
+        </div>
+
         <!-- honeypot: hidden from people, catches bots -->
         <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off">
 
@@ -203,6 +225,12 @@
   }
   function setNote(t){ document.getElementById('note').textContent = t; }
 
+  function toggleGuest(){
+    const on = document.getElementById('bringGuest').checked;
+    document.getElementById('guestField').classList.toggle('show', on);
+    if(!on){ document.getElementById('guestName2').value = ''; }
+  }
+
   document.querySelectorAll('.date').forEach(d => {
     d.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' '){ e.preventDefault(); pick(d); }});
   });
@@ -211,6 +239,12 @@
     const name = document.getElementById('guestName').value.trim();
     if(!chosenDate){ setNote('Please tap a date first.'); return; }
     if(!name){ setNote('Please add your name so we know who&rsquo;s aboard.'); return; }
+
+    const bringing = document.getElementById('bringGuest').checked;
+    const guest2 = document.getElementById('guestName2').value.trim();
+    let guestInfo = "No";
+    if(bringing){ guestInfo = guest2 ? "Yes — " + guest2 : "Yes (name not given)"; }
+    const party = bringing ? 2 : 1;
 
     const btn = document.getElementById('sendBtn');
     btn.disabled = true; btn.textContent = 'Sending your vote…'; setNote('');
@@ -221,6 +255,8 @@
       from_name: "20th Anniversary RSVP",
       "Guest": name,
       "Chosen lunch date": chosenDate,
+      "Bringing a guest": guestInfo,
+      "Party size": party,
       botcheck: document.querySelector('input[name=botcheck]').checked
     };
 
@@ -231,7 +267,7 @@
         body: JSON.stringify(payload)
       });
       const data = await res.json();
-      if(data.success){ showThanks(name, chosenDate); }
+      if(data.success){ showThanks(name, chosenDate, bringing); }
       else { throw new Error(data.message || 'failed'); }
     }catch(err){
       btn.disabled = false; btn.textContent = 'Cast my vote';
@@ -239,9 +275,10 @@
     }
   }
 
-  function showThanks(name, date){
+  function showThanks(name, date, bringing){
     document.getElementById('thanksTitle').textContent = 'Course logged, ' + name + '!';
-    document.getElementById('thanksMsg').innerHTML = 'Thank you for casting your vote &mdash; your heading is safely in the ship&rsquo;s log.';
+    const crew = bringing ? ' We&rsquo;ve pencilled in the two of you.' : '';
+    document.getElementById('thanksMsg').innerHTML = 'Thank you for casting your vote &mdash; your heading is safely in the ship&rsquo;s log.' + crew;
     document.getElementById('thanksChosen').textContent = 'You voted: ' + date;
     document.getElementById('voteBlock').style.display = 'none';
     const t = document.getElementById('thanks');
