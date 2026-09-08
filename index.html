@@ -235,25 +235,62 @@
   .checklist-sheets b { font-family:'JetBrains Mono',monospace; font-weight:600; }
   .checklist .clbtn { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.03em; background:var(--component); color:#fff; border:none; padding:7px 14px; border-radius:5px; cursor:pointer; }
   .checklist .clbtn:hover { background:#155d8f; }
-  .checklist-links { display:flex; flex-wrap:wrap; gap:8px; }
-  .checklist a.clbtn { text-decoration:none; display:inline-block; }
-  #workbookbar a.wb-upload { text-decoration:none; }
 
-  .rfus { margin-top:14px; background:rgba(200,134,10,0.05); border:1px solid #e6d9b8; border-radius:6px; padding:12px 14px; }
-  .rfus-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--gold); margin-bottom:8px; }
-  .rfus ul { margin:0; padding:0; list-style:none; }
-  .rfus li { font-size:13px; line-height:1.5; padding:5px 0; display:flex; gap:10px; align-items:baseline; color:var(--navy); }
-  .rfus li + li { border-top:1px dashed #e6d9b8; }
-  .erfu-badge { font-family:'JetBrains Mono',monospace; font-weight:600; font-size:11.5px; color:#fff; background:var(--gold); padding:2px 8px; border-radius:3px; text-decoration:none; white-space:nowrap; flex-shrink:0; }
-  .erfu-badge:hover { background:#b3770a; }
-  .erfu-subj { flex:1; }
-  .rfus-note { font-size:11.5px; color:var(--navy-soft); margin-top:9px; font-family:'JetBrains Mono',monospace; line-height:1.5; }
+  /* ---- component certificate register ---- */
+  .certreg { margin-top:16px; border-top:1px dashed var(--line); padding-top:14px; }
+  .certreg-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.06em; text-transform:uppercase; color:var(--component); margin-bottom:4px; }
+  .certreg-wip { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--navy-soft); margin-bottom:12px; line-height:1.5; }
+  .certrow { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; padding:9px 0; border-top:1px solid var(--line); }
+  .certrow:first-of-type { border-top:none; }
+  .cert-main { min-width:0; }
+  .cert-name { font-size:14px; font-weight:600; color:var(--navy); }
+  .cert-mfr { font-size:13px; color:var(--navy-soft); }
+  .cert-meta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--navy-soft); margin-top:3px; line-height:1.6; }
+  .cert-notes { font-size:12.5px; color:var(--navy-soft); font-style:italic; margin-top:3px; }
+  .cert-side { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; text-align:right; }
+  .cert-badge { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:500; letter-spacing:0.3px; padding:2px 7px; border-radius:3px; color:#fff; white-space:nowrap; }
+  .cb-doc { background:var(--navy); }
+  .cb-type { background:var(--component); }
+  .cb-test { background:var(--gold); }
+  .cb-data { background:#8a8577; }
+  .cert-pill { font-family:'JetBrains Mono',monospace; font-size:10px; font-weight:500; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+  .cp-onfile { background:#e2ede4; color:var(--built); }
+  .cp-pending { background:#f6ecd0; color:var(--partial); }
+  .cp-requested { background:#dfeaf3; color:var(--component); }
+  .cp-na { background:#eae7de; color:#8a8577; }
+  .cert-view { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--component); text-decoration:none; font-weight:500; }
+  .cert-view:hover { text-decoration:underline; }
+  .cert-nofile { font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#8a8577; }
+  .certreg-count { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--navy-soft); margin-top:10px; }
+  .certreg-count b { color:var(--built); } .certreg-count i { color:var(--partial); font-style:normal; }
 
-  .labels { margin-top:14px; background:rgba(74,122,90,0.06); border:1px solid #cfe0d3; border-radius:6px; padding:12px 14px; }
-  .labels-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12px; letter-spacing:0.06em; text-transform:uppercase; color:var(--built); margin-bottom:8px; }
-  .labels-links { display:flex; flex-wrap:wrap; gap:8px; }
-  .labels a.lblbtn { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.03em; background:var(--built); color:#fff; padding:7px 14px; border-radius:5px; text-decoration:none; display:inline-block; }
-  .labels a.lblbtn:hover { background:#3c6349; }
+  /* ---- Racor fuel filter reference ---- */
+  details.racor { margin-top:14px; border:1px solid var(--line); border-left:3px solid var(--component); border-radius:6px; background:#fff; }
+  details.racor > summary { cursor:pointer; padding:11px 14px; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; letter-spacing:0.05em; text-transform:uppercase; color:var(--component); list-style:none; }
+  details.racor > summary::-webkit-details-marker { display:none; }
+  details.racor > summary::before { content:'\25B8'; display:inline-block; margin-right:8px; transition:transform .15s ease; }
+  details.racor[open] > summary::before { transform:rotate(90deg); }
+  .racor-body { padding:2px 14px 16px; }
+  .racor-intro { font-size:12.5px; line-height:1.55; color:var(--navy-soft); margin-bottom:12px; }
+  .racor-key { display:flex; flex-direction:column; gap:6px; background:var(--bg); border-radius:5px; padding:10px 12px; margin-bottom:6px; font-size:12px; line-height:1.4; }
+  .racor-key .krow { display:flex; gap:9px; align-items:flex-start; }
+  .rsym { flex-shrink:0; width:17px; height:17px; border-radius:50%; color:#fff; font-size:10px; font-weight:700; display:inline-flex; align-items:center; justify-content:center; font-family:'JetBrains Mono',monospace; margin-top:1px; }
+  .rsym.ok { background:var(--built); }
+  .rsym.cond { background:var(--partial); }
+  .rsym.no { background:var(--gap); }
+  .racor-series-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--navy); margin:16px 0 4px; }
+  table.racor-tbl { width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.racor-tbl th { text-align:left; font-family:'Barlow Condensed',sans-serif; font-weight:600; font-size:11px; letter-spacing:0.03em; text-transform:uppercase; color:var(--navy-soft); border-bottom:1px solid var(--line); padding:5px 8px; }
+  table.racor-tbl th.c, table.racor-tbl td.c { text-align:center; width:58px; }
+  table.racor-tbl td { padding:5px 8px; border-bottom:1px solid #ece8df; color:var(--navy); vertical-align:middle; }
+  table.racor-tbl td.model { font-family:'JetBrains Mono',monospace; font-weight:500; white-space:nowrap; }
+  table.racor-tbl td.notes { color:var(--navy-soft); font-size:12px; }
+  .racor-sub { margin-top:18px; }
+  .racor-sub-h { font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:12.5px; letter-spacing:0.05em; text-transform:uppercase; color:var(--navy); margin-bottom:6px; }
+  .racor-sub ul { margin:0 0 6px; padding-left:18px; }
+  .racor-sub li { font-size:12.5px; line-height:1.5; color:var(--navy); padding:1px 0; }
+  .racor-wording { background:rgba(26,111,168,0.05); border-left:3px solid var(--component); border-radius:4px; padding:10px 13px; margin-top:8px; font-size:12.5px; line-height:1.55; color:var(--navy); }
+  .racor-wording .wl { display:block; font-family:'JetBrains Mono',monospace; font-size:10px; color:var(--navy-soft); text-transform:uppercase; letter-spacing:0.04em; margin-bottom:4px; }
 
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -275,6 +312,7 @@
   <div id="workbookbar"></div>
   <div id="docsummary"><div class="ds-text"></div><div class="ds-actions"><button id="zipBtn" onclick="downloadZip()">Download all documentation (ZIP)</button><button onclick="exportManifest()">Export status (CSV)</button></div></div>
   <div class="doccap">Attach the documents for each essential requirement below. Files are kept in this browser only (not sent to any server), so you can assemble an IMCI Module B submission and pick up where you left off. Tick each required item as you collect it and use Export to save the status list.</div>
+  <div class="doccap" style="border-left:3px solid var(--component); padding-left:12px;">Open any requirement to see its Component certificates and Declarations of Conformity for the equipment fitted on board, portlights, hatches, fuel tanks and hoses, steering, switches and plugs, navigation lights and more. This register is a work in progress and is added to as certificates come in.</div>
   <div id="generalDocs"></div>
 
   <div id="clauses"></div>
@@ -289,7 +327,7 @@ const clauses = [
     num: "1",
     title: "Design categories A, B, C, D",
     status: "gap",
-    statusLabel: "content to write",
+    statusLabel: "",
     text: `Design category  Wind force (Beaufort scale)  Significant wave height (H 1/3, metres)
 A  exceeding 8  exceeding 4
 B  up to, and including, 8  up to, and including, 4
@@ -366,7 +404,7 @@ In the case of post-construction assessment, the contact details and the require
     num: "2.5",
     title: "Owner's manual",
     status: "gap",
-    statusLabel: "not yet addressed",
+    statusLabel: "",
     text: `Each product shall be provided with an owner's manual in accordance with Article 7(7) and Article 9(4). That manual shall provide all the information necessary for safe use of the product drawing particular attention to set up, maintenance, regular operation, prevention of risks and risk management.`,
     link: null
   },
@@ -375,7 +413,7 @@ In the case of post-construction assessment, the contact details and the require
     num: "3.1",
     title: "Structure",
     status: "gap",
-    statusLabel: "needs hull scantlings tool",
+    statusLabel: "",
     text: `The choice and combination of materials and its construction shall ensure that the watercraft is strong enough in all respects. Special attention shall be paid to the design category in accordance with Section 1, and the manufacturer's maximum recommended load in accordance with point 3.6.`,
     link: null
   },
@@ -384,7 +422,7 @@ In the case of post-construction assessment, the contact details and the require
     num: "3.2",
     title: "Stability and freeboard",
     status: "partial",
-    statusLabel: "GZ calculator only",
+    statusLabel: "",
     text: `The watercraft shall have sufficient stability and freeboard considering its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6.`,
     link: { label: "Open GZ calculator", href: "gz-calculator.html" }
   },
@@ -393,7 +431,7 @@ In the case of post-construction assessment, the contact details and the require
     num: "3.3",
     title: "Buoyancy and flotation",
     status: "partial",
-    statusLabel: "GZ calculator only",
+    statusLabel: "",
     text: `The watercraft shall be constructed as to ensure that it has buoyancy characteristics appropriate to its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6. All habitable multihull recreational craft susceptible of inversion shall have sufficient buoyancy to remain afloat in the inverted position.
 
 Watercraft of less than 6 metres in length that are susceptible to swamping when used in their design category shall be provided with appropriate means of flotation in the swamped condition.`,
@@ -410,7 +448,7 @@ Watercraft of less than 6 metres in length that are susceptible to swamping when
 Windows, port lights, doors and hatch covers shall withstand the water pressure likely to be encountered in their specific position, as well as point loads applied by the weight of persons moving on deck.
 
 Through hull fittings designed to allow water passage into the hull or out of the hull, below the waterline corresponding to the manufacturer's maximum recommended load in accordance with point 3.6, shall be fitted with a means of shutoff which shall be readily accessible.`,
-    link: { label: "Open through-hull fitting checklist", href: "ISO9093_Assembly_Test_Report.html" }
+    link: { label: "Open through-hull fitting checklist", href: "through-hull-checklist.html" }
   },
   {
     part: "3. Integrity and structural requirements",
@@ -432,7 +470,7 @@ Where appropriate, particular attention shall be paid to:
     num: "3.6",
     title: "Manufacturer's maximum recommended load",
     status: "gap",
-    statusLabel: "straightforward artifact to build",
+    statusLabel: "",
     text: `The manufacturer's maximum recommended load (fuel, water, provisions, miscellaneous equipment and people (in kilograms)) for which the watercraft was designed, shall be determined in accordance with the design category (Section 1), stability and freeboard (point 3.2) and buoyancy and flotation (point 3.3).`,
     link: null
   },
@@ -441,7 +479,7 @@ Where appropriate, particular attention shall be paid to:
     num: "3.7",
     title: "Life raft stowage",
     status: "gap",
-    statusLabel: "explanatory content, no real spec base",
+    statusLabel: "",
     text: `All recreational craft of design categories A and B, and recreational craft of design categories C and D longer than 6 metres shall be provided with one or more stowage points for a life raft (life rafts) large enough to hold the number of persons the recreational craft was designed to carry as recommended by the manufacturer. Life raft stowage point(s) shall be readily accessible at all times.`,
     link: null
   },
@@ -450,7 +488,7 @@ Where appropriate, particular attention shall be paid to:
     num: "3.8",
     title: "Escape",
     status: "gap",
-    statusLabel: "explanatory content on sizes and distances",
+    statusLabel: "",
     text: `All habitable multihull recreational craft susceptible of inversion shall be provided with viable means of escape in the event of inversion. Where there is a means of escape provided for use in the inverted position, it shall not compromise the structure (point 3.1), the stability (point 3.2) or buoyancy (point 3.3) whether the recreational craft is upright or inverted.
 
 Every habitable recreational craft shall be provided with viable means of escape in the event of fire.`,
@@ -615,7 +653,7 @@ In particular, any permanently installed gas system shall be tested after instal
     num: "5.6.1",
     title: "Fire protection — general",
     status: "gap",
-    statusLabel: "needs scoping, size and fuel type dependent",
+    statusLabel: "",
     text: `The type of equipment installed and the layout of the watercraft shall take account of the risk and spread of fire. Special attention shall be paid to the surroundings of open flame devices, hot areas or engines and auxiliary machines, oil and fuel overflows, uncovered oil and fuel pipes and routing of electrical wiring in particular away from heat sources and hot areas.`,
     link: null
   },
@@ -624,7 +662,7 @@ In particular, any permanently installed gas system shall be tested after instal
     num: "5.6.2",
     title: "Fire-fighting equipment",
     status: "gap",
-    statusLabel: "needs scoping, size and fuel type dependent",
+    statusLabel: "",
     text: `Recreational craft shall be supplied with fire-fighting equipment appropriate to the fire hazard, or the position and capacity of fire-fighting equipment appropriate to the fire hazard shall be indicated. The craft shall not be put into service until the appropriate fire-fighting equipment is in place. Petrol engine compartments shall be protected by a fire extinguishing system that avoids the need to open the compartment in the event of fire. Where fitted, portable fire extinguishers shall be readily accessible and one shall be so positioned that it can easily be reached from the main steering position of the recreational craft.`,
     link: null
   },
@@ -633,7 +671,7 @@ In particular, any permanently installed gas system shall be tested after instal
     num: "5.7",
     title: "Navigation lights, shapes and sound signals",
     status: "gap",
-    statusLabel: "checklist not yet built",
+    statusLabel: "",
     text: `Where navigation lights, shapes and sound signals are fitted, they shall comply with the 1972 COLREG (The International Regulations for Preventing Collisions at Sea) or CEVNI (European Code for Interior Navigations for inland waterways) Regulations as appropriate.`,
     link: null
   },
@@ -729,102 +767,260 @@ const stds = {
   "II.4": [{code:"EN ISO 21487",title:"Permanently installed petrol and diesel fuel tanks"}, {code:"EN ISO 10088",title:"Permanently installed fuel systems"}, {code:"EN ISO 7840",title:"Fire-resistant fuel hoses"}, {code:"EN ISO 8469",title:"Non-fire-resistant fuel hoses"}],
   "II.5": [{code:"EN ISO 12216",title:"Windows, portlights, hatches, deadlights and doors"}],
 };
-const extraLinks = {
-  "5.2.1": [{label:"Open diesel fuel system checklist", href:"tools/iso10088-diesel-checklist.html"}],
-  "5.2.2": [{label:"Diesel metallic tank checklist", href:"tools/iso21487-diesel-metallic-tank.html"}, {label:"Diesel non-metallic tank checklist", href:"tools/iso21487-diesel-nonmetallic-tank.html"}],
-  "5.3": [{label:"Open voltage drop calculator", href:"tools/voltage_drop_calculator.html"}]
-};
-// Corrected tool links: current ISO-named files in the tools/ folder. null = no tool exists yet for that requirement.
-const linkFix = {
-  "2.1":"tools/win-generator.html",
-  "2.2":"tools/builders-plate-generator.html",
-  "2.3":"tools/iso15085-reboarding-checklist.html",
-  "2.4":null,
-  "3.2":"tools/gzmax-calculator.html",
-  "3.3":"tools/gzmax-calculator.html",
-  "3.4":"tools/ISO9093_Assembly_Test_Report.html",
-  "3.5":"tools/hull-openings-bilge-checklist.html",
-  "3.9":"tools/iso15084-strong-points-checklist.html",
-  "4":"tools/iso11591-2-object-avoidance.html",
-  "5.1.1":null,
-  "5.1.2":"tools/iso11105-petrol-ventilation.html",
-  "5.1.3":null,
-  "5.1.4":null,
-  "5.1.6":null,
-  "5.2.1":"tools/iso10088-petrol-checklist.html",
-  "5.2.2":"tools/iso21487-petrol-metallic-tank.html",
-  "5.3":"tools/iso13297-electrical-calculator.html",
-  "5.4.1":"tools/iso25197_checklist.html",
-  "5.4.2":"tools/iso25197_checklist.html",
-  "5.5":"tools/iso10239-lpg-ventilation.html",
-  "5.8":null
-};
-// Endorsed Recommendations for Use (ERFU) mapped to each essential requirement. Numbers link to the sheet page in the RSG Guidelines PDF.
-// Symbols and label reference pages (Blue Peter Marine) mapped to each essential requirement.
-const LABELS_DIR = '';
-const labels = {
-  "2.5": [{f:"iso10240_labels.html", t:"ISO 10240 on-board warning placards"}],
-  "3.2": [{f:"iso12217_figures.html", t:"ISO 12217 stability assessment figures"}],
-  "3.3": [{f:"iso12217_figures.html", t:"ISO 12217 stability assessment figures"}],
-  "5.1.2": [{f:"iso11105_labels.html", t:"ISO 11105 ventilation labels"}],
-  "5.2.1": [{f:"iso10088_labels.html", t:"ISO 10088 fuel system labels"}],
-  "5.2.2": [{f:"iso10088_labels.html", t:"ISO 10088 fuel system labels"}],
-  "5.3": [{f:"iso13297_labels.html", t:"ISO 13297 AC electrical labels"}],
-  "5.4.1": [{f:"iso25197_checklist.html", t:"ISO 25197 steering control checklist"}],
-  "5.4.2": [{f:"iso25197_checklist.html", t:"ISO 25197 steering control checklist"}],
-  "5.5": [{f:"iso10239_labels.html", t:"ISO 10239 LPG gas system labels"}],
-  "5.6.1": [{f:"iso9094_labels.html", t:"ISO 9094 fire protection labels"}],
-  "5.6.2": [{f:"iso9094_labels.html", t:"ISO 9094 fire protection labels"}],
-  "5.8": [{f:"iso8099_labels.html", t:"ISO 8099-1 holding tank labels"}],
-  "II.3": [{f:"iso25197_checklist.html", t:"ISO 25197 steering control checklist"}]
-};
-const GUIDE_PDF = 'RSG-Guidelines-2026.pdf';
-const rfus = {
-  "1": [{n:28,s:"Assigning design categories",p:279}],
-  "2.1": [{n:39,s:"Watercraft Identification Number format",p:281}, {n:198,s:"Watercraft identification number as a barcode",p:332}, {n:211,s:"Watercraft identification number and post-construction assessment",p:336}],
-  "2.2": [{n:76,s:"Maximum recommended load on the builder's plate",p:286}, {n:147,s:"Post-construction assessment and the builder's plate",p:302}, {n:169,s:"Electric motor and battery weight in the maximum load",p:314}, {n:188,s:"Builder's plate and the maximum load figure",p:326}],
-  "2.3": [{n:174,s:"Handholds, man-overboard prevention and recovery",p:316}, {n:204,s:"Man-overboard prevention and the engine room compartment",p:334}],
-  "2.5": [{n:103,s:"Owner's manual, required languages",p:291}, {n:130,s:"Cookers, stoves and heating units",p:297}, {n:174,s:"Handholds, man-overboard prevention and recovery",p:316}],
-  "3.1": [{n:168,s:"Structural calculations",p:313}, {n:196,s:"RIB structure",p:330}],
-  "3.2": [{n:32,s:"Stability, buoyancy and flotation assessment",p:280}, {n:138,s:"Stability assessment for design categories A and B",p:299}, {n:154,s:"Recess, deck drainage and stability on a RIB",p:307}, {n:167,s:"Stability, righting curves and GZ curves",p:313}, {n:173,s:"Downflooding and companionway openings",p:316}, {n:178,s:"Fishing winch devices and stability",p:318}, {n:185,s:"Door and topside opening as a downflooding point",p:322}, {n:197,s:"Stability with a canopy fitted",p:331}, {n:204,s:"Man-overboard prevention and the engine room compartment",p:334}],
-  "3.3": [{n:32,s:"Stability, buoyancy and flotation assessment",p:280}, {n:154,s:"Recess, deck drainage and stability on a RIB",p:307}, {n:193,s:"Minimum two chambers on a powered inflatable board",p:329}, {n:204,s:"Man-overboard prevention and the engine room compartment",p:334}],
-  "3.4": [{n:22,s:"Hose clamps on through-hull fittings",p:278}, {n:26,s:"Pre-fabricated hatches and portlights",p:278}, {n:96,s:"Hatches and portlights vs windows, deadlights and doors",p:289}, {n:171,s:"Definition of hull areas and the transom",p:314}, {n:173,s:"Downflooding and companionway openings",p:316}, {n:185,s:"Door and topside opening as a downflooding point",p:322}, {n:189,s:"Flybridge hatch",p:327}, {n:201,s:"Hatch load area classification",p:333}, {n:210,s:"Superstructure load areas IIB and III",p:335}],
-  "3.5": [{n:154,s:"Recess, deck drainage and stability on a RIB",p:307}, {n:207,s:"Rudder tube, stuffing box and watertight passage",p:334}],
-  "3.6": [{n:76,s:"Maximum recommended load on the builder's plate",p:286}, {n:118,s:"Maximum load, liferaft weight and stowage point",p:294}, {n:143,s:"Crew limit and maximum load, adults and children",p:300}, {n:169,s:"Electric motor and battery weight in the maximum load",p:314}, {n:188,s:"Builder's plate and the maximum load figure",p:326}],
-  "3.7": [{n:118,s:"Maximum load, liferaft weight and stowage point",p:294}],
-  "3.8": [{n:172,s:"Meaning of 'unobstructed' for fire exits and extinguishers",p:315}],
-  "4": [{n:145,s:"Propulsion, transmission components and integral drives",p:301}, {n:146,s:"Characteristics and size of the propulsion engine",p:302}, {n:200,s:"Number of outboard engines and maximum power",p:332}],
-  "5.1.1": [{n:50,s:"Ignition protection of components",p:282}, {n:152,s:"Carbon monoxide detectors",p:305}],
-  "5.1.2": [{n:191,s:"Ventilation for a petrol outboard engine",p:328}],
-  "5.1.3": [{n:120,s:"Exposed parts, gyro stabilizers and cover protection",p:295}],
-  "5.2.1": [{n:135,s:"Permanently installed fuel systems",p:298}, {n:144,s:"Fuel filling opening",p:301}],
-  "5.2.2": [{n:135,s:"Permanently installed fuel systems",p:298}, {n:144,s:"Fuel filling opening",p:301}, {n:148,s:"Non-sparking electrical fuel senders in a petrol tank",p:303}, {n:175,s:"Fuel tank sample selection for testing",p:317}],
-  "5.3": [{n:165,s:"Electric propulsion motor systems",p:311}, {n:192,s:"Lithium-based batteries and fire-fighting equipment",p:329}, {n:194,s:"Ventilation for batteries",p:330}],
-  "5.4.1": [{n:77,s:"Integral steering device and CE marking",p:287}, {n:163,s:"Emergency steering, sterndrive and remote rudder systems",p:310}, {n:179,s:"Steering by app",p:319}],
-  "5.4.2": [{n:89,s:"Remote-controlled rudder steering systems",p:288}, {n:163,s:"Emergency steering, sterndrive and remote rudder systems",p:310}, {n:179,s:"Steering by app",p:319}],
-  "5.5": [{n:93,s:"LPG gas system assessment",p:288}, {n:139,s:"LPG system ventilation",p:299}],
-  "5.6.1": [{n:130,s:"Cookers, stoves and heating units",p:297}, {n:149,s:"Fire alarm",p:303}, {n:187,s:"Fire protection",p:325}],
-  "5.6.2": [{n:130,s:"Cookers, stoves and heating units",p:297}, {n:149,s:"Fire alarm",p:303}, {n:158,s:"Fire detection in the engine room",p:307}, {n:161,s:"Fixed fire-extinguishing in the engine space",p:309}, {n:162,s:"Diesel engine shut-down with a fixed fire system",p:309}, {n:172,s:"Meaning of 'unobstructed' for fire exits and extinguishers",p:315}, {n:187,s:"Fire protection",p:325}, {n:192,s:"Lithium-based batteries and fire-fighting equipment",p:329}],
-  "5.7": [{n:27,s:"Navigation lights and COLREG compliance",p:279}, {n:140,s:"Navigation light expiration labelling",p:300}],
-  "5.8": [{n:94,s:"Discharge prevention, waste water systems",p:289}, {n:164,s:"Potable water contamination from a sewage outlet",p:310}],
-  "II.1": [{n:50,s:"Ignition protection of components",p:282}, {n:148,s:"Non-sparking electrical fuel senders in a petrol tank",p:303}],
-  "II.3": [{n:77,s:"Integral steering device and CE marking",p:287}, {n:115,s:"Combined steering, shift and throttle devices",p:293}, {n:117,s:"Type certificate for steering wheels, family concept",p:294}, {n:160,s:"CE marking of hydraulic steering hoses",p:308}],
-  "II.4": [{n:101,s:"Type approval of fire-resistant and non-fire-resistant fuel hoses",p:290}, {n:148,s:"Non-sparking electrical fuel senders in a petrol tank",p:303}, {n:175,s:"Fuel tank sample selection for testing",p:317}, {n:181,s:"Fuel tanks, inspection hatch and removable parts",p:320}, {n:182,s:"Fuel tanks, directly coupled valves",p:321}],
-  "II.5": [{n:26,s:"Pre-fabricated hatches and portlights",p:278}, {n:96,s:"Hatches and portlights vs windows, deadlights and doors",p:289}, {n:116,s:"Type certificate for prefabricated hatches and portlights",p:293}, {n:189,s:"Flybridge hatch",p:327}]
-};
+const extraLinks = { "5.3": [{label:"Open voltage drop calculator", href:"voltage_drop_calculator.html"}] };
 const notes = {"2.1": "Country code of the manufacturer indicates where the manufacturer is established. It means the country where the manufacturer has its registered office, in case of a legal person, or a permanent address, in case of a natural person.\n\nThe unique code of the manufacturer shall be assigned only by a national authority or national body appointed by the EU Member State. A third country manufacturer has to apply to a national authority or national body of an EU Member State to get this code.", "2.2": "The requirement to state the manufacturer’s maximum recommended load on the builder’s plate has been amended by excluding the weight of the liquids in any fixed tanks from the weight shown on the builder’s plate. This is to avoid the possibility of users accidentally overloading their watercraft because they thought that the weight shown for the content of tanks could be used for carry-on items, luggage etc.", "3.7": "It is specified that this essential requirement applies to recreational craft. The requirement refers only to the need to provide a suitable point or space for a liferaft, where appropriate. It does not lay down dimensions for liferaft stowage nor does it specify that any specific fittings, brackets, lockers or tie-down points should be provided."};
-const reqDocs = {"_general": {"note": "Schemes and drawings shall be numbered and include revision dates in case of changes.", "items": ["IMCI application form", "IMCI evaluation form", "General description of the type", "Installation scheme - fresh and seawater system", "Installation scheme - grey water system", "Installation scheme - heating system", "Installation scheme - exhaust system", "Installation scheme - air-conditioning system", "Installation scheme - hydraulic system", "Installation scheme - other as applicable"]}, "2.3": {"note": "IMCI checklist, sheet for ISO 15085", "items": ["Detailed information about means of reboarding (location and characteristic)", "Test report(s) with photos and/or videos"]}, "2.4": {"note": "IMCI checklist, sheet for ISO 11592 (per source; visibility standard is ISO 11591)", "items": ["Documentation with drawings", "If installed, information about cameras and mirrors for the view astern"]}, "2.5": {"note": "IMCI checklist, sheet for ISO 10240", "items": ["The owner's manual shall be submitted to the inspector"]}, "3.1": {"note": "In case other rules have been applied to achieve structural integrity, please contact IMCI head office up-front.", "items": ["Calculations according to applicable ISO 12215 parts or other accepted rules"]}, "3.2": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.3": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.4": {"note": "IMCI calculation tool ISO 12216; IMCI checklist ISO 9093", "items": ["Documentation about all built-in closing appliances (windows, portlights, hatches, doors, seacocks) - type, location, calculation, position and characteristic", "Calculation according to ISO 12216 for windows, portlights, hatches, doors etc.", "Information according to ISO 9093 for seacocks", "Test reports for watertightness with photos and/or videos"]}, "3.5": {"note": "IMCI checklist and calculation tool ISO 11812", "items": ["Position and characteristic of any recess (drawings and/or photos)", "Cockpit calculation", "Test reports for watertightness test(s) with photos and/or video documentation", "Installation scheme - bilge pumping system", "Installation scheme - piping system with all thru-hull points and seacock information"]}, "3.7": {"note": "No checklist", "items": ["Information about liferaft stowage location (statement, photo etc.)"]}, "3.8": {"note": "See also ISO 12217-1, -2 and ISO 9094", "items": ["Escape for habitable multihull craft susceptible of inversion - description with drawings, photos, calculations or other documentation", "Escape routes with distances and dimensions"]}, "3.9": {"note": "IMCI checklist, sheet for ISO 15083 (per source; anchoring standard is ISO 15084)", "items": ["Drawings, sketches, photos of strong points", "Calculations and/or test report for strength"]}, "4": {"note": "IMCI checklist, sheet for ISO 11592-1, -2", "items": ["Test report with photos and/or video"]}, "5.1.1": {"note": "", "items": ["Information and proof of compartment separation", "Documentation for insulation material"]}, "5.1.2": {"note": "IMCI checklist, sheet for ISO 11105", "items": ["Drawing, sketch, photos, description of the ventilation system", "Net volume calculation of engine room compartment"]}, "5.1.3": {"note": "No checklist", "items": ["Information about exposed parts and their protection"]}, "5.2.1": {"note": "IMCI checklist, sheet for ISO 10088 and ISO 21487", "items": ["Description, drawings, photos, sketches for fuel system", "Test report(s) according to ISO 10088 and ISO 21487"]}, "5.3": {"note": "IMCI checklist, sheet for ISO 10133 and ISO 13297; electrical propulsion per ISO 16315", "items": ["Wire diagram", "Description of fuses and breakers", "Information about used conductors and/or wires (type, colour, diameter)", "Voltage drop calculation", "Documentation about electrical devices that must have ignition protection (IGP)", "Description of battery installation and testing", "Electrical propulsion system - full information and test report according to ISO 16315"]}, "5.4.1": {"note": "IMCI checklist, sheet for the applicable type of system", "items": ["Description and list of used parts", "Documentation for emergency steering"]}, "5.5": {"note": "IMCI checklist, sheet for ISO 10239", "items": ["Description of the system, including list of used components and devices", "Drawings, sketches, photos, work instructions for installation", "Tightness test report", "Installation scheme - LPG system"]}, "5.6.2": {"note": "IMCI checklist, sheet for ISO 9094", "items": ["Overview of the fire-fighting equipment (portable and fixed fire systems)", "Net volume of engine room compartment"]}, "5.7": {"note": "IMCI checklist, sheet for ISO 16180", "items": ["Description of installed navigation light devices"]}, "5.8": {"note": "IMCI checklist, sheet for ISO 8099", "items": ["Description of installed parts/devices in the system", "Test report for waste tank", "Installation scheme - black water system"]}, "II.1": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.2": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.3": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.4": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.5": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}};
+const reqDocs = {"_general": {"note": "Schemes and drawings shall be numbered and include revision dates in case of changes.", "items": ["IMCI application form", "IMCI evaluation form", "General description of the type", "Installation scheme - fresh and seawater system", "Installation scheme - grey water system", "Installation scheme - heating system", "Installation scheme - exhaust system", "Installation scheme - air-conditioning system", "Installation scheme - hydraulic system", "Installation scheme - other as applicable"]}, "2.3": {"note": "IMCI checklist, sheet for ISO 15085", "items": ["Detailed information about means of reboarding (location and characteristic)", "Test report(s) with photos and/or videos"]}, "2.4": {"note": "IMCI checklist, sheet for ISO 11592 (per source; visibility standard is ISO 11591)", "items": ["Documentation with drawings", "If installed, information about cameras and mirrors for the view astern"]}, "2.5": {"note": "IMCI checklist, sheet for ISO 10240", "items": ["The owner's manual shall be submitted to the inspector"]}, "3.1": {"note": "In case other rules have been applied to achieve structural integrity, please contact IMCI head office up-front.", "items": ["Calculations according to applicable ISO 12215 parts or other accepted rules", "ISO 12215-5 calculations (HullScant BST format if available)", "ISO 12215-7 multihull scantling (if applicable)", "ISO 12215-8 rudder calculations", "ISO 12215-9 sailing craft appendages (if applicable)"]}, "3.2": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.3": {"note": "IMCI calculation tool ISO 12217", "items": ["Stability calculation according to the applicable ISO 12217 standard", "Test reports for applicable tests", "Photos and/or video for tests (e.g. flotation test, off-set load test)", "Further documentation if necessary (e.g. for flotation materials)"]}, "3.4": {"note": "IMCI calculation tool ISO 12216; IMCI checklist ISO 9093", "items": ["Documentation about all built-in closing appliances (windows, portlights, hatches, doors, seacocks) - type, location, calculation, position and characteristic", "Calculation according to ISO 12216 for windows, portlights, hatches, doors etc.", "Information according to ISO 9093 for seacocks", "Test reports for watertightness with photos and/or videos"]}, "3.5": {"note": "IMCI checklist and calculation tool ISO 11812", "items": ["Position and characteristic of any recess (drawings and/or photos)", "Cockpit calculation", "Test reports for watertightness test(s) with photos and/or video documentation", "Installation scheme - bilge pumping system", "Installation scheme - piping system with all thru-hull points and seacock information"]}, "3.7": {"note": "No checklist", "items": ["Information about liferaft stowage location (statement, photo etc.)"]}, "3.8": {"note": "See also ISO 12217-1, -2 and ISO 9094", "items": ["Escape for habitable multihull craft susceptible of inversion - description with drawings, photos, calculations or other documentation", "Escape routes with distances and dimensions"]}, "3.9": {"note": "IMCI checklist, sheet for ISO 15083 (per source; anchoring standard is ISO 15084)", "items": ["Drawings, sketches, photos of strong points", "Calculations and/or test report for strength"]}, "4": {"note": "IMCI checklist, sheet for ISO 11592-1, -2", "items": ["Test report with photos and/or video"]}, "5.1.1": {"note": "", "items": ["Information and proof of compartment separation", "Documentation for insulation material"]}, "5.1.2": {"note": "IMCI checklist, sheet for ISO 11105", "items": ["Drawing, sketch, photos, description of the ventilation system", "Net volume calculation of engine room compartment"]}, "5.1.3": {"note": "No checklist", "items": ["Information about exposed parts and their protection"]}, "5.2.1": {"note": "IMCI checklist, sheet for ISO 10088 and ISO 21487", "items": ["Description, drawings, photos, sketches for fuel system", "Test report(s) according to ISO 10088 and ISO 21487"]}, "5.3": {"note": "IMCI checklist, sheet for ISO 10133 and ISO 13297; electrical propulsion per ISO 16315", "items": ["Wire diagram", "Description of fuses and breakers", "Information about used conductors and/or wires (type, colour, diameter)", "Voltage drop calculation", "Documentation about electrical devices that must have ignition protection (IGP)", "Description of battery installation and testing", "Electrical propulsion system - full information and test report according to ISO 16315"]}, "5.4.1": {"note": "IMCI checklist, sheet for the applicable type of system", "items": ["Description and list of used parts", "Documentation for emergency steering"]}, "5.5": {"note": "IMCI checklist, sheet for ISO 10239", "items": ["Description of the system, including list of used components and devices", "Drawings, sketches, photos, work instructions for installation", "Tightness test report", "Installation scheme - LPG system"]}, "5.6.2": {"note": "IMCI checklist, sheet for ISO 9094", "items": ["Overview of the fire-fighting equipment (portable and fixed fire systems)", "Net volume of engine room compartment"]}, "5.7": {"note": "IMCI checklist, sheet for ISO 16180", "items": ["Description of installed navigation light devices"]}, "5.8": {"note": "IMCI checklist, sheet for ISO 8099", "items": ["Description of installed parts/devices in the system", "Test report for waste tank", "Installation scheme - black water system"]}, "II.1": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.2": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.3": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.4": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}, "II.5": {"note": "Component placed on the market separately - conformity assessment under Article 20(3).", "items": ["Certificate / declaration of conformity (CE) for the component"]}};
 const checklistStds = new Set(["8099", "8099-1", "8099-2", "8847", "8848", "9093", "9094", "10087", "10088", "10239", "10240", "10592", "11105", "11591", "11592", "11592-1", "11592-2", "11812", "12216", "12217", "13297", "13929", "14895", "14945", "14946", "15083", "15084", "15085", "16180", "16315", "21487", "23411", "25197"]);
 let workbook = null;
-const CHECKLIST_DIR = 'tools/checklists/';
-const checklistFiles = new Set(["8099-1", "8099-2", "8847", "8848", "9093", "9094", "10087", "10088", "10239", "10240", "10592", "11105", "11591", "11592-1", "11592-2", "11812", "12216", "13297", "13929", "14895", "14945", "14946", "15083", "15084", "15085", "16180", "16315", "21487", "23411", "25197"]);
 
 const partIntros = {"Annex II - Components requiring separate conformity assessment": "Annex II lists five specific components which, when placed on the market separately for installation, require their own conformity assessment and CE marking. Under Article 20(3), six modules or combinations of modules may be applied, all involving a third party - in the design phase only (B+C) or in design and production (B+D, B+E, B+F, G or H) - before the component is placed separately on the market."};
+
+/* ================= component certificate register =================
+   Certificates and Declarations of Conformity for equipment fitted on
+   board, filed under the essential requirement they support. Keyed by
+   clause number. Each entry:
+   { component, manufacturer, docType, standard, ref, date, status, file, notes }
+   docType : "DoC" | "Type Exam" | "Test Report" | "Data Sheet"
+   status  : "On file" | "Pending" | "Requested" | "N/A"
+   file    : path to the PDF (e.g. "certificates/xxx.pdf"), or "" if not yet uploaded
+   Add a line to grow the register; commit the PDF into certificates/.
+   ================================================================= */
+const certRegister = {
+  "3.4": [
+    { component:"Opening portlights", manufacturer:"", docType:"DoC", standard:"EN ISO 12216", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Hatches", manufacturer:"", docType:"DoC", standard:"EN ISO 12216", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Through-hull fittings and seacocks", manufacturer:"", docType:"DoC", standard:"EN ISO 9093", ref:"", date:"", status:"Pending", file:"", notes:"Manufacturer's DoC to EN ISO 9093. Not an Annex II component, so no CE marking of its own and no EU type-examination certificate; below-waterline fittings assessed as part of the craft." },
+    { component:"Portholes (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 12216", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" },
+    { component:"Hatches (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 12216", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" }
+  ],
+  "5.1.1": [
+    { component:"Engine-room insulation (non-combustible / fire-retardant)", manufacturer:"", docType:"Test Report", standard:"", ref:"", date:"", status:"Pending", file:"", notes:"Insulating material must not sustain combustion" },
+    { component:"Inboard diesel engine, M456 series (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"ISO 8178-1", ref:"Eurocontrol 0057 \u00b7 17-09-RCD-VET-G00273/C", date:"2022-10-03", status:"On file", file:"https://vetus.com/wp-content/uploads/03102022_doc_engine_m456_0001.pdf", notes:"Module B+C. Other Vetus engine series (VD, M-line) have their own DoCs" }
+  ],
+  "5.2.1": [
+    { component:"Fuel hoses / fuel lines", manufacturer:"", docType:"DoC", standard:"EN ISO 7840", ref:"", date:"", status:"Pending", file:"", notes:"Fire-resistant; non-fire-resistant per EN ISO 8469" },
+    { component:"Fuel filter / water separator (Racor)", manufacturer:"Racor / Parker Hannifin", docType:"DoC", standard:"EN ISO 10088", ref:"", date:"", status:"Pending", file:"", notes:"Awaiting Racor reference documentation" },
+    { component:"Fuel filter / water separator (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 10088", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" }
+  ],
+  "5.2.2": [
+    { component:"Fuel tank", manufacturer:"", docType:"DoC", standard:"EN ISO 21487", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Diesel fuel tank, FTANK series (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"ISO 21487", ref:"DCI 0613 \u00b7 DCI-CE-2013/53-1586*00", date:"2024-04-10", status:"On file", file:"https://vetus.com/wp-content/uploads/10042024_doc_fuel-tank_ftank-abftank25_0004.pdf", notes:"Module B+C. Covers FTANK_A/B series and FTANK25" }
+  ],
+  "5.3": [
+    { component:"Switches and plugs (IP rating)", manufacturer:"", docType:"Data Sheet", standard:"EN 60529", ref:"", date:"", status:"Pending", file:"", notes:"Record IP value per fitting location" },
+    { component:"Electric propulsion motor and controller", manufacturer:"", docType:"DoC", standard:"EN ISO 16315", ref:"", date:"", status:"Pending", file:"", notes:"" }
+  ],
+  "5.4.1": [
+    { component:"Steering wheel", manufacturer:"", docType:"DoC", standard:"EN ISO 23411", ref:"", date:"", status:"Pending", file:"", notes:"Consolidated wheel standard (replaced 8848 / 9775 / 15652)" },
+    { component:"Cable-over-pulley steering system", manufacturer:"", docType:"DoC", standard:"EN ISO 8847", ref:"", date:"", status:"Pending", file:"", notes:"Cable and pulley type" },
+    { component:"Steering cables (push-pull)", manufacturer:"", docType:"DoC", standard:"EN ISO 8847", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Geared link / rack-and-pinion steering", manufacturer:"", docType:"DoC", standard:"EN ISO 13929", ref:"", date:"", status:"Pending", file:"", notes:"Geared link systems" },
+    { component:"Hydraulic helm pump", manufacturer:"", docType:"DoC", standard:"EN ISO 10592", ref:"", date:"", status:"Pending", file:"", notes:"Remote hydraulic steering" },
+    { component:"Hydraulic steering cylinder / ram", manufacturer:"", docType:"DoC", standard:"EN ISO 10592", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Hydraulic hoses and fittings (steering circuit)", manufacturer:"", docType:"DoC", standard:"EN ISO 10592", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Tie-bar / drag link (multi-engine)", manufacturer:"", docType:"DoC", standard:"EN ISO 10592", ref:"", date:"", status:"Pending", file:"", notes:"" },
+    { component:"Electrical/electronic steer-by-wire control", manufacturer:"", docType:"DoC", standard:"EN ISO 25197", ref:"", date:"", status:"Pending", file:"", notes:"Steering function; excludes autopilot on sailing craft" },
+    { component:"Fly-by-wire throttle / shift control", manufacturer:"", docType:"DoC", standard:"EN ISO 25197", ref:"", date:"", status:"Pending", file:"", notes:"Throttle and shift function of the steer-by-wire standard" },
+    { component:"Hydraulic steering, helm pump / cylinder (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 10592", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" },
+    { component:"Steering wheel (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 23411", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" }
+  ],
+  "5.7": [
+    { component:"Navigation lights", manufacturer:"", docType:"DoC", standard:"EN ISO 16180", ref:"", date:"", status:"Pending", file:"", notes:"LED performance per EN ISO 19009" }
+  ],
+  "5.8": [
+    { component:"Waste water / holding tank system (Vetus)", manufacturer:"Vetus", docType:"DoC", standard:"EN ISO 8099-1", ref:"", date:"", status:"Requested", file:"", notes:"Pull DoC from Vetus documentation portal (search by product)" }
+  ]
+};
+const certBadge = { "DoC":"cb-doc", "Type Exam":"cb-type", "Test Report":"cb-test", "Data Sheet":"cb-data" };
+const certPill  = { "On file":"cp-onfile", "Pending":"cp-pending", "Requested":"cp-requested", "N/A":"cp-na" };
+
+function appendCertRegister(body, num){
+  const items = certRegister[num];
+  if(!items || !items.length) return;
+  const wrap = document.createElement('div');
+  wrap.className = 'certreg';
+  let onFile = 0, pending = 0;
+  const rows = items.map(function(it){
+    if(it.status === 'On file') onFile++;
+    if(it.status === 'Pending') pending++;
+    const fileHtml = it.file
+      ? '<a class="cert-view" href="'+esc(it.file)+'" target="_blank" rel="noopener">View PDF &#8599;</a>'
+      : '<span class="cert-nofile">no file yet</span>';
+    const meta = [];
+    if(it.standard) meta.push('Std: '+esc(it.standard));
+    if(it.ref) meta.push('Ref: '+esc(it.ref));
+    if(it.date) meta.push(esc(it.date));
+    return '<div class="certrow">'
+      + '<div class="cert-main">'
+        + '<div class="cert-name">'+esc(it.component)+'</div>'
+        + (it.manufacturer ? '<div class="cert-mfr">'+esc(it.manufacturer)+'</div>' : '')
+        + (meta.length ? '<div class="cert-meta">'+meta.join(' &nbsp;&#183;&nbsp; ')+'</div>' : '')
+        + (it.notes ? '<div class="cert-notes">'+esc(it.notes)+'</div>' : '')
+      + '</div>'
+      + '<div class="cert-side">'
+        + '<span class="cert-badge '+(certBadge[it.docType]||'cb-data')+'">'+esc(it.docType)+'</span>'
+        + '<span class="cert-pill '+(certPill[it.status]||'cp-na')+'">'+esc(it.status)+'</span>'
+        + fileHtml
+      + '</div>'
+    + '</div>';
+  }).join('');
+  wrap.innerHTML = '<div class="certreg-h">Component certificates &amp; Declarations of Conformity</div>'
+    + '<div class="certreg-wip">Work in progress \u2014 updated as certificates for on-board equipment are received. More items are added regularly.</div>'
+    + rows
+    + '<div class="certreg-count"><b>'+onFile+' on file</b> \u00b7 <i>'+pending+' pending</i></div>';
+  body.appendChild(wrap);
+}
+
+/* Load the published manifest (certificates.json) if present and refresh the
+   register blocks. The inline certRegister above is the seed / offline fallback,
+   so the page always works even before the first upload. */
+function groupManifest(list){
+  var g = {};
+  list.forEach(function(e){
+    if(!e || !e.esr) return;
+    var esr = e.esr;
+    (g[esr] = g[esr] || []).push({
+      component:e.component||"", manufacturer:e.manufacturer||"", docType:e.docType||"DoC",
+      standard:e.standard||"", ref:e.ref||"", date:e.date||"", status:e.status||"Pending",
+      file:e.file||"", notes:e.notes||""
+    });
+  });
+  return g;
+}
+function refreshCertBlocks(){
+  document.querySelectorAll('.clause-body[data-clause]').forEach(function(body){
+    var old = body.querySelector('.certreg');
+    if(old) old.remove();
+    // re-insert directly before the Racor panel or the doc panel if present, else append
+    var num = body.dataset.clause;
+    appendCertRegister(body, num);
+    var reg = body.querySelector('.certreg');
+    var racor = body.querySelector('details.racor');
+    if(reg && racor) body.insertBefore(reg, racor);
+  });
+}
+function loadManifest(){
+  fetch('certificates.json', {cache:'no-store'})
+    .then(function(r){ if(!r.ok) throw new Error('no manifest'); return r.json(); })
+    .then(function(list){
+      if(Array.isArray(list) && list.length){
+        var g = groupManifest(list);
+        Object.keys(certRegister).forEach(function(k){ delete certRegister[k]; });
+        Object.keys(g).forEach(function(k){ certRegister[k] = g[k]; });
+        refreshCertBlocks();
+      }
+    })
+    .catch(function(){ /* keep inline seed */ });
+}
+
 const container = document.getElementById('clauses');
 let currentPart = null;
 
-clauses.forEach((c, i) => {
-  if (c.part !== currentPart) {
+/* ================= Racor fuel filter reference (ISO 10088) =================
+   Model-suitability matrix and survey aid, shown inside clause 5.2.1.
+   Symbols: ok = acceptable in an engine compartment (installed per
+   manufacturer's instructions); cond = acceptable only outside an engine
+   compartment or with the approved metal bowl / fire shield; no = not
+   acceptable for enclosed engine-compartment installation.
+   ========================================================================= */
+const racorSeries = [
+  { name:"Turbine series", rows:[
+    ["500FG","ok","cond","no","Clear plastic bowl"],
+    ["500MA","ok","cond","ok","Aluminium bowl"],
+    ["500MAM","ok","cond","ok","Aluminium bowl"],
+    ["900FG","ok","cond","no","Clear bowl"],
+    ["900MA","ok","cond","ok","Metal bowl"],
+    ["900MAM","ok","cond","ok","Metal bowl"],
+    ["1000FG","ok","cond","no","Clear bowl"],
+    ["1000MA","ok","cond","ok","Metal bowl"],
+    ["1000MAM","ok","cond","ok","Metal bowl"]
+  ]},
+  { name:"Spin-on series", rows:[
+    ["110","ok","ok","ok","Metal construction"],
+    ["120RMAM","ok","ok","ok","ISO 10088 version"],
+    ["220RMAM","cond","ok","ok","Petrol version"],
+    ["225RMAM","cond","ok","ok","Petrol version"],
+    ["220MAMG","ok","no","ok","Diesel version"],
+    ["225MAMG","ok","no","ok","Diesel version"],
+    ["215RMAM","cond","ok","ok","Petrol version"],
+    ["230RMAM","cond","ok","ok","Petrol version"],
+    ["245RMAM","cond","ok","ok","Petrol version"]
+  ]},
+  { name:"Marine spin-on filters", rows:[
+    ["320R-MAM","cond","ok","ok",""],
+    ["320R-RAC","ok","cond","ok",""],
+    ["3120R-RAC","cond","ok","ok",""],
+    ["3120R-RAC-32","ok","no","ok",""]
+  ]},
+  { name:"Metal bowl series", rows:[
+    ["445MAM10","ok","ok","ok",""],
+    ["460MAM10","ok","ok","ok",""],
+    ["490MAM10","ok","ok","ok",""],
+    ["4120MAM10","ok","ok","ok",""]
+  ]},
+  { name:"Duplex systems", rows:[
+    ["75500MAXM","ok","no","ok",""],
+    ["75900MAXM","ok","no","ok",""],
+    ["751000MAXM","ok","no","ok",""]
+  ]},
+  { name:"Commercial marine series", rows:[
+    ["731000MA","ok","no","ok",""],
+    ["771000MA","ok","no","ok",""],
+    ["791000MA","ok","no","ok",""],
+    ["804MA","ok","no","ok",""],
+    ["800D-12","ok","no","ok",""],
+    ["850","ok","no","ok",""]
+  ]}
+];
+const racorNonConf = [
+  ["Racor FG with clear plastic bowl installed next to diesel engine","Major non-conformity if fitted where fire-resistant construction is required by the standard"],
+  ["Racor MA metal bowl","Compliant"],
+  ["Plastic bowl cracked or crazed","Replace filter bowl"],
+  ["Incorrect hose (not to ISO 7840)","Non-compliant"],
+  ["Brass plumbing fittings unsupported","Installation deficiency"],
+  ["Filter mounted directly above starter motor without shielding","Poor installation; assess risk of fuel discharge onto ignition sources"]
+];
+function rsym(v){ var g = v==='ok' ? '\u2713' : (v==='cond' ? '!' : '\u2717'); return '<span class="rsym '+v+'">'+g+'</span>'; }
+
+function appendRacorReference(body, num){
+  if(num !== '5.2.1') return;
+  var d = document.createElement('details');
+  d.className = 'racor';
+  var html = '<summary>Racor fuel filter reference &mdash; ISO 10088</summary><div class="racor-body">';
+  html += '<div class="racor-intro">A survey aid for selecting and assessing Racor fuel filter and water-separator assemblies against ISO 10088. It is not a product-approval list: judge the complete assembly, its installation and the manufacturer\u2019s documentation, and confirm the exact model designation and current data sheet before concluding compliance.</div>';
+  html += '<div class="racor-key">'
+    + '<div class="krow">'+rsym('ok')+'<span>Acceptable for installation in an engine compartment, when installed according to the manufacturer\u2019s instructions.</span></div>'
+    + '<div class="krow">'+rsym('cond')+'<span>Acceptable only outside an engine compartment, or when fitted with the approved metal bowl or fire shield.</span></div>'
+    + '<div class="krow">'+rsym('no')+'<span>Not acceptable for enclosed engine-compartment installation.</span></div>'
+    + '</div>';
+  racorSeries.forEach(function(s){
+    html += '<div class="racor-series-h">'+esc(s.name)+'</div>';
+    html += '<table class="racor-tbl"><thead><tr><th>Model</th><th class="c">Diesel</th><th class="c">Petrol</th><th class="c">Engine comp.</th><th>Notes</th></tr></thead><tbody>';
+    s.rows.forEach(function(r){
+      html += '<tr><td class="model">'+esc(r[0])+'</td><td class="c">'+rsym(r[1])+'</td><td class="c">'+rsym(r[2])+'</td><td class="c">'+rsym(r[3])+'</td><td class="notes">'+esc(r[4])+'</td></tr>';
+    });
+    html += '</tbody></table>';
+  });
+  html += '<div class="racor-sub"><div class="racor-sub-h">Survey checklist</div>'
+    + '<ul>'
+    + '<li>Suitability: metal bowl or approved fire shield; manufacturer identifies the assembly as suitable for marine engine-compartment installation.</li>'
+    + '<li>Installation: securely mounted; accessible for servicing; fuel hoses to ISO 7840; stainless-steel clamps; no strain on fittings; correct fuel-flow direction; drain accessible without spilling into the bilge.</li>'
+    + '<li>Fire safety, petrol: no exposed plastic sediment bowl in the engine compartment; components satisfy the fire-resistance requirements applicable under ISO 10088; any electrical water-in-fuel sensor ignition-protected where required.</li>'
+    + '</ul></div>';
+  html += '<div class="racor-sub"><div class="racor-sub-h">Typical non-conformities</div>';
+  html += '<table class="racor-tbl"><thead><tr><th>Observation</th><th>Finding</th></tr></thead><tbody>';
+  racorNonConf.forEach(function(r){ html += '<tr><td>'+esc(r[0])+'</td><td class="notes">'+esc(r[1])+'</td></tr>'; });
+  html += '</tbody></table></div>';
+  html += '<div class="racor-sub"><div class="racor-sub-h">Suggested report wording</div>'
+    + '<div class="racor-wording"><span class="wl">Compliant example</span>Fuel filter: Racor Model 900MA fitted with aluminium collection bowl. The assembly is suitable for installation within the engine compartment and is consistent with the fire-resistance requirements of ISO 10088 when installed in accordance with the manufacturer\u2019s instructions. Installation found satisfactory.</div>'
+    + '<div class="racor-wording"><span class="wl">Non-compliant example</span>Fuel filter: Racor 500FG fitted with transparent polymer collection bowl installed within the engine compartment. The assembly is not the approved fire-resistant configuration for this location. Replacement with the corresponding Racor 500MA, or an equivalent compliant assembly, is recommended to demonstrate conformity with ISO 10088.</div>'
+    + '</div>';
+  html += '</div>';
+  d.innerHTML = html;
+  body.appendChild(d);
+}
+
+clauses.forEach((c, i) => {  if (c.part !== currentPart) {
     currentPart = c.part;
     const heading = document.createElement('div');
     heading.className = 'part-heading';
@@ -849,13 +1045,14 @@ clauses.forEach((c, i) => {
   right.style.display = 'flex';
   right.style.alignItems = 'center';
   right.style.gap = '10px';
-  right.innerHTML = `<span class="status-badge ${c.status}">${c.statusLabel}</span><span class="chevron">&#9656;</span>`;
+  right.innerHTML = (c.statusLabel ? `<span class="status-badge ${c.status}">${c.statusLabel}</span>` : '') + `<span class="chevron">&#9656;</span>`;
 
   head.appendChild(left);
   head.appendChild(right);
 
   const body = document.createElement('div');
   body.className = 'clause-body';
+  body.dataset.clause = c.num;
 
   const textDiv = document.createElement('div');
   textDiv.className = 'directive-text';
@@ -885,17 +1082,15 @@ clauses.forEach((c, i) => {
       sList.map(function(s){return '<li><span class="code">'+s.code+'</span>'+s.title+'</li>';}).join('') + '</ul>';
     body.appendChild(sd);
   }
-  appendRfuBlock(body, c.num);
   appendChecklistBlock(body, c.num);
-  appendLabelsBlock(body, c.num);
+  appendCertRegister(body, c.num);
+  appendRacorReference(body, c.num);
 
-  var fxHref = Object.prototype.hasOwnProperty.call(linkFix, c.num) ? linkFix[c.num] : (c.link ? c.link.href : null);
-  var fxLabel = c.link ? c.link.label : 'Open tool';
-  if (fxHref) {
+  if (c.link) {
     const a = document.createElement('a');
     a.className = 'tool-link';
-    a.href = fxHref;
-    a.textContent = fxLabel;
+    a.href = c.link.href;
+    a.textContent = c.link.label;
     body.appendChild(a);
   } else if (c.status !== 'component') {
     const gapNote = document.createElement('div');
@@ -906,7 +1101,7 @@ clauses.forEach((c, i) => {
 
 
   const ex = extraLinks[c.num];
-  if (ex && fxHref) ex.forEach(function(l){ const a=document.createElement('a'); a.className='tool-link'; a.href=l.href; a.textContent=l.label; a.style.marginLeft='8px'; body.appendChild(a); });
+  if (ex) ex.forEach(function(l){ const a=document.createElement('a'); a.className='tool-link'; a.href=l.href; a.textContent=l.label; a.style.marginLeft='8px'; body.appendChild(a); });
   div.appendChild(head);
   div.appendChild(body);
   appendDocPanel(body, c.num);
@@ -1127,8 +1322,15 @@ function openWorkbook(){
 
 function renderWorkbookBar(){
   const el = document.getElementById('workbookbar'); if(!el) return;
-  el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>Each requirement links to its own IMCI checklist sheet. The PDFs live in the <b>/' + CHECKLIST_DIR + '</b> folder beside this page &mdash; when IMCI reissues the workbook, re-run the split script and replace that folder.</span></div>'
-    + '<div class="wb-actions"><a class="wb-upload" href="' + CHECKLIST_DIR + '00-front-matter.pdf" target="_blank" rel="noopener">Open front matter</a></div>';
+  if(workbook){
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>Current IMCI Module B / G checklist workbook: <b>'+esc(workbook.version)+'</b> <span class="wb-file">'+esc(workbook.name)+'</span></span></div>'
+      + '<div class="wb-actions"><button onclick="openWorkbook()">Open workbook</button><label class="wb-upload">Replace with newer version<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
+  } else {
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot warn"></span><span>No checklist workbook uploaded yet. Upload the current IMCI Module B / G workbook so every requirement links to the latest version.</span></div>'
+      + '<div class="wb-actions"><label class="wb-upload">Upload latest workbook<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
+  }
+  const inp = el.querySelector('input[type=file]');
+  if(inp) inp.addEventListener('change', function(e){ if(e.target.files[0]) saveWorkbook(e.target.files[0]); e.target.value=''; });
 }
 
 function stdCore(code){
@@ -1146,73 +1348,19 @@ function applicableChecklists(num){
   return out;
 }
 
-function expandCores(code){
-  const cands = [];
-  const dashM = code.match(/(\d{4,5})-(\d)/);
-  if(dashM){ cands.push(dashM[1]+'-'+dashM[2]); return cands; }
-  const baseM = code.match(/(\d{4,5})/); const base = baseM ? baseM[1] : null;
-  const partsM = code.match(/\(Parts?\s*([\d,\s\-]+)\)/i);
-  if(partsM && base){
-    partsM[1].split(',').forEach(function(seg){
-      seg = seg.trim(); const r = seg.match(/^(\d)\s*-\s*(\d)$/);
-      if(r){ for(let k=+r[1]; k<=+r[2]; k++) cands.push(base+'-'+k); }
-      else if(/^\d$/.test(seg)) cands.push(base+'-'+seg);
-    });
-    return cands;
-  }
-  if(base) cands.push(base);
-  return cands;
-}
-
 function appendChecklistBlock(body, num){
-  const list = stds[num] || []; const targets = []; const seen = {};
-  list.forEach(function(s){
-    expandCores(s.code).forEach(function(core){
-      if(checklistFiles.has(core) && !seen[core]){ seen[core] = 1; targets.push(core); }
-    });
-  });
-  if(!targets.length) return;
+  const ap = applicableChecklists(num); if(!ap.length) return;
   const d = document.createElement('div'); d.className = 'checklist';
   d.innerHTML = '<div class="checklist-h">Applicable IMCI checklist</div>'
-    + '<div class="checklist-links">'
-    + targets.map(function(core){ return '<a class="clbtn" href="' + CHECKLIST_DIR + core + '.pdf" target="_blank" rel="noopener">EN ISO ' + core + ' &#8599;</a>'; }).join('')
-    + '</div>';
-  body.appendChild(d);
-}
-
-function appendRfuBlock(body, num){
-  const list = rfus[num];
-  if (!list || !list.length) return;
-  const d = document.createElement('div');
-  d.className = 'rfus';
-  d.innerHTML = '<div class="rfus-h">Endorsed Recommendations for Use (' + list.length + ')</div><ul>'
-    + list.map(function(r){
-        return '<li><a class="erfu-badge" href="' + GUIDE_PDF + '#page=' + r.p + '" target="_blank" rel="noopener">ERFU ' + r.n + '</a>'
-             + '<span class="erfu-subj">' + esc(r.s) + '</span></li>';
-      }).join('')
-    + '</ul><div class="rfus-note">Endorsed by the RCD Committee &middot; RSG Guidelines 2026 (GUIDE2026r1). Each number opens the sheet in the guide PDF.</div>';
-  body.appendChild(d);
-}
-
-function appendLabelsBlock(body, num){
-  const list = labels[num];
-  if (!list || !list.length) return;
-  const seen = {};
-  const items = list.filter(function(l){ if (seen[l.f]) return false; seen[l.f] = 1; return true; });
-  const d = document.createElement('div');
-  d.className = 'labels';
-  d.innerHTML = '<div class="labels-h">Symbols &amp; labels</div><div class="labels-links">'
-    + items.map(function(l){
-        return '<a class="lblbtn" href="' + LABELS_DIR + l.f + '" target="_blank" rel="noopener">' + esc(l.t) + ' &#8599;</a>';
-      }).join('')
-    + '</div>';
-  body.appendChild(d);
+    + '<div class="checklist-sheets">Use the ' + ap.map(function(c){ return '<b>'+esc(c)+'</b>'; }).join(', ') + ' checklist sheet' + (ap.length>1?'s':'') + ' in the current workbook.</div>';
+  const btn = document.createElement('button'); btn.className = 'clbtn'; btn.textContent = 'Open current checklist workbook'; btn.onclick = openWorkbook;
+  d.appendChild(btn); body.appendChild(d);
 }
 
 renderWorkbookBar();
 
+loadManifest();
 
 </script>
-<script src="access-gate.js"></script>
 </body>
 </html>
