@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Blue Peter Marine — Client Access</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f2efe8; --navy:#1a2e4a; --gold:#c8860a; --navy-soft:#2c4361;
+    --line:#d8d2c4; --white:#ffffff; --built:#4a7a5a; --paper:#f7f5ef;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; margin:0; }
+  body{ font-family:'Barlow',sans-serif; color:var(--navy); background:var(--navy); overflow:hidden; }
+
+  /* ---------- sign-in ---------- */
+  #login{
+    position:fixed; inset:0; z-index:100;
+    display:flex; align-items:center; justify-content:center; padding:24px;
+    background:
+      radial-gradient(1200px 600px at 50% -10%, #24406a 0%, var(--navy) 55%, #142845 100%);
+  }
+  .card{
+    width:100%; max-width:420px; background:var(--paper);
+    border:1px solid var(--line); border-radius:10px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35);
+    padding:34px 32px 28px;
+  }
+  .seal{
+    width:52px; height:52px; margin:0 auto 18px;
+    border:2px solid var(--gold); border-radius:9px;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--gold);
+  }
+  .seal svg{ width:24px; height:24px; }
+  .wordmark{
+    font-family:'Barlow Condensed',sans-serif; font-weight:700;
+    font-size:22px; letter-spacing:0.04em; text-align:center; color:var(--navy);
+    margin:0 0 4px;
+  }
+  .kicker{
+    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em;
+    text-transform:uppercase; text-align:center; color:var(--gold); margin:0 0 20px;
+  }
+  .lede{
+    font-size:14.5px; line-height:1.55; text-align:center; color:var(--navy-soft);
+    margin:0 0 24px;
+  }
+  label{
+    display:block; font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:0.08em; text-transform:uppercase; color:var(--navy-soft);
+    margin:0 0 6px;
+  }
+  input{
+    width:100%; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--navy);
+    background:var(--white); border:1px solid var(--line); border-radius:6px;
+    padding:11px 12px; margin:0 0 16px; outline:none;
+  }
+  input:focus-visible{ border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,134,10,0.18); }
+  button.open{
+    width:100%; cursor:pointer; border:none; border-radius:6px;
+    background:var(--navy); color:#fff;
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px;
+    letter-spacing:0.03em; padding:13px; margin-top:4px;
+    transition:background .15s ease;
+  }
+  button.open:hover{ background:var(--navy-soft); }
+  button.open:focus-visible{ box-shadow:0 0 0 3px rgba(200,134,10,0.4); }
+  .err{
+    min-height:18px; font-size:13px; color:#a04040; text-align:center;
+    margin:10px 0 0;
+  }
+  .fineprint{
+    font-size:11.5px; line-height:1.5; color:var(--navy-soft); text-align:center;
+    margin:22px 0 0; padding-top:16px; border-top:1px solid var(--line);
+  }
+
+  /* ---------- unlocked view ---------- */
+  #app{ display:none; height:100vh; flex-direction:column; background:var(--bg); }
+  #bar{
+    flex:none; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
+    background:var(--navy); color:#fff; padding:9px 16px;
+    border-bottom:3px solid var(--gold);
+  }
+  #bar .bm{
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px;
+    letter-spacing:0.04em; white-space:nowrap;
+  }
+  #bar .meta{
+    flex:1 1 260px; font-family:'JetBrains Mono',monospace; font-size:11.5px;
+    line-height:1.45; color:#e7ecf4;
+  }
+  #bar .meta b{ color:#fff; font-weight:500; }
+  #bar .meta .warn{ color:var(--gold); }
+  #bar .actions{ display:flex; gap:8px; align-items:center; }
+  a.upload{
+    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13.5px;
+    letter-spacing:0.03em; background:var(--gold); color:#fff; text-decoration:none;
+    padding:7px 14px; border-radius:5px; white-space:nowrap;
+  }
+  a.upload:hover{ background:#b3770a; }
+  button.lock{
+    cursor:pointer; background:transparent; color:#c3ccda; border:1px solid #3a5478;
+    border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:11px;
+    letter-spacing:0.06em; padding:7px 10px;
+  }
+  button.lock:hover{ color:#fff; border-color:#5a7aa6; }
+  #stage{ position:relative; flex:1 1 auto; }
+  #doc{ position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--bg); }
+  #mark{ position:absolute; inset:0; pointer-events:none; z-index:2; opacity:1; }
+
+  @media (max-width:520px){
+    .card{ padding:28px 22px 24px; }
+    #bar .bm{ font-size:14px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     CLIENT LIST — the only part you edit to manage access.
+     name    : shown on the confidentiality bar and watermark
+     email    : the client's email (case-insensitive)
+     project  : their project number (typed exactly)
+     upload   : optional Nextcloud File Drop link. Leave "" to hide the button.
+     ============================================================ -->
+<script>
+  const CLIENTS = [
+    { name:"Current Marine — CM46", email:"client@currentmarine.com", project:"11352", upload:"" }
+    // , { name:"Another Client", email:"name@example.com", project:"11704", upload:"https://nextcloud.example/s/xxxxx" }
+  ];
+
+  // Which document to frame (kept separate so you can update it freely).
+  const DOCUMENT = "index.html";
+</script>
+
+<section id="login">
+  <div class="card">
+    <div class="seal" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <rect x="4.5" y="10.5" width="15" height="10" rx="1.5"/>
+        <path d="M7.5 10.5V7.5a4.5 4.5 0 0 1 9 0v3"/>
+      </svg>
+    </div>
+    <p class="wordmark">Blue Peter Marine</p>
+    <p class="kicker">Client Access</p>
+    <p class="lede">This reference has been prepared for a single named recipient. Enter the email and project number it was issued to.</p>
+
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="off" spellcheck="false" placeholder="you@company.com">
+
+    <label for="project">Project number</label>
+    <input id="project" type="text" autocomplete="off" spellcheck="false" placeholder="e.g. 11352">
+
+    <button class="open" id="go">Open document</button>
+    <p class="err" id="err" role="alert"></p>
+
+    <p class="fineprint">Confidential. Prepared for the named recipient only and not for redistribution.</p>
+  </div>
+</section>
+
+<section id="app">
+  <header id="bar">
+    <span class="bm">Blue Peter Marine</span>
+    <span class="meta">Prepared exclusively for <b id="who"></b> · Project <b id="proj"></b><br>
+      <span class="warn">Confidential — not to be copied or redistributed</span></span>
+    <span class="actions">
+      <a class="upload" id="uploadBtn" href="#" target="_blank" rel="noopener" style="display:none">Upload documents</a>
+      <button class="lock" id="lockBtn">Lock</button>
+    </span>
+  </header>
+  <div id="stage">
+    <iframe id="doc" title="Reference document" referrerpolicy="no-referrer"></iframe>
+    <div id="mark" aria-hidden="true"></div>
+  </div>
+</section>
+
+<script>
+  const $ = function(id){ return document.getElementById(id); };
+  function escXml(s){ return String(s).replace(/[&<>"']/g, function(c){
+    return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  function watermarkURL(text){
+    const t = escXml(text);
+    const svg =
+      "<svg xmlns='http://www.w3.org/2000/svg' width='360' height='210'>" +
+      "<text x='10' y='120' transform='rotate(-27 10 120)' " +
+      "font-family='JetBrains Mono, monospace' font-size='15' " +
+      "fill='#1a2e4a' fill-opacity='0.07'>" + t + "</text></svg>";
+    return "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svg) + "\")";
+  }
+
+  function unlock(client){
+    $("who").textContent  = client.name;
+    $("proj").textContent = client.project;
+    if (client.upload){
+      const b = $("uploadBtn"); b.href = client.upload; b.style.display = "";
+    }
+    $("mark").style.backgroundImage = watermarkURL(client.name + "  \u00B7  " + client.project);
+    $("doc").src = DOCUMENT;
+    $("login").style.display = "none";
+    $("app").style.display = "flex";
+    document.body.style.overflow = "hidden";
+  }
+
+  function attempt(){
+    const email = $("email").value.trim().toLowerCase();
+    const proj  = $("project").value.trim();
+    const match = CLIENTS.find(function(c){
+      return c.email.trim().toLowerCase() === email && String(c.project).trim() === proj;
+    });
+    if (match){
+      try{ sessionStorage.setItem("bpm_client", JSON.stringify({e:email,p:proj})); }catch(e){}
+      unlock(match);
+    } else {
+      $("err").textContent = "Those details don't match. Check the email and project number on your invitation.";
+    }
+  }
+
+  $("go").addEventListener("click", attempt);
+  ["email","project"].forEach(function(id){
+    $(id).addEventListener("keydown", function(e){ if(e.key==="Enter") attempt(); });
+    $(id).addEventListener("input", function(){ $("err").textContent=""; });
+  });
+  $("lockBtn").addEventListener("click", function(){
+    try{ sessionStorage.removeItem("bpm_client"); }catch(e){}
+    location.reload();
+  });
+
+  // stay unlocked across refreshes within the same browser session
+  (function(){
+    try{
+      const saved = JSON.parse(sessionStorage.getItem("bpm_client") || "null");
+      if (saved){
+        const c = CLIENTS.find(function(x){
+          return x.email.trim().toLowerCase() === saved.e && String(x.project).trim() === saved.p;
+        });
+        if (c) unlock(c);
+      }
+    }catch(e){}
+  })();
+</script>
+</body>
+</html>
