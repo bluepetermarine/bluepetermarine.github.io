@@ -50,6 +50,7 @@
   #bar .meta{ flex:1 1 260px; font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.45; color:#e7ecf4; }
   #bar .meta b{ color:#fff; font-weight:500; }
   #bar .meta .warn{ color:var(--gold); }
+  #bar .meta .aide{ color:#c3ccda; }
   #bar .actions{ display:flex; gap:8px; align-items:center; }
   a.upload{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13.5px; letter-spacing:0.03em; background:var(--gold); color:#fff; text-decoration:none; padding:7px 14px; border-radius:5px; white-space:nowrap; }
   a.upload:hover{ background:#b3770a; }
@@ -85,7 +86,7 @@
     <button class="open" id="go">Open document</button>
     <p class="err" id="err" role="alert"></p>
 
-    <p class="fineprint">Confidential. Prepared for the named recipient only and not for redistribution.</p>
+    <p class="fineprint">Confidential. Prepared for the named recipient only and not for redistribution. This reference is an aide-mémoire only; all project documents must eventually be uploaded to the IMCI server.</p>
   </div>
 </section>
 
@@ -93,9 +94,9 @@
   <header id="bar">
     <span class="bm">Blue Peter Marine</span>
     <span class="meta">Prepared exclusively for <b id="who"></b> · Project <b id="proj"></b><br>
-      <span class="warn">Confidential — not to be copied or redistributed</span></span>
+      <span class="warn">Confidential — not to be copied or redistributed</span><br>
+      <span class="aide">Aide-mémoire only — all project documents must eventually be uploaded to the IMCI server.</span></span>
     <span class="actions">
-      <a class="upload" id="uploadBtn" href="#" target="_blank" rel="noopener" style="display:none">Upload documents</a>
       <button class="lock" id="lockBtn">Lock</button>
     </span>
   </header>
@@ -151,7 +152,6 @@
   function unlock(){
     $("who").textContent  = PAYLOAD.n || "";
     $("proj").textContent = PAYLOAD.p || "";
-    if (PAYLOAD.u){ const b = $("uploadBtn"); b.href = PAYLOAD.u; b.style.display = ""; }
     $("mark").style.backgroundImage = watermarkURL((PAYLOAD.n || "") + "  \u00B7  " + (PAYLOAD.p || ""));
     $("doc").src = DOCUMENT;
     $("login").style.display = "none";
