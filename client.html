@@ -15,126 +15,54 @@
   html,body{ height:100%; margin:0; }
   body{ font-family:'Barlow',sans-serif; color:var(--navy); background:var(--navy); overflow:hidden; }
 
-  /* ---------- sign-in ---------- */
   #login{
     position:fixed; inset:0; z-index:100;
     display:flex; align-items:center; justify-content:center; padding:24px;
-    background:
-      radial-gradient(1200px 600px at 50% -10%, #24406a 0%, var(--navy) 55%, #142845 100%);
+    background:radial-gradient(1200px 600px at 50% -10%, #24406a 0%, var(--navy) 55%, #142845 100%);
   }
   .card{
     width:100%; max-width:420px; background:var(--paper);
     border:1px solid var(--line); border-radius:10px;
-    box-shadow:0 24px 60px rgba(0,0,0,0.35);
-    padding:34px 32px 28px;
+    box-shadow:0 24px 60px rgba(0,0,0,0.35); padding:34px 32px 28px;
   }
   .seal{
     width:52px; height:52px; margin:0 auto 18px;
     border:2px solid var(--gold); border-radius:9px;
-    display:flex; align-items:center; justify-content:center;
-    color:var(--gold);
+    display:flex; align-items:center; justify-content:center; color:var(--gold);
   }
   .seal svg{ width:24px; height:24px; }
-  .wordmark{
-    font-family:'Barlow Condensed',sans-serif; font-weight:700;
-    font-size:22px; letter-spacing:0.04em; text-align:center; color:var(--navy);
-    margin:0 0 4px;
-  }
-  .kicker{
-    font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em;
-    text-transform:uppercase; text-align:center; color:var(--gold); margin:0 0 20px;
-  }
-  .lede{
-    font-size:14.5px; line-height:1.55; text-align:center; color:var(--navy-soft);
-    margin:0 0 24px;
-  }
-  label{
-    display:block; font-family:'JetBrains Mono',monospace; font-size:11px;
-    letter-spacing:0.08em; text-transform:uppercase; color:var(--navy-soft);
-    margin:0 0 6px;
-  }
-  input{
-    width:100%; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--navy);
-    background:var(--white); border:1px solid var(--line); border-radius:6px;
-    padding:11px 12px; margin:0 0 16px; outline:none;
-  }
+  .wordmark{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; letter-spacing:0.04em; text-align:center; color:var(--navy); margin:0 0 4px; }
+  .kicker{ font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.14em; text-transform:uppercase; text-align:center; color:var(--gold); margin:0 0 20px; }
+  .lede{ font-size:14.5px; line-height:1.55; text-align:center; color:var(--navy-soft); margin:0 0 24px; }
+  label{ display:block; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--navy-soft); margin:0 0 6px; }
+  input{ width:100%; font-family:'JetBrains Mono',monospace; font-size:14px; color:var(--navy); background:var(--white); border:1px solid var(--line); border-radius:6px; padding:11px 12px; margin:0 0 16px; outline:none; }
   input:focus-visible{ border-color:var(--gold); box-shadow:0 0 0 3px rgba(200,134,10,0.18); }
-  button.open{
-    width:100%; cursor:pointer; border:none; border-radius:6px;
-    background:var(--navy); color:#fff;
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px;
-    letter-spacing:0.03em; padding:13px; margin-top:4px;
-    transition:background .15s ease;
-  }
+  button.open{ width:100%; cursor:pointer; border:none; border-radius:6px; background:var(--navy); color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:16px; letter-spacing:0.03em; padding:13px; margin-top:4px; transition:background .15s ease; }
   button.open:hover{ background:var(--navy-soft); }
+  button.open:disabled{ opacity:0.5; cursor:not-allowed; }
   button.open:focus-visible{ box-shadow:0 0 0 3px rgba(200,134,10,0.4); }
-  .err{
-    min-height:18px; font-size:13px; color:#a04040; text-align:center;
-    margin:10px 0 0;
-  }
-  .fineprint{
-    font-size:11.5px; line-height:1.5; color:var(--navy-soft); text-align:center;
-    margin:22px 0 0; padding-top:16px; border-top:1px solid var(--line);
-  }
+  .err{ min-height:18px; font-size:13px; color:#a04040; text-align:center; margin:10px 0 0; }
+  .fineprint{ font-size:11.5px; line-height:1.5; color:var(--navy-soft); text-align:center; margin:22px 0 0; padding-top:16px; border-top:1px solid var(--line); }
 
-  /* ---------- unlocked view ---------- */
   #app{ display:none; height:100vh; flex-direction:column; background:var(--bg); }
-  #bar{
-    flex:none; display:flex; align-items:center; gap:16px; flex-wrap:wrap;
-    background:var(--navy); color:#fff; padding:9px 16px;
-    border-bottom:3px solid var(--gold);
-  }
-  #bar .bm{
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px;
-    letter-spacing:0.04em; white-space:nowrap;
-  }
-  #bar .meta{
-    flex:1 1 260px; font-family:'JetBrains Mono',monospace; font-size:11.5px;
-    line-height:1.45; color:#e7ecf4;
-  }
+  #bar{ flex:none; display:flex; align-items:center; gap:16px; flex-wrap:wrap; background:var(--navy); color:#fff; padding:9px 16px; border-bottom:3px solid var(--gold); }
+  #bar .bm{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; letter-spacing:0.04em; white-space:nowrap; }
+  #bar .meta{ flex:1 1 260px; font-family:'JetBrains Mono',monospace; font-size:11.5px; line-height:1.45; color:#e7ecf4; }
   #bar .meta b{ color:#fff; font-weight:500; }
   #bar .meta .warn{ color:var(--gold); }
   #bar .actions{ display:flex; gap:8px; align-items:center; }
-  a.upload{
-    font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13.5px;
-    letter-spacing:0.03em; background:var(--gold); color:#fff; text-decoration:none;
-    padding:7px 14px; border-radius:5px; white-space:nowrap;
-  }
+  a.upload{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13.5px; letter-spacing:0.03em; background:var(--gold); color:#fff; text-decoration:none; padding:7px 14px; border-radius:5px; white-space:nowrap; }
   a.upload:hover{ background:#b3770a; }
-  button.lock{
-    cursor:pointer; background:transparent; color:#c3ccda; border:1px solid #3a5478;
-    border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:11px;
-    letter-spacing:0.06em; padding:7px 10px;
-  }
+  button.lock{ cursor:pointer; background:transparent; color:#c3ccda; border:1px solid #3a5478; border-radius:5px; font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; padding:7px 10px; }
   button.lock:hover{ color:#fff; border-color:#5a7aa6; }
   #stage{ position:relative; flex:1 1 auto; }
   #doc{ position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--bg); }
   #mark{ position:absolute; inset:0; pointer-events:none; z-index:2; opacity:1; }
 
-  @media (max-width:520px){
-    .card{ padding:28px 22px 24px; }
-    #bar .bm{ font-size:14px; }
-  }
+  @media (max-width:520px){ .card{ padding:28px 22px 24px; } #bar .bm{ font-size:14px; } }
 </style>
 </head>
 <body>
-
-<!-- ============================================================
-     CLIENT LIST — the only part you edit to manage access.
-     name    : shown on the confidentiality bar and watermark
-     email    : the client's email (case-insensitive)
-     project  : their project number (typed exactly)
-     upload   : optional Nextcloud File Drop link. Leave "" to hide the button.
-     ============================================================ -->
-<script>
-  const CLIENTS = [
-    { name:"Current Marine — CM46", email:"client@currentmarine.com", project:"11352", upload:"" }
-    // , { name:"Another Client", email:"name@example.com", project:"11704", upload:"https://nextcloud.example/s/xxxxx" }
-  ];
-
-  // Which document to frame (kept separate so you can update it freely).
-  const DOCUMENT = "index.html";
-</script>
 
 <section id="login">
   <div class="card">
@@ -146,7 +74,7 @@
     </div>
     <p class="wordmark">Blue Peter Marine</p>
     <p class="kicker">Client Access</p>
-    <p class="lede">This reference has been prepared for a single named recipient. Enter the email and project number it was issued to.</p>
+    <p class="lede" id="lede">This reference has been prepared for a single named recipient. Enter the email and project number it was issued to.</p>
 
     <label for="email">Email</label>
     <input id="email" type="email" autocomplete="off" spellcheck="false" placeholder="you@company.com">
@@ -178,9 +106,24 @@
 </section>
 
 <script>
+  const DOCUMENT = "index.html";   // the reference framed after sign-in; edit it freely
+
   const $ = function(id){ return document.getElementById(id); };
   function escXml(s){ return String(s).replace(/[&<>"']/g, function(c){
     return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]; }); }
+
+  // URL-safe base64 (UTF-8 aware) — mirror of the generator
+  function b64d(s){
+    s = s.replace(/-/g,'+').replace(/_/g,'/');
+    while (s.length % 4) s += '=';
+    return decodeURIComponent(escape(atob(s)));
+  }
+  // one-way check of email + project — mirror of the generator
+  async function bpmHash(email, project){
+    const txt = String(email).trim().toLowerCase() + '|' + String(project).trim();
+    const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(txt));
+    return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+  }
 
   function watermarkURL(text){
     const t = escXml(text);
@@ -192,28 +135,38 @@
     return "url(\"data:image/svg+xml;utf8," + encodeURIComponent(svg) + "\")";
   }
 
-  function unlock(client){
-    $("who").textContent  = client.name;
-    $("proj").textContent = client.project;
-    if (client.upload){
-      const b = $("uploadBtn"); b.href = client.upload; b.style.display = "";
+  // client details come from their own link: client.html?c=<token>
+  let PAYLOAD = null;
+  (function(){
+    try{
+      const tok = new URLSearchParams(location.search).get('c');
+      if (tok){ PAYLOAD = JSON.parse(b64d(tok)); }
+    }catch(e){ PAYLOAD = null; }
+    if (!PAYLOAD || !PAYLOAD.h){
+      $("lede").textContent = "This access link is incomplete. Please open the exact link that was sent to you.";
+      $("go").disabled = true;
     }
-    $("mark").style.backgroundImage = watermarkURL(client.name + "  \u00B7  " + client.project);
+  })();
+
+  function unlock(){
+    $("who").textContent  = PAYLOAD.n || "";
+    $("proj").textContent = PAYLOAD.p || "";
+    if (PAYLOAD.u){ const b = $("uploadBtn"); b.href = PAYLOAD.u; b.style.display = ""; }
+    $("mark").style.backgroundImage = watermarkURL((PAYLOAD.n || "") + "  \u00B7  " + (PAYLOAD.p || ""));
     $("doc").src = DOCUMENT;
     $("login").style.display = "none";
     $("app").style.display = "flex";
     document.body.style.overflow = "hidden";
   }
 
-  function attempt(){
-    const email = $("email").value.trim().toLowerCase();
-    const proj  = $("project").value.trim();
-    const match = CLIENTS.find(function(c){
-      return c.email.trim().toLowerCase() === email && String(c.project).trim() === proj;
-    });
-    if (match){
-      try{ sessionStorage.setItem("bpm_client", JSON.stringify({e:email,p:proj})); }catch(e){}
-      unlock(match);
+  async function attempt(){
+    if (!PAYLOAD || !PAYLOAD.h) return;
+    let h;
+    try{ h = await bpmHash($("email").value, $("project").value); }
+    catch(e){ $("err").textContent = "This page needs a secure (https) connection to sign in."; return; }
+    if (h === PAYLOAD.h){
+      try{ sessionStorage.setItem("bpm_ok_" + PAYLOAD.h, "1"); }catch(e){}
+      unlock();
     } else {
       $("err").textContent = "Those details don't match. Check the email and project number on your invitation.";
     }
@@ -225,21 +178,13 @@
     $(id).addEventListener("input", function(){ $("err").textContent=""; });
   });
   $("lockBtn").addEventListener("click", function(){
-    try{ sessionStorage.removeItem("bpm_client"); }catch(e){}
+    try{ if (PAYLOAD) sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); }catch(e){}
     location.reload();
   });
 
-  // stay unlocked across refreshes within the same browser session
+  // stay signed in across refreshes within the same browser session
   (function(){
-    try{
-      const saved = JSON.parse(sessionStorage.getItem("bpm_client") || "null");
-      if (saved){
-        const c = CLIENTS.find(function(x){
-          return x.email.trim().toLowerCase() === saved.e && String(x.project).trim() === saved.p;
-        });
-        if (c) unlock(c);
-      }
-    }catch(e){}
+    try{ if (PAYLOAD && PAYLOAD.h && sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1") unlock(); }catch(e){}
   })();
 </script>
 </body>
