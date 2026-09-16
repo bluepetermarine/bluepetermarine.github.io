@@ -50,9 +50,6 @@
   <label for="project">Project number</label>
   <input id="project" type="text" placeholder="11352" autocomplete="off" spellcheck="false">
 
-  <label for="upload">Upload link (optional)</label>
-  <input id="upload" type="text" placeholder="https://nextcloud.../s/xxxxx  — leave blank to hide the button" autocomplete="off" spellcheck="false">
-
   <button class="make" id="make">Generate access link</button>
   <p class="err" id="err" role="alert"></p>
 
@@ -84,13 +81,11 @@
     const n = $("name").value.trim();
     const email = $("email").value.trim();
     const p = $("project").value.trim();
-    const u = $("upload").value.trim();
     if (!n || !email || !p){ $("err").textContent = "Fill in name, email and project number."; return; }
     let h;
     try{ h = await bpmHash(email, p); }
     catch(e){ $("err").textContent = "This page needs a secure (https) connection to generate a link."; return; }
     const payload = { n:n, p:p, h:h };
-    if (u) payload.u = u;
     const token = b64e(JSON.stringify(payload));
     const link = location.origin + "/client.html?c=" + token;
 
