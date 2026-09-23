@@ -1,0 +1,990 @@
+<title>Blue Peter Marine Window Calculator</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap">
+<style>
+  :root{
+    --paper:#eef3f4;
+    --surface:#ffffff;
+    --surface-2:#e4ecee;
+    --ink:#10293a;
+    --ink-soft:#3c5666;
+    --muted:#5c7581;
+    --line:#c9d6da;
+    --line-soft:#dbe4e6;
+    --accent:#93691f;
+    --accent-strong:#7a5518;
+    --accent-tint:#f1e6d1;
+    --pass:#276448;
+    --pass-tint:#dcece2;
+    --fail:#a6362f;
+    --fail-tint:#f5dcda;
+    --warn:#8a611c;
+    --warn-tint:#f1e3c8;
+    --focus:#3c6e88;
+    --shadow: 0 1px 2px rgba(16,41,58,.06), 0 6px 20px -8px rgba(16,41,58,.18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --paper:#0b1b26;
+      --surface:#12242f;
+      --surface-2:#182f3c;
+      --ink:#e7eef1;
+      --ink-soft:#c1d2d9;
+      --muted:#8ba3ac;
+      --line:#26414d;
+      --line-soft:#1c333e;
+      --accent:#d7ac5c;
+      --accent-strong:#eac583;
+      --accent-tint:#2c2415;
+      --pass:#5aab80;
+      --pass-tint:#12281d;
+      --fail:#e18077;
+      --fail-tint:#301917;
+      --warn:#d7ac5c;
+      --warn-tint:#2c2415;
+      --focus:#7fb2cc;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -10px rgba(0,0,0,.55);
+    }
+  }
+  :root[data-theme="dark"]{
+    --paper:#0b1b26;
+    --surface:#12242f;
+    --surface-2:#182f3c;
+    --ink:#e7eef1;
+    --ink-soft:#c1d2d9;
+    --muted:#8ba3ac;
+    --line:#26414d;
+    --line-soft:#1c333e;
+    --accent:#d7ac5c;
+    --accent-strong:#eac583;
+    --accent-tint:#2c2415;
+    --pass:#5aab80;
+    --pass-tint:#12281d;
+    --fail:#e18077;
+    --fail-tint:#301917;
+    --warn:#d7ac5c;
+    --warn-tint:#2c2415;
+    --focus:#7fb2cc;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 10px 30px -10px rgba(0,0,0,.55);
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; }
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"Public Sans", ui-sans-serif, system-ui, sans-serif;
+    font-size:15px;
+    line-height:1.5;
+    padding-inline:20px;
+    padding-block:28px 60px;
+  }
+  h1,h2,h3{ font-family:"Fraunces", Georgia, serif; text-wrap:balance; margin:0; }
+  .wrap{ max-width:1080px; margin-inline:auto; display:flex; flex-direction:column; gap:28px; }
+
+  a{ color:var(--focus); }
+  :focus-visible{ outline:2px solid var(--focus); outline-offset:2px; }
+
+  /* ---------- Masthead ---------- */
+  .masthead{
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:22px 24px;
+    display:flex;
+    flex-direction:column;
+    gap:18px;
+  }
+  .brand-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:16px;
+    flex-wrap:wrap;
+  }
+  .wordmark{
+    font-family:"Fraunces", serif;
+    font-weight:700;
+    font-size:1.5rem;
+    letter-spacing:.06em;
+    color:var(--accent-strong);
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .wordmark small{
+    font-family:"Public Sans", sans-serif;
+    font-weight:600;
+    font-size:.62rem;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:var(--muted);
+  }
+  h1.title{ font-size:1.5rem; font-weight:600; margin-top:2px; }
+  .subtitle{ color:var(--muted); font-size:.92rem; max-width:52ch; margin-top:4px; }
+  .clause-tag{
+    font-family:"IBM Plex Mono", ui-monospace, monospace;
+    font-size:.72rem;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:999px;
+    padding:4px 10px;
+    white-space:nowrap;
+    align-self:flex-start;
+  }
+
+  .project-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(170px,1fr));
+    gap:14px;
+    border-top:1px solid var(--line-soft);
+    padding-top:16px;
+  }
+  .field label{
+    display:block;
+    font-size:.72rem;
+    font-weight:600;
+    letter-spacing:.04em;
+    text-transform:uppercase;
+    color:var(--muted);
+    margin-bottom:5px;
+  }
+  .field input, .field select{
+    width:100%;
+    font-family:inherit;
+    font-size:.92rem;
+    color:var(--ink);
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:7px;
+    padding:8px 10px;
+  }
+  .field input:focus, .field select:focus{ border-color:var(--focus); }
+  .field .hint{ font-size:.74rem; color:var(--muted); margin-top:4px; }
+  .field .num{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+
+  /* ---------- Schedule (summary) ---------- */
+  .panel{
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    padding:20px 22px 22px;
+  }
+  .panel-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:baseline;
+    gap:12px;
+    flex-wrap:wrap;
+    margin-bottom:14px;
+  }
+  .panel-head h2{ font-size:1.15rem; font-weight:600; }
+  .panel-head .count{ font-size:.82rem; color:var(--muted); }
+
+  .schedule-scroll{ overflow-x:auto; }
+  table.schedule{ border-collapse:collapse; width:100%; min-width:640px; }
+  table.schedule th, table.schedule td{
+    text-align:left;
+    padding:9px 12px;
+    border-bottom:1px solid var(--line-soft);
+    font-size:.86rem;
+    white-space:nowrap;
+  }
+  table.schedule th{
+    font-size:.68rem;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--muted);
+    font-weight:600;
+  }
+  table.schedule td.num{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric:tabular-nums; }
+  table.schedule td:first-child{ max-width:260px; overflow:hidden; text-overflow:ellipsis; }
+  table.schedule tbody tr:hover{ background:var(--surface-2); }
+  table.schedule tbody tr{ cursor:pointer; }
+
+  .badge{
+    display:inline-flex; align-items:center; gap:5px;
+    font-size:.72rem; font-weight:700; letter-spacing:.04em;
+    padding:4px 10px; border-radius:999px; text-transform:uppercase;
+    font-family:"Public Sans", sans-serif;
+  }
+  .badge.pass{ background:var(--pass-tint); color:var(--pass); }
+  .badge.fail{ background:var(--fail-tint); color:var(--fail); }
+  .badge.pending{ background:var(--surface-2); color:var(--muted); }
+  .badge .dot{ width:6px; height:6px; border-radius:50%; background:currentColor; }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    font-family:"Public Sans", sans-serif;
+    font-size:.84rem;
+    font-weight:600;
+    border-radius:7px;
+    padding:8px 14px;
+    border:1px solid var(--accent);
+    background:var(--accent);
+    color:#fffaf1;
+    cursor:pointer;
+  }
+  .btn:hover{ background:var(--accent-strong); border-color:var(--accent-strong); }
+  .btn.ghost{
+    background:transparent; color:var(--ink-soft); border-color:var(--line);
+  }
+  .btn.ghost:hover{ border-color:var(--muted); color:var(--ink); }
+  .btn.small{ padding:5px 10px; font-size:.76rem; }
+  .btn.danger{ background:transparent; border-color:var(--line); color:var(--fail); }
+  .btn.danger:hover{ border-color:var(--fail); background:var(--fail-tint); }
+  .btn:disabled{ opacity:.5; cursor:not-allowed; }
+  .toolbar{ display:flex; gap:10px; flex-wrap:wrap; }
+
+  /* ---------- Window cards ---------- */
+  .windows{ display:flex; flex-direction:column; gap:16px; }
+  .window-card{
+    border:1px solid var(--line);
+    background:var(--surface);
+    border-radius:10px;
+    box-shadow:var(--shadow);
+    overflow:hidden;
+    scroll-margin-top:20px;
+  }
+  .window-card.flash{ border-color:var(--focus); }
+  .card-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:14px 18px;
+    border-bottom:1px solid var(--line-soft);
+    flex-wrap:wrap;
+  }
+  .card-head .idx{
+    font-family:"IBM Plex Mono", monospace;
+    font-size:.72rem;
+    color:var(--muted);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:2px 7px;
+  }
+  .card-head input.name{
+    flex:1 1 220px;
+    min-width:140px;
+    font-family:"Fraunces", serif;
+    font-weight:600;
+    font-size:1.02rem;
+    border:1px solid transparent;
+    background:transparent;
+    color:var(--ink);
+    padding:4px 6px;
+    border-radius:6px;
+  }
+  .card-head input.name:hover, .card-head input.name:focus{ border-color:var(--line); background:var(--surface-2); }
+  .card-head .spacer{ flex:1 1 auto; }
+  .card-actions{ display:flex; gap:8px; align-items:center; }
+
+  .card-body{ padding:18px; display:flex; flex-direction:column; gap:20px; }
+  @media (min-width:820px){
+    .card-body{ flex-direction:row; align-items:flex-start; }
+    .card-inputs{ flex:1 1 58%; }
+    .card-result{ flex:1 1 42%; position:sticky; top:14px; }
+  }
+
+  .group{ margin-bottom:16px; }
+  .group:last-child{ margin-bottom:0; }
+  .group-title{
+    font-size:.68rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase;
+    color:var(--accent-strong); margin-bottom:10px;
+  }
+  .field-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(168px,1fr)); gap:12px 14px; }
+  .field.full{ grid-column:1/-1; }
+  .field.check{ display:flex; align-items:center; gap:8px; margin-top:2px; }
+  .field.check label{ margin:0; text-transform:none; font-size:.86rem; font-weight:500; letter-spacing:0; color:var(--ink-soft); }
+  .field.check input[type="checkbox"]{ width:16px; height:16px; }
+
+  .errors{ margin-top:6px; font-size:.8rem; color:var(--fail); }
+  .note{
+    font-size:.8rem; border-radius:7px; padding:9px 11px; margin-top:10px;
+    border:1px solid var(--warn); background:var(--warn-tint); color:var(--warn);
+  }
+
+  /* ---------- Result panel ---------- */
+  .result-card{
+    border:1px solid var(--line-soft);
+    background:var(--surface-2);
+    border-radius:9px;
+    padding:16px;
+  }
+  .result-top{ display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; }
+  .result-top .badge{ font-size:.78rem; padding:6px 13px; }
+  .thickness-compare{ display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:6px; }
+  .tstat{ background:var(--surface); border:1px solid var(--line); border-radius:8px; padding:10px 12px; }
+  .tstat .label{ font-size:.68rem; text-transform:uppercase; letter-spacing:.05em; color:var(--muted); }
+  .tstat .value{ font-family:"IBM Plex Mono", monospace; font-variant-numeric:tabular-nums; font-size:1.35rem; font-weight:600; margin-top:2px; }
+  .tstat .unit{ font-size:.75rem; color:var(--muted); font-weight:400; }
+
+  .margin-line{ font-size:.8rem; color:var(--muted); margin-top:4px; }
+  .margin-line strong{ color:var(--ink); }
+
+  details.calc{ margin-top:14px; }
+  details.calc summary{
+    cursor:pointer; font-size:.78rem; font-weight:600; color:var(--focus);
+    list-style:none; display:flex; align-items:center; gap:6px;
+  }
+  details.calc summary::-webkit-details-marker{ display:none; }
+  details.calc summary::before{ content:"▸"; font-size:.7rem; }
+  details.calc[open] summary::before{ content:"▾"; }
+  table.calc-table{ width:100%; border-collapse:collapse; margin-top:10px; }
+  table.calc-table td{
+    padding:5px 0; border-bottom:1px dashed var(--line); font-size:.8rem;
+  }
+  table.calc-table td:first-child{ color:var(--muted); }
+  table.calc-table td:last-child{
+    text-align:right; font-family:"IBM Plex Mono", monospace; font-variant-numeric:tabular-nums;
+  }
+  .escape-row{ display:flex; justify-content:space-between; font-size:.78rem; color:var(--muted); margin-top:12px; padding-top:10px; border-top:1px solid var(--line); }
+
+  /* ---------- Footer ---------- */
+  .disclaimer{
+    font-size:.78rem; color:var(--muted); line-height:1.6;
+    border-top:1px solid var(--line); padding-top:16px;
+  }
+  .disclaimer strong{ color:var(--ink-soft); }
+  .footer-row{ display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; align-items:flex-start; }
+
+  .empty{
+    text-align:center; padding:36px 20px; color:var(--muted); font-size:.92rem;
+    border:1px dashed var(--line); border-radius:10px;
+  }
+
+  @media print{
+    body{ background:#fff; padding:0; font-size:12px; }
+    .toolbar, .card-actions, .no-print{ display:none !important; }
+    .panel, .masthead, .window-card{ box-shadow:none; border-color:#999; break-inside:avoid; }
+    details.calc{ display:block; }
+    details.calc summary{ display:none; }
+  }
+</style>
+
+<div class="wrap">
+
+  <header class="masthead">
+    <div class="brand-row">
+      <div>
+        <div class="wordmark">Blue Peter Marine <small>CE / RCD Compliance &amp; Marine Survey</small></div>
+        <h1 class="title">Window &amp; Portlight Strength Calculator</h1>
+        <p class="subtitle">Required plate thickness and pass/fail check for windows, portlights, deadlights and doors under ISO 12216:2020, Clause 7 (monolithic plates).</p>
+      </div>
+      <span class="clause-tag">ISO 12216:2020 · Cl. 7</span>
+    </div>
+
+    <div class="project-grid">
+      <div class="field">
+        <label for="proj-manufacturer">Manufacturer</label>
+        <input id="proj-manufacturer" type="text" placeholder="e.g. Falcon Yachts">
+      </div>
+      <div class="field">
+        <label for="proj-model">Model</label>
+        <input id="proj-model" type="text" placeholder="e.g. FY 38">
+      </div>
+      <div class="field">
+        <label for="proj-lh">Hull length LH, default (m)</label>
+        <input id="proj-lh" class="num" type="number" min="0" step="0.1" value="12" inputmode="decimal">
+        <div class="hint">Used for new windows &amp; the Area&nbsp;I minimum-thickness rule.</div>
+      </div>
+      <div class="field">
+        <label for="proj-cat">Design category</label>
+        <select id="proj-cat">
+          <option value="A">A — Ocean</option>
+          <option value="B" selected>B — Offshore</option>
+          <option value="C">C — Inshore</option>
+          <option value="D">D — Sheltered waters</option>
+        </select>
+        <div class="hint">Applies to every window &amp; portlight below.</div>
+      </div>
+      <div class="field">
+        <label for="proj-craft">Hull type</label>
+        <select id="proj-craft">
+          <option value="Any">Any / unsure</option>
+          <option value="Motor" selected>Motor</option>
+          <option value="Sail">Sail</option>
+        </select>
+      </div>
+    </div>
+  </header>
+
+  <section class="panel">
+    <div class="panel-head">
+      <h2>Window schedule</h2>
+      <span class="count" id="schedule-count">0 openings</span>
+    </div>
+    <div class="schedule-scroll">
+      <table class="schedule" id="schedule-table">
+        <thead>
+          <tr>
+            <th>Opening</th><th>Location</th><th>Material</th>
+            <th>Actual</th><th>Required</th><th>Result</th>
+          </tr>
+        </thead>
+        <tbody id="schedule-body"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="toolbar no-print" style="margin-bottom:14px;">
+      <button class="btn" id="add-window">+ Add window</button>
+      <button class="btn ghost" id="print-btn">Print / export PDF</button>
+    </div>
+    <div class="windows" id="windows"></div>
+    <div class="empty" id="empty-state" hidden>No windows yet — add one to begin.</div>
+  </section>
+
+  <footer class="disclaimer">
+    <div class="footer-row">
+      <p style="max-width:70ch;">
+        <strong>How to read a result.</strong> A green PASS means the entered plate thickness meets the calculated ISO&nbsp;12216:2020 requirement for <em>that one opening</em> only. It does not confirm every clause of the standard is satisfied — area boundaries, sandwich-glazing interlayer limits, retention/fixing details and escape provisions must still be checked separately. In case of doubt, or a result marked with a caution note, contact Blue Peter Marine before relying on this calculation.
+      </p>
+      <p style="max-width:32ch;">
+        This calculator is provided by Blue Peter Marine "as is", as a design aid based on ISO&nbsp;12216:2020; any express or implied warranties are disclaimed. Please send technical drawings and material data sheets for every appliance. Questions or a formal survey: <a href="mailto:info@ceinspector.com">info@ceinspector.com</a> · <a href="https://www.ceinspector.com">www.ceinspector.com</a>.
+      </p>
+    </div>
+  </footer>
+</div>
+
+<script>
+(function(){
+  "use strict";
+
+  /* ---------------- material data (Table F.1 / Table 5) ---------------- */
+  var MATERIALS = {
+    PMMA:    { label:"Acrylic (PMMA)",                    sigmaU:110, E:3000,   gamma:3.5, t5:{coeff:6,  inc:0.10, cat:{A:{II:6,III:5,IV:5}, B:{II:6,III:5,IV:5}, C:{II:6,III:4,IV:4}, D:{II:6,III:4,IV:4}}} },
+    PC:      { label:"Polycarbonate (PC)",                sigmaU:90,  E:2400,   gamma:3.5, t5:{coeff:6,  inc:0.10, cat:{A:{II:6,III:5,IV:5}, B:{II:6,III:5,IV:5}, C:{II:6,III:4,IV:4}, D:{II:6,III:4,IV:4}}} },
+    TG:      { label:"Toughened / tempered glass (TG)",   sigmaU:200, E:72600,  gamma:4,   t5:{coeff:5,  inc:0.10, cat:{A:{II:4,III:4,IV:4}, B:{II:4,III:4,IV:4}, C:{II:4,III:3,IV:3}, D:{II:4,III:3,IV:3}}} },
+    CG:      { label:"Chemically strengthened glass (CG)",sigmaU:300, E:72600,  gamma:4,   t5:null },
+    AG:      { label:"Annealed glass (AG)",                sigmaU:40,  E:72600,  gamma:4,   t5:null },
+    AMPW:    { label:"Marine plywood, all-mahogany (AMPW)",sigmaU:50,  E:7000,   gamma:2,   t5:{coeff:8,  inc:0.10, cat:{A:{II:6,III:5,IV:5}, B:{II:6,III:5,IV:5}, C:{II:6,III:4,IV:4}, D:{II:6,III:4,IV:4}}} },
+    GRPM30:  { label:"GRP, mat 30% glass (GRP M30)",       sigmaU:140, E:7500,   gamma:2,   t5:{coeff:4,  inc:0.10, cat:{A:{II:3,III:3,IV:3}, B:{II:3,III:3,IV:3}, C:{II:3,III:2,IV:2}, D:{II:3,III:2,IV:2}}} },
+    GRPM35:  { label:"GRP, mat/roving 35% glass (GRP M35)",sigmaU:175, E:10000,  gamma:2,   t5:{coeff:4,  inc:0.10, cat:{A:{II:3,III:3,IV:3}, B:{II:3,III:3,IV:3}, C:{II:3,III:2,IV:2}, D:{II:3,III:2,IV:2}}} },
+    AL5038:  { label:"Aluminium alloy 5083-H111",          sigmaU:280, E:70000,  gamma:2,   t5:{coeff:3,  inc:0.05, cat:{A:{II:3,III:3,IV:3}, B:{II:3,III:3,IV:3}, C:{II:3,III:2,IV:2}, D:{II:3,III:2,IV:2}}} },
+    MS:      { label:"Mild steel (MS)",                    sigmaU:400, E:200000, gamma:2,   t5:{coeff:2.5,inc:0.025,cat:{A:{II:2.5,III:2.5,IV:2.5}, B:{II:2.5,III:2.5,IV:2.5}, C:{II:2.5,III:2,IV:2}, D:{II:2.5,III:2,IV:2}}} },
+    AISI316L:{ label:"Stainless steel, AISI 316L",         sigmaU:510, E:200000, gamma:2,   t5:null }
+  };
+  var MATERIAL_ORDER = ["PMMA","PC","TG","CG","AG","AMPW","GRPM30","GRPM35","AL5038","MS","AISI316L"];
+
+  var LOCATIONS = [
+    { v:"I",   short:"Area I",   label:"Area I — lower hull sides",        help:"Hull sides (and transom) above the waterline, up to the sheerline / weather deck, within the Table 1 height limits for the design category." },
+    { v:"IIA", short:"Area IIa", label:"Area IIa — decks & walking surfaces", help:"Decks, superstructures, cockpit soles and other areas where people are liable to walk or step." },
+    { v:"IIB", short:"Area IIb", label:"Area IIb — upper hull sides",       help:"The part of the hull side (and transom) not belonging to Area I." },
+    { v:"III", short:"Area III", label:"Area III — exposed superstructure", help:"Deck and superstructure areas, other than I / IIa / IIb, exposed to direct impact of sea or slamming waves from front or side." },
+    { v:"IV",  short:"Area IV",  label:"Area IV — protected superstructure",help:"Parts of Area III protected from direct wave impact and not within LH/3 of the bow, e.g. cockpits, rear/side faces of superstructures." }
+  ];
+
+  /* ---------------- Table 4 — basic design pressure (kPa) ---------------- */
+  function basicDesignPressure(loc, category, craftRaw, area){
+    var craft = (craftRaw === "Any") ? "Sail" : craftRaw; // sheet rule: unknown hull type -> assume Sail (higher, conservative)
+    if (loc === "I") return 70;
+    if (loc === "IIB") return { A:70, B:50, C:28, D:28 }[category];
+    if (loc === "IIA") return 28;
+    if (loc === "III"){
+      if (craft === "Sail") return { A:18, B:18, C:12, D:12 }[category];
+      // Motor
+      if (category === "A") return area === "Side" ? 9 : 12;
+      if (category === "B") return area === "Side" ? 6 : 9;
+      return 6; // C & D, any area
+    }
+    if (loc === "IV") return craft === "Sail" ? 12 : 6;
+    return null;
+  }
+
+  /* ---------------- Table 5 — minimum thickness of monolithic plates ---------------- */
+  function table5Min(materialKey, category, loc, hullLength){
+    var mat = MATERIALS[materialKey];
+    if (!mat || !mat.t5) return { value:0, note:null };
+    var t5 = mat.t5;
+    var areaKey = (loc === "IIA" || loc === "IIB") ? "II" : loc;
+    if (areaKey === "I"){
+      if (hullLength > 0) return { value: t5.coeff + t5.inc * (hullLength - 4), note:null };
+      return { value:0, note:"Enter the hull length (LH) to apply the Area I minimum-thickness rule of Table 5." };
+    }
+    var byCat = t5.cat[category];
+    return { value: byCat ? byCat[areaKey] : 0, note:null };
+  }
+
+  /* ---------------- Clause 7 stress / deflection engine ---------------- */
+  function computeWindow(w){
+    var errors = [];
+    var form = w.form;
+    var charDim; // governing span dimension: b for rectangular, d for circular
+    if (form === "R"){
+      if (!(parseFloat(w.a) > 0)) errors.push("Enter the long side, a.");
+      if (!(parseFloat(w.b) > 0)) errors.push("Enter the unsupported short side, b.");
+      charDim = parseFloat(w.b);
+    } else {
+      if (!(parseFloat(w.d) > 0)) errors.push("Enter the diameter, d.");
+      charDim = parseFloat(w.d);
+    }
+    if (errors.length) return { errors:errors };
+
+    var a = parseFloat(w.a) || 0;
+    var b = parseFloat(w.b) || 0;
+    var d = parseFloat(w.d) || 0;
+    var c = parseFloat(w.c) || 0;
+    var hullLength = parseFloat(w.hullLength) || 0;
+    var mat = MATERIALS[w.material];
+
+    var psiRaw = 1.102 - 0.0004 * charDim;
+    var psi = Math.min(1, Math.max(0.33, psiRaw));
+    var kc = 1 - (c / charDim);
+
+    var ratio = (form === "R") ? (a / b) : 1;
+    var r = Math.min(ratio, 5);
+
+    var kr, kf;
+    if (form === "R"){
+      if (w.support === "SF"){
+        kr = (0.62165*r*r - 0.6473*r + 0.26481) / (r*r - 1.173*r + 0.97671);
+        kf = (0.08052*r*r - 0.0272*r - 0.0019) / (r*r - 0.9275*r + 1.70018);
+      } else {
+        kr = (0.69952*r*r + 0.02662*r - 0.0735) / (r*r - 0.7185*r + 1.98925);
+        kf = (0.12915*r*r + 0.00868*r - 0.0293) / (r*r - 0.887*r + 2.3372);
+      }
+    } else {
+      kr = (w.support === "SF") ? 0.248 : 0.309;
+      kf = (w.support === "SF") ? 0.027 : 0.043;
+    }
+
+    var p = basicDesignPressure(w.location, w.category, w.craft, w.area);
+    var sigmaA = mat.sigmaU / mat.gamma;
+
+    var tStress  = charDim * kc * Math.sqrt( (kr * psi * p) / sigmaA / 1000 );
+    var tDeflect = 0.45 * ( tStress + charDim * kc * Math.cbrt( (kf * psi * p) / (0.02 * mat.E) / 1000 ) );
+    var tCalc = Math.round(Math.max(tStress, tDeflect) * 100) / 100;
+
+    var t5 = table5Min(w.material, w.category, w.location, hullLength);
+
+    var required, sandwichError = null;
+    if (w.sandwich){
+      var layers = parseInt(w.layers, 10);
+      if (!(layers > 0)){
+        sandwichError = "Enter the number of glass plies to complete the sandwich calculation.";
+        required = null;
+      } else if (layers > 2){
+        required = 1.5 * Math.max(tCalc, t5.value);
+      } else if (layers === 2){
+        required = 1.2 * Math.max(tCalc, t5.value);
+      } else {
+        required = w.useTechMin ? Math.max(tCalc - 0.5, t5.value) : Math.max(tCalc, t5.value);
+      }
+    } else {
+      required = w.useTechMin ? Math.max(tCalc - 0.5, t5.value) : Math.max(tCalc, t5.value);
+    }
+
+    var actual = parseFloat(w.actual);
+    var hasActual = actual > 0;
+    var pass = hasActual && required !== null && (actual >= required - 1e-9);
+
+    var notes = [];
+    if (t5.note) notes.push(t5.note);
+    if (w.sandwich) notes.push("Sandwich glazing: the thickness difference between any two glass plies must be ≤ 2 mm and the plastic interlayer ≤ 0.76 mm.");
+    if (w.location === "I"){
+      var span = form === "C" ? d : b;
+      if (span > 300) notes.push("Short side / diameter exceeds 300 mm in Area I — confirm this is permitted for the support and corner radius used (Annex C).");
+    }
+
+    var escape = null;
+    if (form === "C") escape = d > 450 ? "possible" : "no";
+    else escape = (Math.max(a,b) > 380 && a*b > 180000) ? "possible" : "no";
+
+    return {
+      errors: [], sandwichError: sandwichError, notes: notes,
+      p: p, psi: psi, kc: kc, ratio: r, kr: kr, kf: kf, sigmaA: sigmaA,
+      tStress: tStress, tDeflect: tDeflect, tCalc: tCalc,
+      table5Min: t5.value, required: required,
+      actual: hasActual ? actual : null, pass: pass, escape: escape
+    };
+  }
+
+  /* ---------------- state ---------------- */
+  var uid = 1;
+  function newWindow(overrides){
+    var w = {
+      id: uid++, name: "",
+      form:"R", a:"", b:"", d:"", c:"0",
+      support:"SS", location:"IIB", area:"Any",
+      hullLength: document.getElementById("proj-lh").value,
+      material:"TG", sandwich:false, layers:"", useTechMin:false,
+      actual:""
+    };
+    for (var k in overrides) w[k] = overrides[k];
+    return w;
+  }
+
+  var windows = [];
+  var STORE_KEY = "bpm-iso12216-window-calc-v1";
+
+  function loadState(){
+    try{
+      var raw = localStorage.getItem(STORE_KEY);
+      if (raw){
+        var data = JSON.parse(raw);
+        if (data && Array.isArray(data.windows) && data.windows.length){
+          windows = data.windows;
+          uid = data.uid || (windows.reduce(function(m,w){return Math.max(m,w.id);},0) + 1);
+          if (data.project){
+            document.getElementById("proj-manufacturer").value = data.project.manufacturer || "";
+            document.getElementById("proj-model").value = data.project.model || "";
+            document.getElementById("proj-lh").value = data.project.lh || "12";
+            document.getElementById("proj-cat").value = data.project.cat || "B";
+            document.getElementById("proj-craft").value = data.project.craft || "Motor";
+          }
+          return true;
+        }
+      }
+    } catch(e){ /* storage unavailable — continue with defaults */ }
+    return false;
+  }
+
+  function saveState(){
+    try{
+      localStorage.setItem(STORE_KEY, JSON.stringify({
+        uid: uid, windows: windows,
+        project:{
+          manufacturer: document.getElementById("proj-manufacturer").value,
+          model: document.getElementById("proj-model").value,
+          lh: document.getElementById("proj-lh").value,
+          cat: document.getElementById("proj-cat").value,
+          craft: document.getElementById("proj-craft").value
+        }
+      }));
+    } catch(e){ /* best effort only */ }
+  }
+
+  /* ---------------- rendering ---------------- */
+  function fmt(n, dp){
+    if (n === null || n === undefined || !isFinite(n)) return "—";
+    return n.toFixed(dp === undefined ? 2 : dp);
+  }
+  function esc(s){
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c];
+    });
+  }
+  function optionList(list, current){
+    return list.map(function(o){
+      var v = (typeof o === "string") ? o : o.v;
+      var label = (typeof o === "string") ? o : o.label;
+      return '<option value="'+esc(v)+'"'+(v===current?" selected":"")+'>'+esc(label)+'</option>';
+    }).join("");
+  }
+
+  function projectDefaults(){
+    return {
+      category: document.getElementById("proj-cat").value,
+      craft: document.getElementById("proj-craft").value
+    };
+  }
+  function effectiveWindow(w){
+    var pd = projectDefaults();
+    return Object.assign({}, w, { category: pd.category, craft: pd.craft });
+  }
+  function badgeInfo(res){
+    var cls = (res.errors && res.errors.length) ? "pending" : (res.pass ? "pass" : "fail");
+    var text = (res.errors && res.errors.length) ? "Incomplete" : (res.actual === null ? "Enter actual thickness" : (res.pass ? "Pass" : "Fail"));
+    return { cls:cls, text:text };
+  }
+  function messagesInnerHTML(res){
+    var html = "";
+    if (res.errors && res.errors.length){
+      html += '<div class="errors">'+res.errors.map(esc).join(" ")+'</div>';
+    }
+    if (res.sandwichError){
+      html += '<div class="note">'+esc(res.sandwichError)+'</div>';
+    }
+    (res.notes||[]).forEach(function(n){ html += '<div class="note">'+n+'</div>'; });
+    return html;
+  }
+  function resultCardInnerHTML(res){
+    var bi = badgeInfo(res);
+    var html = "";
+    if (res.errors && res.errors.length){
+      html += '<div class="result-top"><span>Result</span><span class="badge pending"><span class="dot"></span>Awaiting dimensions</span></div>';
+      html += '<p style="font-size:.84rem;color:var(--muted);margin:0;">Fill in the geometry to calculate the required thickness.</p>';
+    } else {
+      html += '<div class="result-top"><span>Result</span><span class="badge '+bi.cls+'"><span class="dot"></span>'+bi.text+'</span></div>';
+      html += '<div class="thickness-compare">';
+      html += '  <div class="tstat"><div class="label">Actual</div><div class="value">'+ (res.actual===null?"—":fmt(res.actual)) +' <span class="unit">mm</span></div></div>';
+      html += '  <div class="tstat"><div class="label">Required</div><div class="value">'+ (res.required===null?"—":fmt(res.required)) +' <span class="unit">mm</span></div></div>';
+      html += '</div>';
+      if (res.actual !== null && res.required !== null){
+        var margin = res.actual - res.required;
+        html += '<div class="margin-line">Margin: <strong>'+ (margin>=0?"+":"") + fmt(margin) +' mm</strong> against the calculated requirement.</div>';
+      }
+      html += '<div class="escape-row"><span>Escape-hatch dimensions met (ISO 9094)</span><span>'+ (res.escape==="possible"?"Yes":"No") +'</span></div>';
+
+      html += '<details class="calc"><summary>Show calculation (Clause 7)</summary>';
+      html += '<table class="calc-table">';
+      html += calcRow("Basic design pressure, p", fmt(res.p,1)+" kPa");
+      html += calcRow("Press. reduction factor, ψ", fmt(res.psi,3));
+      html += calcRow("Curvature coefficient, kᴄ", fmt(res.kc,3));
+      html += calcRow("Aspect ratio, a/b (capped at 5)", fmt(res.ratio,2));
+      html += calcRow("Stress coefficient, kᵣ", fmt(res.kr,4));
+      html += calcRow("Deflection coefficient, kƒ", fmt(res.kf,4));
+      html += calcRow("Allowable flexural stress, σₐ", fmt(res.sigmaA,1)+" MPa");
+      html += calcRow("Thickness (stress), tᵣ", fmt(res.tStress)+" mm");
+      html += calcRow("Thickness (deflection), tƒ", fmt(res.tDeflect)+" mm");
+      html += calcRow("Table 5 minimum thickness", fmt(res.table5Min)+" mm");
+      html += calcRow("Required plate thickness", "<strong>"+fmt(res.required)+" mm</strong>");
+      html += '</table></details>';
+    }
+    return html;
+  }
+
+  function updateCardLive(w){
+    var res = computeWindow(effectiveWindow(w));
+    var bi = badgeInfo(res);
+
+    var badgeEl = document.getElementById("badge-"+w.id);
+    if (badgeEl){ badgeEl.className = "badge "+bi.cls; badgeEl.innerHTML = '<span class="dot"></span>'+bi.text; }
+
+    var msgEl = document.getElementById("messages-"+w.id);
+    if (msgEl) msgEl.innerHTML = messagesInnerHTML(res);
+
+    var resultEl = document.getElementById("result-"+w.id);
+    if (resultEl){
+      var det = resultEl.querySelector("details.calc");
+      var wasOpen = det ? det.open : false;
+      resultEl.innerHTML = resultCardInnerHTML(res);
+      var newDet = resultEl.querySelector("details.calc");
+      if (newDet && wasOpen) newDet.open = true;
+    }
+
+    renderSchedule();
+    saveState();
+  }
+
+  function windowCardHTML(w, idx){
+    return '<article class="window-card" data-card-id="'+w.id+'">' + windowCardInner(w, idx) + '</article>';
+  }
+
+  function windowCardInner(w, idx){
+    var res = computeWindow(effectiveWindow(w));
+    var bi = badgeInfo(res);
+
+    var locOpt = LOCATIONS.map(function(o){ return { v:o.v, label:o.short }; });
+    var currentLoc = LOCATIONS.filter(function(l){ return l.v === w.location; })[0];
+
+    var html = '';
+    html += '<div class="card-head">';
+    html += '  <span class="idx">'+ (idx+1) +'</span>';
+    html += '  <input class="name" data-field="name" data-id="'+w.id+'" value="'+esc(w.name)+'" placeholder="Name this opening, e.g. Port saloon window">';
+    html += '  <span class="spacer"></span>';
+    html += '  <span class="badge '+bi.cls+'" id="badge-'+w.id+'"><span class="dot"></span>'+bi.text+'</span>';
+    html += '  <div class="card-actions no-print">';
+    html += '    <button class="btn ghost small" data-action="duplicate" data-id="'+w.id+'">Duplicate</button>';
+    html += '    <button class="btn danger small" data-action="remove" data-id="'+w.id+'">Remove</button>';
+    html += '  </div>';
+    html += '</div>';
+
+    html += '<div class="card-body">';
+    html += '  <div class="card-inputs">';
+
+    // Geometry
+    html += '<div class="group"><div class="group-title">Geometry</div><div class="field-grid">';
+    html += fieldSelect(w.id,"form","Plate shape",[{v:"R",label:"Rectangular"},{v:"C",label:"Circular"}],w.form);
+    if (w.form === "R"){
+      html += fieldNumber(w.id,"a","Long side, a (mm)",w.a);
+      html += fieldNumber(w.id,"b","Short side, b (mm)",w.b);
+    } else {
+      html += fieldNumber(w.id,"d","Diameter, d (mm)",w.d);
+    }
+    html += fieldNumber(w.id,"c","Curve height, c (mm)",w.c,"0 if flat");
+    html += '</div></div>';
+
+    // Support & location
+    html += '<div class="group"><div class="group-title">Support &amp; location</div><div class="field-grid">';
+    html += fieldSelect(w.id,"support","Support",[{v:"SS",label:"Simply supported"},{v:"SF",label:"Semi-fixed"}],w.support,
+      "Simply supported: held at the frame edge only. Semi-fixed: also fixed at intermediate points.");
+    html += fieldSelect(w.id,"location","Location type",locOpt,w.location, currentLoc ? currentLoc.help : "");
+    if (w.location === "III"){
+      html += fieldSelect(w.id,"area","Superstructure face",[{v:"Any",label:"Any / unsure"},{v:"Front",label:"Front"},{v:"Side",label:"Side"}],w.area,
+        "Only affects Motor craft (Front carries more pressure than Side); ignored for Sail.");
+    }
+    html += fieldNumber(w.id,"hullLength","Hull length, LH (m)",w.hullLength);
+    html += '</div>';
+    html += '<div class="hint" style="margin-top:10px;">Design category and hull type are set once for the whole boat, at the top of the page.</div>';
+    html += '</div>';
+
+    // Material & construction
+    html += '<div class="group"><div class="group-title">Material &amp; construction</div><div class="field-grid">';
+    html += fieldSelect(w.id,"material","Material",MATERIAL_ORDER.map(function(k){return {v:k,label:MATERIALS[k].label};}),w.material,null,true);
+    html += '<div class="field check" style="grid-column:1/-1;"><input type="checkbox" id="w'+w.id+'-sandwich" data-field="sandwich" data-id="'+w.id+'" '+(w.sandwich?"checked":"")+'><label for="w'+w.id+'-sandwich">Sandwich (laminated glass) construction</label></div>';
+    if (w.sandwich){
+      html += fieldNumber(w.id,"layers","Number of glass plies",w.layers);
+    }
+    html += '<div class="field check" style="grid-column:1/-1;"><input type="checkbox" id="w'+w.id+'-techmin" data-field="useTechMin" data-id="'+w.id+'" '+(w.useTechMin?"checked":"")+'><label for="w'+w.id+'-techmin">Apply Clause 7.2 technical minimum (−0.5&nbsp;mm)</label></div>';
+    html += fieldNumber(w.id,"actual","Actual plate thickness (mm)",w.actual,"sum of all plies if sandwich");
+    html += '</div></div>';
+
+    html += '<div id="messages-'+w.id+'">'+messagesInnerHTML(res)+'</div>';
+
+    html += '  </div>'; // card-inputs
+
+    // Result panel
+    html += '  <div class="card-result">';
+    html += '    <div class="result-card" id="result-'+w.id+'">'+resultCardInnerHTML(res)+'</div>';
+    html += '  </div>';
+    html += '</div>'; // card-body
+
+    return html;
+  }
+
+  function calcRow(label, value){
+    return '<tr><td>'+label+'</td><td>'+value+'</td></tr>';
+  }
+
+  function fieldNumber(id, key, label, value, hint){
+    var domId = "w"+id+"-"+key;
+    return '<div class="field">'+
+      '<label for="'+domId+'">'+esc(label)+'</label>'+
+      '<input class="num" id="'+domId+'" type="number" step="any" min="0" inputmode="decimal" data-field="'+key+'" data-id="'+id+'" value="'+esc(value)+'">'+
+      (hint ? '<div class="hint">'+esc(hint)+'</div>' : '') +
+      '</div>';
+  }
+  function fieldSelect(id, key, label, options, value, hint, full){
+    var domId = "w"+id+"-"+key;
+    return '<div class="field'+(full?' full':'')+'">'+
+      '<label for="'+domId+'">'+esc(label)+'</label>'+
+      '<select id="'+domId+'" data-field="'+key+'" data-id="'+id+'">'+ optionList(options, value) +'</select>'+
+      (hint ? '<div class="hint">'+hint+'</div>' : '') +
+      '</div>';
+  }
+
+  function renderSchedule(){
+    var body = document.getElementById("schedule-body");
+    if (!windows.length){
+      body.innerHTML = '<tr><td colspan="6" style="color:var(--muted);white-space:normal;">Add a window below to start the schedule.</td></tr>';
+    } else {
+      body.innerHTML = windows.map(function(w, i){
+        var res = computeWindow(effectiveWindow(w));
+        var badge = (res.errors && res.errors.length) ? "pending" : (res.pass ? "pass" : "fail");
+        var text = (res.errors && res.errors.length) ? "Incomplete" : (res.actual===null ? "—" : (res.pass?"Pass":"Fail"));
+        var locLabel = LOCATIONS.filter(function(l){return l.v===w.location;})[0];
+        return '<tr data-jump="'+w.id+'">'+
+          '<td>'+ esc(w.name || ("Window "+(i+1))) +'</td>'+
+          '<td>'+ esc(locLabel?locLabel.label.replace(/^Area [^—]+—\s*/,""):"") +'</td>'+
+          '<td>'+ esc(MATERIALS[w.material] ? MATERIALS[w.material].label.split(" (")[0] : "") +'</td>'+
+          '<td class="num">'+ (res.actual===null?"—":fmt(res.actual)) +'</td>'+
+          '<td class="num">'+ (res.required===null?"—":fmt(res.required)) +'</td>'+
+          '<td><span class="badge '+badge+'"><span class="dot"></span>'+text+'</span></td>'+
+        '</tr>';
+      }).join("");
+    }
+    document.getElementById("schedule-count").textContent = windows.length + (windows.length===1 ? " opening" : " openings");
+  }
+
+  function render(){
+    var container = document.getElementById("windows");
+    container.innerHTML = windows.map(windowCardHTML).join("");
+    document.getElementById("empty-state").hidden = windows.length > 0;
+    renderSchedule();
+    saveState();
+  }
+
+  /* ---------------- events ---------------- */
+  document.getElementById("add-window").addEventListener("click", function(){
+    windows.push(newWindow({}));
+    render();
+    var cards = document.querySelectorAll(".window-card");
+    var last = cards[cards.length-1];
+    if (last) last.scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  document.getElementById("print-btn").addEventListener("click", function(){ window.print(); });
+
+  ["proj-manufacturer","proj-model"].forEach(function(id){
+    document.getElementById(id).addEventListener("input", saveState);
+  });
+  document.getElementById("proj-lh").addEventListener("change", saveState);
+  ["proj-cat","proj-craft"].forEach(function(id){
+    // these apply to every window, so recalculate the whole schedule when they change
+    document.getElementById(id).addEventListener("change", render);
+  });
+
+  document.getElementById("windows").addEventListener("input", function(e){
+    var t = e.target;
+    var id = t.getAttribute("data-id");
+    var field = t.getAttribute("data-field");
+    if (!id || !field) return;
+    var w = windows.filter(function(x){ return String(x.id) === id; })[0];
+    if (!w) return;
+    if (t.type === "checkbox") w[field] = t.checked;
+    else w[field] = t.value;
+    // shape/location/sandwich toggles change which fields are visible -> full re-render needed
+    if (field === "form" || field === "location" || field === "sandwich"){
+      render();
+      var el = document.getElementById("w"+id+"-"+field);
+      if (el) el.focus();
+    } else {
+      // everything else (typing in a number/text field, a plain checkbox) updates
+      // in place so the focused input never loses focus or gets recreated mid-keystroke
+      updateCardLive(w);
+    }
+  });
+
+  document.getElementById("windows").addEventListener("click", function(e){
+    var btn = e.target.closest("[data-action]");
+    if (!btn) return;
+    var id = btn.getAttribute("data-id");
+    var action = btn.getAttribute("data-action");
+    if (action === "remove"){
+      windows = windows.filter(function(x){ return String(x.id) !== id; });
+      render();
+    } else if (action === "duplicate"){
+      var src = windows.filter(function(x){ return String(x.id) === id; })[0];
+      if (src){
+        var copy = JSON.parse(JSON.stringify(src));
+        copy.id = uid++;
+        copy.name = (src.name || "Window") + " (copy)";
+        var i = windows.findIndex(function(x){ return String(x.id) === id; });
+        windows.splice(i+1, 0, copy);
+        render();
+      }
+    }
+  });
+
+  document.getElementById("schedule-body").addEventListener("click", function(e){
+    var row = e.target.closest("[data-jump]");
+    if (!row) return;
+    var card = document.querySelector('.window-card[data-card-id="'+row.getAttribute("data-jump")+'"]');
+    if (card) card.scrollIntoView({behavior:"smooth", block:"center"});
+  });
+
+  /* ---------------- boot ---------------- */
+  function start(hotData){
+    var restored = false;
+    if (hotData && Array.isArray(hotData.windows) && hotData.windows.length){
+      windows = hotData.windows;
+      uid = hotData.uid || (windows.reduce(function(m,w){return Math.max(m,w.id);},0) + 1);
+      restored = true;
+    }
+    if (!restored) restored = loadState();
+    if (!restored){
+      windows = [ newWindow({
+        name: "Example — starboard saloon window (edit or delete)",
+        form:"R", a:"900", b:"450", c:"0",
+        support:"SS", location:"IIB", category:"B", craft:"Motor",
+        hullLength:"12", material:"TG", actual:"12"
+      }) ];
+    }
+    render();
+  }
+
+  if (window.claude && window.claude.hot && window.claude.hot.snapshot){
+    window.claude.hot.snapshot(function(){ return { windows: windows, uid: uid }; });
+  }
+  if (window.claude && window.claude.hot && window.claude.hot.ready){
+    window.claude.hot.ready(start);
+  } else {
+    start(window.claude && window.claude.hot ? window.claude.hot.data : undefined);
+  }
+})();
+</script>
