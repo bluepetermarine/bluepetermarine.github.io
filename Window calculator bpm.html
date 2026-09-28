@@ -585,9 +585,21 @@
     var notes = [];
     if (t5.note) notes.push(t5.note);
     if (w.sandwich) notes.push("Sandwich glazing: the thickness difference between any two glass plies must be ≤ 2 mm and the plastic interlayer ≤ 0.76 mm.");
+    var limitFail = false;
     if (w.location === "I"){
       var span = form === "C" ? d : b;
-      if (span > 300) notes.push("Short side / diameter exceeds 300 mm in Area I — confirm this is permitted for the support and corner radius used (Annex C).");
+      var areaMm2 = form === "C" ? Math.PI * d * d / 4 : a * b;
+      var laminated = !!w.sandwich;
+      var maxSpan = laminated ? 600 : 300;
+      if (areaMm2 > 852000){
+        limitFail = true;
+        notes.push("FAIL, ISO 12216:2020, 6.3.1.1.1: unsupported area " + String(Math.round(areaMm2)).replace(/\B(?=(\d{3})+(?!\d))/g, " ") + " mm² exceeds the Area I maximum of 852 000 mm² (0,852 m²).");
+      }
+      if (span > maxSpan){
+        limitFail = true;
+        notes.push("FAIL, ISO 12216:2020, 6.3.1.1.1: unsupported " + (form === "C" ? "diameter (equivalent b)" : "short side b") + " of " + span + " mm exceeds the Area I maximum of " + maxSpan + " mm" + (laminated ? " for laminated glass." : ". Up to 600 mm is allowed only with laminated glass."));
+      }
+      if (limitFail) notes.push("The Area I size limits do not apply to inverted multihull escape hatches or craft transoms.");
     }
 
     var escape = null;
@@ -599,7 +611,7 @@
       p: p, psi: psi, kc: kc, ratio: r, kr: kr, kf: kf, sigmaA: sigmaA,
       tStress: tStress, tDeflect: tDeflect, tCalc: tCalc,
       table5Min: t5.value, required: required,
-      actual: hasActual ? actual : null, pass: pass, escape: escape
+      actual: hasActual ? actual : null, pass: pass && !limitFail, limitFail: limitFail, escape: escape
     };
   }
 
@@ -688,7 +700,7 @@
   }
   function badgeInfo(res){
     var cls = (res.errors && res.errors.length) ? "pending" : (res.pass ? "pass" : "fail");
-    var text = (res.errors && res.errors.length) ? "Incomplete" : (res.actual === null ? "Enter actual thickness" : (res.pass ? "Pass" : "Fail"));
+    var text = (res.errors && res.errors.length) ? "Incomplete" : (res.limitFail ? "Fail" : (res.actual === null ? "Enter actual thickness" : (res.pass ? "Pass" : "Fail")));
     return { cls:cls, text:text };
   }
   function messagesInnerHTML(res){
@@ -866,7 +878,7 @@
       body.innerHTML = windows.map(function(w, i){
         var res = computeWindow(effectiveWindow(w));
         var badge = (res.errors && res.errors.length) ? "pending" : (res.pass ? "pass" : "fail");
-        var text = (res.errors && res.errors.length) ? "Incomplete" : (res.actual===null ? "—" : (res.pass?"Pass":"Fail"));
+        var text = (res.errors && res.errors.length) ? "Incomplete" : (res.limitFail ? "Fail" : (res.actual===null ? "—" : (res.pass?"Pass":"Fail")));
         var locLabel = LOCATIONS.filter(function(l){return l.v===w.location;})[0];
         return '<tr data-jump="'+w.id+'">'+
           '<td>'+ esc(w.name || ("Window "+(i+1))) +'</td>'+
