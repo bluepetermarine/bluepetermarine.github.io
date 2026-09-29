@@ -51,6 +51,11 @@
     font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.3px;
   }
   .bpm-ad a:hover { background: #b3770a; }
+  .bpm-ad .bpm-ad-alt { flex: 1 1 100%; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14.5px; color: #dfe5ee; padding-top: 10px; border-top: 1px solid #3a5478; }
+  .bpm-ad .bpm-ad-alt[hidden] { display: none; }
+  .bpm-ad .bpm-ad-alt b { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #ffffff; user-select: all; }
+  .bpm-ad .bpm-ad-alt button, .bpm-ad a.bpm-ad-web { cursor: pointer; background: transparent; color: #ffffff; border: 1px solid #6f86a8; border-radius: 6px; padding: 5px 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; }
+  .bpm-ad .bpm-ad-alt button:hover, .bpm-ad a.bpm-ad-web:hover { border-color: var(--gold); background: transparent; }
   @media print { .bpm-ad { display: none; } }
   header .brandline { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 14px; color: var(--navy); margin: 0 0 6px; }
   @media (max-width: 520px) { header .logo { width: 60px; } }
@@ -351,8 +356,33 @@
   </header>
   <aside class="bpm-ad" aria-label="Blue Peter Marine services">
     <div class="bpm-ad-text"><b>Did you know?</b> Blue Peter Marine can also assist you with your Tonnage Measurement Survey for Red Ensigns.</div>
-    <a href="mailto:info@ceinspector.com?subject=Tonnage%20Measurement%20Survey%20enquiry">Ask about a tonnage survey</a>
+    <a id="bpmAdBtn" href="mailto:info@ceinspector.com?subject=Tonnage%20Measurement%20Survey%20enquiry" target="_top">Ask about a tonnage survey</a>
+    <div class="bpm-ad-alt" id="bpmAdAlt" hidden>
+      No email program opened? Email us at <b>info@ceinspector.com</b>
+      <button type="button" id="bpmAdCopy">Copy address</button>
+      <a class="bpm-ad-web" href="https://mail.google.com/mail/?view=cm&amp;to=info@ceinspector.com&amp;su=Tonnage%20Measurement%20Survey%20enquiry" target="_blank" rel="noopener">Open in Gmail</a>
+      <a class="bpm-ad-web" href="https://outlook.office.com/mail/deeplink/compose?to=info@ceinspector.com&amp;subject=Tonnage%20Measurement%20Survey%20enquiry" target="_blank" rel="noopener">Open in Outlook</a>
+    </div>
   </aside>
+  <script>
+  (function(){
+    var btn = document.getElementById("bpmAdBtn"), alt = document.getElementById("bpmAdAlt");
+    if (!btn || !alt) return;
+    btn.addEventListener("click", function(){
+      var left = false;
+      function gone(){ left = true; }
+      window.addEventListener("blur", gone, { once: true });
+      document.addEventListener("visibilitychange", gone, { once: true });
+      setTimeout(function(){ if (!left) alt.hidden = false; }, 1200);
+    });
+    document.getElementById("bpmAdCopy").addEventListener("click", function(){
+      var b = this, t = "info@ceinspector.com";
+      function done(){ b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy address"; }, 1500); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fb); else fb();
+      function fb(){ var ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); }catch(e){} ta.remove(); done(); }
+    });
+  })();
+  </script>
 
   <div class="legend">
     <span><span class="dot built"></span> Tool or checklist built</span>
