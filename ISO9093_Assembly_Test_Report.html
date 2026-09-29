@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ISO 9093 Assembly Strength Test Report – CEInspector.com</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&family=IBM+Plex+Serif:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0d1b2a;
+    --steel: #1e3a5f;
+    --mid: #2e5f8a;
+    --accent: #c8a951;
+    --accent-light: #e8c97a;
+    --light: #f4f1eb;
+    --paper: #faf8f4;
+    --rule: #c8bfa8;
+    --text: #1a1612;
+    --muted: #6b6358;
+    --red: #b84040;
+    --green: #3a7a4a;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+    --serif: 'IBM Plex Serif', serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--light);
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  @media print {
+    body { background: white; font-size: 11px; }
+    .no-print { display: none; }
+    .page { box-shadow: none; margin: 0; border-radius: 0; }
+    .photo-slot { min-height: 180px; }
+  }
+
+  /* ── TOOLBAR ── */
+  .toolbar {
+    background: var(--navy);
+    color: #aab8c8;
+    padding: 10px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    no-print: true;
+  }
+  .toolbar .brand {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+  }
+  .toolbar .tagline { color: #6a8099; }
+  .btn-print {
+    background: var(--accent);
+    color: var(--navy);
+    border: none;
+    padding: 6px 18px;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+    text-transform: uppercase;
+  }
+  .btn-print:hover { background: var(--accent-light); }
+
+  /* ── PAGE ── */
+  .page {
+    max-width: 860px;
+    margin: 32px auto 64px;
+    background: var(--paper);
+    box-shadow: 0 2px 40px rgba(13,27,42,0.18);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  /* ── HEADER BAND ── */
+  .doc-header {
+    background: var(--navy);
+    padding: 36px 48px 28px;
+    position: relative;
+    overflow: hidden;
+  }
+  .doc-header::before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 320px; height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(200,169,81,0.08) 100%);
+    pointer-events: none;
+  }
+  .header-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+  }
+  .org-block {}
+  .org-name {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .org-url {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #4a7a9b;
+    letter-spacing: 0.05em;
+  }
+  .doc-number-block {
+    text-align: right;
+  }
+  .doc-number-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #4a7a9b;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .doc-number {
+    font-family: var(--mono);
+    font-size: 16px;
+    color: var(--accent);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+  }
+
+  .doc-title {
+    color: #ffffff;
+    font-family: var(--sans);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.25;
+    margin-bottom: 6px;
+  }
+  .doc-subtitle {
+    color: #7ba3bf;
+    font-size: 13px;
+    font-weight: 300;
+    letter-spacing: 0.02em;
+  }
+
+  .header-rule {
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent) 0%, var(--mid) 60%, transparent 100%);
+    margin-top: 20px;
+  }
+
+  /* ── STANDARD REF BAND ── */
+  .standard-band {
+    background: var(--steel);
+    padding: 10px 48px;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  .std-pill {
+    background: var(--accent);
+    color: var(--navy);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    padding: 3px 10px;
+    text-transform: uppercase;
+  }
+  .std-text {
+    color: #a8c4d8;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+  }
+  .std-clause {
+    margin-left: auto;
+    color: var(--accent-light);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+  }
+
+  /* ── BODY CONTENT ── */
+  .body-content {
+    padding: 40px 48px;
+  }
+
+  /* ── SECTION TITLES ── */
+  .section-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--mid);
+    margin-bottom: 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--rule);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-title::before {
+    content: '';
+    display: inline-block;
+    width: 14px;
+    height: 2px;
+    background: var(--accent);
+  }
+
+  /* ── META GRID ── */
+  .meta-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+    border: 1px solid var(--rule);
+    margin-bottom: 32px;
+  }
+  .meta-cell {
+    padding: 12px 16px;
+    border-right: 1px solid var(--rule);
+    border-bottom: 1px solid var(--rule);
+  }
+  .meta-cell:nth-child(3n) { border-right: none; }
+  .meta-cell:nth-last-child(-n+3) { border-bottom: none; }
+  .meta-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 5px;
+  }
+  .meta-value {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text);
+    border-bottom: 1px dotted var(--rule);
+    padding-bottom: 2px;
+    min-height: 20px;
+  }
+  .meta-value.fill { color: #bbb; font-weight: 300; font-style: italic; }
+
+  /* ── PROCEDURE BOX ── */
+  .procedure-box {
+    background: #f0ede6;
+    border-left: 4px solid var(--accent);
+    padding: 24px 28px;
+    margin-bottom: 28px;
+  }
+  .procedure-title {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--steel);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .procedure-title svg { flex-shrink: 0; }
+  .procedure-text {
+    font-family: var(--serif);
+    font-size: 12.5px;
+    color: #2a2218;
+    line-height: 1.75;
+    margin-bottom: 10px;
+  }
+  .procedure-text:last-child { margin-bottom: 0; }
+
+  /* ── STEP LIST ── */
+  .step-list {
+    counter-reset: steps;
+    margin: 16px 0;
+  }
+  .step {
+    counter-increment: steps;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-bottom: 12px;
+    align-items: flex-start;
+    width: 100%;
+  }
+  .step::before {
+    content: counter(steps);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--paper);
+    background: var(--steel);
+    min-width: 20px;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text {
+    font-size: 12.5px;
+    color: var(--text);
+    line-height: 1.6;
+    flex: 1;
+    min-width: 0;
+  }
+  .step-text strong { font-weight: 600; color: var(--steel); }
+
+  /* ── CRITICAL NOTE ── */
+  .critical-note {
+    background: #f5ede8;
+    border: 1px solid #d4946a;
+    border-left: 4px solid var(--red);
+    padding: 12px 16px;
+    margin: 16px 0;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+  }
+  .critical-note .note-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--red);
+    white-space: nowrap;
+    margin-top: 1px;
+  }
+  .critical-note .note-text {
+    font-size: 12px;
+    color: #4a2020;
+    line-height: 1.55;
+  }
+
+  /* ── FORCE TABLE ── */
+  .force-table-wrap {
+    margin: 20px 0;
+    border: 1px solid var(--rule);
+    overflow: hidden;
+  }
+  .force-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .force-table th {
+    background: var(--steel);
+    color: #c8dce8;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 9px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .force-table td {
+    padding: 9px 14px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .force-table tr:last-child td { border-bottom: none; }
+  .force-table tr:nth-child(even) td { background: #f0ede6; }
+  .force-val {
+    font-family: var(--mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--steel);
+  }
+
+  /* ── PHOTO SECTION ── */
+  .photo-section {
+    margin-bottom: 32px;
+  }
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+  .photo-slot {
+    border: 1.5px dashed #bbb;
+    background: #f8f5f0;
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 20px;
+    position: relative;
+  }
+  .photo-slot-label {
+    position: absolute;
+    top: 8px;
+    left: 10px;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .photo-icon {
+    opacity: 0.3;
+  }
+  .photo-caption-hint {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: #aaa;
+    text-align: center;
+    line-height: 1.5;
+  }
+  .photo-caption-field {
+    width: 100%;
+    border: none;
+    border-bottom: 1px dotted var(--rule);
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 11px;
+    color: var(--text);
+    padding: 4px 0;
+    margin-top: 8px;
+    text-align: center;
+  }
+  .photo-caption-field::placeholder { color: #ccc; font-style: italic; }
+
+  /* ── RESULTS TABLE ── */
+  .results-table-wrap {
+    border: 1px solid var(--rule);
+    overflow: hidden;
+    margin-bottom: 32px;
+  }
+  .results-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .results-table th {
+    background: var(--navy);
+    color: #a8c4d8;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+  }
+  .results-table td {
+    padding: 10px 14px;
+    font-size: 12px;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .results-table tr:last-child td { border-bottom: none; }
+  .results-table tr:nth-child(even) td { background: #f4f1eb; }
+  .result-field {
+    border: none;
+    border-bottom: 1px dotted #bbb;
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text);
+    width: 100%;
+    padding: 2px 0;
+  }
+  .result-field::placeholder { color: #ccc; font-style: italic; }
+  .pass-fail-row { display: flex; gap: 8px; align-items: center; }
+  .checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.06em;
+    cursor: pointer;
+    padding: 3px 8px;
+    border: 1px solid var(--rule);
+  }
+  .checkbox-pass input:checked + span { color: var(--green); font-weight: 600; }
+  .checkbox-fail input:checked + span { color: var(--red); font-weight: 600; }
+
+  /* ── ACCEPTANCE CRITERIA ── */
+  .criteria-list {
+    margin: 0 0 24px;
+  }
+  .criteria-item {
+    display: grid;
+    grid-template-columns: 18px 1fr 80px;
+    gap: 10px;
+    padding: 9px 14px;
+    border-bottom: 1px solid var(--rule);
+    align-items: center;
+    font-size: 12.5px;
+  }
+  .criteria-item:first-child {
+    background: var(--navy);
+    color: #a8c4d8;
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    font-weight: 600;
+    border-bottom: none;
+  }
+  .criteria-item:first-child .criteria-num { font-size: 9px; }
+  .criteria-item:nth-child(even) { background: #f4f1eb; }
+  .criteria-num {
+    font-family: var(--mono);
+    font-size: 10px;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  .criteria-text { line-height: 1.5; }
+  .criteria-result-cell { display: flex; gap: 8px; justify-content: flex-end; }
+  .tick-box {
+    width: 22px;
+    height: 22px;
+    border: 1.5px solid var(--rule);
+    background: var(--paper);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    font-family: var(--mono);
+    color: transparent;
+    transition: all 0.15s;
+    position: relative;
+  }
+  .tick-box.pass-box:hover::after { content: '✓'; position: absolute; color: var(--green); font-size: 14px; }
+  .tick-box.fail-box:hover::after { content: '✗'; position: absolute; color: var(--red); font-size: 14px; }
+  .tick-box-label {
+    font-family: var(--mono);
+    font-size: 8px;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-align: center;
+    line-height: 1.2;
+  }
+
+  /* ── SIGN-OFF BLOCK ── */
+  .signoff-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+  .signoff-cell {
+    padding: 18px 20px;
+    border: 1px solid var(--rule);
+    background: #f8f5f0;
+  }
+  .signoff-label {
+    font-family: var(--mono);
+    font-size: 9px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 10px;
+  }
+  .signoff-field {
+    border: none;
+    border-bottom: 1px solid var(--text);
+    background: transparent;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text);
+    width: 100%;
+    padding: 4px 0;
+    margin-bottom: 10px;
+    display: block;
+  }
+  .signoff-sublabel {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #bbb;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+  .sig-area {
+    height: 60px;
+    border-bottom: 1px solid var(--text);
+    margin-bottom: 4px;
+  }
+
+  /* ── OVERALL VERDICT ── */
+  .verdict-block {
+    border: 2px solid var(--rule);
+    padding: 20px 28px;
+    margin-bottom: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .verdict-title {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--navy);
+  }
+  .verdict-options {
+    display: flex;
+    gap: 16px;
+  }
+  .verdict-option {
+    padding: 10px 28px;
+    border: 2px solid;
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+  .verdict-pass {
+    border-color: var(--green);
+    color: var(--green);
+    background: transparent;
+  }
+  .verdict-pass:hover { background: var(--green); color: white; }
+  .verdict-fail {
+    border-color: var(--red);
+    color: var(--red);
+    background: transparent;
+  }
+  .verdict-fail:hover { background: var(--red); color: white; }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    background: var(--navy);
+    padding: 14px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-left {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #4a7a9b;
+    letter-spacing: 0.08em;
+  }
+  .footer-left span { color: var(--accent); }
+  .footer-right {
+    font-family: var(--mono);
+    font-size: 9px;
+    color: #3a5a72;
+    letter-spacing: 0.06em;
+  }
+
+  /* ── DIVIDER ── */
+  .section-gap { margin-bottom: 32px; }
+  .thin-rule {
+    border: none;
+    border-top: 1px solid var(--rule);
+    margin: 28px 0;
+  }
+
+  /* ── REMARKS AREA ── */
+  .remarks-area {
+    border: 1px solid var(--rule);
+    background: #f8f5f0;
+    min-height: 80px;
+    padding: 12px;
+    width: 100%;
+    font-family: var(--sans);
+    font-size: 12px;
+    color: var(--text);
+    resize: vertical;
+    line-height: 1.6;
+  }
+  .remarks-area::placeholder { color: #ccc; font-style: italic; }
+</style>
+</head>
+<body>
+
+<!-- TOOLBAR -->
+<div class="toolbar no-print">
+  <div>
+    <div class="brand">CEINSPECTOR.COM</div>
+    <div class="tagline">ISO Compliance Tools for Small Craft</div>
+  </div>
+  <button class="btn-print" onclick="window.print()">Print / Save PDF</button>
+</div>
+
+<!-- PAGE -->
+<div class="page">
+
+  <!-- DOCUMENT HEADER -->
+  <div class="doc-header">
+    <div class="header-top">
+      <div class="org-block">
+        <div class="org-name">CEInspector.com</div>
+        <div class="org-url">www.ceinspector.com · Blue Peter Marine</div>
+      </div>
+      <div class="doc-number-block">
+        <div class="doc-number-label">Report Reference</div>
+        <div class="doc-number">THF-A3-<span id="report-num">________</span></div>
+      </div>
+    </div>
+    <div class="doc-title">Through-Hull Fitting Assembly Strength Test Report</div>
+    <div class="doc-subtitle">Annex A.3 — Assembly Test in accordance with ISO 9093:2020</div>
+    <div class="header-rule"></div>
+  </div>
+
+  <!-- STANDARD REF BAND -->
+  <div class="standard-band">
+    <div class="std-pill">ISO 9093:2020</div>
+    <div class="std-text">Small craft — Seacocks and through-hull fittings</div>
+    <div class="std-clause">ANNEX A.3 · NORMATIVE</div>
+  </div>
+
+  <!-- BODY -->
+  <div class="body-content">
+
+    <!-- SECTION 1: IDENTIFICATION -->
+    <div class="section-gap">
+      <div class="section-title">1. Product and Manufacturer Identification</div>
+      <div class="meta-grid">
+        <div class="meta-cell">
+          <div class="meta-label">Manufacturer Name</div>
+          <div class="meta-value fill">Enter manufacturer name</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Country of Manufacture</div>
+          <div class="meta-value fill">Enter country</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Date of Test</div>
+          <div class="meta-value fill">DD / MM / YYYY</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Product / Model Designation</div>
+          <div class="meta-value fill">Enter product name or model number</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Nominal Bore Size</div>
+          <div class="meta-value fill">e.g. G 1½ in / 38 mm</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Material (Metallic / Non-Metallic)</div>
+          <div class="meta-value fill">e.g. DZR Brass</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Batch / Serial Number</div>
+          <div class="meta-value fill">Enter batch or serial number</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Test Conducted By</div>
+          <div class="meta-value fill">Name of test operator</div>
+        </div>
+        <div class="meta-cell">
+          <div class="meta-label">Test Facility / Location</div>
+          <div class="meta-value fill">Enter facility name and location</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 2: TEST PURPOSE -->
+    <div class="section-gap">
+      <div class="section-title">2. Purpose and Scope of This Test</div>
+      <div class="procedure-box">
+        <div class="procedure-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          What This Test Verifies
+        </div>
+        <p class="procedure-text">The Assembly Strength Test (ISO 9093:2020, Annex A.3) verifies that a through-hull fitting or seacock assembly, once installed in or representative of its final installation condition, can withstand the mechanical loads that may be imposed on it during normal vessel operation without leaking, deforming, or losing structural integrity.</p>
+        <p class="procedure-text">Unlike the component-level test in Annex A.2 — which is carried out on an isolated fitting mounted to a rigid baseplate — this test is performed on the assembly as installed, or on a representative sample that faithfully replicates the actual installation. This distinction is important: it captures the effect of hull panel flexibility, bedding compounds, and fastening methods on the overall system strength.</p>
+        <p class="procedure-text">Compliance with this clause is mandatory for CE marking under Directive 2013/53/EU (Recreational Craft Directive) via EN ISO 9093:2021, which cites this standard in relation to Annex I, Clause 3.4 — Openings in hull, deck and superstructure.</p>
+      </div>
+    </div>
+
+    <!-- SECTION 3: TEST PROCEDURE -->
+    <div class="section-gap">
+      <div class="section-title">3. Test Procedure — Step by Step</div>
+
+      <div class="procedure-box">
+        <div class="procedure-title">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1e3a5f" stroke-width="2"><polyline points="9 11 12 14 22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+          Equipment Required Before Starting
+        </div>
+        <p class="procedure-text">A calibrated force-application device (hydraulic ram, load cell, or press) capable of sustaining a steady perpendicular load; a water pressure test pump capable of reaching 0.1 MPa (1 bar); a timer; a representative hull panel section or the actual installed assembly; appropriate sealant and fastening materials as used in production; and a camera for photographic documentation of each stage.</p>
+      </div>
+
+      <div class="step-list">
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Prepare the representative sample.</strong> Mount the through-hull fitting or seacock assembly into a hull panel or test panel that is representative of the actual production installation. Use the same hull material (e.g. GRP, aluminium, wood laminate), the same bedding compound, the same backing plate arrangement, and the same torque values as applied in production. The assembly must replicate what will be installed on the final vessel.</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Allow adequate cure time.</strong> If bedding compounds or adhesives are used, allow full cure time as specified by the compound manufacturer before proceeding. Record the compound type and cure period in the remarks section of this report.</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Determine the required test force.</strong> Based on the nominal bore diameter of the fitting, select the appropriate minimum force from the table below. The force must be applied perpendicular to the inboard end of the assembly — that is, acting laterally against the direction in which side-loads would act during operation.</div>
+        </div>
+
+        <!-- FORCE TABLE -->
+        <div class="force-table-wrap" style="margin-left:38px; margin-bottom:16px;">
+          <table class="force-table">
+            <thead>
+              <tr>
+                <th>Nominal Bore Size</th>
+                <th>Minimum Test Force</th>
+                <th>Hold Duration</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>25.4 mm (1 in) and below</td>
+                <td><span class="force-val">1 500 N</span></td>
+                <td>30 seconds</td>
+              </tr>
+              <tr>
+                <td>Above 25.4 mm (1 in)</td>
+                <td><span class="force-val">2 224 N</span></td>
+                <td>30 seconds</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Apply the mechanical force.</strong> Using the calibrated device, apply the required force perpendicular to the inboard end of the assembly and maintain it for a continuous period of <strong>30 seconds</strong>. Do not apply the load with sudden impact — increase force gradually to the target value. The force is applied dry; internal water pressure is not applied during this stage.</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Inspect under load.</strong> During the 30-second hold, visually inspect the entire assembly — the hull interface, bedding compound line, flange, stem, seacock body, and hose connection — for any evidence of distortion, cracking, or displacement of the fitting relative to the hull panel. Take photographs of the assembly under load as evidence.</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Release the load, then carry out the water pressure leak test.</strong> After the 30-second hold, release the mechanical force. With the seacock closed (if fitted) and all air expelled, fill the assembly with water and apply an internal water pressure of <strong>0.1 MPa (1 bar)</strong>. The assembly shall show no leakage to the outside of the assembly and shall perform as intended. Record the result and photograph any leakage.</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Release pressure, disassemble and inspect.</strong> Release the water pressure and disassemble the assembly. Inspect all components individually. <strong>No part of the fitting or assembly shall display any sign of damage affecting its function.</strong> If the assembly includes a seacock, verify that it remains fully operable (opens and closes freely).</div>
+        </div>
+        <div class="step">
+          <div></div>
+          <div class="step-text"><strong>Document and photograph.</strong> Record all measurements, observations, and test results in this report. Attach photographs of the test setup, force application, and post-disassembly condition of components. Retain the tested sample or components for a minimum of two years as evidence.</div>
+        </div>
+      </div>
+
+      <div class="critical-note">
+        <span class="note-label">Important</span>
+        <span class="note-text">This test must be carried out in addition to the component-level test described in ISO 9093:2020, Annex A.2. Passing the component test alone does not constitute compliance with Annex A.3. Both tests are normative requirements for CE marking purposes.</span>
+      </div>
+    </div>
+
+    <!-- SECTION 4: PHOTOGRAPHIC EVIDENCE -->
+    <div class="section-gap photo-section">
+      <div class="section-title">4. Photographic Evidence</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:16px; font-family:var(--serif); font-style:italic;">
+        Attach clear, well-lit photographs in each slot below. Photographs must be labelled and dated. Digital originals should be retained in an accessible file linked to this report reference number.
+      </p>
+      <div class="photo-grid">
+
+        <div class="photo-slot">
+          <div class="photo-slot-label">Photo 1</div>
+          <svg class="photo-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="photo-caption-hint">Test assembly before force application<br>showing hull panel and fitting installation</div>
+          <input class="photo-caption-field" type="text" placeholder="Caption / description">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-slot-label">Photo 2</div>
+          <svg class="photo-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="photo-caption-hint">Force application device in position<br>at the inboard end of the assembly</div>
+          <input class="photo-caption-field" type="text" placeholder="Caption / description">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-slot-label">Photo 3</div>
+          <svg class="photo-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="photo-caption-hint">Assembly during 30-second hold under<br>full mechanical load (applied dry)</div>
+          <input class="photo-caption-field" type="text" placeholder="Caption / description">
+        </div>
+
+        <div class="photo-slot">
+          <div class="photo-slot-label">Photo 4</div>
+          <svg class="photo-icon" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <div class="photo-caption-hint">Disassembled components after test<br>showing condition of all parts</div>
+          <input class="photo-caption-field" type="text" placeholder="Caption / description">
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SECTION 5: TEST MEASUREMENTS -->
+    <div class="section-gap">
+      <div class="section-title">5. Recorded Test Measurements</div>
+      <div class="results-table-wrap">
+        <table class="results-table">
+          <thead>
+            <tr>
+              <th style="width:40%">Parameter</th>
+              <th>Recorded Value</th>
+              <th style="width:25%">Requirement</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Nominal bore size of assembly tested</td>
+              <td><input class="result-field" type="text" placeholder="e.g. 38 mm / G 1½ in"></td>
+              <td style="font-size:11px; color:var(--muted);">As specified</td>
+            </tr>
+            <tr>
+              <td>Force applied (N)</td>
+              <td><input class="result-field" type="text" placeholder="e.g. 1 580 N"></td>
+              <td style="font-size:11px;">≥ 1 500 N or ≥ 2 224 N</td>
+            </tr>
+            <tr>
+              <td>Duration of force application (seconds)</td>
+              <td><input class="result-field" type="text" placeholder="e.g. 32 seconds"></td>
+              <td style="font-size:11px;">Minimum 30 s</td>
+            </tr>
+            <tr>
+              <td>Internal water pressure applied after strength test</td>
+              <td><input class="result-field" type="text" placeholder="e.g. 0.10 MPa"></td>
+              <td style="font-size:11px;">0.1 MPa (1 bar)</td>
+            </tr>
+            <tr>
+              <td>Ambient temperature during test</td>
+              <td><input class="result-field" type="text" placeholder="e.g. 21 °C"></td>
+              <td style="font-size:11px;">15 °C – 25 °C</td>
+            </tr>
+            <tr>
+              <td>Bedding compound used (if any)</td>
+              <td><input class="result-field" type="text" placeholder="e.g. Sika 291i, cured 48 h"></td>
+              <td style="font-size:11px;">As per production spec</td>
+            </tr>
+            <tr>
+              <td>Hull panel material and thickness</td>
+              <td><input class="result-field" type="text" placeholder="e.g. GRP sandwich, 24 mm"></td>
+              <td style="font-size:11px;">Representative of production</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SECTION 6: ACCEPTANCE CRITERIA -->
+    <div class="section-gap">
+      <div class="section-title">6. Acceptance Criteria — ISO 9093:2020, Annex A.3</div>
+      <p style="font-size:12px; color:var(--muted); margin-bottom:14px; font-family:var(--serif); font-style:italic;">
+        All criteria below must be satisfied for the assembly to be considered compliant. Mark each criterion Pass or Fail after completing the test and disassembly inspection.
+      </p>
+
+      <div class="results-table-wrap criteria-list">
+        <div class="criteria-item">
+          <div class="criteria-num">Ref</div>
+          <div class="criteria-text">Acceptance Criterion</div>
+          <div style="display:flex; gap:12px; font-size:9px; font-family:var(--mono); color:#a8c4d8; letter-spacing:0.1em; justify-content:flex-end;">
+            <div>PASS</div><div>FAIL</div>
+          </div>
+        </div>
+
+        <div class="criteria-item">
+          <div class="criteria-num">A.3.1</div>
+          <div class="criteria-text">The required force was applied perpendicular to the inboard end of the assembly and maintained for a continuous period of not less than 30 seconds.</div>
+          <div class="criteria-result-cell">
+            <div><div class="tick-box pass-box"></div><div class="tick-box-label">P</div></div>
+            <div><div class="tick-box fail-box"></div><div class="tick-box-label">F</div></div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">A.3.2</div>
+          <div class="criteria-text">After the strength test, the assembly showed no leakage to the outside of the assembly when subjected to an internal water pressure of 0.1 MPa (1 bar), and performed as intended.</div>
+          <div class="criteria-result-cell">
+            <div><div class="tick-box pass-box"></div><div class="tick-box-label">P</div></div>
+            <div><div class="tick-box fail-box"></div><div class="tick-box-label">F</div></div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">A.3.3</div>
+          <div class="criteria-text">The assembly performed as intended — no displacement of the fitting relative to the hull panel was observed during or after the force application.</div>
+          <div class="criteria-result-cell">
+            <div><div class="tick-box pass-box"></div><div class="tick-box-label">P</div></div>
+            <div><div class="tick-box fail-box"></div><div class="tick-box-label">F</div></div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">A.3.4</div>
+          <div class="criteria-text">Upon disassembly, no part of the fitting or assembly displayed any sign of damage affecting its function (e.g. cracking, deformation, thread stripping, fracture of the flange or stem).</div>
+          <div class="criteria-result-cell">
+            <div><div class="tick-box pass-box"></div><div class="tick-box-label">P</div></div>
+            <div><div class="tick-box fail-box"></div><div class="tick-box-label">F</div></div>
+          </div>
+        </div>
+        <div class="criteria-item">
+          <div class="criteria-num">A.3.5</div>
+          <div class="criteria-text">If the assembly includes a seacock, it remained fully operable (capable of being opened and closed by hand) after disassembly and post-test inspection. (Mark N/A if no seacock is included.)</div>
+          <div class="criteria-result-cell">
+            <div><div class="tick-box pass-box"></div><div class="tick-box-label">P</div></div>
+            <div><div class="tick-box fail-box"></div><div class="tick-box-label">F</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 7: OBSERVATIONS / REMARKS -->
+    <div class="section-gap">
+      <div class="section-title">7. Observations and Remarks</div>
+      <textarea class="remarks-area" rows="5" placeholder="Record any observations during the test, deviations from standard procedure, conditions of individual components after disassembly, or other relevant notes..."></textarea>
+    </div>
+
+    <!-- SECTION 8: OVERALL VERDICT -->
+    <div class="section-gap">
+      <div class="section-title">8. Overall Test Verdict</div>
+      <div class="verdict-block">
+        <div>
+          <div class="verdict-title">Assembly Test Result</div>
+          <div style="font-size:11px; color:var(--muted); margin-top:4px; font-family:var(--mono); letter-spacing:0.05em;">ISO 9093:2020 — Annex A.3</div>
+        </div>
+        <div class="verdict-options">
+          <div class="verdict-option verdict-pass">PASS</div>
+          <div class="verdict-option verdict-fail">FAIL</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SECTION 9: SIGN-OFF -->
+    <div class="section-gap">
+      <div class="section-title">9. Declaration and Signatures</div>
+      <div class="signoff-grid">
+        <div class="signoff-cell">
+          <div class="signoff-label">Test Operator</div>
+          <input class="signoff-field" type="text" placeholder="Full name">
+          <div class="sig-area"></div>
+          <div class="signoff-sublabel">Signature &amp; Date</div>
+        </div>
+        <div class="signoff-cell">
+          <div class="signoff-label">Witnessed By (if applicable)</div>
+          <input class="signoff-field" type="text" placeholder="Full name and organization">
+          <div class="sig-area"></div>
+          <div class="signoff-sublabel">Signature &amp; Date</div>
+        </div>
+        <div class="signoff-cell">
+          <div class="signoff-label">Manufacturer Representative</div>
+          <input class="signoff-field" type="text" placeholder="Full name and title">
+          <div class="sig-area"></div>
+          <div class="signoff-sublabel">Signature &amp; Date</div>
+        </div>
+        <div class="signoff-cell">
+          <div class="signoff-label">Certifying Body / Notified Body (if applicable)</div>
+          <input class="signoff-field" type="text" placeholder="Body name and reference number">
+          <div class="sig-area"></div>
+          <div class="signoff-sublabel">Signature, Stamp &amp; Date</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /body-content -->
+
+  <!-- DISCLAIMER BAND -->
+  <div style="background:#f0ede6; border-top: 1px solid #c8bfa8; padding: 14px 48px; font-family: 'IBM Plex Mono', monospace; font-size: 9px; color: #6b6358; line-height: 1.7; letter-spacing: 0.03em;">
+    <span style="color: #1e3a5f; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase;">Disclaimer —</span>
+    This template is an independent compliance tool prepared by Blue Peter Marine / CEInspector.com. It references ISO 9093:2020 by title and clause number only. No normative text, definitions, tables, or figures from ISO 9093:2020 have been reproduced. ISO standards are protected by copyright. Users must obtain a licensed copy of ISO 9093:2020 directly from ISO (www.iso.org) or their national standards body before conducting tests. CEInspector.com accepts no liability for the outcome of tests conducted using this template.
+  </div>
+
+  <!-- DOCUMENT FOOTER -->
+  <div class="doc-footer">
+    <div class="footer-left">
+      Template issued by <span>CEInspector.com · Blue Peter Marine</span> · Free for use in ISO 9093:2020 compliance documentation
+    </div>
+    <div class="footer-right">ISO 9093:2020 Annex A.3 · EN ISO 9093:2021 · RCD 2013/53/EU</div>
+  </div>
+
+</div><!-- /page -->
+
+</body>
+</html>
