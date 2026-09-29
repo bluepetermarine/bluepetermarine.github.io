@@ -37,6 +37,21 @@
     margin-bottom: 8px;
   }
   header .logo { width: 84px; height: auto; flex: none; }
+  .bpm-ad {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin: 16px 0 4px; padding: 14px 18px;
+    background: var(--navy); color: #ffffff; border-radius: 8px;
+    border-left: 5px solid var(--gold);
+  }
+  .bpm-ad .bpm-ad-text { flex: 1 1 320px; font-family: 'Barlow', sans-serif; font-size: 16px; line-height: 1.45; }
+  .bpm-ad .bpm-ad-text b { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.3px; color: #f0c46a; }
+  .bpm-ad a {
+    flex: none; display: inline-block; text-decoration: none; white-space: nowrap;
+    background: var(--gold); color: #ffffff; border-radius: 6px; padding: 9px 16px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.3px;
+  }
+  .bpm-ad a:hover { background: #b3770a; }
+  @media print { .bpm-ad { display: none; } }
   header .brandline { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 14px; color: var(--navy); margin: 0 0 6px; }
   @media (max-width: 520px) { header .logo { width: 60px; } }
   h1 {
@@ -334,6 +349,10 @@
       <div class="subtitle">Annex I.A essential requirements, Directive 2013/53/EU, design and construction of recreational craft</div>
     </div>
   </header>
+  <aside class="bpm-ad" aria-label="Blue Peter Marine services">
+    <div class="bpm-ad-text"><b>Did you know?</b> Blue Peter Marine can also assist you with your Tonnage Measurement Survey for Red Ensigns.</div>
+    <a href="mailto:info@ceinspector.com?subject=Tonnage%20Measurement%20Survey%20enquiry">Ask about a tonnage survey</a>
+  </aside>
 
   <div class="legend">
     <span><span class="dot built"></span> Tool or checklist built</span>
@@ -475,13 +494,13 @@ Watercraft of less than 6 metres in length that are susceptible to swamping when
     num: "3.4",
     title: "Openings in hull, deck and superstructure",
     status: "built",
-    statusLabel: "through-hull fitting test checklist",
+    statusLabel: "Through-Hull Fitting Assembly Strength Test Report",
     text: `Openings in hull, deck(s) and superstructure shall not impair the structural integrity of the watercraft or its weather tight integrity when closed.
 
 Windows, port lights, doors and hatch covers shall withstand the water pressure likely to be encountered in their specific position, as well as point loads applied by the weight of persons moving on deck.
 
 Through hull fittings designed to allow water passage into the hull or out of the hull, below the waterline corresponding to the manufacturer's maximum recommended load in accordance with point 3.6, shall be fitted with a means of shutoff which shall be readily accessible.`,
-    link: { label: "Open through-hull fitting checklist", href: "through-hull-checklist.html" }
+    link: { label: "Open Through-Hull Fitting Assembly Strength Test Report", href: "through-hull-checklist.html" }
   },
   {
     part: "3. Integrity and structural requirements",
