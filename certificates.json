@@ -14,14 +14,14 @@
   {
     "esr": "3.4",
     "component": "Hatches",
-    "manufacturer": "",
+    "manufacturer": "Vetus",
     "docType": "DoC",
-    "standard": "EN ISO 12216",
-    "ref": "",
-    "date": "",
-    "status": "Pending",
-    "file": "",
-    "notes": ""
+    "standard": "EN ISO 12216:2002",
+    "ref": "DCI-CE-2013/53-1741*01",
+    "date": "2023-01-11",
+    "status": "On file",
+    "file": "certificates/3-4_vetus_hatches_doc.pdf",
+    "notes": "MAG6363SL, MAG5038SL, MAG4747SL,\nMAG4633SL, MAG4242SL, MAG2626SL,\nMAG5151 SL"
   },
   {
     "esr": "3.4",
@@ -86,14 +86,14 @@
   {
     "esr": "5.2.1",
     "component": "Fuel hoses / fuel lines",
-    "manufacturer": "",
+    "manufacturer": "Vetus",
     "docType": "DoC",
-    "standard": "EN ISO 7840",
-    "ref": "",
-    "date": "",
-    "status": "Pending",
-    "file": "",
-    "notes": "Fire-resistant; non-fire-resistant per EN ISO 8469"
+    "standard": "EN ISO 7840:2013",
+    "ref": "DIP061514/XT/001",
+    "date": "2015-11-16",
+    "status": "On file",
+    "file": "certificates/5-2-1_vetus_fuel-hoses-fuel-lines_doc.pdf",
+    "notes": "FUHOSE06A Fuel Hose 6 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE08A Fuel Hose 8 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE10A Fuel Hose 10 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE13A Fuel Hose 13 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE16A Fuel Hose 16 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE19A Fuel Hose 19 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFUHOSE25A Fuel Hose 25 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFFHOSE38 Fuel Filling Hose 38 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003\nFFHOSE51 Fuel Filling Hose 51 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003"
   },
   {
     "esr": "5.2.1",
@@ -334,5 +334,89 @@
     "status": "Requested",
     "file": "",
     "notes": "Pull DoC from Vetus documentation portal (search by product)"
+  },
+  {
+    "esr": "5.4.1",
+    "component": "Steering Wheel",
+    "manufacturer": "Robicomp",
+    "docType": "DoC",
+    "standard": "ISO 8847:2004/AC:2005",
+    "ref": "IMCI WROBI002",
+    "date": "2021-01-23",
+    "status": "On file",
+    "file": "certificates/5-4-1_robicomp_steering-wheel_doc.pdf",
+    "notes": "CS-Y-Spoke 900-1100"
+  },
+  {
+    "esr": "5.4.1",
+    "component": "Wire. Rope and Pulley system",
+    "manufacturer": "Jefa Steering A/S",
+    "docType": "Type Exam",
+    "standard": "ISO 8848:2017",
+    "ref": "IMCI WRPSJEFA003",
+    "date": "2020-10-01",
+    "status": "On file",
+    "file": "certificates/5-4-1_jefa-steering-a-s_wire-rope-and-pulley-system_type-exam.pdf",
+    "notes": ""
+  },
+  {
+    "esr": "3.4",
+    "component": "EscapeHatch",
+    "manufacturer": "Goiot",
+    "docType": "Type Exam",
+    "standard": "Not mentionned",
+    "ref": "BEGOI19029P",
+    "date": "2019-07-12",
+    "status": "On file",
+    "file": "certificates/3-4_goiot_escapehatch_type-exam.pdf",
+    "notes": "Survival"
+  },
+  {
+    "esr": "3.4",
+    "component": "Deck Hatches",
+    "manufacturer": "Goiot",
+    "docType": "Type Exam",
+    "standard": "Not mentionned",
+    "ref": "BEGOI22017PRev1",
+    "date": "2023-11-07",
+    "status": "On file",
+    "file": "certificates/3-4_goiot_deck-hatches_type-exam.pdf",
+    "notes": "Panneau MAGIC T10, T20, T30, T44, T54, T60, T65, T70"
+  },
+  {
+    "esr": "3.4",
+    "component": "Hatches",
+    "manufacturer": "Lewmar",
+    "docType": "DoC",
+    "standard": "Not mentionned",
+    "ref": "HLWL005",
+    "date": "2024-01-04",
+    "status": "On file",
+    "file": "certificates/3-4_lewmar_hatches_doc.pdf",
+    "notes": "30081700, 30081900, 30086000, 30319100, 39903030, 39910030, 39910830, 39918030, 39920030,\n39922030, 39930030, 39940030, 39940031, 39941030, 39944030, 39944034, 39944334, 39954030,\n399100303, 399100323, 399103917, 399103926, 399103928, 399103950, 399300303, 399400303,\n399440303, 399440308, 399440323, 399443918, 399540306, 399543950"
+  },
+  {
+    "esr": "3.4",
+    "component": "Hatches",
+    "manufacturer": "Lewmar",
+    "docType": "DoC",
+    "standard": "Not mentionned",
+    "ref": "HLWL042",
+    "date": "2024-01-04",
+    "status": "On file",
+    "file": "certificates/3-4_lewmar_hatches_doc-2.pdf",
+    "notes": "39950020, 39960020"
+  },
+  {
+    "esr": "3.4",
+    "component": "Portlight",
+    "manufacturer": "BSI A/S",
+    "docType": "DoC",
+    "standard": "EN ISO 12216:2018",
+    "ref": "HBS1002",
+    "date": "2010-12-22",
+    "status": "On file",
+    "file": "certificates/3-4_bsi-a-s_portlight_doc.pdf",
+    "notes": "Portlight 91-Series"
   }
 ]
