@@ -9,7 +9,9 @@
     2. PNG / JPEG images downloaded from the page (download links and canvas exports)
     3. images saved with right-click or long-press (pages marked data-images="1")
     4. CSV exports (a "Prepared for ..." first line)
-    5. PDF documents from this site opened through a link (stamped on every page)
+    5. PDF documents from this site opened through a link (stamped on every page),
+       except the IMCI checklists in tools/checklists/ and any RSG document
+       (file name containing "RSG"), which always open unmarked
   Visitors who have not signed in as a client get a copyright watermark instead:
   "(c) <year> Blue Peter Marine - www.ceinspector.com - Not for reproduction".
 */
@@ -249,6 +251,8 @@
     var abs;
     try { abs = new URL(raw, location.href); } catch (err) { return; }
     if (abs.origin !== location.origin) return;
+    if (/\/tools\/checklists\//i.test(abs.pathname)) return; // IMCI checklists open unmarked
+    if (/rsg/i.test(abs.pathname.split("/").pop())) return;      // RSG documents open unmarked
     e.preventDefault();
     e.stopPropagation();
     var hash = abs.hash || "";
