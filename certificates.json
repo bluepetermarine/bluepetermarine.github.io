@@ -9,7 +9,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -21,7 +22,8 @@
     "date": "2023-01-11",
     "status": "On file",
     "file": "3-4_vetus_hatches_doc.pdf",
-    "notes": "MAG6363SL, MAG5038SL, MAG4747SL,\nMAG4633SL, MAG4242SL, MAG2626SL,\nMAG5151 SL"
+    "notes": "MAG6363SL, MAG5038SL, MAG4747SL,\nMAG4633SL, MAG4242SL, MAG2626SL,\nMAG5151 SL",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -33,7 +35,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Manufacturer's DoC to EN ISO 9093. Not an Annex II component, so no CE marking of its own and no EU type-examination certificate; below-waterline fittings assessed as part of the craft."
+    "notes": "Manufacturer's DoC to EN ISO 9093. Not an Annex II component, so no CE marking of its own and no EU type-examination certificate; below-waterline fittings assessed as part of the craft.",
+    "annexII": ""
   },
   {
     "esr": "3.4",
@@ -45,7 +48,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -57,7 +61,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": "II.5"
   },
   {
     "esr": "5.1.1",
@@ -69,7 +74,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Insulating material must not sustain combustion"
+    "notes": "Insulating material must not sustain combustion",
+    "annexII": ""
   },
   {
     "esr": "5.1.1",
@@ -81,7 +87,8 @@
     "date": "2022-10-03",
     "status": "On file",
     "file": "https://vetus.com/wp-content/uploads/03102022_doc_engine_m456_0001.pdf",
-    "notes": "Module B+C. Other Vetus engine series (VD, M-line) have their own DoCs"
+    "notes": "Module B+C. Other Vetus engine series (VD, M-line) have their own DoCs",
+    "annexII": ""
   },
   {
     "esr": "5.2.1",
@@ -93,7 +100,8 @@
     "date": "2015-11-16",
     "status": "On file",
     "file": "5-2-1_vetus_fuel-hoses-fuel-lines_doc.pdf",
-    "notes": "FUHOSE06A Fuel Hose 6 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE08A Fuel Hose 8 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE10A Fuel Hose 10 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE13A Fuel Hose 13 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE16A Fuel Hose 16 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE19A Fuel Hose 19 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFUHOSE25A Fuel Hose 25 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFFHOSE38 Fuel Filling Hose 38 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003\nFFHOSE51 Fuel Filling Hose 51 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003"
+    "notes": "FUHOSE06A Fuel Hose 6 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE08A Fuel Hose 8 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE10A Fuel Hose 10 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE13A Fuel Hose 13 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE16A Fuel Hose 16 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/001\nFUHOSE19A Fuel Hose 19 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFUHOSE25A Fuel Hose 25 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/002\nFFHOSE38 Fuel Filling Hose 38 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003\nFFHOSE51 Fuel Filling Hose 51 mm I.D. type A1 and E10/B10 compatible DIP061514/XT/003",
+    "annexII": "II.4"
   },
   {
     "esr": "5.2.1",
@@ -105,7 +113,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Awaiting Racor reference documentation"
+    "notes": "Awaiting Racor reference documentation",
+    "annexII": ""
   },
   {
     "esr": "5.2.1",
@@ -117,7 +126,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": ""
   },
   {
     "esr": "5.2.2",
@@ -129,7 +139,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.4"
   },
   {
     "esr": "5.2.2",
@@ -141,7 +152,8 @@
     "date": "2024-04-10",
     "status": "On file",
     "file": "https://vetus.com/wp-content/uploads/10042024_doc_fuel-tank_ftank-abftank25_0004.pdf",
-    "notes": "Module B+C. Covers FTANK_A/B series and FTANK25"
+    "notes": "Module B+C. Covers FTANK_A/B series and FTANK25",
+    "annexII": "II.4"
   },
   {
     "esr": "5.3",
@@ -153,7 +165,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Record IP value per fitting location"
+    "notes": "Record IP value per fitting location",
+    "annexII": ""
   },
   {
     "esr": "5.3",
@@ -165,7 +178,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": ""
   },
   {
     "esr": "5.4.1",
@@ -177,7 +191,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Consolidated wheel standard (replaced 8848 / 9775 / 15652)"
+    "notes": "Consolidated wheel standard (replaced 8848 / 9775 / 15652)",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -189,7 +204,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Cable and pulley type"
+    "notes": "Cable and pulley type",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -201,7 +217,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -213,7 +230,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Geared link systems"
+    "notes": "Geared link systems",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -225,7 +243,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Remote hydraulic steering"
+    "notes": "Remote hydraulic steering",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -237,7 +256,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -249,7 +269,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -261,7 +282,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -273,7 +295,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Steering function; excludes autopilot on sailing craft"
+    "notes": "Steering function; excludes autopilot on sailing craft",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -285,7 +308,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "Throttle and shift function of the steer-by-wire standard"
+    "notes": "Throttle and shift function of the steer-by-wire standard",
+    "annexII": ""
   },
   {
     "esr": "5.4.1",
@@ -297,7 +321,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -309,7 +334,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": "II.3"
   },
   {
     "esr": "5.7",
@@ -321,7 +347,8 @@
     "date": "",
     "status": "Pending",
     "file": "",
-    "notes": "LED performance per EN ISO 19009"
+    "notes": "LED performance per EN ISO 19009",
+    "annexII": ""
   },
   {
     "esr": "5.8",
@@ -333,7 +360,8 @@
     "date": "",
     "status": "Requested",
     "file": "",
-    "notes": "Pull DoC from Vetus documentation portal (search by product)"
+    "notes": "Pull DoC from Vetus documentation portal (search by product)",
+    "annexII": ""
   },
   {
     "esr": "5.4.1",
@@ -345,7 +373,8 @@
     "date": "2021-01-23",
     "status": "On file",
     "file": "5-4-1_robicomp_steering-wheel_doc.pdf",
-    "notes": "CS-Y-Spoke 900-1100"
+    "notes": "CS-Y-Spoke 900-1100",
+    "annexII": "II.3"
   },
   {
     "esr": "5.4.1",
@@ -357,7 +386,8 @@
     "date": "2020-10-01",
     "status": "On file",
     "file": "5-4-1_jefa-steering-a-s_wire-rope-and-pulley-system_type-exam.pdf",
-    "notes": ""
+    "notes": "",
+    "annexII": "II.3"
   },
   {
     "esr": "3.4",
@@ -369,7 +399,8 @@
     "date": "2019-07-12",
     "status": "On file",
     "file": "3-4_goiot_escapehatch_type-exam.pdf",
-    "notes": "Survival"
+    "notes": "Survival",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -381,7 +412,8 @@
     "date": "2023-11-07",
     "status": "On file",
     "file": "3-4_goiot_deck-hatches_type-exam.pdf",
-    "notes": "Panneau MAGIC T10, T20, T30, T44, T54, T60, T65, T70"
+    "notes": "Panneau MAGIC T10, T20, T30, T44, T54, T60, T65, T70",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -393,7 +425,8 @@
     "date": "2024-01-04",
     "status": "On file",
     "file": "3-4_lewmar_hatches_doc.pdf",
-    "notes": "30081700, 30081900, 30086000, 30319100, 39903030, 39910030, 39910830, 39918030, 39920030,\n39922030, 39930030, 39940030, 39940031, 39941030, 39944030, 39944034, 39944334, 39954030,\n399100303, 399100323, 399103917, 399103926, 399103928, 399103950, 399300303, 399400303,\n399440303, 399440308, 399440323, 399443918, 399540306, 399543950"
+    "notes": "30081700, 30081900, 30086000, 30319100, 39903030, 39910030, 39910830, 39918030, 39920030,\n39922030, 39930030, 39940030, 39940031, 39941030, 39944030, 39944034, 39944334, 39954030,\n399100303, 399100323, 399103917, 399103926, 399103928, 399103950, 399300303, 399400303,\n399440303, 399440308, 399440323, 399443918, 399540306, 399543950",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -405,7 +438,8 @@
     "date": "2024-01-04",
     "status": "On file",
     "file": "3-4_lewmar_hatches_doc-2.pdf",
-    "notes": "39950020, 39960020"
+    "notes": "39950020, 39960020",
+    "annexII": "II.5"
   },
   {
     "esr": "3.4",
@@ -417,6 +451,7 @@
     "date": "2010-12-22",
     "status": "On file",
     "file": "3-4_bsi-a-s_portlight_doc.pdf",
-    "notes": "Portlight 91-Series"
+    "notes": "Portlight 91-Series",
+    "annexII": "II.5"
   }
 ]
