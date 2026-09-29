@@ -135,8 +135,8 @@
   <b>How to publish changes</b>
   <ol>
     <li>Add or edit entries above. PDFs you attach are kept safely in this browser until you publish them.</li>
-    <li>Click Download upload pack (ZIP) and unzip it. It holds certificates.json and a certificates folder with the new PDFs.</li>
-    <li>On GitHub, open the bluepetermarine.github.io repository, click Add file, then Upload files, and drag in both certificates.json and the certificates folder. Commit the changes.</li>
+    <li>Click Download upload pack (ZIP) and unzip it. It holds certificates.json and the new PDFs, all side by side.</li>
+    <li>On GitHub, open the bluepetermarine.github.io repository, click Add file, then Upload files, and choose all the files from the unzipped pack. Commit the changes.</li>
     <li>Within a minute or two, every client sees the updated register under each essential requirement in RCD Navigator.</li>
   </ol>
   <p>The register is shared by all clients and is not linked to any one project. Certificates open without a watermark.</p>
@@ -175,12 +175,12 @@
   function setDirty(v){ try{ v ? localStorage.setItem(DIRTY,"1") : localStorage.removeItem(DIRTY); }catch(e){} }
   function isDirty(){ try{ return localStorage.getItem(DIRTY) === "1"; }catch(e){ return false; } }
   function msg(t, bad){ var m = $("msg"); m.textContent = t || ""; m.className = "msg " + (bad ? "err" : "ok"); }
-  function clean(e){ return { esr:e.esr||"", component:e.component||"", manufacturer:e.manufacturer||"", docType:e.docType||"DoC", standard:e.standard||"", ref:e.ref||"", date:e.date||"", status:e.status||"Pending", file:e.file||"", notes:e.notes||"" }; }
+  function clean(e){ var fl = String(e.file||"").replace(/^certificates\//, ""); return { esr:e.esr||"", component:e.component||"", manufacturer:e.manufacturer||"", docType:e.docType||"DoC", standard:e.standard||"", ref:e.ref||"", date:e.date||"", status:e.status||"Pending", file:fl, notes:e.notes||"" }; }
 
   function slug(s){ return String(s||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g,"-").replace(/^-+|-+$/g,"").slice(0,50); }
   function makePath(){
     var parts = [ $("f-esr").value.replace(/\./g,"-"), slug($("f-manufacturer").value), slug($("f-component").value), slug($("f-docType").value) ].filter(Boolean);
-    var base = "certificates/" + parts.join("_"), p = base + ".pdf", i = 2;
+    var base = parts.join("_"), p = base + ".pdf", i = 2;
     var taken = function(x){ return reg.some(function(r, k){ return k !== editIndex && r.file === x; }); };
     while (taken(p)) p = base + "-" + (i++) + ".pdf";
     return p;
@@ -323,8 +323,8 @@
     if (typeof JSZip === "undefined"){ msg("The ZIP tool did not load. Check the internet connection and reload this page.", true); return; }
     var zip = new JSZip(); zip.file("certificates.json", jsonText());
     var used = {}; reg.forEach(function(r){ if (r.file) used[r.file] = true; });
-    var paths = Object.keys(pendingSet).filter(function(p){ return used[p]; });
-    Promise.all(paths.map(function(p){ return getFile(p).then(function(b){ if (b) zip.file(p, b); }); }))
+    var paths = Object.keys(pendingSet).filter(function(p){ return used[p] || used[p.replace(/^certificates\//, "")]; });
+    Promise.all(paths.map(function(p){ return getFile(p).then(function(b){ if (b) zip.file(p.replace(/^certificates\//, ""), b); }); }))
       .then(function(){ return zip.generateAsync({ type:"blob" }); })
       .then(function(blob){
         download("certificate-register-upload-" + today() + ".zip", blob);
