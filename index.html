@@ -272,6 +272,7 @@
   .cert-main { min-width:0; }
   .cert-name { font-size:14px; font-weight:600; color:var(--navy); }
   .cert-mfr { font-size:13px; color:var(--navy-soft); }
+  .cert-annex { display:inline-block; margin-top:3px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#1f5f8b; background:rgba(31,95,139,0.08); border-radius:10px; padding:1px 7px; }
   .cert-meta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--navy-soft); margin-top:3px; line-height:1.6; }
   .cert-notes { font-size:12.5px; color:var(--navy-soft); font-style:italic; margin-top:3px; }
   .cert-side { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; text-align:right; }
@@ -934,9 +935,27 @@ const certRegister = {
 const certBadge = { "DoC":"cb-doc", "Type Exam":"cb-type", "Test Report":"cb-test", "Data Sheet":"cb-data" };
 const certPill  = { "On file":"cp-onfile", "Pending":"cp-pending", "Requested":"cp-requested", "N/A":"cp-na" };
 
+function autoAnnexII(e){
+  var t = ((e.component||"") + " " + (e.standard||"")).toLowerCase(), esr = e.esr || "";
+  if (esr.indexOf("II.") === 0) return "";
+  if (/ignition.protect|8846/.test(t)) return "II.1";
+  if (/start.in.gear|11547/.test(t)) return "II.2";
+  if (esr === "5.4.1" && /steer|helm|wheel|cable|pulley|rack|pinion|tie.bar|drag link|geared link/.test(t) && !/throttle|shift/.test(t)) return "II.3";
+  if (/fuel tank|fuel hose|fuel line/.test(t)) return "II.4";
+  if (/hatch|portlight|porthole/.test(t) && !/through.hull/.test(t)) return "II.5";
+  return "";
+}
+function annexOf(it){ return it.annexII !== undefined ? it.annexII : autoAnnexII(it); }
 function appendCertRegister(body, num){
-  const items = certRegister[num];
-  if(!items || !items.length) return;
+  let items = (certRegister[num] || []).slice();
+  const isAnnexII = num.indexOf('II.') === 0;
+  if(isAnnexII){
+    Object.keys(certRegister).forEach(function(k){
+      if(k === num) return;
+      certRegister[k].forEach(function(it){ if(annexOf(Object.assign({esr:k}, it)) === num) items.push(Object.assign({ fromEsr:k }, it)); });
+    });
+  }
+  if(!items.length) return;
   const wrap = document.createElement('div');
   wrap.className = 'certreg';
   let onFile = 0, pending = 0;
@@ -954,6 +973,8 @@ function appendCertRegister(body, num){
       + '<div class="cert-main">'
         + '<div class="cert-name">'+esc(it.component)+'</div>'
         + (it.manufacturer ? '<div class="cert-mfr">'+esc(it.manufacturer)+'</div>' : '')
+        + (it.fromEsr ? '<div class="cert-annex">Also listed under essential requirement '+esc(it.fromEsr)+'</div>'
+           : (!isAnnexII && annexOf(Object.assign({esr:num}, it)) ? '<div class="cert-annex">Annex II component, item '+esc(annexOf(Object.assign({esr:num}, it)).replace('II.',''))+'</div>' : ''))
         + (meta.length ? '<div class="cert-meta">'+meta.join(' &nbsp;&#183;&nbsp; ')+'</div>' : '')
         + (it.notes ? '<div class="cert-notes">'+esc(it.notes)+'</div>' : '')
       + '</div>'
@@ -982,7 +1003,7 @@ function groupManifest(list){
     (g[esr] = g[esr] || []).push({
       component:e.component||"", manufacturer:e.manufacturer||"", docType:e.docType||"DoC",
       standard:e.standard||"", ref:e.ref||"", date:e.date||"", status:e.status||"Pending",
-      file:e.file||"", notes:e.notes||""
+      file:e.file||"", notes:e.notes||"", annexII:(e.annexII !== undefined ? e.annexII : autoAnnexII(e))
     });
   });
   return g;
