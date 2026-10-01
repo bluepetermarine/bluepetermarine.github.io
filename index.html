@@ -394,7 +394,13 @@
 
   <div id="workbookbar"></div>
   <div id="docsummary"><div class="ds-text"></div><div class="ds-actions"><button id="zipBtn" onclick="downloadZip()">Download all documentation (ZIP)</button><button onclick="exportManifest()">Export status (CSV)</button></div></div>
-  <div class="doccap">Attach the documents for each essential requirement below. Files are kept in this browser only (not sent to any server), so you can assemble an IMCI Module B submission and pick up where you left off. Tick each required item as you collect it and use Export to save the status list.</div>
+  <div class="doccap"><b>Your documents stay on your computer.</b> Documents you attach under each requirement are not uploaded to a server. They are kept in this browser, on this computer only, so you can collect them over time and continue where you left off.
+    <ol style="margin:6px 0 0; padding-left:20px; line-height:1.55">
+      <li>Use the same computer and browser each time. Your documents will not appear on another device or in another browser.</li>
+      <li>Click Download all documentation (ZIP) regularly to keep a safe copy. Clearing your browser data removes the attached documents, and you would then need to attach them again from your saved copy.</li>
+      <li>Tick each required item as you collect it, and use Export status (CSV) for a list of what is done and what is still missing.</li>
+      <li>When your documentation is complete, send the ZIP to Blue Peter Marine at info@ceinspector.com, so it can be reviewed and passed on for your IMCI submission.</li>
+    </ol></div>
   <div class="doccap" style="border-left:3px solid var(--component); padding-left:12px;">Open any requirement to see its Component certificates and Declarations of Conformity for the equipment fitted on board, portlights, hatches, fuel tanks and hoses, steering, switches and plugs, navigation lights and more. This register is a work in progress and is added to as certificates come in.</div>
   <div id="generalDocs"></div>
 
@@ -1540,7 +1546,7 @@ function saveWorkbook(file){
 }
 
 function openWorkbook(){
-  if(!workbook || !workbook.blob){ alert('No checklist workbook has been uploaded yet. Use "Upload latest workbook" at the top of the page to add the current IMCI Module B / G workbook.'); return; }
+  if(!workbook || !workbook.blob){ alert('No checklist workbook has been uploaded yet. Use "Add workbook" at the top of the page to add the IMCI Module B / G workbook. You can download the latest version from the IMCI website, www.imci.org.'); return; }
   try { const url = URL.createObjectURL(workbook.blob); window.open(url, '_blank'); }
   catch(err){ alert('Could not open the workbook.'); }
 }
@@ -1548,11 +1554,11 @@ function openWorkbook(){
 function renderWorkbookBar(){
   const el = document.getElementById('workbookbar'); if(!el) return;
   if(workbook){
-    el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>Current IMCI Module B / G checklist workbook: <b>'+esc(workbook.version)+'</b> <span class="wb-file">'+esc(workbook.name)+'</span></span></div>'
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>IMCI Module B / G checklist workbook in use: <b>'+esc(workbook.version)+'</b> <span class="wb-file">'+esc(workbook.name)+'</span><br>If this is still the current version on the IMCI website, nothing needs to be done. Only replace it when IMCI publishes a newer version.</span></div>'
       + '<div class="wb-actions"><button onclick="openWorkbook()">Open workbook</button><label class="wb-upload">Replace with newer version<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
   } else {
-    el.innerHTML = '<div class="wb-info"><span class="wb-dot warn"></span><span>No checklist workbook uploaded yet. Upload the current IMCI Module B / G workbook so every requirement links to the latest version.</span></div>'
-      + '<div class="wb-actions"><label class="wb-upload">Upload latest workbook<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot warn"></span><span><b style="font-family:inherit;color:inherit">Add your IMCI checklist workbook.</b> The IMCI Module B / G checklist workbook is the form used to assess your boat, and IMCI updates it from time to time. Download the latest version from the <a href="https://www.imci.org" target="_blank" rel="noopener" style="color:inherit">IMCI website</a>, then add it here once. The checklist button under every requirement will then open it, so you always work from the same version. It stays on this computer and is not uploaded anywhere.</span></div>'
+      + '<div class="wb-actions"><label class="wb-upload">Add workbook<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
   }
   const inp = el.querySelector('input[type=file]');
   if(inp) inp.addEventListener('change', function(e){ if(e.target.files[0]) saveWorkbook(e.target.files[0]); e.target.value=''; });
