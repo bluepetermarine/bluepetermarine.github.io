@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ISO 11591:2019 Field of Vision Checklist — Blue Peter Marine</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="bpm-watermark.js"></script>
+<style>
+  :root{ --bg:#f2efe8; --navy:#1a2e4a; --gold:#c8860a; --navy-soft:#2c4361; --line:#d8d2c4; --paper:#fff;
+         --pass:#3d7a52; --fail:#a04040; --na:#7a7f88; }
+  *{ box-sizing:border-box; }
+  body{ margin:0; background:var(--bg); color:var(--navy); font-family:'Barlow',Arial,sans-serif; font-size:15.5px; padding:28px 18px 70px; }
+  .wrap{ max-width:940px; margin:0 auto; }
+  .back{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:12px; color:var(--navy); text-decoration:none; border:1px solid var(--line); background:#fff; padding:5px 10px; border-radius:4px; }
+  .kicker{ font-family:'Barlow Condensed',sans-serif; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--gold); font-size:14px; margin:20px 0 4px; }
+  h1{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:36px; line-height:1.05; margin:0; }
+  .sub{ margin:6px 0 10px; font-size:17px; }
+  .badge{ display:inline-block; background:var(--navy); color:#fff; font-family:'JetBrains Mono',monospace; font-size:12px; padding:5px 10px; border-radius:3px; }
+  .rule{ border:0; border-top:3px solid var(--navy); margin:18px 0 22px; }
+  .card{ background:var(--paper); border:1px solid var(--line); border-radius:8px; padding:20px 24px; margin-bottom:18px; }
+  .card h2{ font-family:'Barlow Condensed',sans-serif; font-size:24px; margin:0 0 4px; padding-bottom:8px; border-bottom:2px solid var(--gold); }
+  .card .lead{ font-size:14px; color:var(--navy-soft); margin:8px 0 14px; }
+  .grid{ display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px 16px; }
+  @media (max-width:720px){ .grid{ grid-template-columns:1fr; } h1{ font-size:30px; } }
+  label.f{ display:block; font-weight:600; font-size:14px; margin-bottom:5px; }
+  .hint{ display:block; font-weight:400; font-size:12.5px; color:var(--navy-soft); margin-top:3px; }
+  input[type=text], input[type=number], select, textarea{ width:100%; font:inherit; color:var(--navy); background:#fbfaf6; border:1px solid var(--line); border-radius:5px; padding:9px 11px; }
+  textarea{ min-height:54px; resize:vertical; }
+  .seg{ display:flex; flex-wrap:wrap; gap:8px; }
+  .seg label{ display:flex; align-items:center; gap:7px; border:1px solid var(--line); border-radius:5px; padding:8px 12px; cursor:pointer; background:#fbfaf6; font-size:14.5px; }
+  .seg input{ accent-color:var(--navy); }
+  .item{ display:grid; grid-template-columns:70px 1fr auto; gap:6px 14px; align-items:start; padding:12px 0; border-top:1px solid #ece7dc; }
+  .item:first-of-type{ border-top:0; }
+  .clause{ font-family:'JetBrains Mono',monospace; font-size:12.5px; color:var(--gold); padding-top:2px; }
+  .req{ line-height:1.45; }
+  .req small{ display:block; color:var(--navy-soft); font-size:12.5px; margin-top:3px; }
+  .ans{ display:flex; gap:4px; }
+  .ans button{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:14px; border:1px solid var(--line); background:#fff; color:var(--navy); border-radius:4px; padding:5px 10px; cursor:pointer; min-width:44px; }
+  .ans button.on.yes{ background:var(--pass); border-color:var(--pass); color:#fff; }
+  .ans button.on.no{ background:var(--fail); border-color:var(--fail); color:#fff; }
+  .ans button.on.na{ background:var(--na); border-color:var(--na); color:#fff; }
+  .item .note{ grid-column:2 / 4; }
+  .item .note input{ font-size:13.5px; padding:6px 9px; }
+  @media (max-width:620px){ .item{ grid-template-columns:1fr; } .item .note{ grid-column:1; } }
+  .calc{ background:#f7f5ef; border:1px solid var(--line); border-radius:6px; padding:14px 16px; margin-top:8px; }
+  table.sl{ width:100%; border-collapse:collapse; font-size:14px; margin-top:6px; }
+  table.sl th{ text-align:left; font-family:'JetBrains Mono',monospace; font-size:11px; text-transform:uppercase; color:var(--navy-soft); padding:6px; border-bottom:1px solid var(--line); }
+  table.sl td{ padding:6px; border-bottom:1px solid #ece7dc; vertical-align:middle; }
+  table.sl input{ padding:6px 8px; }
+  .tablewrap{ overflow-x:auto; }
+  .pill{ display:inline-block; font-family:'JetBrains Mono',monospace; font-size:11.5px; padding:2px 8px; border-radius:20px; white-space:nowrap; }
+  .pill.pass{ background:#e2f0e6; color:var(--pass); } .pill.fail{ background:#f5e1e1; color:var(--fail); } .pill.pend{ background:#efebe1; color:var(--navy-soft); }
+  .btn{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:15px; border:none; border-radius:5px; padding:9px 16px; cursor:pointer; }
+  .btn.navy{ background:var(--navy); color:#fff; } .btn.gold{ background:var(--gold); color:#fff; } .btn.ghost{ background:#fff; color:var(--navy); border:1px solid var(--line); }
+  .btn.small{ font-size:13px; padding:5px 10px; }
+  .kv{ display:grid; grid-template-columns:auto 1fr; gap:4px 14px; font-size:14.5px; margin-top:10px; }
+  .kv b{ font-family:'JetBrains Mono',monospace; font-weight:500; }
+  .warnlabel{ border:2px solid #111; border-radius:4px; padding:10px 14px; display:flex; gap:12px; align-items:center; background:#fff; margin:8px 0; font-weight:600; }
+  .warnlabel svg{ flex:none; }
+  .summary{ display:flex; gap:12px; flex-wrap:wrap; margin:10px 0 14px; }
+  .summary div{ flex:1 1 130px; border:1px solid var(--line); border-radius:6px; padding:10px 12px; background:#fbfaf6; }
+  .summary b{ display:block; font-family:'Barlow Condensed',sans-serif; font-size:26px; }
+  .verdict{ font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:22px; padding:12px 16px; border-radius:6px; }
+  .verdict.pass{ background:#e2f0e6; color:var(--pass); } .verdict.fail{ background:#f5e1e1; color:var(--fail); } .verdict.pend{ background:#efebe1; color:var(--navy-soft); }
+  .actions{ display:flex; gap:10px; flex-wrap:wrap; margin-top:14px; }
+  .foot{ font-size:12.5px; color:var(--navy-soft); line-height:1.55; margin-top:18px; }
+  [hidden]{ display:none !important; }
+  @media print{
+    body{ background:#fff; padding:0; font-size:12.5px; }
+    .back, .actions, .no-print, .ans button:not(.on){ display:none !important; }
+    .card{ break-inside:avoid; border-color:#bbb; }
+    .ans button.on{ -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+    input, select, textarea{ border:none; background:transparent; padding:0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <a class="back" href="index.html">&larr; Back to RCD Navigator</a>
+  <div class="kicker">Blue Peter Marine — CE / RCD test tools</div>
+  <h1>ISO 11591:2019 field of vision checklist</h1>
+  <p class="sub">Small craft — field of vision from the main steering position</p>
+  <span class="badge">EN ISO 11591:2019 · Directive 2013/53/EU Annex I, Part A, 2.4 &amp; 2.5</span>
+  <hr class="rule">
+
+  <div class="card">
+    <h2>1. Craft identification</h2>
+    <div class="grid">
+      <div><label class="f" for="name">Craft name or model</label><input id="name" type="text" placeholder="e.g. MAKO Racer 420"></div>
+      <div><label class="f" for="mfr">Manufacturer</label><input id="mfr" type="text" placeholder="e.g. Jacobs Bros Boat Builders"></div>
+      <div><label class="f" for="date">Date of assessment</label><input id="date" type="text" placeholder="DD/MM/YYYY"></div>
+      <div><label class="f" for="lh">Length of hull L<sub>H</sub> (m)<span class="hint">ISO 8666. The standard applies up to 24 m.</span></label><input id="lh" type="number" step="0.01" min="0" placeholder="e.g. 8.40"></div>
+      <div><label class="f" for="msp">Designated main steering position</label><input id="msp" type="text" placeholder="e.g. Helm seat, starboard side"></div>
+      <div><label class="f" for="by">Assessed by</label><input id="by" type="text" placeholder="Name"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>2. Craft type</h2>
+    <p class="lead">These answers decide which requirements apply. Clauses 5, 6 and 7 add to the general requirements of clause 4.</p>
+    <label class="f">Primary means of propulsion</label>
+    <div class="seg" id="typeSeg">
+      <label><input type="radio" name="type" value="power"> Power-driven craft</label>
+      <label><input type="radio" name="type" value="sail"> Sailing craft</label>
+      <label><input type="radio" name="type" value="human"> Human-powered craft</label>
+    </div>
+    <div id="powerOpts" hidden style="margin-top:14px">
+      <label class="f">Steering control</label>
+      <div class="seg">
+        <label><input type="radio" name="wheel" value="yes"> Steering wheel or equivalent fixed installed control</label>
+        <label><input type="radio" name="wheel" value="no"> Tiller or other</label>
+      </div>
+      <label class="f" style="margin-top:12px">Operator position at the main steering position</label>
+      <div class="seg">
+        <label><input type="radio" name="posture" value="standing"> Standing</label>
+        <label><input type="radio" name="posture" value="seated"> Seated</label>
+      </div>
+    </div>
+    <div id="humanOpts" hidden style="margin-top:14px">
+      <label class="f">Does the operator kneel, sit or stand with their back to the course?</label>
+      <div class="seg">
+        <label><input type="radio" name="back" value="yes"> Yes</label>
+        <label><input type="radio" name="back" value="no"> No</label>
+      </div>
+    </div>
+    <label class="f" style="margin-top:14px">Number of steering positions</label>
+    <div class="seg">
+      <label><input type="radio" name="multi" value="no"> One</label>
+      <label><input type="radio" name="multi" value="yes"> More than one</label>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>3. Horizontal field of vision, forward</h2>
+    <p class="lead">Measured from the eye position at the main steering position, under normal conditions of use (clause 4.1).</p>
+    <div class="grid">
+      <div><label class="f" for="arcP">Clear arc to port (°)<span class="hint">Required: at least 112.5°</span></label><input id="arcP" type="number" step="0.5" min="0" max="180"></div>
+      <div><label class="f" for="arcS">Clear arc to starboard (°)<span class="hint">Required: at least 112.5°</span></label><input id="arcS" type="number" step="0.5" min="0" max="180"></div>
+      <div><label class="f">Result</label><div id="arcRes" style="padding-top:8px"></div></div>
+    </div>
+    <div id="itemsHoriz" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <h2>4. Vertical field of vision, forward</h2>
+    <p class="lead">Determined with the craft at the attitude of the level reference line in the loaded condition m<sub>LDC</sub> (ISO 8666). The obstructed distance to the water, measured from the stem or point of visual obstruction, shall not exceed 4 × L<sub>H</sub> and never more than 50 m (clause 4.2.2.2).</p>
+    <div class="calc">
+      <div class="grid">
+        <div><label class="f" for="eyeRef">Reference height above the level reference line (mm)<span class="hint" id="eyeRefHint">Standing: the surface the operator stands on. Seated: where the compressed seat meets the seat back.</span></label><input id="eyeRef" type="number" step="1"></div>
+        <div><label class="f">Eye positions above the level reference line<span class="hint">From clauses 3.5 to 3.8, located 400 mm from the centre of the steering wheel rim</span></label><div class="kv" id="eyeOut"></div></div>
+        <div><label class="f">Maximum obstructed distance</label><div class="kv" id="limOut"></div></div>
+      </div>
+      <p class="hint" style="margin:12px 0 4px">For each sight line, enter the point of visual obstruction (windscreen frame, coaming, bow, etc.): its horizontal distance forward of the eye position and its height above the level reference line. The tool works out where the lowest unobstructed line from the low eye position reaches the water.</p>
+      <div class="tablewrap"><table class="sl">
+        <thead><tr><th>Sight line</th><th>Obstruction forward of eye (mm)</th><th>Obstruction height above waterline (mm)</th><th>Distance to water from obstruction (m)</th><th>Result</th><th></th></tr></thead>
+        <tbody id="slRows"></tbody>
+      </table></div>
+      <div class="actions no-print" style="margin-top:8px"><button class="btn ghost small" id="addSl">Add sight line</button></div>
+    </div>
+    <div id="itemsVert" style="margin-top:8px"></div>
+  </div>
+
+  <div class="card">
+    <h2>5. General requirements and field of vision astern</h2>
+    <div id="itemsGeneral"></div>
+  </div>
+
+  <div class="card" id="cardExtra">
+    <h2 id="extraTitle">6. Additional requirements</h2>
+    <div id="itemsExtra"></div>
+  </div>
+
+  <div class="card">
+    <h2>7. Owner's manual and warning labels</h2>
+    <p class="lead">The owner's manual shall follow ISO 10240 and include the items below (clause 8).</p>
+    <div id="itemsManual"></div>
+    <div id="labelBox" hidden>
+      <p class="hint" style="margin-top:12px">Warning label for steering positions that do not meet the requirements, shown with the ISO warning symbol (ISO 11192, 19.1, or ISO 7010 W001), in a language acceptable in the country of intended use:</p>
+      <div class="warnlabel"><svg width="34" height="30" viewBox="0 0 34 30" aria-hidden="true"><path d="M17 1 L33 29 H1 Z" fill="#f6c400" stroke="#111" stroke-width="2" stroke-linejoin="round"/><rect x="15.5" y="10" width="3" height="10" fill="#111"/><rect x="15.5" y="22.5" width="3" height="3" fill="#111"/></svg><span id="labelText"></span></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>8. Result</h2>
+    <div class="summary" id="summary"></div>
+    <div class="verdict pend" id="verdict"></div>
+    <label class="f" for="remarks" style="margin-top:14px">Remarks</label>
+    <textarea id="remarks" placeholder="Observations, photos taken, conditions during the assessment"></textarea>
+    <div class="actions">
+      <button class="btn navy" id="print">Print / save as PDF</button>
+      <button class="btn ghost" id="reset">Start a new assessment</button>
+    </div>
+    <p class="foot">This checklist summarises the requirements of EN ISO 11591:2019 to support the assessment. Always confirm against the standard itself. Your entries are saved in this browser on this computer only.</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var KEY = "bpm_iso11591_v1";
+  var $ = function(id){ return document.getElementById(id); };
+  var S = { f:{}, a:{}, n:{}, sl:[{label:"Dead ahead", x:"", h:""},{label:"15° to port", x:"", h:""},{label:"15° to starboard", x:"", h:""}] };
+  try{ var st = JSON.parse(localStorage.getItem(KEY) || "null"); if (st && st.f) S = st; }catch(e){}
+  function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+  function esc(s){ return String(s == null ? "" : s).replace(/[&<>"']/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]; }); }
+  function num(v){ var n = parseFloat(String(v).replace(",", ".")); return isFinite(n) ? n : null; }
+  function radio(name){ var r = document.querySelector('input[name="'+name+'"]:checked'); return r ? r.value : ""; }
+
+  var T = function(){ return radio("type"); };
+  var isWheel = function(){ return T() === "power" && radio("wheel") === "yes"; };
+  var multi = function(){ return radio("multi") === "yes"; };
+
+  /* requirement items: [id, clause, text, applies(), hint] */
+  var ITEMS = {
+    itemsHoriz: [
+      ["h1","4.2.1.1","For a port, starboard or centreline steering position, the full arc to port and starboard is available without the operator leaving the steering position.", function(){ return true; }],
+      ["h2","4.2.1.2","Permanent and removable obstructions still allow clear vision from the eye position with normal movement of the operator, while keeping control of the craft.", function(){ return true; }, "e.g. windscreen frames, hardtop supports, radar arch, canopy"]
+    ],
+    itemsVert: [
+      ["v1","4.2.2.1","The vertical field of vision was determined with the craft at the level reference line attitude in the loaded condition m<sub>LDC</sub>.", function(){ return true; }],
+      ["v2","6.1","A forward field of vision is available directly ahead of the eye position, throughout the vertical field and at least 15° either side of the forward line, up to the obstructed distance. Normal head movement is allowed.", isWheel],
+      ["v3","6.1.2","The vertical field of vision extends from the horizontal at the high eye position down to the lowest unobstructed line from the low eye position, while keeping the full horizontal arc.", isWheel],
+      ["v4","6.1.1","Where the low eye position is met using a height-adjustable seat, the seat adjustment covers it.", function(){ return isWheel() && radio("posture") === "seated"; }, "Answer N/A if no seat adjustment is relied on"]
+    ],
+    itemsGeneral: [
+      ["g1","4.1","The requirements are met under the normal condition of use (typical speed and load).", function(){ return true; }],
+      ["g2","4.1","At least one steering position meets the standard and is designated the main steering position.", multi],
+      ["g3","4.1","Every other steering position that does not meet the standard carries a warning sign in clear view of the operator, with the ISO warning symbol and warning text.", multi],
+      ["g4","4.3","Where permanent obstructions exist, unobstructed visibility astern is provided while keeping control of the craft, by normal movement, mirrors or other means.", function(){ return true; }, "Answer N/A if there are no permanent obstructions astern"]
+    ],
+    itemsExtra: [
+      ["x1","5.1","Where the operator faces away from the course, the superstructure leaves enough room to turn around frequently towards the direction of travel.", function(){ return T() === "human" && radio("back") === "yes"; }],
+      ["x2","7.1","Fixed obstructions still allow the clause 4 field of vision in normal use, with normal movement of the operator at the main steering position.", function(){ return T() === "sail"; }],
+      ["x3","7.2","Where sails would block the field of vision, transparent sails or sail panels are used to comply.", function(){ return T() === "sail"; }, "Answer N/A if sails do not block the required field"],
+      ["x4","7.3","The craft can be steered by one or more wheels, tillers or other steering means (tiller extensions allowed).", function(){ return T() === "sail"; }]
+    ],
+    itemsManual: [
+      ["m1","8","The owner's manual is in accordance with ISO 10240.", function(){ return !!T(); }],
+      ["m2","8.1 a)","States that vision may be obstructed by loading and load distribution, speed, sea conditions, reduced visibility (rain, darkness, fog), and persons or movable gear in the field of vision.", function(){ return T() === "human"; }],
+      ["m3","8.2 a)","States that vision may be obstructed by high trim angles and by: propulsion unit trim, trim planes or tabs, loading and load distribution, speed, rapid acceleration, transition to planing, sea conditions, reduced visibility, interior lights, position of tops and curtains, and persons or movable gear.", function(){ return T() === "power"; }, "Trim items apply only where power trim, trim planes or tabs are fitted"],
+      ["m4","8.3 a)","States that vision may be obstructed by loading and load distribution, speed, sea conditions, reduced visibility (rain, darkness, fog), sail changes and hoisting, interior lights, position of tops and curtains, and persons or movable gear, and that care is needed when changing between steering means.", function(){ return T() === "sail"; }],
+      ["m5","8 c)","Specifies which is the main steering position.", multi],
+      ["m6","8 b)","Steering positions that do not meet the requirements display the warning label where the operator can see it.", multi],
+      ["m7","8.1 d)","The warning label is displayed where the operator can see it, because the operator faces away from the course.", function(){ return T() === "human" && radio("back") === "yes"; }],
+      ["m8","8.3 d)","Lists the sails under which the requirements of the standard cannot be met.", function(){ return T() === "sail"; }]
+    ]
+  };
+
+  function renderItems(){
+    Object.keys(ITEMS).forEach(function(box){
+      var html = "";
+      ITEMS[box].forEach(function(it){
+        if (!it[3]()) return;
+        var a = S.a[it[0]] || "";
+        html += '<div class="item"><div class="clause">' + it[1] + '</div><div class="req">' + it[2] + (it[4] ? "<small>" + esc(it[4]) + "</small>" : "") + "</div>" +
+          '<div class="ans" data-id="' + it[0] + '">' +
+          ["yes","no","na"].map(function(v){ return '<button type="button" class="' + v + (a === v ? " on" : "") + '" data-v="' + v + '">' + (v === "na" ? "N/A" : v === "yes" ? "Yes" : "No") + "</button>"; }).join("") +
+          '</div><div class="note"><input type="text" data-note="' + it[0] + '" placeholder="Evidence or note" value="' + esc(S.n[it[0]] || "") + '"></div></div>';
+      });
+      $(box).innerHTML = html || '<p class="hint">Nothing extra applies to this type of craft.</p>';
+    });
+    var t = T();
+    $("cardExtra").hidden = !(t === "sail" || (t === "human" && radio("back") === "yes"));
+    $("extraTitle").textContent = t === "sail" ? "6. Additional requirements for sailing craft" : "6. Additional requirements for human-powered craft";
+    var showLabel = multi() || (t === "human" && radio("back") === "yes");
+    $("labelBox").hidden = !showLabel;
+    $("labelText").textContent = "WARNING — Vision from this steering " + (t === "sail" ? "area" : "location") + " is limited. Maintain a lookout as required.";
+  }
+
+  document.addEventListener("click", function(e){
+    var b = e.target.closest(".ans button"); if (!b) return;
+    var id = b.parentNode.getAttribute("data-id"), v = b.getAttribute("data-v");
+    S.a[id] = S.a[id] === v ? "" : v; save(); renderItems(); renderSummary();
+  });
+  document.addEventListener("input", function(e){
+    var t = e.target;
+    if (t.hasAttribute("data-note")){ S.n[t.getAttribute("data-note")] = t.value; save(); return; }
+    if (t.hasAttribute("data-sl")){ var p = t.getAttribute("data-sl").split(":"); S.sl[+p[0]][p[1]] = t.value; save(); renderCalc(); renderSummary(); return; }
+    if (t.id && S.f.hasOwnProperty !== undefined && ["name","mfr","date","lh","msp","by","arcP","arcS","eyeRef","remarks"].indexOf(t.id) > -1){ S.f[t.id] = t.value; save(); renderCalc(); renderSummary(); }
+  });
+  document.addEventListener("change", function(e){
+    if (e.target.type === "radio"){
+      S.f["r_" + e.target.name] = e.target.value; save();
+      $("powerOpts").hidden = T() !== "power"; $("humanOpts").hidden = T() !== "human";
+      renderItems(); renderCalc(); renderSummary();
+    }
+  });
+
+  /* ---- calculations ---- */
+  var calc = {};
+  function eyeHeights(){
+    var ref = num(S.f.eyeRef), standing = !(T() === "power" && radio("posture") === "seated");
+    if (ref === null) return null;
+    return standing ? { hi: ref + 1730, lo: ref + 1480, kind:"standing" } : { hi: ref + 840, lo: ref + 690, kind:"seated" };
+  }
+  function renderCalc(){
+    var arcP = num(S.f.arcP), arcS = num(S.f.arcS);
+    calc.arc = (arcP === null || arcS === null) ? null : (arcP >= 112.5 && arcS >= 112.5);
+    $("arcRes").innerHTML = calc.arc === null ? '<span class="pill pend">Enter both arcs</span>' :
+      (calc.arc ? '<span class="pill pass">Pass, both arcs ≥ 112.5°</span>' : '<span class="pill fail">Fail, ' + [arcP < 112.5 ? "port " + arcP + "°" : "", arcS < 112.5 ? "starboard " + arcS + "°" : ""].filter(Boolean).join(" and ") + " below 112.5°</span>");
+
+    var standingTxt = !(T() === "power" && radio("posture") === "seated");
+    $("eyeRefHint").textContent = standingTxt ? "Height of the surface the operator stands on, above the level reference line." : "Height where the compressed seat meets the seat back, above the level reference line.";
+    var eh = eyeHeights();
+    $("eyeOut").innerHTML = eh ? "<span>High eye</span><b>" + Math.round(eh.hi) + " mm</b><span>Low eye</span><b>" + Math.round(eh.lo) + " mm</b>" : '<span class="hint">Enter the reference height</span>';
+    var lh = num(S.f.lh), lim = lh === null ? null : Math.min(4 * lh, 50);
+    $("limOut").innerHTML = lim === null ? '<span class="hint">Enter L<sub>H</sub> above</span>' : "<span>4 × L<sub>H</sub></span><b>" + (4*lh).toFixed(1) + " m</b><span>Limit</span><b>" + lim.toFixed(1) + " m</b>";
+    if (lh !== null && lh > 24) $("limOut").innerHTML += '<span style="grid-column:1/3;color:#a04040;font-size:12.5px">L<sub>H</sub> over 24 m is outside the scope of ISO 11591.</span>';
+
+    var rows = "", allOk = true, any = false;
+    S.sl.forEach(function(r, i){
+      var x = num(r.x), h = num(r.h), out = "", res = '<span class="pill pend">—</span>';
+      if (eh && x !== null && h !== null && lim !== null){
+        any = true;
+        if (h >= eh.lo){ out = "Water not visible"; res = '<span class="pill fail">Fail</span>'; allOk = false; }
+        else {
+          var d = x * h / (eh.lo - h) / 1000;
+          out = d.toFixed(1);
+          var ok = d <= lim + 1e-9;
+          if (isWheel() && h >= eh.hi){ ok = false; out += " (horizon blocked at high eye)"; }
+          res = ok ? '<span class="pill pass">Pass</span>' : '<span class="pill fail">Fail</span>';
+          if (!ok) allOk = false;
+        }
+      } else if (x !== null || h !== null) allOk = false;
+      rows += "<tr><td><input type='text' data-sl='" + i + ":label' value='" + esc(r.label) + "'></td>" +
+        "<td><input type='number' step='1' data-sl='" + i + ":x' value='" + esc(r.x) + "'></td>" +
+        "<td><input type='number' step='1' data-sl='" + i + ":h' value='" + esc(r.h) + "'></td>" +
+        "<td style='font-family:JetBrains Mono,monospace'>" + esc(out) + "</td><td>" + res + "</td>" +
+        "<td class='no-print'>" + (S.sl.length > 1 ? "<button class='btn ghost small' data-del='" + i + "'>Remove</button>" : "") + "</td></tr>";
+    });
+    var active = document.activeElement, keep = active && active.getAttribute && active.getAttribute("data-sl"), pos = keep ? active.selectionStart : null;
+    $("slRows").innerHTML = rows;
+    if (keep){ var el = document.querySelector("[data-sl='" + keep + "']"); if (el){ el.focus(); try{ if (pos !== null) el.setSelectionRange(pos, pos); }catch(e){} } }
+    calc.vert = any ? allOk : null;
+  }
+  $("slRows").addEventListener("click", function(e){
+    var b = e.target.closest("[data-del]"); if (!b) return;
+    S.sl.splice(+b.getAttribute("data-del"), 1); save(); renderCalc(); renderSummary();
+  });
+  $("addSl").addEventListener("click", function(){ S.sl.push({ label:"Sight line " + (S.sl.length + 1), x:"", h:"" }); save(); renderCalc(); renderSummary(); });
+
+  /* ---- summary ---- */
+  function renderSummary(){
+    var y = 0, n = 0, na = 0, open = 0;
+    Object.keys(ITEMS).forEach(function(box){
+      ITEMS[box].forEach(function(it){
+        if (!it[3]()) return;
+        var a = S.a[it[0]];
+        if (a === "yes") y++; else if (a === "no") n++; else if (a === "na") na++; else open++;
+      });
+    });
+    var calcFail = (calc.arc === false) + (calc.vert === false), calcOpen = (calc.arc === null) + (calc.vert === null);
+    $("summary").innerHTML =
+      "<div><b style='color:#3d7a52'>" + y + "</b>Requirements met</div>" +
+      "<div><b style='color:#a04040'>" + (n + calcFail) + "</b>Not met</div>" +
+      "<div><b style='color:#7a7f88'>" + na + "</b>Not applicable</div>" +
+      "<div><b>" + (open + calcOpen) + "</b>Still to assess</div>";
+    var v = $("verdict");
+    if (!T()){ v.className = "verdict pend"; v.textContent = "Choose the craft type to begin."; }
+    else if (n + calcFail > 0){ v.className = "verdict fail"; v.textContent = "Does not yet meet EN ISO 11591:2019. Review the items marked No or Fail."; }
+    else if (open + calcOpen > 0){ v.className = "verdict pend"; v.textContent = "Assessment incomplete: " + (open + calcOpen) + " item(s) still to assess."; }
+    else { v.className = "verdict pass"; v.textContent = "Meets EN ISO 11591:2019 for the items assessed."; }
+  }
+
+  $("print").addEventListener("click", function(){ window.print(); });
+  $("reset").addEventListener("click", function(){
+    if (!confirm("Clear all entries and start a new assessment?")) return;
+    try{ localStorage.removeItem(KEY); }catch(e){} location.reload();
+  });
+
+  /* ---- restore ---- */
+  ["name","mfr","date","lh","msp","by","arcP","arcS","eyeRef","remarks"].forEach(function(id){ if (S.f[id] != null) $(id).value = S.f[id]; });
+  ["type","wheel","posture","back","multi"].forEach(function(nm){
+    var v = S.f["r_" + nm]; if (!v) return;
+    var r = document.querySelector('input[name="'+nm+'"][value="'+v+'"]'); if (r) r.checked = true;
+  });
+  $("powerOpts").hidden = T() !== "power"; $("humanOpts").hidden = T() !== "human";
+  renderItems(); renderCalc(); renderSummary();
+})();
+</script>
+</body>
+</html>
