@@ -37,6 +37,26 @@
     margin-bottom: 8px;
   }
   header .logo { width: 84px; height: auto; flex: none; }
+  .bpm-ad {
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+    margin: 16px 0 4px; padding: 14px 18px;
+    background: var(--navy); color: #ffffff; border-radius: 8px;
+    border-left: 5px solid var(--gold);
+  }
+  .bpm-ad .bpm-ad-text { flex: 1 1 320px; font-family: 'Barlow', sans-serif; font-size: 16px; line-height: 1.45; }
+  .bpm-ad .bpm-ad-text b { font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 18px; letter-spacing: 0.3px; color: #f0c46a; }
+  .bpm-ad a {
+    flex: none; display: inline-block; text-decoration: none; white-space: nowrap;
+    background: var(--gold); color: #ffffff; border-radius: 6px; padding: 9px 16px;
+    font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 16px; letter-spacing: 0.3px;
+  }
+  .bpm-ad a:hover { background: #b3770a; }
+  .bpm-ad .bpm-ad-alt { flex: 1 1 100%; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 14.5px; color: #dfe5ee; padding-top: 10px; border-top: 1px solid #3a5478; }
+  .bpm-ad .bpm-ad-alt[hidden] { display: none; }
+  .bpm-ad .bpm-ad-alt b { font-family: 'JetBrains Mono', monospace; font-size: 14px; color: #ffffff; user-select: all; }
+  .bpm-ad .bpm-ad-alt button, .bpm-ad a.bpm-ad-web { cursor: pointer; background: transparent; color: #ffffff; border: 1px solid #6f86a8; border-radius: 6px; padding: 5px 10px; font-family: 'Barlow Condensed', sans-serif; font-weight: 700; font-size: 14px; }
+  .bpm-ad .bpm-ad-alt button:hover, .bpm-ad a.bpm-ad-web:hover { border-color: var(--gold); background: transparent; }
+  @media print { .bpm-ad { display: none; } }
   header .brandline { font-family: 'Barlow', sans-serif; font-weight: 600; font-size: 14px; color: var(--navy); margin: 0 0 6px; }
   @media (max-width: 520px) { header .logo { width: 60px; } }
   h1 {
@@ -252,6 +272,7 @@
   .cert-main { min-width:0; }
   .cert-name { font-size:14px; font-weight:600; color:var(--navy); }
   .cert-mfr { font-size:13px; color:var(--navy-soft); }
+  .cert-annex { display:inline-block; margin-top:3px; font-family:'JetBrains Mono',monospace; font-size:10.5px; color:#1f5f8b; background:rgba(31,95,139,0.08); border-radius:10px; padding:1px 7px; }
   .cert-meta { font-family:'JetBrains Mono',monospace; font-size:11px; color:var(--navy-soft); margin-top:3px; line-height:1.6; }
   .cert-notes { font-size:12.5px; color:var(--navy-soft); font-style:italic; margin-top:3px; }
   .cert-side { display:flex; flex-direction:column; align-items:flex-end; gap:5px; flex-shrink:0; text-align:right; }
@@ -334,6 +355,35 @@
       <div class="subtitle">Annex I.A essential requirements, Directive 2013/53/EU, design and construction of recreational craft</div>
     </div>
   </header>
+  <aside class="bpm-ad" aria-label="Blue Peter Marine services">
+    <div class="bpm-ad-text"><b>Did you know?</b> Blue Peter Marine can also assist you with your Tonnage Measurement Survey for Red Ensigns.</div>
+    <a id="bpmAdBtn" href="mailto:info@ceinspector.com?subject=Tonnage%20Measurement%20Survey%20enquiry" target="_top">Ask about a tonnage survey</a>
+    <div class="bpm-ad-alt" id="bpmAdAlt" hidden>
+      No email program opened? Email us at <b>info@ceinspector.com</b>
+      <button type="button" id="bpmAdCopy">Copy address</button>
+      <a class="bpm-ad-web" href="https://mail.google.com/mail/?view=cm&amp;to=info@ceinspector.com&amp;su=Tonnage%20Measurement%20Survey%20enquiry" target="_blank" rel="noopener">Open in Gmail</a>
+      <a class="bpm-ad-web" href="https://outlook.office.com/mail/deeplink/compose?to=info@ceinspector.com&amp;subject=Tonnage%20Measurement%20Survey%20enquiry" target="_blank" rel="noopener">Open in Outlook</a>
+    </div>
+  </aside>
+  <script>
+  (function(){
+    var btn = document.getElementById("bpmAdBtn"), alt = document.getElementById("bpmAdAlt");
+    if (!btn || !alt) return;
+    btn.addEventListener("click", function(){
+      var left = false;
+      function gone(){ left = true; }
+      window.addEventListener("blur", gone, { once: true });
+      document.addEventListener("visibilitychange", gone, { once: true });
+      setTimeout(function(){ if (!left) alt.hidden = false; }, 1200);
+    });
+    document.getElementById("bpmAdCopy").addEventListener("click", function(){
+      var b = this, t = "info@ceinspector.com";
+      function done(){ b.textContent = "Copied"; setTimeout(function(){ b.textContent = "Copy address"; }, 1500); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(t).then(done, fb); else fb();
+      function fb(){ var ta = document.createElement("textarea"); ta.value = t; document.body.appendChild(ta); ta.select(); try{ document.execCommand("copy"); }catch(e){} ta.remove(); done(); }
+    });
+  })();
+  </script>
 
   <div class="legend">
     <span><span class="dot built"></span> Tool or checklist built</span>
@@ -344,11 +394,17 @@
 
   <div id="workbookbar"></div>
   <div id="docsummary"><div class="ds-text"></div><div class="ds-actions"><button id="zipBtn" onclick="downloadZip()">Download all documentation (ZIP)</button><button onclick="exportManifest()">Export status (CSV)</button></div></div>
-  <div class="doccap">Attach the documents for each essential requirement below. Files are kept in this browser only (not sent to any server), so you can assemble an IMCI Module B submission and pick up where you left off. Tick each required item as you collect it and use Export to save the status list.</div>
+  <div class="doccap"><b>Your documents stay on your computer.</b> Documents you attach under each requirement are not uploaded to a server. They are kept in this browser, on this computer only, so you can collect them over time and continue where you left off.
+    <ol style="margin:6px 0 0; padding-left:20px; line-height:1.55">
+      <li>Use the same computer and browser each time. Your documents will not appear on another device or in another browser.</li>
+      <li>Click Download all documentation (ZIP) regularly to keep a safe copy. Clearing your browser data removes the attached documents, and you would then need to attach them again from your saved copy.</li>
+      <li>Tick each required item as you collect it, and use Export status (CSV) for a list of what is done and what is still missing.</li>
+      <li>When your documentation is complete, send the ZIP to Blue Peter Marine at info@ceinspector.com, so it can be reviewed and passed on for your IMCI submission.</li>
+    </ol></div>
   <div class="doccap" style="border-left:3px solid var(--component); padding-left:12px;">Open any requirement to see its Component certificates and Declarations of Conformity for the equipment fitted on board, portlights, hatches, fuel tanks and hoses, steering, switches and plugs, navigation lights and more. This register is a work in progress and is added to as certificates come in.</div>
-  <div id="generalDocs"></div>
-
   <div id="clauses"></div>
+
+  <div id="generalDocs" style="margin-top:18px"></div>
 
   <footer>Blue Peter Marine — ceinspector.com — official text reproduced from Directive 2013/53/EU, Annex I, Part A. This index is a navigation aid, always confirm against the current Official Journal listing.</footer>
 </div>
@@ -419,18 +475,18 @@ In the case of post-construction assessment, the contact details and the require
     num: "2.3",
     title: "Protection from falling overboard and means of reboarding",
     status: "built",
-    statusLabel: "reboarding test and checklist",
+    statusLabel: "ISO 15085:2024 Test Report Generator",
     text: `Watercraft shall be designed to minimise the risks of falling overboard and to facilitate reboarding. Means of reboarding shall be accessible to or deployable by a person in the water unaided.`,
-    link: { label: "Open reboarding test and checklist", href: "reboarding-checklist.html" }
+    link: { label: "Open ISO 15085:2024 Test Report Generator", href: "reboarding-checklist.html" }
   },
   {
     part: "2. General requirements",
     num: "2.4",
     title: "Visibility from the main steering position",
     status: "built",
-    statusLabel: "visibility checklist",
+    statusLabel: "ISO 11591:2019 field of vision checklist",
     text: `For recreational craft, the main steering position shall give the operator, under normal conditions of use (speed and load), good all-round visibility.`,
-    link: { label: "Open visibility checklist", href: "rcd-checklists.html" }
+    link: { label: "Open ISO 11591:2019 Field of Vision Checklist", href: "visibility-checklist.html" }
   },
   {
     part: "2. General requirements",
@@ -457,7 +513,7 @@ In the case of post-construction assessment, the contact details and the require
     status: "partial",
     statusLabel: "",
     text: `The watercraft shall have sufficient stability and freeboard considering its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6.`,
-    link: { label: "Open GZ calculator", href: "gz-calculator.html" }
+    link: { label: "Open Maximum GZ Calculator", href: "gz-calculator.html" }
   },
   {
     part: "3. Integrity and structural requirements",
@@ -468,20 +524,20 @@ In the case of post-construction assessment, the contact details and the require
     text: `The watercraft shall be constructed as to ensure that it has buoyancy characteristics appropriate to its design category in accordance with Section 1 and the manufacturer's maximum recommended load in accordance with point 3.6. All habitable multihull recreational craft susceptible of inversion shall have sufficient buoyancy to remain afloat in the inverted position.
 
 Watercraft of less than 6 metres in length that are susceptible to swamping when used in their design category shall be provided with appropriate means of flotation in the swamped condition.`,
-    link: { label: "Open GZ calculator", href: "gz-calculator.html" }
+    link: { label: "Open Maximum GZ Calculator", href: "gz-calculator.html" }
   },
   {
     part: "3. Integrity and structural requirements",
     num: "3.4",
     title: "Openings in hull, deck and superstructure",
     status: "built",
-    statusLabel: "through-hull fitting test checklist",
+    statusLabel: "Through-Hull Fitting Assembly Strength Test Report",
     text: `Openings in hull, deck(s) and superstructure shall not impair the structural integrity of the watercraft or its weather tight integrity when closed.
 
 Windows, port lights, doors and hatch covers shall withstand the water pressure likely to be encountered in their specific position, as well as point loads applied by the weight of persons moving on deck.
 
 Through hull fittings designed to allow water passage into the hull or out of the hull, below the waterline corresponding to the manufacturer's maximum recommended load in accordance with point 3.6, shall be fitted with a means of shutoff which shall be readily accessible.`,
-    link: { label: "Open through-hull fitting checklist", href: "through-hull-checklist.html" }
+    link: { label: "Open Through-Hull Fitting Assembly Strength Test Report", href: "through-hull-checklist.html" }
   },
   {
     part: "3. Integrity and structural requirements",
@@ -532,18 +588,18 @@ Every habitable recreational craft shall be provided with viable means of escape
     num: "3.9",
     title: "Anchoring, mooring and towing",
     status: "built",
-    statusLabel: "cleat checklist",
+    statusLabel: "EN ISO 15084 Strong Points Compliance Checklist",
     text: `All watercraft, taking into account their design category and their characteristics, shall be fitted with one or more strong points or other means capable of safely accepting anchoring, mooring and towing loads.`,
-    link: { label: "Open cleat checklist", href: "cleat-checklist.html" }
+    link: { label: "Open EN ISO 15084 Strong Points Compliance Checklist", href: "cleat-checklist.html" }
   },
   {
     part: "4. Handling characteristics",
     num: "4",
     title: "Handling characteristics",
     status: "built",
-    statusLabel: "object avoidance checklist",
+    statusLabel: "ISO 11592-2 Avoidance Line Test Checklist",
     text: `The manufacturer shall ensure that the handling characteristics of the watercraft are satisfactory with the most powerful propulsion engine for which the watercraft is designed and constructed. For all propulsion engines, the maximum rated engine power shall be declared in the owner's manual.`,
-    link: { label: "Open object avoidance checklist", href: "object-avoidance-checklist.html" }
+    link: { label: "Open ISO 11592-2 Avoidance Line Test Checklist", href: "object-avoidance-checklist.html" }
   },
   {
     part: "5. Installation requirements",
@@ -611,16 +667,16 @@ The insulating materials inside the engine compartment shall not sustain combust
     num: "5.2.1",
     title: "Fuel system — general",
     status: "built",
-    statusLabel: "fuel tank tests",
+    statusLabel: "ISO 21487 fuel tank checklists (petrol and diesel)",
     text: `The filling, storage, venting and fuel-supply arrangements and installations shall be designed and installed so as to minimise the risk of fire and explosion.`,
-    link: { label: "Open fuel tank tests", href: "fuel-tank-tests.html" }
+    link: { label: "Open ISO 21487 Fuel Tank Checklists", href: "fuel-tank-tests.html" }
   },
   {
     part: "5. Installation requirements",
     num: "5.2.2",
     title: "Fuel tanks",
     status: "built",
-    statusLabel: "fuel tank tests",
+    statusLabel: "ISO 21487 fuel tank checklists (petrol and diesel)",
     text: `Fuel tanks, lines and hoses shall be secured and separated or protected from any source of significant heat. The material the tanks are made of and their method of construction shall be in accordance with their capacity and the type of fuel.
 
 Petrol fuel tank spaces shall be ventilated.
@@ -631,14 +687,14 @@ Petrol fuel tanks shall not form part of the hull and shall be:
 (b) separated from living quarters.
 
 Diesel fuel tanks may be integral with the hull.`,
-    link: { label: "Open fuel tank tests", href: "fuel-tank-tests.html" }
+    link: { label: "Open ISO 21487 Fuel Tank Checklists", href: "fuel-tank-tests.html" }
   },
   {
     part: "5. Installation requirements",
     num: "5.3",
     title: "Electrical system",
     status: "built",
-    statusLabel: "cable size checklist",
+    statusLabel: "ISO 13297:2021 electrical systems calculator",
     text: `Electrical systems shall be designed and installed so as to ensure proper operation of the watercraft under normal conditions of use and shall be such as to minimise risk of fire and electric shock.
 
 All electrical circuits, except engine starting circuits supplied from batteries, shall remain safe when exposed to overload.
@@ -646,7 +702,7 @@ All electrical circuits, except engine starting circuits supplied from batteries
 Electric propulsion circuits shall not interact with other circuits in such a way that either would fail to operate as intended.
 
 Ventilation shall be provided to prevent the accumulation of explosive gases which might be emitted from batteries. Batteries shall be firmly secured and protected from ingress of water.`,
-    link: { label: "Open cable size checklist", href: "cable-size-checklist.html" }
+    link: { label: "Open ISO 13297:2021 Electrical Systems Calculator", href: "cable-size-checklist.html" }
   },
   {
     part: "5. Installation requirements",
@@ -671,7 +727,7 @@ Ventilation shall be provided to prevent the accumulation of explosive gases whi
     num: "5.5",
     title: "Gas system",
     status: "built",
-    statusLabel: "ventilation checklist",
+    statusLabel: "ISO 10239 Annex B ventilation calculator (LPG)",
     text: `Gas systems for domestic use shall be of the vapour-withdrawal type and shall be designed and installed so as to avoid leaks and the risk of explosion and be capable of being tested for leaks. Materials and components shall be suitable for the specific gas used to withstand the stresses and exposures found in the marine environment.
 
 Each gas appliance intended by the manufacturer for the application for which it is used shall be so installed in accordance with the manufacturer's instructions. Each gas-consuming appliance must be supplied by a separate branch of the distribution system, and each appliance must be controlled by a separate closing device. Adequate ventilation must be provided to prevent hazards from leaks and products of combustion.
@@ -679,7 +735,7 @@ Each gas appliance intended by the manufacturer for the application for which it
 All watercraft with a permanently installed gas system shall be fitted with an enclosure to contain all gas cylinders. The enclosure shall be separated from the living quarters, accessible only from the outside and ventilated to the outside so that any escaping gas drains overboard.
 
 In particular, any permanently installed gas system shall be tested after installation.`,
-    link: { label: "Open ventilation checklist", href: "ventilation-checklist.html" }
+    link: { label: "Open ISO 10239 Annex B Ventilation Calculator (LPG)", href: "ventilation-checklist.html" }
   },
   {
     part: "5. Installation requirements",
@@ -885,9 +941,27 @@ const certRegister = {
 const certBadge = { "DoC":"cb-doc", "Type Exam":"cb-type", "Test Report":"cb-test", "Data Sheet":"cb-data" };
 const certPill  = { "On file":"cp-onfile", "Pending":"cp-pending", "Requested":"cp-requested", "N/A":"cp-na" };
 
+function autoAnnexII(e){
+  var t = ((e.component||"") + " " + (e.standard||"")).toLowerCase(), esr = e.esr || "";
+  if (esr.indexOf("II.") === 0) return "";
+  if (/ignition.protect|8846/.test(t)) return "II.1";
+  if (/start.in.gear|11547/.test(t)) return "II.2";
+  if (esr === "5.4.1" && /steer|helm|wheel|cable|pulley|rack|pinion|tie.bar|drag link|geared link/.test(t) && !/throttle|shift/.test(t)) return "II.3";
+  if (/fuel tank|fuel hose|fuel line/.test(t)) return "II.4";
+  if (/hatch|portlight|porthole/.test(t) && !/through.hull/.test(t)) return "II.5";
+  return "";
+}
+function annexOf(it){ return it.annexII !== undefined ? it.annexII : autoAnnexII(it); }
 function appendCertRegister(body, num){
-  const items = certRegister[num];
-  if(!items || !items.length) return;
+  let items = (certRegister[num] || []).slice();
+  const isAnnexII = num.indexOf('II.') === 0;
+  if(isAnnexII){
+    Object.keys(certRegister).forEach(function(k){
+      if(k === num) return;
+      certRegister[k].forEach(function(it){ if(annexOf(Object.assign({esr:k}, it)) === num) items.push(Object.assign({ fromEsr:k }, it)); });
+    });
+  }
+  if(!items.length) return;
   const wrap = document.createElement('div');
   wrap.className = 'certreg';
   let onFile = 0, pending = 0;
@@ -905,6 +979,8 @@ function appendCertRegister(body, num){
       + '<div class="cert-main">'
         + '<div class="cert-name">'+esc(it.component)+'</div>'
         + (it.manufacturer ? '<div class="cert-mfr">'+esc(it.manufacturer)+'</div>' : '')
+        + (it.fromEsr ? '<div class="cert-annex">Also listed under essential requirement '+esc(it.fromEsr)+'</div>'
+           : (!isAnnexII && annexOf(Object.assign({esr:num}, it)) ? '<div class="cert-annex">Annex II component, item '+esc(annexOf(Object.assign({esr:num}, it)).replace('II.',''))+'</div>' : ''))
         + (meta.length ? '<div class="cert-meta">'+meta.join(' &nbsp;&#183;&nbsp; ')+'</div>' : '')
         + (it.notes ? '<div class="cert-notes">'+esc(it.notes)+'</div>' : '')
       + '</div>'
@@ -933,7 +1009,7 @@ function groupManifest(list){
     (g[esr] = g[esr] || []).push({
       component:e.component||"", manufacturer:e.manufacturer||"", docType:e.docType||"DoC",
       standard:e.standard||"", ref:e.ref||"", date:e.date||"", status:e.status||"Pending",
-      file:e.file||"", notes:e.notes||""
+      file:e.file||"", notes:e.notes||"", annexII:(e.annexII !== undefined ? e.annexII : autoAnnexII(e))
     });
   });
   return g;
@@ -1470,7 +1546,7 @@ function saveWorkbook(file){
 }
 
 function openWorkbook(){
-  if(!workbook || !workbook.blob){ alert('No checklist workbook has been uploaded yet. Use "Upload latest workbook" at the top of the page to add the current IMCI Module B / G workbook.'); return; }
+  if(!workbook || !workbook.blob){ alert('No checklist workbook has been uploaded yet. Use "Add workbook" at the top of the page to add the IMCI Module B / G workbook. You can download the latest version from the IMCI website, www.imci.org.'); return; }
   try { const url = URL.createObjectURL(workbook.blob); window.open(url, '_blank'); }
   catch(err){ alert('Could not open the workbook.'); }
 }
@@ -1478,11 +1554,11 @@ function openWorkbook(){
 function renderWorkbookBar(){
   const el = document.getElementById('workbookbar'); if(!el) return;
   if(workbook){
-    el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>Current IMCI Module B / G checklist workbook: <b>'+esc(workbook.version)+'</b> <span class="wb-file">'+esc(workbook.name)+'</span></span></div>'
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot ok"></span><span>IMCI Module B / G checklist workbook in use: <b>'+esc(workbook.version)+'</b> <span class="wb-file">'+esc(workbook.name)+'</span><br>If this is still the current version on the IMCI website, nothing needs to be done. Only replace it when IMCI publishes a newer version.</span></div>'
       + '<div class="wb-actions"><button onclick="openWorkbook()">Open workbook</button><label class="wb-upload">Replace with newer version<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
   } else {
-    el.innerHTML = '<div class="wb-info"><span class="wb-dot warn"></span><span>No checklist workbook uploaded yet. Upload the current IMCI Module B / G workbook so every requirement links to the latest version.</span></div>'
-      + '<div class="wb-actions"><label class="wb-upload">Upload latest workbook<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
+    el.innerHTML = '<div class="wb-info"><span class="wb-dot warn"></span><span><b style="font-family:inherit;color:inherit">Add your IMCI checklist workbook.</b> The IMCI Module B / G checklist workbook is the form used to assess your boat, and IMCI updates it from time to time. Download the latest version from the <a href="https://www.imci.org" target="_blank" rel="noopener" style="color:inherit">IMCI website</a>, then add it here once. The checklist button under every requirement will then open it, so you always work from the same version. It stays on this computer and is not uploaded anywhere.</span></div>'
+      + '<div class="wb-actions"><label class="wb-upload">Add workbook<input type="file" accept=".pdf,.xlsx,.xls,.xlsm" hidden></label></div>';
   }
   const inp = el.querySelector('input[type=file]');
   if(inp) inp.addEventListener('change', function(e){ if(e.target.files[0]) saveWorkbook(e.target.files[0]); e.target.value=''; });
