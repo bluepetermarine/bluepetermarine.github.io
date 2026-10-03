@@ -14,7 +14,8 @@
        (file name containing "RSG") and component certificates, either in certificates/
        or named by the certificate register (e.g. 3-4_lewmar_hatches_doc.pdf),
        which always open unmarked
-  Visitors who have not signed in as a client get a copyright watermark instead:
+  Visitors who have not signed in are sent to the public landing page (index.html).
+  On pages opened locally they get a copyright watermark instead:
   "(c) <year> Blue Peter Marine - www.ceinspector.com - Not for reproduction".
 */
 (function () {
@@ -23,6 +24,29 @@
   var info = null;
   try { info = JSON.parse(localStorage.getItem("bpm_client") || "null"); } catch (e) {}
   var isClient = !!(info && info.n);
+
+  /* ---------- sign-in gate ----------
+     RCD Navigator and its tools open only for clients signed in through their
+     personal link (client.html). Anyone else is sent to the public landing page.
+     Pages opened from your own computer (file://) are not gated. */
+  var ROOT = (document.currentScript && document.currentScript.src) ? new URL("./", document.currentScript.src).href : location.origin + "/";
+  if (location.protocol !== "file:"){
+    if (!isClient){
+      try{ document.documentElement.style.visibility = "hidden"; }catch(e){}
+      location.replace(ROOT + "index.html");
+      return;
+    }
+    if (info.h){
+      fetch(ROOT + "revoked.json?t=" + Date.now(), { cache:"no-store" })
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(d){
+          if (d && Array.isArray(d.revoked) && d.revoked.indexOf(info.h) > -1){
+            try{ localStorage.removeItem("bpm_client"); }catch(e){}
+            location.replace(ROOT + "index.html");
+          }
+        }).catch(function(){});
+    }
+  }
 
   var TEXT = isClient
     ? "Prepared for " + info.n + (info.p ? " \u00B7 Project " + info.p : "") + " \u00B7 Blue Peter Marine"

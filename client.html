@@ -101,7 +101,7 @@
 </section>
 
 <script>
-  const DOCUMENT = "index.html";   // the reference framed after sign-in; edit it freely
+  const DOCUMENT = "rcd-navigator.html";   // the reference framed after sign-in; edit it freely
 
   const $ = function(id){ return document.getElementById(id); };
   function escXml(s){ return String(s).replace(/[&<>"']/g, function(c){
@@ -147,7 +147,7 @@
     $("who").textContent  = PAYLOAD.n || "";
     $("proj").textContent = PAYLOAD.p || "";
     $("mark").style.backgroundImage = watermarkURL((PAYLOAD.n || "") + "  \u00B7  " + (PAYLOAD.p || ""));
-    try{ localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "" })); }catch(e){}
+    try{ localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "", h: PAYLOAD.h || "" })); }catch(e){}
     $("doc").src = DOCUMENT;
     $("login").style.display = "none";
     $("app").style.display = "flex";
