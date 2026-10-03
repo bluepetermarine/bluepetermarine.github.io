@@ -80,6 +80,11 @@
     <button class="open" id="go">Open RCD Navigator</button>
     <p class="err" id="err" role="alert"></p>
 
+    <div id="nolink" hidden style="text-align:center">
+      <a style="display:block;text-decoration:none;text-align:center;background:#1a2e4a;color:#fff;border-radius:6px;padding:12px 16px;font-family:'Barlow Condensed',Arial,sans-serif;font-weight:700;font-size:17px;letter-spacing:.02em" href="mailto:info@ceinspector.com?subject=RCD%20Navigator%20login%20link%20request">Request my login link</a>
+      <p style="font-size:13.5px;margin:12px 0 0;color:var(--navy-soft)">Or email <b style="user-select:all">info@ceinspector.com</b> &middot; <a href="index.html" style="color:inherit">Back to the RCD Navigator home page</a></p>
+    </div>
+
     <p class="fineprint">Confidential. Prepared for the named recipient only and not for redistribution. This reference is an aide-mémoire only; all project documents must eventually be uploaded to the IMCI server.</p>
   </div>
 </section>
@@ -138,8 +143,9 @@
       if (tok){ PAYLOAD = JSON.parse(b64d(tok)); }
     }catch(e){ PAYLOAD = null; }
     if (!PAYLOAD || !PAYLOAD.h){
-      $("lede").textContent = "This access link is incomplete. Please open the exact link that was sent to you.";
-      $("go").disabled = true;
+      $("lede").textContent = "To sign in, please open the personal login link we sent you by email. Don't have it yet, or can't find it? Contact us and we will send it to you.";
+      ["email","project","go"].forEach(function(id){ var el = $(id); el.hidden = true; el.style.display = "none"; var lb = document.querySelector('label[for="' + id + '"]'); if (lb) lb.style.display = "none"; });
+      $("nolink").hidden = false;
     }
   })();
 
