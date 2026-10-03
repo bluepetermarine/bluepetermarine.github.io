@@ -101,7 +101,7 @@
 </section>
 
 <script>
-  const DOCUMENT = "rcd-navigator.html";   // the reference framed after sign-in; edit it freely
+  const DOCUMENT = "index.html";   // the reference framed after sign-in; edit it freely
 
   const $ = function(id){ return document.getElementById(id); };
   function escXml(s){ return String(s).replace(/[&<>"']/g, function(c){
@@ -147,35 +147,15 @@
     $("who").textContent  = PAYLOAD.n || "";
     $("proj").textContent = PAYLOAD.p || "";
     $("mark").style.backgroundImage = watermarkURL((PAYLOAD.n || "") + "  \u00B7  " + (PAYLOAD.p || ""));
-    try{ localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "", h: PAYLOAD.h || "" })); }catch(e){}
+    try{ localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "" })); }catch(e){}
     $("doc").src = DOCUMENT;
     $("login").style.display = "none";
     $("app").style.display = "flex";
     document.body.style.overflow = "hidden";
   }
 
-  // access removed by Blue Peter Marine: revoked.json lists one-way codes only
-  async function isRevoked(h){
-    try{
-      const r = await fetch("revoked.json?t=" + Date.now(), { cache: "no-store" });
-      if (!r.ok) return false;
-      const data = await r.json();
-      return Array.isArray(data.revoked) && data.revoked.indexOf(h) > -1;
-    }catch(e){ return false; }
-  }
-  function showRevoked(){
-    try{ sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); localStorage.removeItem("bpm_client"); }catch(e){}
-    $("login").style.display = "";
-    $("app").style.display = "none";
-    $("doc").removeAttribute("src");
-    $("lede").textContent = "Access to RCD Navigator through this link has ended. Please contact Blue Peter Marine at info@ceinspector.com if you need access again.";
-    $("go").disabled = true;
-    $("err").textContent = "";
-  }
-
   async function attempt(){
     if (!PAYLOAD || !PAYLOAD.h) return;
-    if (await isRevoked(PAYLOAD.h)){ showRevoked(); return; }
     let h;
     try{ h = await bpmHash($("email").value, $("project").value); }
     catch(e){ $("err").textContent = "This page needs a secure (https) connection to sign in."; return; }
@@ -200,12 +180,7 @@
 
   // stay signed in across refreshes within the same browser session
   (function(){
-    try{
-      if (PAYLOAD && PAYLOAD.h && sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1"){
-        unlock();
-        isRevoked(PAYLOAD.h).then(function(rv){ if (rv) showRevoked(); });
-      }
-    }catch(e){}
+    try{ if (PAYLOAD && PAYLOAD.h && sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1") unlock(); }catch(e){}
   })();
 </script>
 </body>

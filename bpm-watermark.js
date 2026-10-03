@@ -9,13 +9,8 @@
     2. PNG / JPEG images downloaded from the page (download links and canvas exports)
     3. images saved with right-click or long-press (pages marked data-images="1")
     4. CSV exports (a "Prepared for ..." first line)
-    5. PDF documents from this site opened through a link (stamped on every page),
-       except the IMCI checklists in tools/checklists/ and any RSG document
-       (file name containing "RSG") and component certificates, either in certificates/
-       or named by the certificate register (e.g. 3-4_lewmar_hatches_doc.pdf),
-       which always open unmarked
-  Visitors who have not signed in are sent to the public landing page (index.html).
-  On pages opened locally they get a copyright watermark instead:
+    5. PDF documents from this site opened through a link (stamped on every page)
+  Visitors who have not signed in as a client get a copyright watermark instead:
   "(c) <year> Blue Peter Marine - www.ceinspector.com - Not for reproduction".
 */
 (function () {
@@ -24,29 +19,6 @@
   var info = null;
   try { info = JSON.parse(localStorage.getItem("bpm_client") || "null"); } catch (e) {}
   var isClient = !!(info && info.n);
-
-  /* ---------- sign-in gate ----------
-     RCD Navigator and its tools open only for clients signed in through their
-     personal link (client.html). Anyone else is sent to the public landing page.
-     Pages opened from your own computer (file://) are not gated. */
-  var ROOT = (document.currentScript && document.currentScript.src) ? new URL("./", document.currentScript.src).href : location.origin + "/";
-  if (location.protocol !== "file:"){
-    if (!isClient){
-      try{ document.documentElement.style.visibility = "hidden"; }catch(e){}
-      location.replace(ROOT + "index.html");
-      return;
-    }
-    if (info.h){
-      fetch(ROOT + "revoked.json?t=" + Date.now(), { cache:"no-store" })
-        .then(function(r){ return r.ok ? r.json() : null; })
-        .then(function(d){
-          if (d && Array.isArray(d.revoked) && d.revoked.indexOf(info.h) > -1){
-            try{ localStorage.removeItem("bpm_client"); }catch(e){}
-            location.replace(ROOT + "index.html");
-          }
-        }).catch(function(){});
-    }
-  }
 
   var TEXT = isClient
     ? "Prepared for " + info.n + (info.p ? " \u00B7 Project " + info.p : "") + " \u00B7 Blue Peter Marine"
@@ -277,10 +249,6 @@
     var abs;
     try { abs = new URL(raw, location.href); } catch (err) { return; }
     if (abs.origin !== location.origin) return;
-    if (/\/tools\/checklists\//i.test(abs.pathname)) return; // IMCI checklists open unmarked
-    if (/rsg/i.test(abs.pathname.split("/").pop())) return;      // RSG documents open unmarked
-    if (/\/certificates\//i.test(abs.pathname)) return;         // component certificates open unmarked
-    if (/^(\d+(-\d+)*|ii-\d+)_[^\/]+\.pdf$/i.test(abs.pathname.split("/").pop())) return; // register-named certificates (e.g. 3-4_lewmar_hatches_doc.pdf)
     e.preventDefault();
     e.stopPropagation();
     var hash = abs.hash || "";
