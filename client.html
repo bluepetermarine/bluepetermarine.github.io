@@ -154,8 +154,28 @@
     document.body.style.overflow = "hidden";
   }
 
+  // access removed by Blue Peter Marine: revoked.json lists one-way codes only
+  async function isRevoked(h){
+    try{
+      const r = await fetch("revoked.json?t=" + Date.now(), { cache: "no-store" });
+      if (!r.ok) return false;
+      const data = await r.json();
+      return Array.isArray(data.revoked) && data.revoked.indexOf(h) > -1;
+    }catch(e){ return false; }
+  }
+  function showRevoked(){
+    try{ sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); localStorage.removeItem("bpm_client"); }catch(e){}
+    $("login").style.display = "";
+    $("app").style.display = "none";
+    $("doc").removeAttribute("src");
+    $("lede").textContent = "Access to RCD Navigator through this link has ended. Please contact Blue Peter Marine at info@ceinspector.com if you need access again.";
+    $("go").disabled = true;
+    $("err").textContent = "";
+  }
+
   async function attempt(){
     if (!PAYLOAD || !PAYLOAD.h) return;
+    if (await isRevoked(PAYLOAD.h)){ showRevoked(); return; }
     let h;
     try{ h = await bpmHash($("email").value, $("project").value); }
     catch(e){ $("err").textContent = "This page needs a secure (https) connection to sign in."; return; }
@@ -180,7 +200,12 @@
 
   // stay signed in across refreshes within the same browser session
   (function(){
-    try{ if (PAYLOAD && PAYLOAD.h && sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1") unlock(); }catch(e){}
+    try{
+      if (PAYLOAD && PAYLOAD.h && sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1"){
+        unlock();
+        isRevoked(PAYLOAD.h).then(function(rv){ if (rv) showRevoked(); });
+      }
+    }catch(e){}
   })();
 </script>
 </body>
