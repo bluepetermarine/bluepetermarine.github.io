@@ -72,7 +72,8 @@
   .tag.on{background:var(--accent);color:#fff}
   .field.filled .flabel::after{content:"";display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-left:8px;vertical-align:middle}
   .empty{padding:22px 16px;color:var(--muted);text-align:center}
-  .note{font-size:13px;color:var(--muted);margin-top:8px}
+  .note{font-size:13px;color:var(--muted);margin:8px 0 18px}
+  .backrow{margin:0 0 14px}
   .saved{font-size:13px;color:var(--ok);min-height:18px}
   @media (max-width:640px){
     header img{width:60px} h1{font-size:28px}
@@ -98,6 +99,8 @@
       <div class="subtitle">Enter your boat data once. Every tool you select is pre-filled, in Annex I.A essential requirement order.</div>
     </div>
   </header>
+
+  <div class="noprint backrow"><a class="btn primary" href="https://bluepetermarine.github.io/rcd-navigator.html">&larr; Back to RCD Navigator</a></div>
 
   <section class="card noprint">
     <h2>How it works</h2>
@@ -130,6 +133,21 @@
 
   <div id="sheet"></div>
   <p class="note">Values the tools calculate are not entered here. Measurements follow ISO 8666 unless the field says otherwise.</p>
+
+  <section class="card noprint" id="finished">
+    <h2>When you have finished</h2>
+    <ol class="steps">
+      <li>Your data is saved automatically as you type. There is no submit button.</li>
+      <li>Open each tool you ticked. Its fields are already filled in. Complete the tool and download or print its report.</li>
+      <li>Attach those reports under the matching essential requirement in the RCD Navigator.</li>
+      <li>Click Export data (JSON) and send the file to Blue Peter Marine, so we have the same boat data as you.</li>
+      <li>You can come back to this sheet at any time to correct or add data. Tools you open afterwards use the new values.</li>
+    </ol>
+    <div class="row" style="margin-top:12px">
+      <a class="btn primary" href="https://bluepetermarine.github.io/rcd-navigator.html">&larr; Back to RCD Navigator</a>
+      <button type="button" onclick="document.getElementById('exportBtn').click()">Export data (JSON)</button>
+    </div>
+  </section>
 </div>
 
 <script>

@@ -30,7 +30,7 @@
     { id: "footbasin", esr: "3.5",   title: "Flooding",                  tool: "Foot basin drainage checklist",     pages: ["footbasin-10-3-checklist.html"] },
     { id: "cleat",     esr: "3.9",   title: "Anchoring, mooring and towing", tool: "ISO 15084 strong points checklist", pages: ["cleat-checklist.html"] },
     { id: "avoid",     esr: "4",     title: "Handling characteristics",  tool: "ISO 11592-2 avoidance line test",   pages: ["object-avoidance-checklist.html"] },
-    { id: "fuel",      esr: "5.2",   title: "Fuel system and fuel tanks", tool: "ISO 21487 fuel tank checklists",   pages: ["iso21487-petrol-metallic-tank-checklist.html", "iso21487-diesel-metallic-tank-checklist.html"], open: "fuel-tank-tests.html" },
+    { id: "fuel",      esr: "5.2",   title: "Fuel system and fuel tanks", tool: "ISO 21487 fuel tank checklists",   pages: ["iso21487-petrol-metallic-tank-checklist.html", "iso21487-diesel-metallic-tank-checklist.html", "tools/iso21487-diesel-nonmetallic-tank.html"], open: "fuel-tank-tests.html" },
     { id: "cable",     esr: "5.3",   title: "Electrical system",         tool: "ISO 13297 electrical systems calculator", pages: ["cable-size-checklist.html"] },
     { id: "vdrop",     esr: "5.3",   title: "Electrical system",         tool: "Voltage drop calculator",           pages: ["tools/voltage_drop_calculator.html"] },
     { id: "vent",      esr: "5.5",   title: "Gas system",                tool: "ISO 10239 LPG ventilation calculator", pages: ["ventilation-checklist.html"] }
@@ -72,7 +72,7 @@
     { key: "boatType", label: "Type of boat", type: "select",
       options: [["motor", "Motor boat"], ["sail_mono", "Sailing monohull"], ["sail_multi", "Sailing multihull"]],
       use: [["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
-    { key: "modelYear", label: "Model year", type: "number", hint: "Four digits, for example 2026",
+    { key: "modelYear", label: "Model year", type: "number", hint: "The year the boat is intended to be placed on the market. It can differ from the year of manufacture. Four digits, for example 2027",
       use: [["win", "#modelYear", "yy"], ["reboard", "#modelYear"]] },
 
     /* ESR 2.1 */
@@ -113,13 +113,13 @@
       use: [["reboard", "#maxSpeed"], ["avoid", "#maxSpeed"]] },
 
     /* ESR 3.2 */
-    { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666",
+    { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
       use: [["gz", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
-    { key: "bwl", label: "Beam of waterline, BWL", type: "number", unit: "m",
+    { key: "bwl", label: "Beam of waterline, BWL", type: "number", unit: "m", hint: "ISO 8666. For a multihull, the sum of the maximum waterline beams of each hull",
       use: [["gz", "#bwl"]] },
-    { key: "bcb", label: "Beam between hull centres of buoyancy, BCB", type: "number", unit: "m",
+    { key: "bcb", label: "Beam between hull centres, BCB", type: "number", unit: "m", hint: "Transverse distance between the centres of buoyancy of the outer hulls",
       use: [["gz", "#bcb"]] },
-    { key: "gzMass", label: "Mass for the GZ calculation, m", type: "number", unit: "kg", hint: "Use the loading condition the GZ calculator asks for",
+    { key: "gzMass", label: "Mass in minimum operating condition, mMO", type: "number", unit: "kg", hint: "ISO 12217-2 Annex G and Annex C. The maximum load condition may be used instead. Measure LWL and BWL in the same loading condition",
       use: [["gz", "#m"]] },
 
     /* ESR 3.9 */
@@ -130,7 +130,8 @@
     { key: "tankManufacturer", label: "Fuel tank manufacturer", type: "text", use: [["fuel", "#tankManufacturer"]] },
     { key: "tankModel", label: "Fuel tank model or type", type: "text", use: [["fuel", "#tankModel"]] },
     { key: "tankMaterial", label: "Fuel tank material", type: "select",
-      options: [["Aluminium alloy", "Aluminium alloy"], ["Stainless steel", "Stainless steel"], ["Copper", "Copper, tin-coated inside"], ["Mild steel", "Mild steel, hot-dip zinc-coated"], ["Aluminized steel", "Aluminized steel"]],
+      options: [["Aluminium alloy", "Metal: aluminium alloy"], ["Stainless steel", "Metal: stainless steel"], ["Copper", "Metal: copper, tin-coated inside"], ["Mild steel", "Metal: mild steel, hot-dip zinc-coated"], ["Aluminized steel", "Metal: aluminized steel"],
+                ["hdpe", "Plastic: high-density polyethylene (HDPE), for example rotomoulded"], ["ldpe", "Plastic: low-density polyethylene (LDPE)"], ["frp", "Plastic: fibre-reinforced plastic (FRP / GRP), non-integral"], ["other-nm", "Other non-metallic"]],
       use: [["fuel", "#tankMaterial", null, "start"]] },
     { key: "tankCapacity", label: "Fuel tank capacity", type: "number", unit: "L", use: [["fuel", "#tankCapacity"]] },
 
