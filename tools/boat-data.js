@@ -40,6 +40,7 @@
   var PROP_AVOID = { outboard: "Outboard Motor", sterndrive: "Sterndrive (I/O)", inboard_prop: "Inboard with Propeller", inboard_shaft: "Inboard with Shaft Drive", waterjet: "Waterjet", pod: "Pod Drive", other: "Other" };
   var conv = {
     yy:        function (v) { v = String(v).trim(); return v.length >= 2 ? v.slice(-2) : v; },
+    mToMm:     function (v) { var n = parseFloat(v); return isNaN(n) ? "" : String(Math.round(n * 1000)); },
     catLong:   function (v) { return v; },
     dcText:    function (v) { return v + "V DC"; },
     windowHull:function (v) { return v === "motor" ? "Motor" : (v ? "Sail" : ""); },
@@ -107,7 +108,7 @@
 
     /* ESR 2.3 */
     { key: "lh", label: "Length of hull, LH", type: "number", unit: "m", hint: "ISO 8666",
-      use: [["reboard", "#lh"], ["vis", "#lh"], ["window", "#proj-lh", null, null, "12"], ["bilge", "#hulllen"], ["cleat", "#hullLength"], ["avoid", "#hullLength"]] },
+      use: [["reboard", "#lh"], ["vis", "#lh"], ["window", "#proj-lh", null, null, "12"], ["bilge", "#hulllen"], ["footbasin", "#hullLength", "mToMm"], ["cleat", "#hullLength"], ["avoid", "#hullLength"]] },
     { key: "maxSpeed", label: "Maximum speed", type: "number", unit: "knots",
       use: [["reboard", "#maxSpeed"], ["avoid", "#maxSpeed"]] },
 
