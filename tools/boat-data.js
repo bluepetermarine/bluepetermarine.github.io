@@ -29,7 +29,7 @@
     { id: "footbasin", esr: "3.5",   title: "Flooding",                  tool: "Foot basin drainage checklist",     pages: ["footbasin-10-3-checklist.html"] },
     { id: "cleat",     esr: "3.9",   title: "Anchoring, mooring and towing", tool: "ISO 15084 strong points checklist", pages: ["cleat-checklist.html"] },
     { id: "avoid",     esr: "4",     title: "Handling characteristics",  tool: "ISO 11592-2 avoidance line test",   pages: ["object-avoidance-checklist.html"] },
-    { id: "fuel",      esr: "5.2",   title: "Fuel system and fuel tanks", tool: "ISO 21487 fuel tank checklists",   pages: ["iso21487-petrol-metallic-tank-checklist.html", "iso21487-diesel-metallic-tank-checklist.html", "tools/iso21487-diesel-nonmetallic-tank.html"], open: "fuel-tank-tests.html" },
+    { id: "fuel",      esr: "5.2",   title: "Fuel system and fuel tanks", tool: "ISO 21487 fuel tank checklists",   pages: ["iso21487-petrol-metallic-tank-checklist.html", "iso21487-diesel-metallic-tank-checklist.html", "tools/iso21487-diesel-nonmetallic-tank.html", "iso21487-petrol-nonmetallic-tank-checklist.html"], open: "fuel-tank-tests.html" },
     { id: "cable",     esr: "5.3",   title: "Electrical system",         tool: "ISO 13297 electrical systems calculator", pages: ["cable-size-checklist.html"] },
     { id: "vdrop",     esr: "5.3",   title: "Electrical system",         tool: "Voltage drop calculator",           pages: ["tools/voltage_drop_calculator.html"] },
     { id: "vent",      esr: "5.5",   title: "Gas system",                tool: "ISO 10239 LPG ventilation calculator", pages: ["ventilation-checklist.html"] }
