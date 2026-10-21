@@ -105,20 +105,18 @@
       <li>Tick the tools you need below. Only their fields are shown.</li>
       <li>Fill in each field once. The coloured tags show which tools use it.</li>
       <li>Click Open on a tool. Its fields are already filled in, marked with a gold edge.</li>
-      <li>Your data stays in this browser on this computer. Use Export to keep a copy or send it to Blue Peter Marine.</li>
+      <li>The sheet holds the data of your project only. It stays in this browser on this device. Use Export to keep a copy or send it to Blue Peter Marine.</li>
     </ol>
   </section>
 
   <section class="card noprint boatbar">
     <div class="row">
-      <label class="boatsel" for="boatSel">Boat</label>
-      <select id="boatSel"></select>
-      <button type="button" id="newBoat">New boat</button>
+      <span class="boatsel" id="boatLabel"></span>
       <button type="button" id="exportBtn" class="primary">Export data (JSON)</button>
       <button type="button" id="importBtn">Import data</button>
       <input type="file" id="importFile" accept=".json,application/json" hidden>
       <button type="button" onclick="window.print()">Print sheet</button>
-      <button type="button" id="clearBtn" class="danger">Delete this boat</button>
+      <button type="button" id="clearBtn" class="danger">Clear all data</button>
     </div>
     <div class="saved" id="savedMsg" aria-live="polite"></div>
   </section>
@@ -143,7 +141,7 @@
   var TOOLS = B.TOOLS, FIELDS = B.FIELDS;
   var SHORT = { win:"WIN", plate:"Builder's plate", reboard:"Reboarding", vis:"Visibility", gz:"GZ", window:"Windows", bilge:"Bilge",
     footbasin:"Foot basin", cleat:"Strong points", avoid:"Avoidance", fuel:"Fuel tanks", cable:"Cable size", vdrop:"Voltage drop", vent:"LPG ventilation" };
-  var NEW = "(new boat)";
+  var KEY = "project";   /* one RCD Navigator = one project = one boat */
   var store = B.readStore();
   var client = null; try { client = JSON.parse(localStorage.getItem("bpm_client") || "null"); } catch(e){}
 
@@ -151,12 +149,13 @@
   function esc(s){ return String(s == null ? "" : s).replace(/[&<>"]/g, function(c){ return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]; }); }
   function boat(){ return store.boats[store.current]; }
 
+  var signedProject = (client && client.p) ? String(client.p) : "";
   function ensureBoat(){
-    if (!store.current || !store.boats[store.current]){
-      var key = (client && client.p) ? String(client.p) : NEW;
-      if (!store.boats[key]) store.boats[key] = { values:{ projectNumber: key === NEW ? "" : key }, tools:[], updated:"" };
-      store.current = key;
-    }
+    /* keep exactly one boat; carry over data saved by an earlier version of this page */
+    var b = store.boats[KEY] || store.boats[store.current] || store.boats[Object.keys(store.boats)[0]] || null;
+    if (!b) b = { values:{}, tools:[], updated:"" };
+    store.boats = {}; store.boats[KEY] = b; store.current = KEY;
+    if (signedProject) b.values.projectNumber = signedProject;
   }
   var savedTimer;
   function save(msg){
@@ -177,10 +176,10 @@
     return { n:n, of:fs.length };
   }
 
-  /* ---------- boat selector ---------- */
+  /* ---------- project label ---------- */
   function renderBoats(){
-    var keys = Object.keys(store.boats).sort();
-    $("boatSel").innerHTML = keys.map(function(k){ return '<option value="'+esc(k)+'"'+(k===store.current?' selected':'')+'>'+esc(k)+'</option>'; }).join("");
+    var pn = boat().values.projectNumber;
+    $("boatLabel").textContent = pn ? "Project " + pn : "Project number not set yet";
   }
 
   /* ---------- tool picker ---------- */
@@ -207,6 +206,7 @@
         return '<option value="'+esc(o[0])+'"'+(String(v)===String(o[0])?' selected':'')+'>'+esc(o[1])+'</option>'; }).join("")+'</select>';
     }
     if (f.type === "textarea") return '<textarea'+attr+' rows="2">'+esc(v)+'</textarea>';
+    if (f.key === "projectNumber" && signedProject) attr += ' readonly title="Set by your RCD Navigator sign-in"';
     return '<input'+attr+' type="'+(f.type==="number"?"number":"text")+'"'+(f.type==="number"?' step="any" inputmode="decimal"':'')+' value="'+esc(v)+'">';
   }
 
@@ -272,7 +272,7 @@
     if (key === "countryCode") v = v.toUpperCase().slice(0,2);
     boat().values[key] = v;
     var row = document.querySelector('[data-row="'+key+'"]'); if (row) row.classList.toggle("filled", filled(v));
-    if (key === "projectNumber" && e.type === "change") renameBoat(v.trim());
+    if (key === "projectNumber") renderBoats();
     save(); renderPicker(); refreshCounts();
   }
   function refreshCounts(){
@@ -282,29 +282,24 @@
       c.textContent = p.n+' of '+p.of; c.classList.toggle("done", done); a.classList.toggle("off", !done);
     });
   }
-  function renameBoat(nk){
-    if (!nk || nk === store.current) return;
-    if (store.boats[nk] && !confirm("Project "+nk+" already has saved data. Replace it with this sheet?")) { boat().values.projectNumber = store.current === NEW ? "" : store.current; renderAll(); return; }
-    store.boats[nk] = boat(); delete store.boats[store.current]; store.current = nk; save("Saved under project "+nk); renderBoats();
-  }
-
-  $("boatSel").onchange = function(){ store.current = this.value; B.writeStore(store); renderAll(); };
-  $("newBoat").onclick = function(){
-    var k = prompt("Project number for the new boat"); if (!k) return; k = k.trim(); if (!k) return;
-    if (!store.boats[k]) store.boats[k] = { values:{ projectNumber:k }, tools:[], updated:"" };
-    store.current = k; save(); renderAll();
-  };
+  var clearArmed = false, clearTimer;
   $("clearBtn").onclick = function(){
-    if (!confirm("Delete all data for "+store.current+" from this browser? Export it first if you want to keep a copy.")) return;
-    delete store.boats[store.current]; store.current = Object.keys(store.boats)[0] || ""; ensureBoat(); B.writeStore(store); renderAll();
+    var btn = this;
+    if (!clearArmed){
+      clearArmed = true; btn.textContent = "Click again to clear all data";
+      clearTimer = setTimeout(function(){ clearArmed = false; btn.textContent = "Clear all data"; }, 4000);
+      return;
+    }
+    clearTimeout(clearTimer); clearArmed = false; btn.textContent = "Clear all data";
+    store.boats = {}; ensureBoat(); save("All data cleared"); renderAll();
   };
 
   $("exportBtn").onclick = function(){
     var b = boat();
-    var out = { format:"bpm-boatdata", version:1, project:store.current, client:(client && client.n) || "", exported:new Date().toISOString(), tools:b.tools, values:b.values };
+    var out = { format:"bpm-boatdata", version:1, project:b.values.projectNumber || "", client:(client && client.n) || "", exported:new Date().toISOString(), tools:b.tools, values:b.values };
     var blob = new Blob([JSON.stringify(out, null, 2)], { type:"application/json" });
     var a = document.createElement("a"); a.href = URL.createObjectURL(blob);
-    a.download = "boat-data-"+String(store.current).replace(/[^A-Za-z0-9_-]+/g,"_")+".json";
+    a.download = "boat-data-"+String(b.values.projectNumber || "project").replace(/[^A-Za-z0-9_-]+/g,"_")+".json";
     document.body.appendChild(a); a.click(); setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 500);
   };
   $("importBtn").onclick = function(){ $("importFile").click(); };
@@ -315,11 +310,11 @@
       try{
         var d = JSON.parse(r.result);
         if (d.format !== "bpm-boatdata" || !d.values) throw new Error("not a Boat Data Sheet export");
-        var k = String(d.project || d.values.projectNumber || NEW);
-        if (store.boats[k] && !confirm("Replace the saved data for "+k+" with the imported file?")) return;
-        store.boats[k] = { values:d.values, tools:Array.isArray(d.tools)?d.tools:[], updated:new Date().toISOString() };
-        store.current = k; save("Imported "+k); renderAll();
-      }catch(err){ alert("This file could not be imported: "+err.message); }
+        var k = String(d.project || d.values.projectNumber || "");
+        if (signedProject && k && k !== signedProject) throw new Error("it belongs to project " + k + ", not to project " + signedProject);
+        store.boats = {}; store.boats[KEY] = { values:d.values, tools:Array.isArray(d.tools)?d.tools:[], updated:"" };
+        ensureBoat(); save("Data imported"); renderAll();
+      }catch(err){ $("savedMsg").textContent = "This file could not be imported: " + err.message; }
     };
     r.readAsText(f); this.value = "";
   };

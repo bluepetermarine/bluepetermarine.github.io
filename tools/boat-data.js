@@ -250,7 +250,7 @@
         }
       });
     });
-    return { tool: tool, filled: filled, boat: store.current };
+    return { tool: tool, filled: filled, boat: data.projectNumber || (boat ? "your project" : "") };
   }
 
   function chip(res) {
