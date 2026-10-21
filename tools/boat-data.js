@@ -24,7 +24,6 @@
     { id: "plate",     esr: "2.2",   title: "Builder's plate",           tool: "Builder's plate generator",         pages: ["tools/builders-plate-generator.html"] },
     { id: "reboard",   esr: "2.3",   title: "Falling overboard and reboarding", tool: "ISO 15085 test report generator", pages: ["reboarding-checklist.html"] },
     { id: "vis",       esr: "2.4",   title: "Visibility from the main steering position", tool: "ISO 11591 field of vision checklist", pages: ["visibility-checklist.html"] },
-    { id: "gz",        esr: "3.2",   title: "Stability and freeboard",   tool: "Maximum GZ calculator",             pages: ["gz-calculator.html"] },
     { id: "window",    esr: "3.4",   title: "Openings in hull, deck and superstructure", tool: "Window calculator", pages: ["Window calculator bpm.html"] },
     { id: "bilge",     esr: "3.5",   title: "Flooding",                  tool: "Flooding and dewatering tool",      pages: ["tools/hull-openings-bilge-checklist.html"] },
     { id: "footbasin", esr: "3.5",   title: "Flooding",                  tool: "Foot basin drainage checklist",     pages: ["footbasin-10-3-checklist.html"] },
@@ -60,7 +59,7 @@
    */
   var FIELDS = [
     { key: "projectNumber", label: "Project number", type: "text", core: true, hint: "Used to file your data and on every report",
-      use: [["win", "#projectNumber"], ["gz", "#projectNumber"], ["avoid", "#projectNumber"], ["fuel", "#projectNumber"], ["cable", "#projectNumber"], ["vent", "#projectNumber"]] },
+      use: [["win", "#projectNumber"], ["avoid", "#projectNumber"], ["fuel", "#projectNumber"], ["cable", "#projectNumber"], ["vent", "#projectNumber"]] },
     { key: "manufacturer", label: "Manufacturer", type: "text", core: true, hint: "Registered name or trade mark",
       use: [["plate", null], ["reboard", "#craftManufacturer"], ["vis", "#mfr"], ["window", "#proj-manufacturer"], ["footbasin", "#manufacturer"]] },
     { key: "model", label: "Model name", type: "text", core: true, hint: "Model designation, for example Voyager 650",
@@ -112,15 +111,8 @@
     { key: "maxSpeed", label: "Maximum speed", type: "number", unit: "knots",
       use: [["reboard", "#maxSpeed"], ["avoid", "#maxSpeed"]] },
 
-    /* ESR 3.2 */
     { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
-      use: [["gz", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
-    { key: "bwl", label: "Beam of waterline, BWL", type: "number", unit: "m", hint: "ISO 8666. For a multihull, the sum of the maximum waterline beams of each hull",
-      use: [["gz", "#bwl"]] },
-    { key: "bcb", label: "Beam between hull centres, BCB", type: "number", unit: "m", hint: "Transverse distance between the centres of buoyancy of the outer hulls",
-      use: [["gz", "#bcb"]] },
-    { key: "gzMass", label: "Mass in minimum operating condition, mMO", type: "number", unit: "kg", hint: "ISO 12217-2 Annex G and Annex C. The maximum load condition may be used instead. Measure LWL and BWL in the same loading condition",
-      use: [["gz", "#m"]] },
+      use: [["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
 
     /* ESR 3.9 */
     { key: "mldc", label: "Loaded displacement mass, mLDC", type: "number", unit: "kg", hint: "ISO 8666",
