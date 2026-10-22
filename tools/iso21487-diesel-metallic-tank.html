@@ -756,7 +756,7 @@
                         
                         <div style="margin-top: 15px;">
                             <label style="display: block; margin: 8px 0;">
-                                <input type="checkbox" id="verifyStructural"> Structural design complies with ISO 12215-5:2019
+                                <input type="checkbox" id="verifyStructural"> Structural design complies with ISO 12215-5:2019 <a href="#t12">(see tank plating calculation below)</a>
                             </label>
                             <label style="display: block; margin: 8px 0;">
                                 <input type="checkbox" id="verifyConstruction"> Structural details follow ISO 12215-6:2008
@@ -929,6 +929,307 @@
         </ul>
         <p style="margin-top: 10px;">This makes diesel metallic tank type testing significantly faster and less expensive than petrol tank testing.</p>
     </div>
+
+<!-- ISO 12215-5:2019 §9.3 tank plating calculator (Blue Peter Marine) -->
+<section class="t12" id="t12" style="--t12-accent:#15803d;--t12-fg:#334155;--t12-muted:#6b7280;--t12-line:#e5e7eb;--t12-soft:#f8fafc;box-shadow:0 2px 4px rgba(0,0,0,0.1);border:0">
+<style>
+.t12{--a:var(--t12-accent,#1a6fa8);--fg:var(--t12-fg,#1e2c3a);--mu:var(--t12-muted,#5a7080);--ln:var(--t12-line,#ccd5dc);--cd:var(--t12-card,#ffffff);--sf:var(--t12-soft,#eef3f7);--ok:var(--t12-ok,#1a7a4a);--bad:var(--t12-bad,#b02020);--wr:var(--t12-warn,#c85a00);--mono:var(--t12-mono,ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace);
+  background:var(--cd);color:var(--fg);border:1px solid var(--ln);border-radius:8px;padding:24px;margin-bottom:25px;display:grid;gap:22px;font-variant-numeric:tabular-nums}
+.t12 *{box-sizing:border-box}
+.t12 [hidden]{display:none!important}
+.t12 h3{margin:0;font-size:1.4em;color:var(--a);text-wrap:balance}
+.t12 h4{margin:0 0 10px;font-size:.8em;letter-spacing:.08em;text-transform:uppercase;color:var(--mu)}
+.t12 p{margin:0}
+.t12-lede{color:var(--mu);max-width:70ch;margin-top:6px!important;font-size:.95em}
+.t12-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.t12-f{display:flex;flex-direction:column;gap:4px;min-width:0}
+.t12-f label{font-weight:600;font-size:.88em}
+.t12-f small{color:var(--mu);font-size:.78em;line-height:1.35}
+.t12 input,.t12 select{font:inherit;font-size:14px;padding:8px 10px;border:1.5px solid var(--ln);border-radius:6px;background:var(--cd);color:var(--fg);width:100%;min-width:0}
+.t12 input:focus-visible,.t12 select:focus-visible,.t12 button:focus-visible{outline:2px solid var(--a);outline-offset:1px}
+.t12 input[type=checkbox]{width:auto}
+.t12-chk{display:flex;gap:8px;align-items:center;font-weight:600;font-size:.88em}
+.t12-sd{display:flex;flex-wrap:wrap;gap:8px 22px;padding:12px 14px;background:var(--sf);border-radius:6px;font-size:.9em}
+.t12-sd b{font-family:var(--mono)}
+.t12-scroll{overflow-x:auto;border:1px solid var(--ln);border-radius:6px}
+.t12 table{border-collapse:collapse;width:100%;font-size:13px;min-width:1120px}
+.t12 th{background:var(--sf);text-align:left;font-size:.8em;font-weight:700;color:var(--mu);padding:8px 6px;border-bottom:1px solid var(--ln);vertical-align:bottom;white-space:nowrap}
+.t12 th span{display:block;text-transform:none;letter-spacing:0;font-weight:400}
+.t12 td{padding:5px 6px;border-bottom:1px solid var(--ln);vertical-align:middle}
+.t12 td input,.t12 td select{padding:6px 7px;font-size:13px}
+.t12 td.n{font-family:var(--mono);text-align:right;white-space:nowrap}
+.t12 td.out{background:var(--sf)}
+.t12 .w-name{width:190px}.t12 .w-num{width:78px}.t12 .w-pos{width:120px}
+.t12-pill{display:inline-block;padding:2px 9px;border-radius:999px;font-size:11px;font-weight:700;letter-spacing:.05em;border:1.5px solid currentColor}
+.t12-pill.ok{color:var(--ok)}.t12-pill.bad{color:var(--bad)}.t12-pill.na{color:var(--mu)}
+.t12-x{border:0;background:none;color:var(--mu);cursor:pointer;font-size:18px;line-height:1;padding:4px 6px}
+.t12-x:hover{color:var(--bad)}
+.t12-btns{display:flex;flex-wrap:wrap;gap:10px}
+.t12-btn{font:inherit;font-size:14px;font-weight:600;padding:8px 14px;border-radius:6px;border:1.5px solid var(--a);background:var(--cd);color:var(--a);cursor:pointer}
+.t12-btn.pri{background:var(--a);color:#fff}
+.t12-btn:hover{filter:brightness(1.08)}
+.t12-verdict{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;align-items:center;padding:16px 18px;border-radius:8px;border:2px solid var(--mu)}
+.t12-verdict.ok{border-color:var(--ok)}.t12-verdict.bad{border-color:var(--bad)}
+.t12-verdict .big{font-size:1.25em;font-weight:800;letter-spacing:.04em}
+.t12-verdict .big{color:var(--mu)}.t12-verdict.ok .big{color:var(--ok)}.t12-verdict.bad .big{color:var(--bad)}
+.t12-verdict p{color:var(--fg);font-size:.92em}
+.t12-flag{padding:10px 14px;border-left:4px solid var(--wr);background:var(--sf);border-radius:4px;font-size:.88em}
+.t12-cl{display:grid;gap:0;border:1px solid var(--ln);border-radius:6px;overflow:hidden}
+.t12-cl div{display:grid;grid-template-columns:1fr 110px;gap:12px;align-items:center;padding:8px 12px;border-bottom:1px solid var(--ln);font-size:.9em}
+.t12-cl div:last-child{border-bottom:0}
+.t12-cl em{font-style:normal;color:var(--mu);font-size:.85em;margin-left:6px}
+.t12-formula{font-family:var(--mono);font-size:.85em;color:var(--mu);line-height:1.7}
+@media (max-width:560px){.t12{padding:16px}.t12-cl div{grid-template-columns:1fr}}
+</style>
+
+<div>
+  <h3>Tank plating scantlings · ISO 12215-5:2019 §9.3</h3>
+  <p class="t12-lede">Design pressure from Table 14 and minimum plate thickness from Table A.5 (simplified method, metals), with design stress from Table 17 and Annex B. Use it to show the tank structure meets ISO 12215-5, as ISO 21487 requires for the alternate pressure test method 7.2.2.3.</p>
+</div>
+
+<div>
+  <h4>Load case</h4>
+  <div class="t12-grid">
+    <div class="t12-f"><label for="t12-type">Partition type (Table 14)</label>
+      <select id="t12-type"><option value="10">Integral tank · P = 10 h<sub>B</sub></option><option value="7">Watertight bulkhead · P = 7 h<sub>B</sub></option></select>
+      <small>Fuel tanks are assessed as integral tanks.</small></div>
+    <div class="t12-f"><label for="t12-H">Tank height H (mm)</label>
+      <input id="t12-H" type="number" min="0" step="1" inputmode="decimal">
+      <small>Inside depth, top to bottom plate.</small></div>
+    <div class="t12-f"><label for="t12-ovf">Overflow / vent top above tank top (m)</label>
+      <input id="t12-ovf" type="number" min="0" step="0.05" inputmode="decimal">
+      <small>Actual height. The calculation uses at least 2.0 m (§9.3.1).</small></div>
+    <div class="t12-f"><label for="t12-kc">Curvature factor k<sub>C</sub></label>
+      <input id="t12-kc" type="number" min="0.5" max="1" step="0.01" inputmode="decimal">
+      <small>1.0 for flat panels (Table A.3).</small></div>
+  </div>
+</div>
+
+<div>
+  <h4>Plating material (Table 17, Annex B)</h4>
+  <div class="t12-grid">
+    <div class="t12-f" style="grid-column:span 2"><label for="t12-mat">Material</label>
+      <select id="t12-mat"></select></div>
+    <div class="t12-f" id="t12-weldbox"><label>&nbsp;</label>
+      <label class="t12-chk"><input id="t12-weld" type="checkbox"> Welded (HAZ properties)</label>
+      <small>Table 17 note f. Untick only for riveted/glued plate or panels clearly outside the HAZ.</small></div>
+    <div class="t12-f" id="t12-cu-u"><label for="t12-su">σ<sub>u</sub> (N/mm²)</label><input id="t12-su" type="number" min="0" step="1"><small>Welded value where relevant.</small></div>
+    <div class="t12-f" id="t12-cu-y"><label for="t12-sy">σ<sub>y</sub> (N/mm²)</label><input id="t12-sy" type="number" min="0" step="1"><small>Documented 0.2 % proof stress.</small></div>
+  </div>
+  <div class="t12-sd" style="margin-top:12px" id="t12-sdline"></div>
+</div>
+
+<div>
+  <h4>Panels</h4>
+  <p class="t12-lede" style="margin:0 0 10px!important">One row per plate panel between baffles, stiffeners or tank edges. Enter the two spans; the shorter is used as b. For wall panels, h<sub>B</sub> is taken to a point 2/3 down the panel depth. Bottom panels take the full tank height.</p>
+  <div class="t12-scroll">
+    <table>
+      <thead><tr>
+        <th class="w-name">Panel</th><th class="w-pos">Position</th>
+        <th class="w-num">Span 1<span>mm</span></th><th class="w-num">Span 2<span>mm</span></th>
+        <th class="w-num">Top edge<span>below tank top, mm</span></th><th class="w-num">Panel depth<span>mm (blank = to bottom)</span></th>
+        <th class="w-num">t fitted<span>mm</span></th>
+        <th>l/b</th><th>k<sub>2b</sub></th><th>h<sub>B</sub><span>m</span></th><th>P<span>kN/m²</span></th><th>t<sub>min</sub><span>mm</span></th><th>Use</th><th>Result</th><th></th>
+      </tr></thead>
+      <tbody id="t12-rows"></tbody>
+    </table>
+  </div>
+  <div class="t12-btns" style="margin-top:12px">
+    <button type="button" class="t12-btn" id="t12-add">Add panel</button>
+    <button type="button" class="t12-btn" id="t12-ex">Load example tank</button>
+    <button type="button" class="t12-btn" id="t12-copy">Copy results</button>
+    <button type="button" class="t12-btn" id="t12-clear">Clear panels</button>
+  </div>
+</div>
+
+<div class="t12-verdict" id="t12-verdict"><span class="big">NO DATA</span><p>Enter at least one panel.</p></div>
+<div class="t12-flag" id="t12-ovfflag" hidden></div>
+
+<div>
+  <h4>Clause 9.3 checks</h4>
+  <div class="t12-cl" id="t12-cl"></div>
+</div>
+
+<p class="t12-formula">h<sub>B</sub> = max(h<sub>overflow</sub>, 2 m) + (top edge + ⅔ × panel depth) &nbsp;·&nbsp; P = 10 h<sub>B</sub> (or 7 h<sub>B</sub>) &nbsp;·&nbsp; t<sub>min</sub> = b × k<sub>C</sub> × √(P × k<sub>2b</sub> / (1000 × σ<sub>d</sub>)) &nbsp;·&nbsp; k<sub>2b</sub> from the Table A.2 polynomial, 0.5 for l/b &gt; 2 &nbsp;·&nbsp; σ<sub>d</sub> = min(0.6 σ<sub>u</sub>, 0.9 σ<sub>y</sub>)</p>
+
+<script>
+(function(){
+  var root=document.getElementById('t12'); if(!root) return;
+  var KEY='t12:'+location.pathname;
+  // Table B.1 plating: [label, family, su, suw, sy, syw]
+  var MATS=[
+    ['Mild steel E24 / A','steel',400,400,235,235],
+    ['Steel E32 / AH32','steel',470,470,315,315],
+    ['Steel E36 / AH36','steel',490,490,355,355],
+    ['EN AW-5052 H32','al',210,170,160,65],
+    ['EN AW-5052 H34','al',235,170,180,65],
+    ['EN AW-5754 O/H111','al',225,190,80,80],
+    ['EN AW-5754 H24','al',240,190,190,80],
+    ['EN AW-5154A O/H111','al',215,215,85,85],
+    ['EN AW-5154A H24','al',240,215,200,85],
+    ['EN AW-5086 O/H111','al',240,240,100,100],
+    ['EN AW-5086 H34','al',275,240,185,100],
+    ['EN AW-5083 O/H111 (t < 6)','al',275,270,125,125],
+    ['EN AW-5083 H32','al',305,270,215,125],
+    ['AA 5059 Alustar O/H111','al',330,300,160,160],
+    ['AA 5059 Alustar H34','al',370,300,270,160],
+    ['EN AW-5383 O/H111','al',290,290,145,145],
+    ['EN AW-5383 H34','al',305,290,220,145],
+    ['Other metal (documented values, e.g. stainless steel)','custom',0,0,0,0]
+  ];
+  var CHECKS=[
+    ['ovf','Overflow / vent top taken at least 2 m above the tank top for the design pressure','9.3.1'],
+    ['span','Panel b taken as the shorter span between baffles, stiffeners or tank edges','A.3'],
+    ['thk','Panels of different thickness assessed separately, h<sub>B</sub> to the lowest point of each','9.3.1'],
+    ['baf','Tank subdivided by baffles or wash plates as necessary','9.3.2'],
+    ['perf','Wash plate perforation not more than 20 % of the bulkhead area','9.3.2'],
+    ['arr','Perforations arranged so the baffle still works as a support','9.3.2'],
+    ['frame','Baffles that support hull framing have stiffener-equivalent scantlings','9.3.2'],
+    ['haz','Welded aluminium: HAZ properties used for panels within the heat-affected zone','Table 17 f'],
+    ['deck','Where the tank forms part of the deck, the deck requirements are also assessed','9.3.1']
+  ];
+  var $=function(id){return document.getElementById(id)};
+  var st={type:'10',H:'',ovf:'2.0',kc:'1.0',mat:'11',weld:true,su:'',sy:'',rows:[],checks:{}};
+  var BLANK=function(n,p){return {name:n||'',pos:p||'v',s1:'',s2:'',z:'',d:'',t:''}};
+
+  function load(){try{var s=localStorage.getItem(KEY); if(s){var o=JSON.parse(s); for(var k in o) st[k]=o[k]; return true;}}catch(e){} return false}
+  function save(){try{localStorage.setItem(KEY,JSON.stringify(st))}catch(e){}}
+  function num(v){var x=parseFloat(String(v).replace(',','.'));return isFinite(x)?x:NaN}
+  function f(x,d){return isFinite(x)?x.toFixed(d):'—'}
+  function esc(s){return String(s).replace(/[&<>"]/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]})}
+
+  function sigma(){
+    var m=MATS[+st.mat]||MATS[0], fam=m[1], su, sy;
+    if(fam==='custom'){su=num(st.su);sy=num(st.sy)}
+    else if(fam==='al'&&st.weld){su=m[3];sy=m[5]}
+    else {su=m[2];sy=m[4]}
+    var sd=Math.min(0.6*su,0.9*sy);
+    return {fam:fam,name:m[0],su:su,sy:sy,sd:sd};
+  }
+  function k2b(ar){
+    if(ar>2) return 0.5;
+    var x=ar; return -0.0103*Math.pow(x,5)+0.0790*Math.pow(x,4)-0.1441*Math.pow(x,3)-0.2780*x*x+1.1645*x-0.5065;
+  }
+  function calc(r,g){
+    var a=num(r.s1),b2=num(r.s2),o={};
+    if(!(a>0&&b2>0)) return null;
+    var b=Math.min(a,b2), l=Math.max(a,b2), ar=l/b, k=k2b(ar), hb;
+    if(r.pos==='b') hb=g.ovfUsed+(isFinite(g.H)?g.H:NaN)/1000;
+    else if(r.pos==='t') hb=g.ovfUsed;
+    else { var z=num(r.z); if(!isFinite(z)) z=0; var d=num(r.d); if(!isFinite(d)) d=(isFinite(g.H)?g.H-z:NaN); hb=g.ovfUsed+(z+2/3*d)/1000; }
+    var P=g.coef*hb, t=b*g.kc*Math.sqrt(P*k/(1000*g.sd)), tf=num(r.t);
+    o.b=b;o.l=l;o.ar=ar;o.k=k;o.hb=hb;o.P=P;o.tmin=t;o.tf=tf;
+    o.use=(isFinite(tf)&&tf>0&&isFinite(t))?t/tf:NaN;
+    o.ok=isFinite(o.use)?o.use<=1:null;
+    return o;
+  }
+  function glob(){
+    var s=sigma(), ovf=num(st.ovf);
+    return {coef:+st.type,H:num(st.H),ovf:ovf,ovfUsed:Math.max(isFinite(ovf)?ovf:0,2),kc:isFinite(num(st.kc))?num(st.kc):1,sd:s.sd,s:s};
+  }
+
+  function renderRows(){
+    var tb=$('t12-rows'),h='';
+    st.rows.forEach(function(r,i){
+      var v=r.pos==='v';
+      h+='<tr data-i="'+i+'">'+
+      '<td><input data-k="name" aria-label="Panel name" value="'+esc(r.name)+'" placeholder="e.g. Side wall"></td>'+
+      '<td><select data-k="pos" aria-label="Position"><option value="v"'+(r.pos==='v'?' selected':'')+'>Wall (vertical)</option><option value="b"'+(r.pos==='b'?' selected':'')+'>Bottom</option><option value="t"'+(r.pos==='t'?' selected':'')+'>Top</option></select></td>'+
+      '<td><input data-k="s1" type="number" min="0" aria-label="Span 1" value="'+esc(r.s1)+'"></td>'+
+      '<td><input data-k="s2" type="number" min="0" aria-label="Span 2" value="'+esc(r.s2)+'"></td>'+
+      '<td><input data-k="z" type="number" min="0" aria-label="Top edge below tank top" value="'+esc(r.z)+'"'+(v?'':' disabled placeholder="n/a"')+'></td>'+
+      '<td><input data-k="d" type="number" min="0" aria-label="Panel depth" value="'+esc(r.d)+'"'+(v?'':' disabled placeholder="n/a"')+'></td>'+
+      '<td><input data-k="t" type="number" min="0" step="0.1" aria-label="Fitted thickness" value="'+esc(r.t)+'"></td>'+
+      '<td class="n out" data-o="ar"></td><td class="n out" data-o="k"></td><td class="n out" data-o="hb"></td><td class="n out" data-o="P"></td><td class="n out" data-o="tmin"></td><td class="n out" data-o="use"></td><td class="out" data-o="res"></td>'+
+      '<td><button type="button" class="t12-x" data-del="'+i+'" aria-label="Remove panel">×</button></td></tr>';
+    });
+    tb.innerHTML=h||'<tr><td colspan="15" style="color:var(--mu);padding:14px">No panels yet. Add a panel or load the example tank.</td></tr>';
+    update();
+  }
+  function update(){
+    var g=glob(), s=g.s;
+    $('t12-weldbox').hidden=s.fam!=='al';
+    $('t12-cu-u').hidden=$('t12-cu-y').hidden=s.fam!=='custom';
+    $('t12-sdline').innerHTML='<span>σ<sub>u</sub> used <b>'+f(s.su,0)+'</b> N/mm²</span><span>σ<sub>y</sub> used <b>'+f(s.sy,0)+'</b> N/mm²</span><span>Design stress σ<sub>d</sub> = min(0.6 σ<sub>u</sub>, 0.9 σ<sub>y</sub>) = <b>'+f(s.sd,1)+'</b> N/mm²</span><span>h<sub>overflow</sub> used <b>'+f(g.ovfUsed,2)+'</b> m</span>';
+    var worst=null, n=0, nfail=0, nmiss=0;
+    Array.prototype.forEach.call($('t12-rows').querySelectorAll('tr[data-i]'),function(tr){
+      var r=st.rows[+tr.dataset.i], o=calc(r,g), set=function(k,v){tr.querySelector('[data-o="'+k+'"]').innerHTML=v};
+      if(!o){['ar','k','hb','P','tmin','use'].forEach(function(k){set(k,'—')});set('res','<span class="t12-pill na">INPUT</span>');return}
+      set('ar',f(o.ar,2));set('k',f(o.k,3));set('hb',f(o.hb,3));set('P',f(o.P,2));set('tmin',f(o.tmin,2));set('use',isFinite(o.use)?Math.round(o.use*100)+' %':'—');
+      set('res',o.ok===null?'<span class="t12-pill na">NO t</span>':o.ok?'<span class="t12-pill ok">PASS</span>':'<span class="t12-pill bad">FAIL</span>');
+      n++; if(o.ok===false) nfail++; if(o.ok===null) nmiss++;
+      if(isFinite(o.use)&&(!worst||o.use>worst.o.use)) worst={r:r,o:o};
+    });
+    var v=$('t12-verdict'), big, txt, cls='';
+    if(!isFinite(s.sd)||s.sd<=0){big='NO DATA';txt='Enter σ<sub>u</sub> and σ<sub>y</sub> for the material.'}
+    else if(!n){big='NO DATA';txt='Enter at least one panel with both spans.'}
+    else if(nfail){cls='bad';big='DOES NOT COMPLY';txt=nfail+' of '+n+' panel'+(n>1?'s':'')+' below the minimum thickness. Governing panel: '+esc(worst.r.name||'unnamed')+', t<sub>min</sub> '+f(worst.o.tmin,2)+' mm against '+f(worst.o.tf,1)+' mm fitted.'}
+    else if(nmiss){big='INCOMPLETE';txt=nmiss+' panel'+(nmiss>1?'s have':' has')+' no fitted thickness entered.'}
+    else {cls='ok';big='COMPLIES';txt='All '+n+' panel'+(n>1?'s':'')+' meet ISO 12215-5 §9.3 / Table A.5. Governing panel: '+esc(worst.r.name||'unnamed')+' at '+Math.round(worst.o.use*100)+' % of fitted thickness ('+f(worst.o.tmin,2)+' mm required, '+f(worst.o.tf,1)+' mm fitted).'}
+    v.className='t12-verdict '+cls; v.innerHTML='<span class="big">'+big+'</span><p>'+txt+'</p>';
+    var fl=$('t12-ovfflag');
+    if(isFinite(g.ovf)&&g.ovf<2){fl.hidden=false;fl.innerHTML='Overflow entered as '+f(g.ovf,2)+' m. §9.3.1 does not allow less than 2 m above the tank top, so 2.00 m is used.'}
+    else fl.hidden=true;
+    root.dataset.status=cls||'none';
+    save();
+  }
+  function renderChecks(){
+    $('t12-cl').innerHTML=CHECKS.map(function(c){
+      var v=st.checks[c[0]]||'';
+      return '<div><span>'+c[1]+'<em>'+c[2]+'</em></span><select data-c="'+c[0]+'" aria-label="Status"><option value="">Select</option><option value="yes"'+(v==='yes'?' selected':'')+'>Yes</option><option value="no"'+(v==='no'?' selected':'')+'>No</option><option value="na"'+(v==='na'?' selected':'')+'>N/A</option></select></div>';
+    }).join('');
+  }
+  function example(){
+    st.type='10';st.H='550';st.ovf='2.0';st.kc='1.0';st.mat='11';st.weld=true;
+    st.rows=[
+      {name:'Example: side wall cell',pos:'v',s1:'450',s2:'550',z:'0',d:'',t:'5'},
+      {name:'Example: end wall',pos:'v',s1:'500',s2:'550',z:'0',d:'',t:'5'},
+      {name:'Example: bottom cell',pos:'b',s1:'450',s2:'500',z:'',d:'',t:'5'},
+      {name:'Example: top cell',pos:'t',s1:'450',s2:'500',z:'',d:'',t:'5'}
+    ];
+    syncGlobals();renderRows();
+  }
+  function syncGlobals(){
+    $('t12-type').value=st.type;$('t12-H').value=st.H;$('t12-ovf').value=st.ovf;$('t12-kc').value=st.kc;$('t12-mat').value=st.mat;$('t12-weld').checked=!!st.weld;$('t12-su').value=st.su;$('t12-sy').value=st.sy;
+  }
+  function csv(){
+    var g=glob(), s=g.s, q=function(x){return '"'+String(x).replace(/"/g,'""')+'"'}, out='';
+    out+='TANK PLATING SCANTLINGS - ISO 12215-5:2019 9.3 / Table A.5\n';
+    out+='Partition type,'+(st.type==='10'?'Integral tank P=10hB':'Watertight bulkhead P=7hB')+'\n';
+    out+='Tank height H (mm),'+st.H+'\nOverflow above tank top entered (m),'+st.ovf+'\nOverflow used (m),'+f(g.ovfUsed,2)+'\nkC,'+g.kc+'\n';
+    out+='Material,'+q(s.name+(s.fam==='al'?(st.weld?' (welded)':' (unwelded)'):''))+'\nsigma_u used (N/mm2),'+f(s.su,0)+'\nsigma_y used (N/mm2),'+f(s.sy,0)+'\nsigma_d (N/mm2),'+f(s.sd,1)+'\n';
+    out+='Panel,Position,b (mm),l (mm),l/b,k2b,hB (m),P (kN/m2),t min (mm),t fitted (mm),Utilisation,Result\n';
+    st.rows.forEach(function(r){var o=calc(r,g); if(!o) return;
+      out+=[q(r.name),{v:'Wall',b:'Bottom',t:'Top'}[r.pos],f(o.b,0),f(o.l,0),f(o.ar,2),f(o.k,3),f(o.hb,3),f(o.P,2),f(o.tmin,2),isFinite(o.tf)?o.tf:'',isFinite(o.use)?Math.round(o.use*100)+'%':'',o.ok===null?'No t':o.ok?'PASS':'FAIL'].join(',')+'\n';});
+    out+='Overall,'+($('t12-verdict').querySelector('.big').textContent)+'\n';
+    CHECKS.forEach(function(c){out+=q(c[1].replace(/<[^>]+>/g,'')+' ('+c[2]+')')+','+(st.checks[c[0]]||'')+'\n'});
+    return out+'\n';
+  }
+
+  // init
+  $('t12-mat').innerHTML=MATS.map(function(m,i){return '<option value="'+i+'">'+m[0]+'</option>'}).join('');
+  var had=load();
+  if(!had){ if(root.dataset.example==='1') example(); else { st.rows=[BLANK('Side wall','v'),BLANK('End wall','v'),BLANK('Bottom','b')]; } }
+  syncGlobals(); renderRows(); renderChecks();
+
+  ['type','H','ovf','kc','mat','su','sy'].forEach(function(k){$('t12-'+k).addEventListener('input',function(e){st[k]=e.target.value;update()})});
+  $('t12-weld').addEventListener('change',function(e){st.weld=e.target.checked;update()});
+  $('t12-rows').addEventListener('input',function(e){var k=e.target.dataset.k,tr=e.target.closest('tr');if(!k||!tr)return;st.rows[+tr.dataset.i][k]=e.target.value;if(k==='pos')renderRows();else update()});
+  $('t12-rows').addEventListener('click',function(e){var d=e.target.dataset.del;if(d===undefined)return;st.rows.splice(+d,1);renderRows()});
+  $('t12-cl').addEventListener('change',function(e){var c=e.target.dataset.c;if(c){st.checks[c]=e.target.value;save()}});
+  $('t12-add').addEventListener('click',function(){st.rows.push(BLANK('','v'));renderRows()});
+  $('t12-ex').addEventListener('click',example);
+  $('t12-clear').addEventListener('click',function(){st.rows=[];renderRows()});
+  $('t12-copy').addEventListener('click',function(){var b=this,t=csv();
+    var done=function(){b.textContent='Copied';setTimeout(function(){b.textContent='Copy results'},1600)};
+    try{navigator.clipboard.writeText(t).then(done,function(){fallback(t);done()})}catch(e){fallback(t);done()}});
+  function fallback(t){var ta=document.createElement('textarea');ta.value=t;ta.style.position='fixed';ta.style.opacity='0';document.body.appendChild(ta);ta.select();try{document.execCommand('copy')}catch(e){}document.body.removeChild(ta)}
+
+  window.T12={csv:csv,status:function(){return root.dataset.status}};
+})();
+</script>
+</section>
+
 
     <div class="calculation-section">
         <h3>Type Test Summary and Compliance Status</h3>
@@ -1245,6 +1546,7 @@
             csv += 'Pressure-Impulse Test,NO - Exempt,N/A\n';
             csv += 'Fire Testing,NO - Metallic Exempt,N/A\n\n';
 
+            if (window.T12) csv += window.T12.csv();
             csv += 'CERTIFICATION\n';
             csv += `Test Engineer,${document.getElementById('testEngineerName').value}\n`;
             csv += `Test Engineer Date,${document.getElementById('testEngineerDate').value}\n`;
