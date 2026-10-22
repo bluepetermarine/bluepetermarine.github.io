@@ -127,6 +127,19 @@
             body { background: white; }
             .calculation-section, .project-info, .test-section { box-shadow: none; page-break-inside: avoid; }
         }
+        /* Phone layout: no sideways page scrolling */
+        @media (max-width: 640px) {
+            body { padding: 10px; }
+            .header { padding: 20px 15px; }
+            .project-info, .calculation-section, .test-section, .signature-section { padding: 15px; }
+            * { box-sizing: border-box; }
+            .input-grid, .form-row, .signature-grid { grid-template-columns: minmax(0, 1fr); }
+            .input-group { min-width: 0; }
+            .input-group input, .input-group select, .input-group textarea { width: 100%; max-width: 100%; min-width: 0; }
+            .form-full-width { grid-column: auto; }
+            table { display: block; max-width: 100%; overflow-x: auto; }
+            th, td { padding: 8px 5px; font-size: 13px; }
+        }
     </style>
 </head>
 <body>
