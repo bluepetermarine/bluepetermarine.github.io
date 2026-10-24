@@ -904,16 +904,24 @@
                 <h5 class="calc-title">${c.title}</h5>
                 <p class="calc-formula">${c.formula}</p>
                 <p class="calc-result">Required: ${c.requiredLabel}</p>
+                ${c.id === 'volume' ? `
+                <div class="actual-row">
+                    <label for="actual_volume">Actual volume, calculated (L):</label>
+                    <input type="number" step="any" class="actual-input" id="actual_volume" readonly
+                           tabindex="-1" placeholder="auto" style="background:#f3f4f6;">
+                </div>
+                <p class="calc-formula" id="volumeWorking">Enter the actual width, length, depth and sill height above. The volume is calculated from them.</p>` : `
                 <div class="actual-row">
                     <label for="actual_${c.id}">Actual measured (${c.unit}):</label>
                     <input type="number" step="any" class="actual-input" id="actual_${c.id}"
                            oninput="checkCompliance('${c.id}')" placeholder="0">
-                </div>
+                </div>`}
                 <p class="calc-status" id="status_${c.id}"></p>
             </div>
         `).join('');
         resultsDiv.style.display = 'block';
 
+        updateVolume();
         checkClause72();
     }
 
@@ -974,7 +982,43 @@
         applyClause72Cascade(pass);
     }
 
+    // Table 9 footnote d: volume = width × length × the lower of actual depth and actual
+    // sill height (length and width taken at the required depth, footnote c). Assumes a
+    // rectangular basin; the working is shown so the surveyor can judge other shapes.
+    const VOLUME_INPUTS = ['width', 'length', 'depth', 'sill'];
+    function updateVolume() {
+        const out = document.getElementById('actual_volume');
+        const working = document.getElementById('volumeWorking');
+        if (!out || !working) return;
+        const v = {};
+        VOLUME_INPUTS.forEach(k => {
+            const el = document.getElementById('actual_' + k);
+            v[k] = el ? parseFloat(el.value) : NaN;
+        });
+        const haveDepth = !isNaN(v.depth), haveSill = !isNaN(v.sill);
+        if (isNaN(v.width) || isNaN(v.length) || (!haveDepth && !haveSill)) {
+            out.value = '';
+            working.textContent = 'Enter the actual width, length, depth and sill height above. The volume is calculated from them.';
+            checkCompliance('volume');
+            return;
+        }
+        let h, hNote;
+        if (haveDepth && haveSill) {
+            h = Math.min(v.depth, v.sill);
+            hNote = v.depth <= v.sill ? 'depth ' + v.depth + ' mm (lower than sill height ' + v.sill + ' mm)'
+                                      : 'sill height ' + v.sill + ' mm (lower than depth ' + v.depth + ' mm)';
+        } else {
+            h = haveDepth ? v.depth : v.sill;
+            hNote = (haveDepth ? 'depth ' : 'sill height ') + h + ' mm (enter the ' + (haveDepth ? 'sill height' : 'depth') + ' too; the lower of the two is used)';
+        }
+        const litres = v.width * v.length * h / 1e6;
+        out.value = litres.toFixed(2);
+        working.textContent = v.width + ' mm × ' + v.length + ' mm × ' + hNote + ' = ' + litres.toFixed(2) + ' L (rectangular basin, Table 9 note d)';
+        checkCompliance('volume');
+    }
+
     function checkCompliance(id) {
+        if (VOLUME_INPUTS.includes(id)) updateVolume();
         const req = currentRequirements[id];
         if (!req) return;
         const input = document.getElementById('actual_' + id);
