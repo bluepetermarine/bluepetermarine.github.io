@@ -602,7 +602,7 @@
                 {ref: "10.3.4", clause: "Table 9", text: "Foot basin minimum width ≥ 90% of maximum companionway opening width", category: "Dimensions", appliesTo: "Foot basin width", criteria: "width ≥ 0,90 × companionway width"},
                 {ref: "10.3.5", clause: "Table 9", text: "Foot basin length (normal to companionway width) between 2×h_S min and 4×h_S min", category: "Dimensions", appliesTo: "Foot basin length", criteria: "2 × h_S min ≤ length ≤ 4 × h_S min"},
                 {ref: "10.3.6", clause: "Table 9", text: "Foot basin minimum depth below adjacent recess bottom ≥ 1 × h_S min", category: "Dimensions", appliesTo: "Foot basin depth", criteria: "depth ≥ 1 × h_S min"},
-                {ref: "10.3.7", clause: "Table 9", text: "Foot basin minimum volume ≥ 3 × (h_S min)² × width", category: "Dimensions", appliesTo: "Foot basin volume", criteria: "V ≥ 3h_S min² × width (using lowest of actual depth / actual sill height)"},
+                {ref: "10.3.7", clause: "Table 9", text: "Foot basin minimum volume ≥ 3 × (h_S min)² × width", category: "Dimensions", appliesTo: "Foot basin volume", criteria: "V ≥ 3h_S min² × measured basin width (using lowest of actual depth / actual sill height)"},
                 {ref: "10.3.8", clause: "Table 9 / Fig.4", text: "Foot basin located immediately in way of companionway opening(s)", category: "Location", appliesTo: "Foot basin position", criteria: "Position matches Figure 4 arrangement"}
             ]
         },
@@ -887,9 +887,11 @@
             calcs.push({
                 id: "volume",
                 title: "Foot Basin Volume (Table 9)",
-                formula: "≥ 3 × h_S min² × width",
+                formula: "≥ 3 × h_S min² × measured width (until the width is measured, the minimum width 0,90 × companionway width is used)",
                 requiredLabel: "≥ " + minVolumeL.toFixed(2) + " L",
                 min: minVolumeL,
+                minByMinWidth: minVolumeL,
+                hSmin: hSmin,
                 unit: "L"
             });
         }
@@ -995,6 +997,22 @@
             const el = document.getElementById('actual_' + k);
             v[k] = el ? parseFloat(el.value) : NaN;
         });
+        // Required volume uses the measured basin width once it is entered (Table 9: 3 × h_S min² × width)
+        const vreq = currentRequirements.volume;
+        if (vreq) {
+            const card = document.getElementById('calcitem_volume');
+            const reqEl = card ? card.querySelector('.calc-result') : null;
+            const fEl = card ? card.querySelector('.calc-formula') : null;
+            if (!isNaN(v.width) && v.width > 0) {
+                vreq.min = 3 * vreq.hSmin * vreq.hSmin * v.width / 1000 * 1000;
+                if (fEl) fEl.textContent = '≥ 3 × h_S min² × measured width = 3 × ' + vreq.hSmin + '² m × ' + (v.width / 1000) + ' m';
+            } else {
+                vreq.min = vreq.minByMinWidth;
+                if (fEl) fEl.textContent = '≥ 3 × h_S min² × measured width (until the width is measured, the minimum width 0,90 × companionway width is used)';
+            }
+            vreq.requiredLabel = '≥ ' + vreq.min.toFixed(2) + ' L';
+            if (reqEl) reqEl.textContent = 'Required: ' + vreq.requiredLabel;
+        }
         const haveDepth = !isNaN(v.depth), haveSill = !isNaN(v.sill);
         if (isNaN(v.width) || isNaN(v.length) || (!haveDepth && !haveSill)) {
             out.value = '';
