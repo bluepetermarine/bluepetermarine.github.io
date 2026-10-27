@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>RCD Navigator · Blue Peter Marine</title>
+<style>body{margin:0;background:#f2efe8;font-family:Arial,Helvetica,sans-serif;color:#1a2e4a}#bpmwait{padding:3em 1em;text-align:center;font-size:15px}</style>
+</head>
+<body>
+<div id="bpmwait">Opening&hellip;</div>
+<script>
+/* Blue Peter Marine — encrypted page. The content below can only be read after
+   signing in to RCD Navigator through a personal client link. */
+(function () {
+  "use strict";
+  var DATA = { kid: "52b471d8", iv: "FcBi7ZaJu9WLEu7V", ct: "idxsy1BF/lZzUEMxyU7tuGqx" };
+  var MAGIC = "BPMENC1\n";
+
+  function signIn() {
+    var c = null;
+    try { c = JSON.parse(localStorage.getItem("bpm_client") || "null"); } catch (e) {}
+    try { localStorage.removeItem("bpm_k"); } catch (e) {}
+    var to = "/index.html", tok = c && c.c;
+    /* clients signed in before the pages were encrypted: rebuild their original link */
+    if (!tok && c && c.n && c.p && c.h) {
+      try { tok = btoa(unescape(encodeURIComponent(JSON.stringify({ n: c.n, p: c.p, h: c.h })))).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, ""); } catch (e) {}
+    }
+    if (tok) to = "/client.html?c=" + encodeURIComponent(tok);
+    if (window.top !== window) { try { window.top.location.replace(to); return; } catch (e) {} }
+    location.replace(to);
+  }
+  function b64(s) {
+    var bin = atob(s), u = new Uint8Array(bin.length);
+    for (var i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i);
+    return u;
+  }
+
+  var client = null, stored = null;
+  try { client = JSON.parse(localStorage.getItem("bpm_client") || "null"); } catch (e) {}
+  try { stored = JSON.parse(localStorage.getItem("bpm_k") || "null"); } catch (e) {}
+  if (!client || !client.n || (client.exp && client.exp < Date.now()) || !stored || stored.kid !== DATA.kid || !window.crypto || !crypto.subtle) {
+    if (client && client.exp && client.exp < Date.now()) { try { localStorage.removeItem("bpm_client"); } catch (e) {} }
+    signIn();
+    return;
+  }
+
+  crypto.subtle.importKey("raw", b64(stored.k), "AES-GCM", false, ["decrypt"]).then(function (key) {
+    function decryptBytes(buf) {
+      var u = new Uint8Array(buf), kid = new TextDecoder().decode(u.subarray(8, 16));
+      if (kid !== DATA.kid) return Promise.reject(new Error("key"));
+      return crypto.subtle.decrypt({ name: "AES-GCM", iv: u.subarray(16, 28) }, key, u.subarray(28));
+    }
+    function isEnc(buf) {
+      if (buf.byteLength < 28) return false;
+      return new TextDecoder().decode(new Uint8Array(buf, 0, 8)) === MAGIC;
+    }
+    /* same-site files (PDFs, certificate list) are stored encrypted: decrypt them on the way in */
+    var origFetch = window.fetch.bind(window);
+    window.fetch = function (input, init) {
+      return origFetch(input, init).then(function (r) {
+        var u;
+        try { u = new URL(r.url || (input && input.url) || input, location.href); } catch (e) { return r; }
+        if (u.origin !== location.origin || !r.ok) return r;
+        return r.clone().arrayBuffer().then(function (buf) {
+          if (!isEnc(buf)) return r;
+          return decryptBytes(buf).then(function (plain) {
+            return new Response(plain, { status: 200, statusText: "OK", headers: r.headers });
+          });
+        });
+      });
+    };
+    return crypto.subtle.decrypt({ name: "AES-GCM", iv: b64(DATA.iv) }, key, b64(DATA.ct));
+  }).then(function (plain) {
+    var html = new TextDecoder().decode(plain);
+    function show() { document.open(); document.write(html); document.close(); }
+    /* replace this loader only once it has finished loading, otherwise the page is added to it */
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { setTimeout(show, 0); });
+    else setTimeout(show, 0);
+  }).catch(function () { signIn(); });
+})();
+</script>
+</body>
+</html>
