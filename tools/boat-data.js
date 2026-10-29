@@ -37,14 +37,14 @@
   ];
 
   /* ---------- value converters used when a tool needs a different format ---------- */
-  var PROP_AVOID = { outboard: "Outboard Motor", sterndrive: "Sterndrive (I/O)", inboard_prop: "Inboard with Propeller", inboard_shaft: "Inboard with Shaft Drive", waterjet: "Waterjet", pod: "Pod Drive", other: "Other" };
+  var PROP_AVOID = { outboard: "Outboard Motor", sterndrive: "Sterndrive (I/O)", sterndrive_ie: "Sterndrive (I/O)", inboard_prop: "Inboard with Propeller", inboard_shaft: "Inboard with Shaft Drive", waterjet: "Waterjet", pod: "Pod Drive", other: "Other" };
   var conv = {
     yy:        function (v) { v = String(v).trim(); return v.length >= 2 ? v.slice(-2) : v; },
     mToMm:     function (v) { var n = parseFloat(v); return isNaN(n) ? "" : String(Math.round(n * 1000)); },
     catLong:   function (v) { return v; },
     dcText:    function (v) { return v + "V DC"; },
-    windowHull:function (v) { return v === "motor" ? "Motor" : (v ? "Sail" : ""); },
-    bilgeHull: function (v) { return { motor: "Motor boat", sail_mono: "Sailing monohull", sail_multi: "Sailing multihull" }[v] || ""; },
+    windowHull:function (v) { return (v === "motor" || v === "motor_multi" || v === "inflatable") ? "Motor" : (v ? "Sail" : ""); },
+    bilgeHull: function (v) { return { motor: "Motor boat", motor_multi: "Motor boat", sail_mono: "Sailing monohull", sail_multi: "Sailing multihull" }[v] || ""; },
     footHull:  function (v) { return v === "sail_mono" ? "Sailing monohull" : (v ? "Non-sailing" : ""); },
     avoidProp: function (v) { return PROP_AVOID[v] || ""; }
   };
@@ -70,9 +70,17 @@
       hint: "Highest design category claimed",
       use: [["maxload", "#designCategory", null, "cat"], ["window", "#proj-cat", null, "cat"], ["bilge", "#category", null, "cat"], ["footbasin", "#designCategory", null, "cat"], ["cleat", "#designCategory", null, "cat"]] },
     { key: "boatType", label: "Type of boat", type: "select",
-      options: [["motor", "Motor boat"], ["sail_mono", "Sailing monohull"], ["sail_multi", "Sailing multihull"]],
+      options: [["motor", "Motor boat, monohull"], ["motor_multi", "Motor boat, multihull (power catamaran)"], ["sail_mono", "Sailing monohull"], ["sail_multi", "Sailing multihull"], ["inflatable", "Inflatable boat or RIB"]],
       use: [["maxload", "#boatType"], ["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
-    { key: "modelYear", label: "Model year", type: "number", hint: "The year the boat is intended to be placed on the market. It can differ from the year of manufacture. Four digits, for example 2027",
+    { key: "engineFuel", label: "Propulsion engine", type: "select", core: true,
+      options: [["none", "No engine (sail or paddle only)"], ["diesel", "Diesel"], ["petrol", "Petrol"], ["electric", "Electric"], ["hybrid", "Hybrid (diesel and electric)"], ["lpg", "LPG (gas) engine"]],
+      hint: "The fuel of the propulsion engine(s). Decides which standards and requirements apply",
+      use: [] },
+    { key: "generator", label: "Generator on board", type: "select", core: true,
+      options: [["none", "No generator"], ["diesel", "Diesel generator"], ["petrol", "Petrol generator"], ["lpg", "LPG generator"]],
+      hint: "Also a small back-up generator, for example on an electric boat",
+      use: [] },
+    { key: "modelYear", label: "Model year", type: "number", hint: "The model year is the year the boat is intended to be placed on the market. The manufacturer gives it to the model (ISO 10087). It is the last part of the WIN and can differ from the year the boat is built: a boat built in October 2026 can be model year 2027. Four digits, for example 2027",
       use: [["win", "#modelYear", "yy"], ["reboard", "#modelYear"]] },
 
     /* ESR 2.1 */
@@ -100,9 +108,11 @@
       use: [["plate", null], ["maxload", "#crewAdults"], ["vent", "#persons", null, null, "2"]] },
     { key: "maxLoad", label: "Maximum recommended load", type: "number", unit: "kg", hint: "ESR 3.6, excluding full fixed tanks",
       use: [["plate", null]] },
-    { key: "propulsion", label: "Propulsion type", type: "select",
-      options: [["outboard", "Outboard engine"], ["sterndrive", "Sterndrive"], ["inboard_prop", "Inboard with propeller"], ["inboard_shaft", "Inboard with shaft drive"], ["waterjet", "Waterjet"], ["pod", "Pod drive"], ["other", "Other"]],
+    { key: "propulsion", label: "Engine installation", type: "select",
+      options: [["none", "No engine"], ["outboard", "Outboard engine"], ["sterndrive", "Sterndrive, separate exhaust"], ["sterndrive_ie", "Sterndrive with integral exhaust (through the drive)"], ["inboard_prop", "Inboard with propeller"], ["inboard_shaft", "Inboard with shaft drive"], ["saildrive", "Sail-drive"], ["waterjet", "Waterjet"], ["pod", "Pod drive"], ["other", "Other"]],
       use: [["plate", null], ["avoid", "#propulsionType", "avoidProp"]] },
+    { key: "engineCount", label: "Number of propulsion engines", type: "number", optional: true, hint: "1 for a single engine, 2 for twin engines",
+      use: [] },
     { key: "maxPower", label: "Maximum rated engine power", type: "number", optional: true, hint: "Leave empty if there is no engine", unit: "kW",
       use: [["plate", null]] },
 
@@ -120,8 +130,8 @@
       use: [["cleat", "#loadedMass"]] },
 
     /* ESR 5.2 */
-    { key: "tankManufacturer", label: "Fuel tank manufacturer", type: "text", use: [["fuel", "#tankManufacturer"]] },
-    { key: "tankModel", label: "Fuel tank model or type", type: "text", use: [["fuel", "#tankModel"]] },
+    { key: "tankManufacturer", label: "Fuel tank manufacturer", type: "text", optional: true, hint: "Only for a tank bought ready-made (off the shelf): the company that made it. Leave empty for a tank you build yourself", use: [["fuel", "#tankManufacturer"]] },
+    { key: "tankModel", label: "Fuel tank model or type", type: "text", optional: true, hint: "Only for a tank bought ready-made (off the shelf): the model or type reference on the tank maker's Declaration of Conformity (ISO 21487). Leave empty for a tank you build yourself", use: [["fuel", "#tankModel"]] },
     { key: "tankMaterial", label: "Fuel tank material", type: "select",
       options: [["Aluminium alloy", "Metal: aluminium alloy"], ["Stainless steel", "Metal: stainless steel"], ["Copper", "Metal: copper, tin-coated inside"], ["Mild steel", "Metal: mild steel, hot-dip zinc-coated"], ["Aluminized steel", "Metal: aluminized steel"],
                 ["hdpe", "Plastic: high-density polyethylene (HDPE), for example rotomoulded"], ["ldpe", "Plastic: low-density polyethylene (LDPE)"], ["frp", "Plastic: fibre-reinforced plastic (FRP / GRP), non-integral"], ["other-nm", "Other non-metallic"]],
@@ -132,6 +142,9 @@
     { key: "dcVoltage", label: "DC system voltage", type: "select", unit: "V",
       options: [["12", "12 V DC"], ["24", "24 V DC"], ["48", "48 V DC"]],
       use: [["cable", "#systemVoltage", "dcText"], ["vdrop", "#vdc"]] },
+    { key: "acPhase", label: "AC system", type: "select", optional: true,
+      options: [["none", "No AC system"], ["single", "Single-phase AC"], ["three", "Three-phase AC"]],
+      hint: "Three-phase installations can also use EN 60092-507", use: [["vdrop", null]] },
     { key: "acVoltage", label: "AC system voltage", type: "number", optional: true, unit: "V", hint: "Leave empty if there is no AC system",
       use: [["vdrop", "#vac", null, null, "230"]] },
 
