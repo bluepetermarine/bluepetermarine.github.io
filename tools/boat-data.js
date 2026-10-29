@@ -24,6 +24,7 @@
     { id: "plate",     esr: "2.2",   title: "Builder's plate",           tool: "Builder's plate generator",         pages: ["tools/builders-plate-generator.html"] },
     { id: "reboard",   esr: "2.3",   title: "Falling overboard and reboarding", tool: "ISO 15085 test report generator", pages: ["reboarding-checklist.html"] },
     { id: "vis",       esr: "2.4",   title: "Visibility from the main steering position", tool: "ISO 11591 field of vision checklist", pages: ["visibility-checklist.html"] },
+    { id: "maxload",   esr: "3.2",   title: "Stability, freeboard and maximum load", tool: "Maximum load worksheet (ISO 12217)", pages: ["max-load-worksheet.html"] },
     { id: "window",    esr: "3.4",   title: "Openings in hull, deck and superstructure", tool: "Window calculator", pages: ["Window calculator bpm.html"] },
     { id: "bilge",     esr: "3.5",   title: "Flooding",                  tool: "Flooding and dewatering tool",      pages: ["tools/hull-openings-bilge-checklist.html"] },
     { id: "footbasin", esr: "3.5",   title: "Flooding",                  tool: "Foot basin drainage checklist",     pages: ["footbasin-10-3-checklist.html"] },
@@ -59,18 +60,18 @@
    */
   var FIELDS = [
     { key: "projectNumber", label: "Project number", type: "text", core: true, hint: "Used to file your data and on every report",
-      use: [["win", "#projectNumber"], ["avoid", "#projectNumber"], ["fuel", "#projectNumber"], ["cable", "#projectNumber"], ["vent", "#projectNumber"]] },
+      use: [["win", "#projectNumber"], ["maxload", "#projectNumber"], ["avoid", "#projectNumber"], ["fuel", "#projectNumber"], ["cable", "#projectNumber"], ["vent", "#projectNumber"]] },
     { key: "manufacturer", label: "Manufacturer", type: "text", core: true, hint: "Registered name or trade mark",
-      use: [["plate", null], ["reboard", "#craftManufacturer"], ["vis", "#mfr"], ["window", "#proj-manufacturer"], ["footbasin", "#manufacturer"]] },
+      use: [["plate", null], ["reboard", "#craftManufacturer"], ["vis", "#mfr"], ["maxload", "#manufacturer"], ["window", "#proj-manufacturer"], ["footbasin", "#manufacturer"]] },
     { key: "model", label: "Model name", type: "text", core: true, hint: "Model designation, for example Voyager 650",
-      use: [["plate", null], ["reboard", "#craftName"], ["vis", "#name"], ["window", "#proj-model"], ["bilge", "#vessel"], ["footbasin", "#modelName"], ["cleat", "#vesselName"]] },
+      use: [["plate", null], ["reboard", "#craftName"], ["vis", "#name"], ["maxload", "#model"], ["window", "#proj-model"], ["bilge", "#vessel"], ["footbasin", "#modelName"], ["cleat", "#vesselName"]] },
     { key: "designCategory", label: "Design category", type: "select", core: true, esr: "1",
       options: [["A", "A — Ocean"], ["B", "B — Offshore"], ["C", "C — Inshore"], ["D", "D — Sheltered waters"]],
       hint: "Highest design category claimed",
-      use: [["window", "#proj-cat", null, "cat"], ["bilge", "#category", null, "cat"], ["footbasin", "#designCategory", null, "cat"], ["cleat", "#designCategory", null, "cat"]] },
+      use: [["maxload", "#designCategory", null, "cat"], ["window", "#proj-cat", null, "cat"], ["bilge", "#category", null, "cat"], ["footbasin", "#designCategory", null, "cat"], ["cleat", "#designCategory", null, "cat"]] },
     { key: "boatType", label: "Type of boat", type: "select",
       options: [["motor", "Motor boat"], ["sail_mono", "Sailing monohull"], ["sail_multi", "Sailing multihull"]],
-      use: [["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
+      use: [["maxload", "#boatType"], ["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
     { key: "modelYear", label: "Model year", type: "number", hint: "The year the boat is intended to be placed on the market. It can differ from the year of manufacture. Four digits, for example 2027",
       use: [["win", "#modelYear", "yy"], ["reboard", "#modelYear"]] },
 
@@ -96,7 +97,7 @@
     { key: "notifiedBody", label: "Notified body number", type: "text", optional: true, hint: "Only if a notified body is involved, for example 0123",
       use: [["plate", null]] },
     { key: "maxPersons", label: "Maximum number of persons", type: "number", unit: "persons", hint: "For the highest design category",
-      use: [["plate", null], ["vent", "#persons", null, null, "2"]] },
+      use: [["plate", null], ["maxload", "#crewAdults"], ["vent", "#persons", null, null, "2"]] },
     { key: "maxLoad", label: "Maximum recommended load", type: "number", unit: "kg", hint: "ESR 3.6, excluding full fixed tanks",
       use: [["plate", null]] },
     { key: "propulsion", label: "Propulsion type", type: "select",
@@ -107,12 +108,12 @@
 
     /* ESR 2.3 */
     { key: "lh", label: "Length of hull, LH", type: "number", unit: "m", hint: "ISO 8666",
-      use: [["reboard", "#lh"], ["vis", "#lh"], ["window", "#proj-lh", null, null, "12"], ["bilge", "#hulllen"], ["footbasin", "#hullLength", "mToMm"], ["cleat", "#hullLength"], ["avoid", "#hullLength"]] },
+      use: [["reboard", "#lh"], ["vis", "#lh"], ["maxload", "#lh"], ["window", "#proj-lh", null, null, "12"], ["bilge", "#hulllen"], ["footbasin", "#hullLength", "mToMm"], ["cleat", "#hullLength"], ["avoid", "#hullLength"]] },
     { key: "maxSpeed", label: "Maximum speed", type: "number", unit: "knots",
       use: [["reboard", "#maxSpeed"], ["avoid", "#maxSpeed"]] },
 
     { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
-      use: [["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
+      use: [["maxload", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
 
     /* ESR 3.9 */
     { key: "mldc", label: "Loaded displacement mass, mLDC", type: "number", unit: "kg", hint: "ISO 8666",
