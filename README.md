@@ -7,9 +7,10 @@ checklists, generators and test reports) for Blue Peter Marine clients.
 Open **index.html** (or the published web address). Enter the access code,
 then pick a tool. Everything else lives in the `tools/` folder.
 
-## Access code
-Set in `tools/access-gate.js` — change the `CODE` value, or set it to `null`
-to remove the gate. Note: this is a light deterrent, not strong security.
+## Client access
+Clients log in on `client.html`. The client list is `keys.json` (encrypted,
+do not edit by hand). See **Readme to set up client.md** for how to add or
+remove a client.
 
 ## Adding a tool
 1. Put the tool's `.html` file in the `tools/` folder.
