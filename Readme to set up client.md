@@ -18,6 +18,7 @@ Important
 1. Do not edit keys.json by hand. Each client's entry is encrypted, so it looks like scrambled text. A hand edit can lock everyone out.
 2. Keep a private list of which access code belongs to which client. That list is not stored on this site and should never be uploaded here.
 3. Removing a client also changes the site key, so the removed code stops working straight away. The other clients keep their own codes.
+4. Every encrypted page checks keys.json when it opens. A removed client is sent back to the sign-in page straight away, even if they open a page such as rcd-navigator.html directly. When pages are published again, keep this check (isRevoked) in the page loader.
 
 
 How to add a client

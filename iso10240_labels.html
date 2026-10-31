@@ -45,6 +45,28 @@
     return;
   }
 
+  /* a client removed by Blue Peter Marine loses access straight away, also on pages opened directly */
+  function hexOf(b) { return Array.from(new Uint8Array(b)).map(function (x) { return x.toString(16).padStart(2, "0"); }).join(""); }
+  function entryId() {
+    var s = null, h = client.h;
+    try {
+      var t = String(client.c || "").replace(/-/g, "+").replace(/_/g, "/");
+      while (t.length % 4) t += "=";
+      var p = JSON.parse(decodeURIComponent(escape(atob(t))));
+      s = p.s || null; h = p.h || h;
+    } catch (e) {}
+    if (!s) return Promise.resolve(h);
+    return crypto.subtle.digest("SHA-256", new TextEncoder().encode("s|" + s)).then(hexOf);
+  }
+  function isRevoked() {
+    return fetch("/keys.json?t=" + Date.now(), { cache: "no-store" })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (k) { if (!k || !k.entries) return false; return entryId().then(function (id) { return !id || !k.entries[id]; }); })
+      .catch(function () { return false; });
+  }
+
+  isRevoked().then(function (revoked) {
+  if (revoked) { try { localStorage.removeItem("bpm_k"); } catch (e) {} signIn(); return; }
   crypto.subtle.importKey("raw", b64(stored.k), "AES-GCM", false, ["decrypt"]).then(function (key) {
     function decryptBytes(buf) {
       var u = new Uint8Array(buf), kid = new TextDecoder().decode(u.subarray(8, 16));
@@ -78,6 +100,7 @@
     if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", function () { setTimeout(show, 0); });
     else setTimeout(show, 0);
   }).catch(function () { signIn(); });
+  });
 })();
 </script>
 </body>
