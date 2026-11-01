@@ -46,7 +46,9 @@
     windowHull:function (v) { return (v === "motor" || v === "motor_multi" || v === "inflatable") ? "Motor" : (v ? "Sail" : ""); },
     bilgeHull: function (v) { return { motor: "Motor boat", motor_multi: "Motor boat", sail_mono: "Sailing monohull", sail_multi: "Sailing multihull" }[v] || ""; },
     footHull:  function (v) { return v === "sail_mono" ? "Sailing monohull" : (v ? "Non-sailing" : ""); },
-    avoidProp: function (v) { return PROP_AVOID[v] || ""; }
+    avoidProp: function (v) { return PROP_AVOID[v] || ""; },
+    sailNon:   function (v) { return (v === "sail_mono" || v === "sail_multi") ? "sailing" : (v ? "nonsailing" : ""); },
+    isMulti:   function (v) { return (v === "sail_multi" || v === "motor_multi") ? "1" : ""; }
   };
 
   /*
@@ -68,10 +70,10 @@
     { key: "designCategory", label: "Design category", type: "select", core: true, esr: "1",
       options: [["A", "A — Ocean"], ["B", "B — Offshore"], ["C", "C — Inshore"], ["D", "D — Sheltered waters"]],
       hint: "Highest design category claimed",
-      use: [["maxload", "#designCategory", null, "cat"], ["window", "#proj-cat", null, "cat"], ["bilge", "#category", null, "cat"], ["footbasin", "#designCategory", null, "cat"], ["cleat", "#designCategory", null, "cat"]] },
+      use: [["reboard", "input[name=designCat]"], ["maxload", "#designCategory", null, "cat"], ["window", "#proj-cat", null, "cat"], ["bilge", "#category", null, "cat"], ["footbasin", "#designCategory", null, "cat"], ["cleat", "#designCategory", null, "cat"]] },
     { key: "boatType", label: "Type of boat", type: "select",
       options: [["motor", "Motor boat, monohull"], ["motor_multi", "Motor boat, multihull (power catamaran)"], ["sail_mono", "Sailing monohull"], ["sail_multi", "Sailing multihull"], ["inflatable", "Inflatable boat or RIB"]],
-      use: [["maxload", "#boatType"], ["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
+      use: [["reboard", "input[name=boatType]", "sailNon"], ["reboard", "#isMultihull", "isMulti"], ["maxload", "#boatType"], ["window", "#proj-craft", "windowHull"], ["bilge", "#boattype", "bilgeHull"], ["footbasin", "#craftType", "footHull", "start"]] },
     { key: "engineFuel", label: "Propulsion engine", type: "select", core: true,
       options: [["none", "No engine (sail or paddle only)"], ["diesel", "Diesel"], ["petrol", "Petrol"], ["electric", "Electric"], ["hybrid", "Hybrid (diesel and electric)"], ["lpg", "LPG (gas) engine"]],
       hint: "The fuel of the propulsion engine(s). Decides which standards and requirements apply",
@@ -120,7 +122,7 @@
     { key: "lh", label: "Length of hull, LH", type: "number", unit: "m", hint: "ISO 8666",
       use: [["reboard", "#lh"], ["vis", "#lh"], ["maxload", "#lh"], ["window", "#proj-lh", null, null, "12"], ["bilge", "#hulllen"], ["footbasin", "#hullLength", "mToMm"], ["cleat", "#hullLength"], ["avoid", "#hullLength"]] },
     { key: "maxSpeed", label: "Maximum speed", type: "number", unit: "knots",
-      use: [["reboard", "#maxSpeed"], ["avoid", "#maxSpeed"]] },
+      use: [["reboard", function (d) { return (d.boatType === "sail_mono" || d.boatType === "sail_multi") ? "" : "#maxSpeed"; }], ["avoid", "#maxSpeed"]] },
 
     { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
       use: [["maxload", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
@@ -231,9 +233,26 @@
       f.use.forEach(function (u) {
         if (u[0] !== tool.id || !u[1]) return;
         var selector = typeof u[1] === "function" ? u[1](data) : u[1];
-        var el = document.querySelector(selector);
+        var el = selector ? document.querySelector(selector) : null;
         if (!el) return;
         var raw = data[f.key];
+
+        /* radio buttons: tick the one whose value matches, if none is ticked yet */
+        if (el.type === "radio") {
+          var group = Array.prototype.slice.call(document.querySelectorAll('input[type=radio][name="' + el.name + '"]'));
+          if (raw === undefined || raw === "" || group.some(function (r) { return r.checked; })) return;
+          var rv = norm(u[2] ? conv[u[2]](raw) : raw);
+          var hit = group.filter(function (r) { return norm(r.value) === rv; })[0];
+          if (hit) { hit.checked = true; fire(hit); markFilled(hit.closest("label") || hit); filled.push(f.key); }
+          return;
+        }
+        /* tick boxes: tick it when the Boat Data Sheet says yes (the page never unticks it) */
+        if (el.type === "checkbox") {
+          if (raw === undefined || raw === "" || el.checked || el.getAttribute("data-bpm-filled")) return;
+          if (u[2] ? conv[u[2]](raw) : raw) { el.setAttribute("data-bpm-filled", "1"); el.checked = true; fire(el); markFilled(el.closest("label") || el); filled.push(f.key); }
+          else el.setAttribute("data-bpm-filled", "0");
+          return;
+        }
         var plain = !u[2] && u[3] !== "cat" && u[3] !== "country" && u[3] !== "month" && el.tagName !== "SELECT" && typeof u[1] !== "function";
 
         var pageDefault = u[4] !== undefined && String(el.value) === String(u[4]) && String(raw) !== String(u[4]);
