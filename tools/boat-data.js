@@ -126,6 +126,8 @@
 
     { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
       use: [["maxload", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
+    { key: "beam", label: "Beam of hull, BH", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
+    { key: "draught", label: "Maximum draught, Tmax", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
 
     /* ESR 3.9 */
     { key: "mldc", label: "Loaded displacement mass, mLDC", type: "number", unit: "kg", hint: "ISO 8666",
