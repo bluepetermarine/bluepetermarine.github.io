@@ -164,7 +164,9 @@
       if (remember === undefined){ const old = JSON.parse(localStorage.getItem("bpm_client") || "null"); remember = !!(old && old.h === PAYLOAD.h && old.r); }
       localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "", h: PAYLOAD.h || "", c: new URLSearchParams(location.search).get('c') || "", r: remember ? 1 : 0, exp: Date.now() + (remember ? REMEMBER_MS : SESSION_MS) }));
     }catch(e){}
-    $("doc").src = DOCUMENT;
+    // open the latest published version: keys.json (never cached) carries the build number
+    loadKeys().then(function(k){ return k.b || Date.now(); }, function(){ return Date.now(); })
+      .then(function(v){ $("doc").src = DOCUMENT + "?v=" + encodeURIComponent(v); });
     $("login").style.display = "none";
     $("app").style.display = "flex";
     document.body.style.overflow = "hidden";
