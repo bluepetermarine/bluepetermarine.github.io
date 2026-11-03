@@ -111,6 +111,26 @@
 </section>
 
 <script>
+
+/* ---------- always the latest published version ----------
+   keys.json is never cached and carries the build number of the last publish. When this page is
+   older (a saved copy, or a tab left open), reload it once with the new number. */
+(function(){
+  var BUILD = "20261103140535";
+  function check(){
+    if (BUILD.indexOf("BPM_BUILD") >= 0) return;   /* unpublished source copy */
+    fetch("keys.json?t=" + Date.now(), { cache:"no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(k){
+      if (!k || !k.b || k.b === BUILD) return;
+      var tried = ""; try { tried = sessionStorage.getItem("bpm_upd_" + location.pathname) || ""; } catch(e){}
+      if (tried === k.b) return;                     /* already tried for this build: avoid a reload loop */
+      try { sessionStorage.setItem("bpm_upd_" + location.pathname, k.b); } catch(e){}
+      var q = new URLSearchParams(location.search); q.set("v", k.b);
+      location.replace(location.pathname + "?" + q.toString() + location.hash);
+    }).catch(function(){});
+  }
+  check();
+  document.addEventListener("visibilitychange", function(){ if (document.visibilityState === "visible") check(); });
+})();
   const DOCUMENT = "rcd-navigator.html";   // the reference framed after sign-in; edit it freely
 
   const $ = function(id){ return document.getElementById(id); };
