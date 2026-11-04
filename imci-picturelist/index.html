@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="IMCI Picture List">
+<meta name="theme-color" content="#0a1628">
+<title>IMCI Picture List — Shared Review</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  :root{
+    --bg:#ffffff;--card:#ffffff;--navy:#0a1628;--accent:#0056a0;
+    --gold:#b87400;--ok:#0a6030;--warn:#c04000;--danger:#a00000;
+    --text:#000000;--muted:#444444;--border:#888888;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:16px;}
+
+  #loginScreen{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;background:var(--navy);}
+  .login-box{background:#fff;border-radius:12px;padding:40px;width:100%;max-width:400px;box-shadow:0 8px 40px rgba(0,0,0,.3);}
+  .login-logo{text-align:center;margin-bottom:28px;}
+  .imci-badge{display:inline-block;background:var(--navy);color:#fff;font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;letter-spacing:3px;padding:10px 22px;border-radius:6px;margin-bottom:10px;}
+  .login-logo p{font-family:'Barlow Condensed',sans-serif;color:var(--muted);font-size:13px;letter-spacing:1px;text-transform:uppercase;}
+  .bpm-credit{display:flex;align-items:center;justify-content:center;gap:10px;margin:-14px 0 22px;font-size:12px;color:var(--muted);line-height:1.3;}
+  .bpm-credit img{width:34px;height:auto;}
+  .bpm-credit b{color:var(--navy);}
+  .login-tabs{display:flex;border:2px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:24px;}
+  .login-tab{flex:1;padding:10px;border:none;background:none;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:all .2s;}
+  .login-tab.active{background:var(--navy);color:#fff;}
+  .login-field{margin-bottom:16px;}
+  .login-field label{display:block;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#000;margin-bottom:6px;}
+  .login-field input{width:100%;padding:10px 12px;border:2px solid var(--border);border-radius:6px;font-family:'Barlow',sans-serif;font-size:15px;color:#000;background:#fff;outline:none;transition:border .2s;}
+  .login-field input:focus{border-color:var(--accent);}
+  .btn-login{width:100%;padding:13px;background:var(--navy);color:#fff;border:none;border-radius:8px;font-family:'Barlow Condensed',sans-serif;font-size:17px;font-weight:700;letter-spacing:1px;cursor:pointer;transition:background .2s;margin-top:8px;}
+  .btn-login:hover{background:var(--accent);}
+  .login-error{background:#fff0f0;border:2px solid var(--danger);color:var(--danger);border-radius:6px;padding:10px 12px;font-size:13px;margin-top:12px;display:none;}
+
+  .restore-banner{background:#fff8e6;border:2px solid var(--gold);border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#000;display:flex;align-items:center;gap:12px;flex-wrap:wrap;}
+  .restore-btn{padding:7px 14px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;cursor:pointer;border:none;}
+  .restore-yes{background:var(--gold);color:#fff;}
+  .restore-no{background:none;border:2px solid var(--border);color:#000;}
+
+  #app{display:none;}
+  header{background:var(--navy);color:#fff;padding:0 20px;display:flex;align-items:center;justify-content:space-between;height:58px;position:sticky;top:0;z-index:100;box-shadow:0 2px 8px rgba(0,0,0,.3);}
+  .header-left{display:flex;align-items:center;gap:14px;}
+  .header-badge{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;letter-spacing:2px;background:var(--gold);color:var(--navy);padding:3px 10px;border-radius:4px;}
+  .header-title{font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:600;color:rgba(255,255,255,.9);}
+  .header-right{display:flex;align-items:center;gap:10px;}
+  .role-badge{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 10px;border-radius:20px;}
+  .role-badge.inspector{background:rgba(200,134,10,.3);color:#f0c060;}
+  .role-badge.ho{background:rgba(26,106,168,.4);color:#80c0f0;}
+  .btn-logout{padding:5px 12px;background:none;border:2px solid rgba(255,255,255,.5);color:#fff;border-radius:4px;font-size:12px;cursor:pointer;font-family:'Barlow',sans-serif;}
+
+  .autosave-bar{background:#f0f0f0;border-bottom:2px solid var(--border);padding:5px 20px;display:flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:12px;color:#000;}
+  .save-dot{width:9px;height:9px;border-radius:50%;background:#888;flex-shrink:0;transition:background .3s;}
+  .save-dot.saved{background:var(--ok);}
+  .save-dot.saving{background:var(--gold);}
+  .save-dot.failed{background:var(--danger);animation:pulse 1s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+  .project-bar{background:#fff;border-bottom:2px solid var(--border);padding:12px 20px;display:flex;gap:16px;flex-wrap:wrap;align-items:flex-end;}
+  .pfield{display:flex;flex-direction:column;gap:4px;}
+  .pfield label{font-size:11px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:#000;}
+  .pfield input{border:2px solid var(--border);border-radius:5px;padding:7px 10px;font-family:'JetBrains Mono',monospace;font-size:13px;color:#000;background:#fff;width:180px;}
+  .pfield input[readonly]{background:#f0f0f0;cursor:default;}
+  .pfield input:focus{outline:none;border-color:var(--accent);}
+
+  .progress-strip{padding:10px 20px;background:#fff;border-bottom:2px solid var(--border);display:flex;align-items:center;gap:14px;}
+  .progress-bar-wrap{flex:1;height:10px;background:#ddd;border-radius:5px;overflow:hidden;}
+  .progress-bar-fill{height:100%;background:var(--ok);border-radius:5px;transition:width .4s ease;}
+  .progress-stats{font-family:'JetBrains Mono',monospace;font-size:12px;color:#000;white-space:nowrap;}
+  .progress-pct{font-family:'Barlow Condensed',sans-serif;font-size:22px;font-weight:700;color:var(--ok);min-width:50px;text-align:right;}
+
+  .filesize-bar{padding:5px 20px;background:#fff;border-bottom:2px solid var(--border);font-family:'JetBrains Mono',monospace;font-size:11px;color:#000;display:flex;align-items:center;gap:8px;}
+  .fs-warn{color:var(--warn);font-weight:700;}
+
+  .main{padding:20px;max-width:1000px;margin:0 auto;}
+
+  .summary-panel{background:#fff;border:2px solid var(--border);border-radius:8px;padding:16px;margin-bottom:16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(100px,1fr));gap:12px;}
+  .sum-item{text-align:center;padding:10px;border-radius:6px;background:#f5f5f5;}
+  .sum-num{font-family:'Barlow Condensed',sans-serif;font-size:30px;font-weight:700;line-height:1;}
+  .sum-label{font-size:11px;text-transform:uppercase;letter-spacing:.5px;color:#444;margin-top:4px;font-weight:600;}
+  .sum-taken .sum-num{color:var(--ok);}
+  .sum-missing .sum-num{color:var(--warn);}
+  .sum-na .sum-num{color:#444;}
+  .sum-pending .sum-num{color:var(--accent);}
+  .sum-photos .sum-num{color:var(--navy);}
+  .sum-approved .sum-num{color:var(--ok);}
+  .sum-queried .sum-num{color:var(--gold);}
+  .sum-rejected .sum-num{color:var(--danger);}
+
+  .category-block{margin-bottom:16px;border-radius:8px;overflow:hidden;border:2px solid var(--border);background:#fff;}
+  .category-header{background:var(--navy);color:#fff;padding:12px 16px;font-family:'Barlow Condensed',sans-serif;font-size:16px;font-weight:700;letter-spacing:.5px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;user-select:none;}
+  .cat-count{font-family:'JetBrains Mono',monospace;font-size:12px;color:rgba(255,255,255,.8);}
+
+  .pic-row{display:grid;grid-template-columns:28px 1fr 115px;grid-template-rows:auto auto auto;column-gap:10px;row-gap:7px;padding:12px 16px;border-bottom:2px solid #eee;transition:background .15s;}
+  .pic-row:last-child{border-bottom:none;}
+  .pic-row:hover{background:#f8f8f8;}
+  .pic-num{font-family:'JetBrains Mono',monospace;font-size:12px;color:#444;padding-top:3px;text-align:right;grid-column:1;grid-row:1;font-weight:600;}
+  .pic-desc{font-size:16px;font-weight:600;color:#000;line-height:1.4;padding-top:2px;grid-column:2;grid-row:1;}
+
+  .pic-controls{grid-column:3;grid-row:1;display:flex;flex-direction:column;gap:4px;align-items:flex-end;}
+  .status-btns{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end;}
+  .sbtn{padding:8px 13px;border:3px solid #888;border-radius:5px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:700;cursor:pointer;background:#fff;color:#333;transition:all .15s;min-width:58px;text-align:center;}
+  .sbtn:hover{border-color:var(--ok);color:var(--ok);}
+  .sbtn.na{background:#0a6030;border-color:#0a6030;color:#ffffff;box-shadow:0 0 0 3px #0a603066;}
+
+  .pic-photo-area{grid-column:1/-1;display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;padding-left:38px;}
+  .photo-thumb-wrap{position:relative;width:72px;height:72px;flex-shrink:0;}
+  .photo-thumb{width:72px;height:72px;object-fit:cover;border-radius:8px;border:2px solid var(--border);cursor:pointer;display:block;transition:border-color .2s;}
+  .photo-thumb:hover{border-color:var(--accent);}
+  .photo-remove{position:absolute;top:-6px;right:-6px;width:22px;height:22px;background:var(--danger);color:#fff;border:none;border-radius:50%;font-size:12px;cursor:pointer;font-weight:700;display:flex;align-items:center;justify-content:center;box-shadow:0 1px 4px rgba(0,0,0,.3);z-index:2;}
+
+  /* Plain visible file inputs styled as buttons — most reliable cross-browser method */
+  .upload-btn-wrap{display:flex;flex-direction:column;gap:5px;}
+  .upload-label{display:inline-flex;align-items:center;gap:5px;padding:8px 12px;border:2px solid var(--accent);border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:.5px;color:var(--accent);background:#fff;cursor:pointer;transition:all .15s;white-space:nowrap;}
+  .upload-label:hover{background:var(--accent);color:#fff;}
+  .upload-label input[type=file]{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0,0,0,0);}
+
+  .pic-note-row{grid-column:2/-1;}
+  .pic-note{width:100%;font-family:'Barlow',sans-serif;font-size:14px;border:2px solid var(--border);border-radius:4px;padding:6px 8px;color:#000;resize:none;height:36px;background:#fff;transition:border .2s;}
+  .pic-note:focus{outline:none;border-color:var(--accent);}
+  .pic-note[readonly]{background:#f0f0f0;cursor:default;}
+
+  .ho-chip{display:inline-block;padding:3px 10px;border-radius:20px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.5px;text-transform:uppercase;}
+  .ho-chip.insp-taken{background:#e0f5e8;color:var(--ok);border:2px solid var(--ok);}
+  .ho-chip.insp-missing{background:#fff0e0;color:var(--warn);border:2px solid var(--warn);}
+  .ho-chip.insp-na{background:#eee;color:#444;border:2px solid #888;}
+  .ho-chip.insp-pending{background:#f0f4f8;color:#444;border:2px solid var(--border);}
+  .ho-approve-btns{display:flex;gap:4px;margin-top:4px;}
+  .ho-abtn{padding:5px 9px;border-radius:4px;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;cursor:pointer;border:2px solid var(--border);background:#fff;color:#444;transition:all .15s;}
+  .ho-abtn.approved{background:var(--ok);border-color:var(--ok);color:#fff;}
+  .ho-abtn.query{background:var(--gold);border-color:var(--gold);color:#fff;}
+  .ho-abtn.rejected{background:var(--danger);border-color:var(--danger);color:#fff;}
+  .ho-comment{width:100%;font-family:'Barlow',sans-serif;font-size:13px;border:2px solid var(--border);border-radius:4px;padding:5px 8px;color:#000;resize:none;height:34px;background:#fff;margin-top:4px;}
+  .ho-comment:focus{outline:none;border-color:var(--gold);}
+
+  #lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:999;align-items:center;justify-content:center;flex-direction:column;gap:12px;}
+  #lightbox.open{display:flex;}
+  #lightbox img{max-width:92vw;max-height:82vh;border-radius:8px;box-shadow:0 8px 40px rgba(0,0,0,.6);}
+  .lb-caption{color:#fff;font-size:13px;max-width:600px;text-align:center;}
+  .lb-close{position:fixed;top:16px;right:20px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;}
+
+  .action-bar{background:#fff;border-top:2px solid var(--border);padding:14px 20px;display:flex;gap:10px;flex-wrap:wrap;align-items:center;position:sticky;bottom:0;z-index:50;box-shadow:0 -2px 10px rgba(0,0,0,.1);}
+  .action-bar .spacer{flex:1;}
+  .btn{padding:9px 18px;border-radius:6px;font-family:'Barlow Condensed',sans-serif;font-size:15px;font-weight:700;letter-spacing:.5px;cursor:pointer;border:none;transition:all .2s;display:inline-flex;align-items:center;gap:6px;}
+  .btn-primary{background:var(--navy);color:#fff;}
+  .btn-primary:hover{background:var(--accent);}
+  .btn-accent{background:var(--accent);color:#fff;}
+  .btn-accent:hover{background:#004080;}
+  .btn-gold{background:var(--gold);color:#fff;}
+  .btn-gold:hover{background:#8a5600;}
+  .btn-ok{background:var(--ok);color:#fff;}
+  .btn-ok:hover{background:#084a24;}
+
+  .review-info-bar{background:#e8f0f8;border:2px solid #80a8d0;border-radius:8px;padding:12px 16px;margin-bottom:16px;font-size:13px;color:#000;display:flex;flex-wrap:wrap;gap:16px;}
+  .review-info-bar span{font-family:'JetBrains Mono',monospace;font-weight:600;}
+
+  .toast{position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 20px;border-radius:8px;font-size:14px;z-index:999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;}
+  .toast.show{opacity:1;}
+
+  @media(max-width:600px){
+    .pic-row{grid-template-columns:24px 1fr 90px;}
+    .pfield input{width:140px;}
+  }
+
+  /* ── PRINT / PDF REPORT ── */
+  #printView{display:none;}
+  @media print{
+    @page{size:A4;margin:14mm 12mm;}
+    body{background:#fff;}
+    #loginScreen,#app,#lightbox,.toast{display:none !important;}
+    #printView{display:block;font-family:Arial,Helvetica,sans-serif;font-size:10pt;color:#000;}
+    *{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+  }
+  .pr-head{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:3px solid #0a1628;padding-bottom:8px;margin-bottom:10px;}
+  .pr-badge{display:inline-block;background:#0a1628;color:#fff;font-weight:700;letter-spacing:2px;padding:4px 10px;border-radius:3px;font-size:13pt;}
+  .pr-title{font-size:15pt;font-weight:700;margin-top:6px;}
+  .pr-meta{font-size:9pt;text-align:right;line-height:1.5;}
+  .pr-summary{display:flex;gap:8px;margin:8px 0 14px;}
+  .pr-sum{flex:1;border:1px solid #888;border-radius:4px;padding:6px;text-align:center;}
+  .pr-sum b{display:block;font-size:14pt;}
+  .pr-sum span{font-size:8pt;text-transform:uppercase;letter-spacing:.5px;}
+  .pr-cat{background:#0a1628;color:#fff;font-weight:700;padding:5px 8px;margin-top:12px;font-size:11pt;break-after:avoid;page-break-after:avoid;}
+  .pr-item{border:1px solid #bbb;border-top:none;padding:6px 8px;break-inside:avoid;page-break-inside:avoid;}
+  .pr-line{display:flex;gap:8px;align-items:baseline;}
+  .pr-num{font-weight:700;min-width:22px;}
+  .pr-desc{flex:1;font-weight:600;}
+  .pr-st{font-size:8.5pt;font-weight:700;padding:1px 6px;border-radius:3px;border:1px solid;white-space:nowrap;}
+  .pr-st.ok{color:#0a6030;border-color:#0a6030;}
+  .pr-st.na{color:#444;border-color:#888;}
+  .pr-st.pend{color:#c04000;border-color:#c04000;}
+  .pr-st.approved{color:#0a6030;border-color:#0a6030;}
+  .pr-st.query{color:#b87400;border-color:#b87400;}
+  .pr-st.rejected{color:#a00000;border-color:#a00000;}
+  .pr-note{font-size:9pt;margin:4px 0 0 30px;}
+  .pr-photos{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0 30px;}
+  .pr-photo{width:56mm;break-inside:avoid;page-break-inside:avoid;}
+  .pr-photo img{width:56mm;height:42mm;object-fit:cover;border:1px solid #888;display:block;}
+  .pr-photo div{font-size:6.5pt;color:#444;word-break:break-all;margin-top:1px;}
+  .pr-foot{margin-top:16px;font-size:8pt;color:#444;border-top:1px solid #888;padding-top:6px;display:flex;align-items:center;gap:8px;break-inside:avoid;page-break-inside:avoid;}
+  .pr-foot img{width:22px;height:auto;}
+</style>
+</head>
+<body>
+
+<div id="lightbox">
+  <button class="lb-close" onclick="closeLightbox()">✕</button>
+  <img id="lbImg" src="" alt="">
+  <div class="lb-caption" id="lbCaption"></div>
+</div>
+
+<div id="loginScreen">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="imci-badge">IMCI</div>
+      <p>Picture List — Shared Review System</p>
+    </div>
+    <div class="bpm-credit"><img src="../bpm-logo.png" alt="Blue Peter Marine"><span>Provided by<br><b>Blue Peter Marine</b></span></div>
+    <div class="login-tabs">
+      <button class="login-tab active" onclick="switchLoginTab('inspector')">Inspector</button>
+      <button class="login-tab" onclick="switchLoginTab('ho')">HO Review</button>
+    </div>
+    <div id="inspectorLogin">
+      <div class="login-field"><label>Inspector Name</label><input type="text" id="insp_name" placeholder="e.g. Peter van Niekerk"></div>
+      <div class="login-field"><label>Access PIN</label><input type="password" id="insp_pin" placeholder="4-digit PIN" maxlength="4"></div>
+      <div id="restoreBanner" style="display:none;" class="restore-banner">
+        <span>Unsaved session found from <strong id="restoreTime"></strong>. Restore it?</span>
+        <button class="restore-btn restore-yes" onclick="restoreSession()">Restore</button>
+        <button class="restore-btn restore-no" onclick="discardSession()">Discard</button>
+      </div>
+      <div class="login-field"><label>Load Existing Session (optional)</label><input type="file" id="insp_file_input" accept=".json" style="font-size:13px;padding:4px 0;"></div>
+      <button class="btn-login" onclick="loginInspector()">Open Inspector View</button>
+    </div>
+    <div id="hoLogin" style="display:none;">
+      <div class="login-field"><label>HO Staff Name</label><input type="text" id="ho_name" placeholder="e.g. IMCI Intelligence Centre"></div>
+      <div class="login-field"><label>HO Access Code</label><input type="password" id="ho_code" placeholder="HO access code"></div>
+      <div class="login-field"><label>Load Review File</label><input type="file" id="ho_file_input" accept=".json" style="font-size:13px;padding:4px 0;"></div>
+      <button class="btn-login" onclick="loginHO()">Open HO Review Panel</button>
+    </div>
+    <div class="login-error" id="loginError"></div>
+  </div>
+</div>
+
+<div id="app">
+  <header>
+    <div class="header-left">
+      <div class="header-badge">IMCI</div>
+      <div class="header-title">Picture List <span style="font-size:10px;opacity:.5;font-weight:400;">v3.0</span></div>
+    </div>
+    <div class="header-right">
+      <span class="role-badge" id="roleBadge">Inspector</span>
+      <span id="userName" style="font-size:13px;color:rgba(255,255,255,.85);"></span>
+      <button class="btn-logout" onclick="logout()">Sign Out</button>
+    </div>
+  </header>
+
+  <div class="autosave-bar">
+    <div class="save-dot" id="saveDot"></div>
+    <span id="saveStatus">Not saved yet</span>
+    <span style="margin-left:auto;color:#444;">Auto-saves every change</span>
+  </div>
+
+  <div class="project-bar">
+    <div class="pfield"><label>Project No.</label><input type="text" id="proj_num" placeholder="IMCI-2024-XXX" oninput="autoSave()"></div>
+    <div class="pfield"><label>Vessel Model</label><input type="text" id="proj_model" placeholder="e.g. Leopard 45" oninput="autoSave()"></div>
+    <div class="pfield"><label>Inspection Date</label><input type="date" id="proj_date" oninput="autoSave()"></div>
+  </div>
+
+  <div class="progress-strip">
+    <div class="progress-bar-wrap"><div class="progress-bar-fill" id="progressFill" style="width:0%"></div></div>
+    <div class="progress-stats" id="progressStats">0 / 0 taken</div>
+    <div class="progress-pct" id="progressPct">0%</div>
+  </div>
+
+  <div class="filesize-bar">
+    Embedded photos: <strong id="fsCount">0</strong> &nbsp;|&nbsp; Est. export size: <strong id="fsSize">0 KB</strong>
+    <span id="fsWarn" class="fs-warn" style="display:none;">⚠ Large session — browser backup may fail. Export to a file now and consider starting a new session for remaining photos.</span>
+  </div>
+
+  <div class="main" id="mainContent"></div>
+  <div class="action-bar" id="actionBar"></div>
+</div>
+
+<div class="toast" id="toast"></div>
+<div id="printView"></div>
+
+<script>
+const INSPECTOR_PIN = '1234';
+const HO_CODE = 'IMCI-HO-2024';
+const STORAGE_KEY = 'imci_piclist_autosave';
+
+const PICTURE_LIST = [
+  {cat:"1. Craft Identification",items:[
+    "WIN (Watercraft Identification Number) — full view, clearly legible"
+  ]},
+  {cat:"2. Builder's Plate",items:[
+    "Builder's plate — full view, all data legible"
+  ]},
+  {cat:"3. Safety Equipment",items:[
+    "Handrails — full length both sides",
+    "Footrails — both sides",
+    "Reboarding means — deployed or stowed position",
+    "Strongpoints — harness attachment points, all visible locations"
+  ]},
+  {cat:"4. Visibility from Helm",items:[
+    "View from helm position — forward arc",
+    "Compass or chart plotter position at helm"
+  ]},
+  {cat:"5. Stability Features",items:[
+    "Cockpit sill and companionway door — closed",
+    "Cockpit sill and companionway door — open, showing sill height",
+    "Cockpit drainage — scuppers"
+  ]},
+  {cat:"6. Hull Openings & Exterior",items:[
+    "Profile view — port side full length",
+    "Profile view — starboard side full length",
+    "Stern view — full transom",
+    "Bow view — forward",
+    "Deck plan view from above (or elevated aft)",
+    "Fuel fill point — deck fitting and label",
+    "Tank vent point — location and fitting",
+    "Pump-out fitting (black water) if fitted",
+    "Portlights — all opening portlights",
+    "Deck hatches — all hatches including saloon and forward",
+    "Escape hatches inversion — multihull escape hatch location and accessibility",
+    "Escape hatches — fire escape hatch location and accessibility"
+  ]},
+  {cat:"7. Fuel System",items:[
+    "Fuel tank — exterior showing mounting and location",
+    "Fuel tank — label showing capacity and material",
+    "Fuel lines — showing ISO 7840/CE mark",
+    "Fuel shutoff valve — location and label"
+  ]},
+  {cat:"8. Electrical System",items:[
+    "Main switchboard — panel front, fully lit",
+    "Main switchboard — label identifying circuits",
+    "Battery bank — location, type and terminal covers",
+    "Battery isolator switch — location and label",
+    "Shore power — inlet socket location and label",
+    "RCD or GFCI — location and label"
+  ]},
+  {cat:"9. Steering System",items:[
+    "Rudder stock — through-hull fitting or transom mount",
+    "Steering cylinder with CE mark, or quadrant",
+    "Emergency steering arrangement if fitted"
+  ]},
+  {cat:"10. Accommodation",items:[
+    "Saloon — full view",
+    "Berths — all berth locations",
+    "Galley — full view showing stove and worksurface"
+  ]},
+  {cat:"11. Gas System",items:[
+    "Cooker / stove — full view with burners",
+    "LPG locker — exterior showing ventilation and drain",
+    "LPG regulator and hose connections",
+    "Gas shutoff valve — location clearly visible",
+    "Gas label / warning notice"
+  ]},
+  {cat:"12. Fire Protection",items:[
+    "Fixed fire suppression system — nozzle locations if fitted",
+    "Portable fire extinguisher — each unit with label visible",
+    "Fire blanket — location and mounting bracket",
+    "Engine room fire port — location on deck or bulkhead"
+  ]},
+  {cat:"13. Navigation Lights",items:[
+    "Navigation lights — all lights, positions and condition"
+  ]},
+  {cat:"14. Other Systems",items:[
+    "Exhaust outlet — overboard exit point",
+    "Bilge pump — manual, showing strum box and discharge",
+    "Bilge pump — electric if fitted",
+    "Seacocks — each through-hull fitting with label",
+    "Anchor system — windlass or manual, full view"
+  ]},
+  {cat:"15. Structural Details",items:[
+    "Keel attachment — full view of keel bolts or centreboard pivot",
+    "Shroud chainplates — port and starboard, deck level",
+    "High-load deck fittings — cleats, winches, traveller",
+    "Structural bulkheads — visible tabbing to hull"
+  ]},
+  {cat:"16. Engine & Propulsion",items:[
+    "Engine — full view from access panel or companion",
+    "Engine label — serial number and model clearly legible",
+    "Engine controls — throttle and gear lever at helm"
+  ]},
+  {cat:"17. Additional / Project Specific",items:[
+    "Any non-standard feature relevant to CE certification",
+    "Any noticeable variations",
+    "Any area flagged by inspector as requiring special HO attention"
+  ]}
+];
+
+let currentRole=null, currentUser=null, state={};
+let saveTimer=null, isDirty=false;
+let photosSinceExport=0;
+function rowId(ci,ii){return `${ci}_${ii}`;}
+
+// ── AUTO-SAVE ──
+let autoSaveFailedWarningShown=false;
+function doSaveNow(){
+  try{
+    localStorage.setItem(STORAGE_KEY, JSON.stringify({
+      savedAt:new Date().toISOString(), role:currentRole, user:currentUser,
+      meta:{projectNo:document.getElementById('proj_num')?.value||'',model:document.getElementById('proj_model')?.value||'',date:document.getElementById('proj_date')?.value||''},
+      state
+    }));
+    isDirty=false;
+    setSaveDot('saved','Saved — '+new Date().toLocaleTimeString());
+    autoSaveFailedWarningShown=false;
+    return true;
+  }catch(e){
+    setSaveDot('failed','BACKUP SAVE FAILED — export now!');
+    if(!autoSaveFailedWarningShown){
+      autoSaveFailedWarningShown=true;
+      alert('WARNING: The browser backup storage is full and can no longer save your progress automatically.\n\nYour photos in this session are ONLY in memory right now.\n\nClick "Export for HO Review" immediately to save your work to a file, or you risk losing photos if the browser closes.');
+    }
+    return false;
+  }
+}
+function autoSave(){
+  isDirty=true; setSaveDot('saving','Saving…');
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(()=>{
+    doSaveNow();
+  },250);
+}
+function setSaveDot(cls,msg){
+  const d=document.getElementById('saveDot'),l=document.getElementById('saveStatus');
+  if(d)d.className='save-dot'+(cls?' '+cls:'');
+  if(l)l.textContent=msg;
+}
+function clearAutoSave(){ localStorage.removeItem(STORAGE_KEY); }
+
+function checkForRestore(){
+  try{
+    const raw=localStorage.getItem(STORAGE_KEY); if(!raw)return;
+    const saved=JSON.parse(raw); if(!saved.savedAt)return;
+    const banner=document.getElementById('restoreBanner'),timeEl=document.getElementById('restoreTime');
+    if(banner&&timeEl){timeEl.textContent=new Date(saved.savedAt).toLocaleString();banner.style.display='flex';}
+  }catch(e){}
+}
+function restoreSession(){
+  try{
+    const saved=JSON.parse(localStorage.getItem(STORAGE_KEY));
+    state=saved.state||{}; currentRole=saved.role||'inspector'; currentUser=saved.user||'Inspector';
+    document.getElementById('restoreBanner').style.display='none';
+    if(document.getElementById('insp_name'))document.getElementById('insp_name').value=currentUser;
+    document.getElementById('loginScreen').style.display='none';
+    document.getElementById('app').style.display='block';
+    document.getElementById('roleBadge').textContent='Inspector';
+    document.getElementById('roleBadge').className='role-badge inspector';
+    document.getElementById('userName').textContent=currentUser;
+    if(saved.meta){
+      if(document.getElementById('proj_num'))document.getElementById('proj_num').value=saved.meta.projectNo||'';
+      if(document.getElementById('proj_model'))document.getElementById('proj_model').value=saved.meta.model||'';
+      if(document.getElementById('proj_date'))document.getElementById('proj_date').value=saved.meta.date||new Date().toISOString().slice(0,10);
+    }
+    ['proj_num','proj_model','proj_date'].forEach(id=>{const el=document.getElementById(id);if(el)el.readOnly=false;});
+    renderContent();renderActionBar();updateProgress();
+    setSaveDot('saved','Session restored — '+new Date(saved.savedAt).toLocaleTimeString());
+    showToast('Session restored successfully.');
+  }catch(e){showToast('Could not restore session.');}
+}
+function discardSession(){ clearAutoSave(); document.getElementById('restoreBanner').style.display='none'; }
+
+window.addEventListener('beforeunload',function(e){
+  // Always confirm before closing once the app is open — regardless of save state
+  const appOpen = document.getElementById('app') && document.getElementById('app').style.display === 'block';
+  if(appOpen){
+    e.preventDefault();
+    e.returnValue='Are you sure you want to close? Export your work first if you have not already done so.';
+    return e.returnValue;
+  }
+});
+
+// Android back button and app switching fire visibilitychange/pagehide before beforeunload
+// reliably runs — force an immediate save here as the last safety net
+document.addEventListener('visibilitychange', function(){
+  if(document.visibilityState === 'hidden' && currentRole){
+    doSaveNow();
+  }
+});
+window.addEventListener('pagehide', function(){
+  if(currentRole){
+    doSaveNow();
+  }
+});
+
+// ── LOGIN ──
+function switchLoginTab(mode){
+  document.querySelectorAll('.login-tab').forEach((t,i)=>t.classList.toggle('active',(i===0&&mode==='inspector')||(i===1&&mode==='ho')));
+  document.getElementById('inspectorLogin').style.display=mode==='inspector'?'':'none';
+  document.getElementById('hoLogin').style.display=mode==='ho'?'':'none';
+  document.getElementById('loginError').style.display='none';
+  if(mode==='inspector')checkForRestore();
+}
+function loginInspector(){
+  const name=document.getElementById('insp_name').value.trim();
+  const pin=document.getElementById('insp_pin').value.trim();
+  if(!name){showLoginError('Please enter your name.');return;}
+  if(pin!==INSPECTOR_PIN){showLoginError('Incorrect PIN.');return;}
+  currentRole='inspector';currentUser=name;
+  const fi=document.getElementById('insp_file_input');
+  if(fi&&fi.files.length>0){
+    const r=new FileReader();
+    r.onload=e=>{try{loadReviewFile(JSON.parse(e.target.result));initApp();}catch{showLoginError('Invalid session file.');}};
+    r.readAsText(fi.files[0]);
+  }else{initApp();}
+}
+function loginHO(){
+  const name=document.getElementById('ho_name').value.trim();
+  const code=document.getElementById('ho_code').value.trim();
+  const fi=document.getElementById('ho_file_input');
+  if(!name){showLoginError('Please enter your name.');return;}
+  if(code!==HO_CODE){showLoginError('Incorrect HO access code.');return;}
+  currentRole='ho';currentUser=name;
+  if(fi&&fi.files.length>0){
+    const r=new FileReader();
+    r.onload=e=>{try{loadReviewFile(JSON.parse(e.target.result));initApp();}catch{showLoginError('Invalid review file.');}};
+    r.readAsText(fi.files[0]);
+  }else{initApp();}
+}
+function showLoginError(msg){const el=document.getElementById('loginError');el.textContent=msg;el.style.display='block';}
+function logout(){
+  if(isDirty&&!confirm('You have unsaved changes. Sign out anyway?'))return;
+  clearAutoSave();currentRole=null;currentUser=null;state={};isDirty=false;
+  document.getElementById('loginScreen').style.display='flex';
+  document.getElementById('app').style.display='none';
+  document.getElementById('insp_pin').value='';
+  document.getElementById('ho_code').value='';
+  document.getElementById('loginError').style.display='none';
+  checkForRestore();
+}
+
+// ── INIT ──
+function initApp(){
+  document.getElementById('loginScreen').style.display='none';
+  document.getElementById('app').style.display='block';
+  document.getElementById('roleBadge').textContent=currentRole==='inspector'?'Inspector':'HO Intelligence';
+  document.getElementById('roleBadge').className='role-badge '+(currentRole==='inspector'?'inspector':'ho');
+  document.getElementById('userName').textContent=currentUser;
+  const d=document.getElementById('proj_date');if(!d.value)d.value=new Date().toISOString().slice(0,10);
+  ['proj_num','proj_model','proj_date'].forEach(id=>document.getElementById(id).readOnly=(currentRole==='ho'));
+  renderContent();renderActionBar();updateProgress();
+  if(currentRole==='inspector')setSaveDot('','Ready — changes will be auto-saved');
+}
+
+// ── RENDER ──
+function renderContent(){
+  const main=document.getElementById('mainContent');main.innerHTML='';
+  if(currentRole==='ho'){renderHOSummary(main);renderHOInfoBar(main);}
+  else{renderInspSummary(main);}
+
+  PICTURE_LIST.forEach((cat,ci)=>{
+    const block=document.createElement('div');block.className='category-block';
+    const taken=cat.items.filter((_,ii)=>(state[rowId(ci,ii)]?.status||'pending')==='taken').length;
+    block.innerHTML=`<div class="category-header" onclick="toggleCat(this)"><span>${cat.cat}</span><span class="cat-count">${taken}/${cat.items.length}</span></div>`;
+
+    cat.items.forEach((item,ii)=>{
+      const id=rowId(ci,ii);
+      if(!state[id])state[id]={status:'pending',note:'',photos:[],hoStatus:'',hoComment:''};
+      const s=state[id];
+      const row=document.createElement('div');row.className='pic-row';row.id='row_'+id;
+
+      const numEl=document.createElement('div');numEl.className='pic-num';numEl.textContent=ii+1;
+      const descEl=document.createElement('div');descEl.className='pic-desc';descEl.textContent=item;
+
+      const ctrlEl=document.createElement('div');ctrlEl.className='pic-controls';
+      if(currentRole==='inspector'){
+        ctrlEl.innerHTML=`<div class="status-btns">
+          <button class="sbtn ${s.status==='na'?'na':''}" onclick="toggleNA('${id}')">N/A</button>
+        </div>`;
+      }else{
+        const chipClass={na:'insp-taken',pending:'insp-pending'}[s.status]||'insp-pending';
+        const chipLabel={na:'N/A',pending:'Pending'}[s.status]||'Pending';
+        ctrlEl.innerHTML=`<span class="ho-chip ${chipClass}">${chipLabel}</span>
+          <div class="ho-approve-btns">
+            <button class="ho-abtn ${s.hoStatus==='approved'?'approved':''}" onclick="setHOStatus('${id}','approved')">Approve</button>
+            <button class="ho-abtn ${s.hoStatus==='query'?'query':''}" onclick="setHOStatus('${id}','query')">Query</button>
+            <button class="ho-abtn ${s.hoStatus==='rejected'?'rejected':''}" onclick="setHOStatus('${id}','rejected')">Reject</button>
+          </div>`;
+        const hoComEl=document.createElement('textarea');hoComEl.className='ho-comment';hoComEl.placeholder='HO comment…';
+        hoComEl.value=s.hoComment||'';hoComEl.oninput=()=>{state[id].hoComment=hoComEl.value;autoSave();};
+        hoComEl.onblur=()=>{state[id].hoComment=hoComEl.value;doSaveNow();};
+        ctrlEl.appendChild(hoComEl);
+      }
+
+      const photoArea=document.createElement('div');photoArea.className='pic-photo-area';photoArea.id='photos_'+id;
+      buildPhotoArea(photoArea,id);
+
+      const noteRow=document.createElement('div');noteRow.className='pic-note-row';
+      const noteEl=document.createElement('textarea');noteEl.className='pic-note';
+      noteEl.placeholder=currentRole==='inspector'?'Inspector note…':'';
+      noteEl.value=s.note||'';noteEl.readOnly=(currentRole==='ho');
+      noteEl.oninput=()=>{state[id].note=noteEl.value;autoSave();};
+      noteEl.onblur=()=>{state[id].note=noteEl.value;doSaveNow();};
+      noteRow.appendChild(noteEl);
+
+      row.appendChild(numEl);row.appendChild(descEl);row.appendChild(ctrlEl);
+      row.appendChild(photoArea);row.appendChild(noteRow);
+      block.appendChild(row);
+    });
+    main.appendChild(block);
+  });
+  updateFilesizeBar();
+}
+
+function buildPhotoArea(container,id){
+  container.innerHTML='';
+  const photos=state[id].photos||[];
+
+  photos.forEach((ph,idx)=>{
+    const wrap=document.createElement('div');wrap.className='photo-thumb-wrap';
+    const img=document.createElement('img');img.className='photo-thumb';img.src=ph.data;img.title=ph.name||'';
+    img.onclick=()=>openLightbox(ph.data,ph.name||'Photo');
+    wrap.appendChild(img);
+    if(currentRole==='inspector'){
+      const rem=document.createElement('button');rem.className='photo-remove';rem.innerHTML='✕';rem.title='Remove';
+      rem.onclick=()=>removePhoto(id,idx);
+      wrap.appendChild(rem);
+    }
+    container.appendChild(wrap);
+  });
+
+  if(currentRole==='inspector'){
+    const wrap=document.createElement('div');wrap.className='upload-btn-wrap';
+
+    // Take Photo — camera, multiple allowed
+    const camLabel=document.createElement('label');camLabel.className='upload-label';
+    const camInput=document.createElement('input');
+    camInput.type='file';camInput.accept='image/*';
+    camInput.setAttribute('capture','environment');
+    camInput.multiple=true;
+    camInput.addEventListener('change',function(){
+      if(this.files.length) processFiles(Array.from(this.files),id);
+      this.value='';
+    });
+    camLabel.appendChild(document.createTextNode('📷 Take Photo'));
+    camLabel.appendChild(camInput);
+
+    // Choose File — multiple allowed, no extra behaviour
+    const fileLabel=document.createElement('label');fileLabel.className='upload-label';
+    const fileInput=document.createElement('input');
+    fileInput.type='file';fileInput.accept='image/*';
+    fileInput.multiple=true;
+    fileInput.addEventListener('change',function(){
+      if(this.files.length) processFiles(Array.from(this.files),id);
+      this.value='';
+    });
+    fileLabel.appendChild(document.createTextNode('🗂 Choose File'));
+    fileLabel.appendChild(fileInput);
+
+    wrap.appendChild(camLabel);wrap.appendChild(fileLabel);
+    container.appendChild(wrap);
+  }else if(photos.length===0){
+    const ph=document.createElement('div');
+    ph.style.cssText='font-size:12px;color:#444;font-style:italic;padding-top:4px;';
+    ph.textContent='No photos attached';container.appendChild(ph);
+  }
+}
+
+function processFiles(files,id){
+  if(!files.length)return;
+  if(!state[id].photos)state[id].photos=[];
+  let done=0;
+  files.forEach(file=>{
+    const reader=new FileReader();
+    reader.onload=e=>{
+      compressImage(e.target.result,compressed=>{
+        const fname=makePhotoFilename(id,file.name);
+        state[id].photos.push({data:compressed,name:fname});
+        if(state[id].status==='pending'){state[id].status='taken';refreshRowStatus(id);updateProgress();updateCatCounts();}
+        // Save to device on mobile only
+        if(/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)){
+          const a=document.createElement('a');a.href=compressed;a.download=fname;
+          document.body.appendChild(a);a.click();
+          setTimeout(()=>document.body.removeChild(a),500);
+        }
+        done++;
+        photosSinceExport++;
+        if(done===files.length){
+          const area=document.getElementById('photos_'+id);if(area)buildPhotoArea(area,id);
+          updateFilesizeBar();autoSave();
+          showToast(done===1?'Photo added.':done+' photos added.');
+          checkExportReminder();
+        }
+      });
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+function makePhotoFilename(id,originalName){
+  const proj=document.getElementById('proj_num')?.value||'Project';
+  const model=document.getElementById('proj_model')?.value||'';
+  const parts=id.split('_');
+  const desc=(PICTURE_LIST[parseInt(parts[0])]?.items[parseInt(parts[1])]||'').slice(0,40).replace(/[^a-zA-Z0-9]/g,'_');
+  const ext=originalName.split('.').pop()||'jpg';
+  const seq=String(((state[id]&&state[id].photos)?state[id].photos.length:0)+1).padStart(2,'0');
+  const stamp=Date.now().toString().slice(-5);
+  return (proj+'_'+model+'_'+desc+'_'+seq+'_'+stamp+'.'+ext).replace(/_{2,}/g,'_');
+}
+
+function removePhoto(id,idx){
+  state[id].photos.splice(idx,1);
+  const area=document.getElementById('photos_'+id);if(area)buildPhotoArea(area,id);
+  updateFilesizeBar();autoSave();
+}
+function compressImage(dataUrl,callback){
+  const img=new Image();
+  img.onload=()=>{
+    const MAX=1200;let w=img.width,h=img.height;
+    if(w>MAX||h>MAX){if(w>h){h=Math.round(h*MAX/w);w=MAX;}else{w=Math.round(w*MAX/h);h=MAX;}}
+    const c=document.createElement('canvas');c.width=w;c.height=h;
+    c.getContext('2d').drawImage(img,0,0,w,h);callback(c.toDataURL('image/jpeg',0.72));
+  };img.src=dataUrl;
+}
+
+function openLightbox(src,caption){document.getElementById('lbImg').src=src;document.getElementById('lbCaption').textContent=caption||'';document.getElementById('lightbox').classList.add('open');}
+function closeLightbox(){document.getElementById('lightbox').classList.remove('open');document.getElementById('lbImg').src='';}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLightbox();});
+document.getElementById('lightbox').addEventListener('click',function(e){if(e.target===this)closeLightbox();});
+
+function setStatus(id,status){state[id].status=status;refreshRowStatus(id);updateProgress();updateCatCounts();autoSave();}
+function toggleNA(id){
+  state[id].status = state[id].status==='na' ? 'pending' : 'na';
+  refreshRowStatus(id);updateProgress();updateCatCounts();autoSave();
+}
+function refreshRowStatus(id){
+  const row=document.getElementById('row_'+id);if(!row)return;
+  row.querySelectorAll('.sbtn').forEach(b=>{
+    b.className='sbtn';
+    if(state[id].status==='na') b.classList.add('na');
+  });
+}
+function setHOStatus(id,status){
+  state[id].hoStatus=status;
+  const row=document.getElementById('row_'+id);if(!row)return;
+  row.querySelectorAll('.ho-abtn').forEach(b=>{b.className='ho-abtn';if(b.textContent.toLowerCase()===status)b.classList.add(status);});
+  updateHOSummary();autoSave();
+}
+function toggleCat(header){
+  const rows=header.parentElement.querySelectorAll('.pic-row');
+  const hidden=rows[0]?.style.display==='none';
+  rows.forEach(r=>r.style.display=hidden?'':'none');
+}
+function updateProgress(){
+  let total=0,withPhoto=0,na=0,pending=0;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{
+    const s=state[rowId(ci,ii)]||{};
+    total++;
+    if(s.status==='na') na++;
+    else if((s.photos||[]).length>0) withPhoto++;
+    else pending++;
+  }));
+  const done=withPhoto+na;
+  const pct=total>0?Math.round(done/total*100):0;
+  document.getElementById('progressFill').style.width=pct+'%';
+  document.getElementById('progressStats').textContent=`${withPhoto} photos · ${na} N/A · ${pending} pending`;
+  document.getElementById('progressPct').textContent=pct+'%';
+  updateInspSummary();
+}
+function updateCatCounts(){
+  PICTURE_LIST.forEach((cat,ci)=>{
+    const block=document.querySelectorAll('.category-block')[ci];if(!block)return;
+    const done=cat.items.filter((_,ii)=>{ const s=state[rowId(ci,ii)]||{}; return s.status==='na'||(s.photos||[]).length>0; }).length;
+    const cc=block.querySelector('.cat-count');if(cc)cc.textContent=`${done}/${cat.items.length}`;
+  });
+}
+function updateFilesizeBar(){
+  let bytes=0,count=0;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{
+    const s=state[rowId(ci,ii)];if(!s)return;
+    (s.photos||[]).forEach(ph=>{bytes+=Math.round((ph.data||'').length*.75);count++;});
+  }));
+  document.getElementById('fsCount').textContent=count;
+  const kb=Math.round(bytes/1024);
+  document.getElementById('fsSize').textContent=kb>1024?(kb/1024).toFixed(1)+' MB':kb+' KB';
+  document.getElementById('fsWarn').style.display=kb>4000?'':'none';
+}
+function renderInspSummary(container){const div=document.createElement('div');div.className='summary-panel';div.id='inspSummary';container.appendChild(div);updateInspSummary();}
+function updateInspSummary(){
+  const el=document.getElementById('inspSummary');if(!el)return;
+  let withPhoto=0,na=0,pending=0,photos=0;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{
+    const s=state[rowId(ci,ii)]||{};
+    if(s.status==='na') na++;
+    else if((s.photos||[]).length>0) withPhoto++;
+    else pending++;
+    photos+=(s.photos||[]).length;
+  }));
+  el.innerHTML=`
+    <div class="sum-item sum-taken"><div class="sum-num">${withPhoto}</div><div class="sum-label">With Photo</div></div>
+    <div class="sum-item sum-na"><div class="sum-num">${na}</div><div class="sum-label">N/A</div></div>
+    <div class="sum-item sum-pending"><div class="sum-num">${pending}</div><div class="sum-label">Pending</div></div>
+    <div class="sum-item sum-photos"><div class="sum-num">${photos}</div><div class="sum-label">Photos</div></div>`;
+}
+function renderHOSummary(container){const div=document.createElement('div');div.className='summary-panel';div.id='hoSummary';container.appendChild(div);updateHOSummary();}
+function updateHOSummary(){
+  const el=document.getElementById('hoSummary');if(!el)return;
+  let approved=0,query=0,rejected=0,unreviewed=0,taken=0,missing=0,photos=0;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{
+    const s=state[rowId(ci,ii)]||{};
+    if(s.status==='taken')taken++;if(s.status==='missing')missing++;
+    const h=s.hoStatus||'';
+    if(h==='approved')approved++;else if(h==='query')query++;else if(h==='rejected')rejected++;else if(s.status==='taken')unreviewed++;
+    photos+=(s.photos||[]).length;
+  }));
+  el.innerHTML=`
+    <div class="sum-item sum-taken"><div class="sum-num">${taken}</div><div class="sum-label">Insp. Taken</div></div>
+    <div class="sum-item sum-missing"><div class="sum-num">${missing}</div><div class="sum-label">Insp. Missing</div></div>
+    <div class="sum-item sum-photos"><div class="sum-num">${photos}</div><div class="sum-label">Photos</div></div>
+    <div class="sum-item sum-approved"><div class="sum-num">${approved}</div><div class="sum-label">HO Approved</div></div>
+    <div class="sum-item sum-queried"><div class="sum-num">${query}</div><div class="sum-label">HO Query</div></div>
+    <div class="sum-item sum-rejected"><div class="sum-num">${rejected}</div><div class="sum-label">HO Rejected</div></div>
+    <div class="sum-item sum-pending"><div class="sum-num">${unreviewed}</div><div class="sum-label">Awaiting</div></div>`;
+}
+function renderHOInfoBar(container){
+  const div=document.createElement('div');div.className='review-info-bar';
+  div.innerHTML=`Reviewing as: <span>${currentUser}</span> &nbsp;|&nbsp; Project: <span>${document.getElementById('proj_num').value||'—'}</span> &nbsp;|&nbsp; Model: <span>${document.getElementById('proj_model').value||'—'}</span> &nbsp;|&nbsp; Date: <span>${document.getElementById('proj_date').value||'—'}</span>`;
+  container.appendChild(div);
+}
+function renderActionBar(){
+  const bar=document.getElementById('actionBar');bar.innerHTML='';
+  if(currentRole==='inspector'){
+    bar.innerHTML=`<label class="btn btn-primary" style="cursor:pointer;">Load Session<input type="file" accept=".json" style="position:absolute;width:1px;height:1px;opacity:0;overflow:hidden;clip:rect(0,0,0,0);" onchange="loadSessionInApp(this)"></label>
+      <div class="spacer"></div>
+      <button class="btn btn-ok" onclick="printToPDF()">🖨 Print / Save PDF</button>
+      <button class="btn btn-gold" onclick="exportReviewFile()">Export for HO Review</button>`;
+  }else{
+    bar.innerHTML=`<button class="btn btn-primary" onclick="approveAllTaken()">Approve All Taken</button>
+      <div class="spacer"></div>
+      <button class="btn btn-gold" onclick="exportReviewFile()">Export Reviewed File</button>
+      <button class="btn btn-ok" onclick="printToPDF()">🖨 Print / Save PDF</button>`;
+  }
+}
+function getProjectMeta(){return{projectNo:document.getElementById('proj_num').value,model:document.getElementById('proj_model').value,date:document.getElementById('proj_date').value,exportedAt:new Date().toISOString(),exportedBy:currentUser,exportRole:currentRole};}
+function checkExportReminder(){
+  if(photosSinceExport>=20){
+    photosSinceExport=0;
+    setTimeout(()=>{
+      alert('You have taken 20+ photos since your last export.\n\nClick "Export for HO Review" now to save a backup copy to your device. This protects your work even if the browser backup limit is reached.');
+    }, 300);
+  }
+}
+function exportReviewFile(){
+  photosSinceExport=0;
+  const meta=getProjectMeta();
+  const blob=new Blob([JSON.stringify({meta,state},null,2)],{type:'application/json'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);
+  a.download=`IMCI_PL_${meta.projectNo||'Draft'}_${meta.date||'NoDate'}.json`.replace(/[^a-zA-Z0-9_\-.]/g,'_');
+  a.click();isDirty=false;
+  setSaveDot('saved','Exported — '+new Date().toLocaleTimeString());
+  showToast('File exported. Send to '+(currentRole==='inspector'?'HO':'inspector')+' via secure channel.');
+}
+function loadReviewFile(data){
+  if(data.state)state=data.state;
+  if(data.meta){
+    const set=(id,val)=>{const el=document.getElementById(id);if(el&&val)el.value=val;};
+    set('proj_num',data.meta.projectNo);set('proj_model',data.meta.model);set('proj_date',data.meta.date);
+  }
+}
+function loadSessionInApp(input){
+  if(!input.files.length)return;
+  const r=new FileReader();
+  r.onload=e=>{
+    try{
+      const data=JSON.parse(e.target.result);
+      if(!confirm('Load this session? Your current work will be replaced.'))return;
+      loadReviewFile(data);renderContent();renderActionBar();updateProgress();updateCatCounts();autoSave();
+      showToast('Session loaded — '+((data.meta?.projectNo)||'')+' '+((data.meta?.model)||''));
+    }catch{showToast('Could not read session file.');}
+  };
+  r.readAsText(input.files[0]);input.value='';
+}
+function markAllTaken(){
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{const id=rowId(ci,ii);state[id]=state[id]||{};state[id].status='taken';}));
+  renderContent();renderActionBar();updateProgress();updateCatCounts();autoSave();showToast('All items marked as Taken.');
+}
+function clearAll(){
+  if(!confirm('Clear all statuses? Photos and notes will be kept.'))return;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{if(state[rowId(ci,ii)])state[rowId(ci,ii)].status='pending';}));
+  renderContent();renderActionBar();updateProgress();updateCatCounts();autoSave();showToast('All statuses cleared.');
+}
+function approveAllTaken(){
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{const id=rowId(ci,ii);if(state[id]?.status==='taken')state[id].hoStatus='approved';}));
+  renderContent();renderActionBar();updateHOSummary();autoSave();showToast('All Taken items approved.');
+}
+function exportPrintSummary(){
+  const meta=getProjectMeta();
+  let html=`<html><head><title>IMCI Review Summary</title><style>body{font-family:Arial,sans-serif;font-size:11px;padding:20px;}h1{font-size:16px;}h2{font-size:13px;margin-top:14px;border-bottom:1px solid #ccc;padding-bottom:3px;}table{width:100%;border-collapse:collapse;margin-top:6px;}th{background:#0a1628;color:white;padding:5px 7px;text-align:left;font-size:10px;}td{padding:4px 7px;border-bottom:1px solid #eee;vertical-align:top;font-size:10px;}.taken{color:#0a6030;}.missing{color:#c04000;}.na{color:#444;}.pending{color:#999;}.approved{color:#0a6030;font-weight:bold;}.query{color:#b87400;font-weight:bold;}.rejected{color:#a00000;font-weight:bold;}img{width:55px;height:55px;object-fit:cover;border-radius:4px;border:1px solid #ccc;}.pc{display:flex;flex-wrap:wrap;gap:3px;}</style></head><body>
+  <h1>IMCI Picture List — HO Review Summary</h1>
+  <p>Project: <strong>${meta.projectNo}</strong> &nbsp;|&nbsp; Model: <strong>${meta.model}</strong> &nbsp;|&nbsp; Date: ${meta.date}</p>
+  <p>Exported: ${new Date().toLocaleString()} &nbsp;|&nbsp; Reviewed by: <strong>${currentUser}</strong></p>`;
+  PICTURE_LIST.forEach((cat,ci)=>{
+    html+=`<h2>${cat.cat}</h2><table><tr><th>#</th><th>Description</th><th>Status</th><th>Photos</th><th>Note</th><th>HO</th><th>HO Comment</th></tr>`;
+    cat.items.forEach((item,ii)=>{
+      const s=state[rowId(ci,ii)]||{};
+      const imgs=(s.photos||[]).map(p=>`<img src="${p.data}">`).join('');
+      html+=`<tr><td>${ii+1}</td><td>${item}</td><td class="${s.status||'pending'}">${(s.status||'pending').toUpperCase()}</td><td><div class="pc">${imgs}</div></td><td>${s.note||''}</td><td class="${s.hoStatus||''}">${(s.hoStatus||'—').toUpperCase()}</td><td>${s.hoComment||''}</td></tr>`;
+    });
+    html+='</table>';
+  });
+  html+='</body></html>';
+  const w=window.open('','_blank');w.document.write(html);w.document.close();w.print();
+}
+// ── PRINT / SAVE AS PDF ──
+// Builds a report in a hidden in-page container and uses @media print to show only that.
+// No pop-up window, so it works on phones and isn't blocked; waits for photos before printing.
+function escHTML(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+function buildPrintReport(){
+  const meta=getProjectMeta();
+  const showHO=currentRole==='ho'||PICTURE_LIST.some((cat,ci)=>cat.items.some((_,ii)=>(state[rowId(ci,ii)]||{}).hoStatus));
+  let withPhoto=0,na=0,pending=0,photos=0,approved=0,query=0,rejected=0;
+  PICTURE_LIST.forEach((cat,ci)=>cat.items.forEach((_,ii)=>{
+    const s=state[rowId(ci,ii)]||{};
+    if(s.status==='na')na++;else if((s.photos||[]).length)withPhoto++;else pending++;
+    photos+=(s.photos||[]).length;
+    if(s.hoStatus==='approved')approved++;else if(s.hoStatus==='query')query++;else if(s.hoStatus==='rejected')rejected++;
+  }));
+  const total=withPhoto+na+pending;
+  const pct=total?Math.round((withPhoto+na)/total*100):0;
+  const fmtDate=d=>{if(!d)return '—';const x=new Date(d);return isNaN(x)?escHTML(d):x.toLocaleDateString(undefined,{day:'2-digit',month:'short',year:'numeric'});};
+
+  let h=`<div class="pr-head">
+    <div><span class="pr-badge">IMCI</span><div class="pr-title">Picture List Report${currentRole==='ho'?' — HO Review':''}</div></div>
+    <div class="pr-meta">
+      Project No.: <b>${escHTML(meta.projectNo)||'—'}</b><br>
+      Vessel Model: <b>${escHTML(meta.model)||'—'}</b><br>
+      Inspection Date: <b>${fmtDate(meta.date)}</b><br>
+      ${currentRole==='ho'?'Reviewed by':'Inspector'}: <b>${escHTML(currentUser)}</b>
+    </div></div>
+  <div class="pr-summary">
+    <div class="pr-sum"><b>${pct}%</b><span>Complete</span></div>
+    <div class="pr-sum"><b>${withPhoto}</b><span>With Photo</span></div>
+    <div class="pr-sum"><b>${na}</b><span>N/A</span></div>
+    <div class="pr-sum"><b>${pending}</b><span>Pending</span></div>
+    <div class="pr-sum"><b>${photos}</b><span>Photos</span></div>
+    ${showHO?`<div class="pr-sum"><b>${approved}</b><span>HO Approved</span></div>
+    <div class="pr-sum"><b>${query}</b><span>HO Query</span></div>
+    <div class="pr-sum"><b>${rejected}</b><span>HO Rejected</span></div>`:''}
+  </div>`;
+
+  PICTURE_LIST.forEach((cat,ci)=>{
+    h+=`<div class="pr-cat">${escHTML(cat.cat)}</div>`;
+    cat.items.forEach((item,ii)=>{
+      const s=state[rowId(ci,ii)]||{};
+      const ph=s.photos||[];
+      const st=s.status==='na'?['na','N/A']:ph.length?['ok',ph.length+' photo'+(ph.length>1?'s':'')]:['pend','Pending'];
+      const ho=showHO&&s.hoStatus?`<span class="pr-st ${s.hoStatus}">HO: ${escHTML(s.hoStatus.toUpperCase())}</span>`:'';
+      h+=`<div class="pr-item"><div class="pr-line"><span class="pr-num">${ii+1}</span><span class="pr-desc">${escHTML(item)}</span><span class="pr-st ${st[0]}">${st[1]}</span>${ho}</div>`;
+      if(s.note)h+=`<div class="pr-note"><b>Inspector note:</b> ${escHTML(s.note)}</div>`;
+      if(showHO&&s.hoComment)h+=`<div class="pr-note"><b>HO comment:</b> ${escHTML(s.hoComment)}</div>`;
+      if(ph.length)h+=`<div class="pr-photos">${ph.map(p=>`<div class="pr-photo"><img src="${p.data}" alt=""><div>${escHTML(p.name||'')}</div></div>`).join('')}</div>`;
+      h+=`</div>`;
+    });
+  });
+  h+=`<div class="pr-foot"><img src="../bpm-logo.png" alt=""><span>Generated ${new Date().toLocaleString()} from IMCI Picture List v3.0 &nbsp;·&nbsp; Provided by Blue Peter Marine · www.ceinspector.com</span></div>`;
+  return h;
+}
+function printToPDF(){
+  const pv=document.getElementById('printView');
+  pv.innerHTML=buildPrintReport();
+  const imgs=Array.from(pv.querySelectorAll('img'));
+  showToast(imgs.length?'Preparing report with '+imgs.length+' photos…':'Preparing report…');
+  const waitAll=Promise.all(imgs.map(img=>img.complete?Promise.resolve():new Promise(r=>{img.onload=img.onerror=r;})));
+  const timeout=new Promise(r=>setTimeout(r,8000));
+  Promise.race([waitAll,timeout]).then(()=>{
+    const meta=getProjectMeta();
+    const oldTitle=document.title;
+    // Title becomes the suggested PDF filename in most browsers
+    document.title=('IMCI_PictureList_'+(meta.projectNo||'Draft')+'_'+(meta.date||'')).replace(/[^a-zA-Z0-9_\-]/g,'_');
+    const cleanup=()=>{document.title=oldTitle;pv.innerHTML='';window.removeEventListener('afterprint',cleanup);};
+    window.addEventListener('afterprint',cleanup);
+    setTimeout(()=>window.print(),50);
+  });
+}
+// Ctrl+P / browser menu print also gets the report instead of a blank page
+window.addEventListener('beforeprint',()=>{
+  const pv=document.getElementById('printView');
+  if(currentRole&&!pv.innerHTML){
+    pv.innerHTML=buildPrintReport();
+    const clear=()=>{pv.innerHTML='';window.removeEventListener('afterprint',clear);};
+    window.addEventListener('afterprint',clear);
+  }
+});
+// Kept for compatibility with any old references
+function exportPrintSummary(){printToPDF();}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3500);}
+
+checkForRestore();
+</script>
+</body>
+</html>
