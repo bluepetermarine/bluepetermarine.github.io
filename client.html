@@ -116,7 +116,7 @@
    keys.json is never cached and carries the build number of the last publish. When this page is
    older (a saved copy, or a tab left open), reload it once with the new number. */
 (function(){
-  var BUILD = "20261105154549";
+  var BUILD = "20261105161555";
   function check(){
     if (BUILD.indexOf("BPM_BUILD") >= 0) return;   /* unpublished source copy */
     fetch("keys.json?t=" + Date.now(), { cache:"no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(k){
@@ -224,10 +224,17 @@
     const wk = await crypto.subtle.deriveKey({ name:'PBKDF2', salt: unb64(e.salt), iterations: k.iter, hash:'SHA-256' }, base, { name:'AES-GCM', length:256 }, false, ['decrypt']);
     const raw = await crypto.subtle.decrypt({ name:'AES-GCM', iv: unb64(e.iv) }, wk, unb64(e.wk));
     localStorage.setItem("bpm_k", JSON.stringify({ kid: k.kid, k: tob64(raw) }));
+    // the client's boat profile and the keys to the tool groups that fit it
+    try{
+      if (e.gk){
+        const g = JSON.parse(new TextDecoder().decode(await crypto.subtle.decrypt({ name:'AES-GCM', iv: unb64(e.gk.iv) }, wk, unb64(e.gk.ct))));
+        localStorage.setItem("bpm_g", JSON.stringify({ kid: k.kid, p: g.p || null, k: g.k || {} }));
+      } else localStorage.removeItem("bpm_g");
+    }catch(err){ try{ localStorage.removeItem("bpm_g"); }catch(e2){} }
     return true;
   }
   function showRevoked(){
-    try{ sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); localStorage.removeItem("bpm_client"); localStorage.removeItem("bpm_k"); }catch(e){}
+    try{ sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); localStorage.removeItem("bpm_client"); localStorage.removeItem("bpm_k"); localStorage.removeItem("bpm_g"); }catch(e){}
     $("login").style.display = "";
     $("app").style.display = "none";
     $("doc").removeAttribute("src");
@@ -262,7 +269,7 @@
   });
   $("lockBtn").addEventListener("click", function(){
     try{ if (PAYLOAD) sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); }catch(e){}
-    try{ localStorage.removeItem("bpm_client"); localStorage.removeItem("bpm_k"); }catch(e){}
+    try{ localStorage.removeItem("bpm_client"); localStorage.removeItem("bpm_k"); localStorage.removeItem("bpm_g"); }catch(e){}
     location.reload();
   });
 
