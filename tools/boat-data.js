@@ -102,10 +102,30 @@
       use: [["win", "#manufactureYear"]] },
 
     /* ESR 2.2 */
-    { key: "contactAddress", label: "Manufacturer contact address", type: "textarea",
+    /* the address is entered in parts (as the DoC asks); contactAddress is put together from them
+       in writeStore for the builder's plate and the owner's manual */
+    { key: "mfrStreet", label: "Manufacturer street address", type: "text", hint: "Street and number only. Town, post code and country have their own fields",
       use: [["plate", null]] },
+    { key: "mfrTown", label: "Manufacturer town", type: "text", use: [["plate", null]] },
+    { key: "mfrPostCode", label: "Manufacturer post code", type: "text", use: [["plate", null]] },
+    { key: "mfrCountry", label: "Manufacturer country", type: "text", hint: "Full country name, for example South Africa", use: [["plate", null]] },
     { key: "notifiedBody", label: "Notified body number", type: "text", optional: true, hint: "Only if a notified body is involved, for example 0123",
       use: [["plate", null]] },
+
+    /* project data for the Declaration of Conformity (RCD Navigator) */
+    { key: "mfrOutsideEU", label: "Manufacturer located outside the EU", type: "select",
+      options: [["no", "No, the manufacturer is in the EU"], ["yes", "Yes, outside the EU: an authorised representative is named"]],
+      hint: "A manufacturer outside the EU names an authorised representative established in the EU (RCD Article 8)", use: [] },
+    { key: "repName", label: "Authorised representative name", type: "text", use: [] },
+    { key: "repStreet", label: "Authorised representative street address", type: "text", hint: "Street and number only", use: [] },
+    { key: "repTown", label: "Authorised representative town", type: "text", use: [] },
+    { key: "repPostCode", label: "Authorised representative post code", type: "text", use: [] },
+    { key: "repCountry", label: "Authorised representative country", type: "text", hint: "An EU member state", use: [] },
+    { key: "hullMaterial", label: "Hull construction material", type: "select",
+      options: [["frp", "Moulded fibre reinforced plastic"], ["al", "Aluminium, aluminium alloys"], ["steel", "Steel, steel alloys"], ["wood", "Wood"], ["other", "Other"]], use: [] },
+    { key: "hullMaterialOther", label: "Other hull material (specify)", type: "text", use: [] },
+    { key: "module", label: "Module for design and construction assessment", type: "select",
+      options: [["A", "A"], ["A1", "A1"], ["BC", "B+C"], ["BD", "B+D"], ["BE", "B+E"], ["BF", "B+F"], ["G", "G"], ["H", "H"]], use: [] },
     { key: "maxPersons", label: "Maximum number of persons", type: "number", unit: "persons", hint: "For the highest design category",
       use: [["plate", null], ["maxload", "#crewAdults"], ["vent", "#persons", null, null, "2"]] },
     { key: "maxLoad", label: "Maximum recommended load", type: "number", unit: "kg", hint: "ESR 3.6, excluding full fixed tanks",
@@ -162,7 +182,18 @@
     try { var s = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); if (s && s.boats) return s; } catch (e) {}
     return { current: "", boats: {} };
   }
-  function writeStore(s) { try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); return true; } catch (e) { return false; } }
+  /* contact address for the builder's plate and owner's manual, put together from the address parts;
+     an address entered before the parts existed is kept until the parts are filled in */
+  function joinAddress(v) {
+    var t = function (k) { return String(v[k] == null ? "" : v[k]).trim(); };
+    if (!t("mfrStreet") && !t("mfrTown") && !t("mfrPostCode") && !t("mfrCountry")) return;
+    var town = [t("mfrPostCode"), t("mfrTown")].filter(Boolean).join(" ");
+    v.contactAddress = [t("mfrStreet"), town, t("mfrCountry")].filter(Boolean).join(", ");
+  }
+  function writeStore(s) {
+    try { Object.keys(s.boats || {}).forEach(function (k) { var b = s.boats[k]; if (b && b.values) joinAddress(b.values); }); } catch (e) {}
+    try { localStorage.setItem(STORE_KEY, JSON.stringify(s)); return true; } catch (e) { return false; }
+  }
   function currentBoat(s) { s = s || readStore(); return s.boats[s.current] || null; }
 
   function toolById(id) { for (var i = 0; i < TOOLS.length; i++) if (TOOLS[i].id === id) return TOOLS[i]; return null; }
