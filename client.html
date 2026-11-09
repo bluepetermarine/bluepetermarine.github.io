@@ -62,6 +62,25 @@
   #doc{ position:absolute; inset:0; width:100%; height:100%; border:0; background:var(--bg); }
   #mark{ position:absolute; inset:0; pointer-events:none; z-index:2; opacity:1; }
 
+  /* IMCI upload panel */
+  #imciPanel{ position:fixed; inset:0; z-index:50; background:rgba(15,28,46,0.55); display:flex; align-items:flex-start; justify-content:center; padding:70px 14px 14px; overflow:auto; }
+  #imciPanel[hidden]{ display:none; }
+  #imciPanel .box{ background:#fff; color:var(--navy); border-radius:10px; max-width:520px; width:100%; padding:24px 24px 20px; box-shadow:0 10px 40px rgba(0,0,0,0.3); font-family:'Barlow',Arial,sans-serif; font-size:15px; line-height:1.45; }
+  #imciPanel h2{ margin:0 0 6px; font-family:'Barlow Condensed',sans-serif; font-size:23px; letter-spacing:0.02em; }
+  #imciPanel p{ margin:0 0 12px; }
+  #imciPanel .row{ display:flex; gap:8px; align-items:center; margin:0 0 10px; }
+  #imciPanel .row label{ flex:0 0 120px; font-size:13px; font-weight:600; color:var(--navy-soft); }
+  #imciPanel .row input{ flex:1 1 auto; min-width:0; font-family:'JetBrains Mono',monospace; font-size:13.5px; padding:7px 9px; border:1px solid #b9c2cc; border-radius:5px; color:var(--navy); background:#fff; }
+  #imciPanel .row input[readonly]{ background:#f4f6f9; }
+  #imciPanel button.copy{ cursor:pointer; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:13px; padding:7px 11px; border-radius:5px; border:1px solid #b9c2cc; background:#fff; color:var(--navy); }
+  #imciPanel ol{ margin:6px 0 14px; padding-left:22px; }
+  #imciPanel ol li{ margin:0 0 6px; }
+  #imciPanel .go{ display:block; text-align:center; text-decoration:none; background:var(--gold); color:#fff; font-family:'Barlow Condensed',sans-serif; font-weight:700; font-size:17px; letter-spacing:0.03em; padding:11px 16px; border-radius:6px; }
+  #imciPanel .go:hover{ background:#b3770a; }
+  #imciPanel .small{ font-size:13px; color:var(--navy-soft); margin:12px 0 0; }
+  #imciPanel .close{ float:right; cursor:pointer; border:0; background:transparent; font-size:24px; line-height:1; color:var(--navy-soft); padding:0 0 0 10px; }
+  @media (max-width:520px){ #imciPanel .row{ flex-wrap:wrap; } #imciPanel .row label{ flex-basis:100%; } }
+
   @media (max-width:520px){ .card{ padding:28px 22px 24px; } #bar .bm{ font-size:14px; } }
 </style>
 </head>
@@ -101,12 +120,29 @@
       <span class="warn">Confidential — not to be copied or redistributed</span><br>
       <span class="aide">Aide-mémoire only — all project documents must eventually be uploaded to the IMCI server.</span></span>
     <span class="actions">
+      <a class="upload" id="imciBtn" href="https://files.imci.org/" target="_blank" rel="noopener">Upload to IMCI</a>
       <button class="lock" id="lockBtn">Lock</button>
     </span>
   </header>
   <div id="stage">
     <iframe id="doc" title="RCD Navigator" referrerpolicy="no-referrer"></iframe>
     <div id="mark" aria-hidden="true"></div>
+  </div>
+  <div id="imciPanel" hidden role="dialog" aria-modal="true" aria-labelledby="imciTitle">
+    <div class="box">
+      <button class="close" id="imciClose" aria-label="Close">&times;</button>
+      <h2 id="imciTitle">Upload your documents to IMCI</h2>
+      <p>Your certification documents go to the IMCI file server (files.imci.org). Sign in with the account IMCI set up for you.</p>
+      <div class="row"><label for="imciUser">IMCI username</label><input id="imciUser" type="email" spellcheck="false" autocomplete="off" placeholder="the email IMCI registered"><button class="copy" data-copy="imciUser">Copy</button></div>
+      <div class="row"><label for="imciProj">Project number</label><input id="imciProj" type="text" readonly><button class="copy" data-copy="imciProj">Copy</button></div>
+      <ol>
+        <li>Click <b>Open IMCI file server</b>. Your username is filled in; enter the password IMCI sent you.</li>
+        <li>Open the folder named with your project number. If there is no folder yet, create one: <b>+ New</b> &rarr; <b>New folder</b>, and name it with your project number.</li>
+        <li>Upload your files into that folder.</li>
+      </ol>
+      <a class="go" id="imciGo" href="https://files.imci.org/" target="_blank" rel="noopener">Open IMCI file server</a>
+      <p class="small">Files you save from RCD Navigator start with your project number, so IMCI can see which project they belong to. No IMCI account or password yet? Please ask IMCI.</p>
+    </div>
   </div>
 </section>
 
@@ -116,7 +152,7 @@
    keys.json is never cached and carries the build number of the last publish. When this page is
    older (a saved copy, or a tab left open), reload it once with the new number. */
 (function(){
-  var BUILD = "20261107071652";
+  var BUILD = "20261109070444";
   function check(){
     if (BUILD.indexOf("BPM_BUILD") >= 0) return;   /* unpublished source copy */
     fetch("keys.json?t=" + Date.now(), { cache:"no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(k){
@@ -176,13 +212,14 @@
 
   // sign-in lasts 90 days with "Remember me", otherwise 12 hours; the gate on every page checks it
   const REMEMBER_MS = 90 * 24 * 3600 * 1000, SESSION_MS = 12 * 3600 * 1000;
+  let CLIENT_EMAIL = "";   // kept with the sign-in so the IMCI upload button can fill in the username
   function unlock(remember){
     $("who").textContent  = PAYLOAD.n || "";
     $("proj").textContent = PAYLOAD.p || "";
     $("mark").style.backgroundImage = watermarkURL((PAYLOAD.n || "") + "  \u00B7  " + (PAYLOAD.p || ""));
     try{
-      if (remember === undefined){ const old = JSON.parse(localStorage.getItem("bpm_client") || "null"); remember = !!(old && old.h === PAYLOAD.h && old.r); }
-      localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "", h: PAYLOAD.h || "", c: new URLSearchParams(location.search).get('c') || "", r: remember ? 1 : 0, exp: Date.now() + (remember ? REMEMBER_MS : SESSION_MS) }));
+      if (remember === undefined){ const old = JSON.parse(localStorage.getItem("bpm_client") || "null"); remember = !!(old && old.h === PAYLOAD.h && old.r); if (!CLIENT_EMAIL && old && old.h === PAYLOAD.h) CLIENT_EMAIL = old.e || ""; }
+      localStorage.setItem("bpm_client", JSON.stringify({ n: PAYLOAD.n || "", p: PAYLOAD.p || "", h: PAYLOAD.h || "", e: CLIENT_EMAIL, c: new URLSearchParams(location.search).get('c') || "", r: remember ? 1 : 0, exp: Date.now() + (remember ? REMEMBER_MS : SESSION_MS) }));
     }catch(e){}
     // open the latest published version: keys.json (never cached) carries the build number
     loadKeys().then(function(k){ return k.b || Date.now(); }, function(){ return Date.now(); })
@@ -256,6 +293,7 @@
       $("go").disabled = false; $("err").textContent = "";
       if (!ok){ $("err").textContent = "RCD Navigator could not be opened with these details. Please contact Blue Peter Marine at info@ceinspector.com."; return; }
       try{ sessionStorage.setItem("bpm_ok_" + PAYLOAD.h, "1"); }catch(e){}
+      CLIENT_EMAIL = String($("email").value).trim().toLowerCase();
       unlock($("remember").checked);
     } else {
       $("err").textContent = "Those details don't match. Check the email and project number on your invitation.";
@@ -271,6 +309,35 @@
     try{ if (PAYLOAD) sessionStorage.removeItem("bpm_ok_" + PAYLOAD.h); }catch(e){}
     try{ localStorage.removeItem("bpm_client"); localStorage.removeItem("bpm_k"); localStorage.removeItem("bpm_g"); }catch(e){}
     location.reload();
+  });
+
+  // ---------- Upload to IMCI ----------
+  // IMCI gives each client an account on its Nextcloud server (files.imci.org), username = the client's email.
+  // The button opens the IMCI sign-in page with the username filled in (Nextcloud: /login?user=...).
+  // IMCI passwords are never asked for or kept here.
+  const IMCI_FILES = "https://files.imci.org/";
+  function imciLoginURL(){
+    const u = String($("imciUser").value || "").trim();
+    return u ? IMCI_FILES + "login?user=" + encodeURIComponent(u) : IMCI_FILES;
+  }
+  function openImciPanel(){
+    if (!$("imciUser").value) $("imciUser").value = CLIENT_EMAIL || "";
+    $("imciProj").value = (PAYLOAD && PAYLOAD.p) || "";
+    $("imciGo").href = imciLoginURL();
+    $("imciPanel").hidden = false;
+  }
+  $("imciBtn").addEventListener("click", function(e){ e.preventDefault(); openImciPanel(); });
+  $("imciClose").addEventListener("click", function(){ $("imciPanel").hidden = true; });
+  $("imciPanel").addEventListener("click", function(e){ if (e.target === $("imciPanel")) $("imciPanel").hidden = true; });
+  document.addEventListener("keydown", function(e){ if (e.key === "Escape") $("imciPanel").hidden = true; });
+  $("imciUser").addEventListener("input", function(){ $("imciGo").href = imciLoginURL(); });
+  Array.prototype.forEach.call(document.querySelectorAll("#imciPanel button.copy"), function(b){
+    b.addEventListener("click", function(){
+      const v = $(b.getAttribute("data-copy")).value || "";
+      function done(){ const t = b.textContent; b.textContent = "Copied"; setTimeout(function(){ b.textContent = t; }, 1400); }
+      if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(v).then(done, function(){ $(b.getAttribute("data-copy")).select(); });
+      else { $(b.getAttribute("data-copy")).select(); try{ document.execCommand("copy"); done(); }catch(e){} }
+    });
   });
 
   // stay signed in across refreshes within the same browser session

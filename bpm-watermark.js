@@ -9,6 +9,7 @@
     2. PNG / JPEG images downloaded from the page (download links and canvas exports)
     3. images saved with right-click or long-press (pages marked data-images="1")
     4. CSV exports (a "Prepared for ..." first line)
+    6. saved files get the project number at the start of their name
     5. PDF documents from this site opened through a link (stamped on every page),
        except the IMCI checklists in tools/checklists/ and any RSG document
        (file name containing "RSG") and component certificates, either in certificates/
@@ -53,6 +54,31 @@
   var thisScript = document.currentScript;
   var imagesOptIn = thisScript && thisScript.getAttribute("data-images") === "1";
   window.BPM_WATERMARK = TEXT;
+
+  /* ---------- 6. project number in the names of saved files ----------
+     Every file a signed-in client saves from a page starts with their project
+     number (e.g. 14128_boat-data.json), so IMCI can see which project an upload
+     belongs to. Names that already hold the project number are left as they are. */
+  var PROJ = isClient && info.p ? String(info.p).trim().replace(/[^A-Za-z0-9_-]+/g, "") : "";
+  function projName(name) {
+    if (!PROJ || !name) return name;
+    if (String(name).indexOf(PROJ) >= 0) return name;
+    return PROJ + "_" + name;
+  }
+  function renameDownload(a) {
+    try {
+      if (!PROJ || !a || !a.hasAttribute || !a.hasAttribute("download")) return;
+      var n = a.getAttribute("download");
+      if (n) a.setAttribute("download", projName(n));
+    } catch (e) {}
+  }
+  if (PROJ) {
+    var origAnchorClick = HTMLAnchorElement.prototype.click;
+    HTMLAnchorElement.prototype.click = function () { renameDownload(this); return origAnchorClick.apply(this, arguments); };
+    document.addEventListener("click", function (e) {
+      renameDownload(e.target && e.target.closest ? e.target.closest("a[download]") : null);
+    }, true);
+  }
 
   function esc(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
