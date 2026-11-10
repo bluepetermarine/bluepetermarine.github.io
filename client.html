@@ -152,7 +152,7 @@
    keys.json is never cached and carries the build number of the last publish. When this page is
    older (a saved copy, or a tab left open), reload it once with the new number. */
 (function(){
-  var BUILD = "20261110122436";
+  var BUILD = "20261110122848";
   function check(){
     if (BUILD.indexOf("BPM_BUILD") >= 0) return;   /* unpublished source copy */
     fetch("keys.json?t=" + Date.now(), { cache:"no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(k){
@@ -346,8 +346,11 @@
       let saved = null; try{ saved = JSON.parse(localStorage.getItem("bpm_client") || "null"); }catch(e){}
       const remembered = !!(PAYLOAD && saved && saved.h === PAYLOAD.h && saved.r && saved.exp && saved.exp > Date.now());
       if (PAYLOAD && PAYLOAD.h && (remembered || sessionStorage.getItem("bpm_ok_" + PAYLOAD.h) === "1")){
-        loadKeys().then(function(){
-          if (storedKeyCurrent()) { unlock(); isRevoked().then(function(rv){ if (rv) showRevoked(); }); }
+        loadKeys().then(async function(){
+          let ok = storedKeyCurrent();
+          // refresh the boat-profile group keys on every visit, so pages added to a group since the last sign-in open without signing in again
+          if (saved && saved.h === PAYLOAD.h && saved.e && PAYLOAD.p){ try{ ok = (await unlockKey(saved.e, PAYLOAD.p)) || ok; }catch(e){} }
+          if (ok) { unlock(); isRevoked().then(function(rv){ if (rv) showRevoked(); }); }
         }).catch(function(){});
       }
     }catch(e){}
