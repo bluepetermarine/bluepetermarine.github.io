@@ -158,6 +158,7 @@
     { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
       use: [["maxload", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
     { key: "beam", label: "Beam of hull, BH", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
+    { key: "bcb", label: "Beam between hull centres, BCB", type: "number", unit: "m", hint: "Catamarans and trimarans only: transverse distance between the centres of buoyancy of the outer hulls (ISO 12217-2, 3.4.5). Decides whether the boat is assessed as a monohull (LH > 5 BCB)", use: [] },
     { key: "draught", label: "Maximum draught, Tmax", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
 
     /* ESR 3.9 */
