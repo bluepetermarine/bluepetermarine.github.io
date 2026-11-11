@@ -139,7 +139,7 @@
       options: [["A", "A"], ["A1", "A1"], ["BC", "B+C"], ["BD", "B+D"], ["BE", "B+E"], ["BF", "B+F"], ["G", "G"], ["H", "H"]], use: [] },
     { key: "maxPersons", label: "Maximum number of persons", type: "number", unit: "persons", hint: "For the highest design category",
       use: [["plate", null], ["maxload", "#crewAdults"], ["vent", "#persons", null, null, "2"]] },
-    { key: "maxLoad", label: "Maximum recommended load", type: "number", unit: "kg", hint: "ESR 3.6, excluding full fixed tanks",
+    { key: "maxLoad", label: "Maximum recommended load", type: "number", unit: "kg", hint: "ESR 3.6 and builder's plate: persons (75 kg each), personal effects, stores, cargo, portable tanks, dinghy and extra equipment, WITHOUT the contents of the fixed fuel and water tanks. For a correct calculation use the Maximum Load Worksheet (ESR 3.6)",
       use: [["plate", null]] },
     { key: "propulsion", label: "Engine installation", type: "select",
       options: [["none", "No engine"], ["outboard", "Outboard engine"], ["sterndrive", "Sterndrive, separate exhaust"], ["sterndrive_ie", "Sterndrive with integral exhaust (through the drive)"], ["inboard_prop", "Inboard with propeller"], ["inboard_shaft", "Inboard with shaft drive"], ["saildrive", "Sail-drive"], ["waterjet", "Waterjet"], ["pod", "Pod drive"], ["other", "Other"]],
@@ -155,14 +155,14 @@
     { key: "maxSpeed", label: "Maximum speed", type: "number", unit: "knots",
       use: [["reboard", function (d) { return (d.boatType === "sail_mono" || d.boatType === "sail_multi") ? "" : "#maxSpeed"; }], ["avoid", "#maxSpeed"]] },
 
-    { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull",
-      use: [["maxload", "#lwl"], ["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
+    { key: "lwl", label: "Length of waterline, LWL", type: "number", unit: "m", hint: "ISO 8666, boat upright at design trim. For a multihull, the longest individual hull. Not the LWL in the loaded arrival condition used by the Maximum Load Worksheet",
+      use: [["cleat", "#waterlineLength"], ["avoid", "#waterlileLength"]] },
     { key: "beam", label: "Beam of hull, BH", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
     { key: "bcb", label: "Beam between hull centres, BCB", type: "number", unit: "m", hint: "Catamarans and trimarans only: transverse distance between the centres of buoyancy of the outer hulls (ISO 12217-2, 3.4.5). Decides whether the boat is assessed as a monohull (LH > 5 BCB)", use: [] },
     { key: "draught", label: "Maximum draught, Tmax", type: "number", unit: "m", esr: "1", hint: "ISO 8666, for the Declaration of Conformity", use: [] },
 
     /* ESR 3.9 */
-    { key: "mldc", label: "Loaded displacement mass, mLDC", type: "number", unit: "kg", hint: "ISO 8666",
+    { key: "mldc", label: "Loaded displacement mass, mLDC", type: "number", unit: "kg", hint: "ISO 8666 and ISO 12217, maximum load condition: light craft plus the maximum load, WITH the fixed fuel and water tanks 95 % full (not the loaded arrival condition, tanks 10 %). For a correct calculation use the Maximum Load Worksheet (ESR 3.6)",
       use: [["cleat", "#loadedMass"]] },
 
     /* ESR 5.2 */
