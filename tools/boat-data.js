@@ -24,7 +24,7 @@
     { id: "plate",     esr: "2.2",   title: "Builder's plate",           tool: "Builder's plate generator",         pages: ["tools/builders-plate-generator.html"] },
     { id: "reboard",   esr: "2.3",   title: "Falling overboard and reboarding", tool: "ISO 15085 test report generator", pages: ["reboarding-checklist.html"] },
     { id: "vis",       esr: "2.4",   title: "Visibility from the main steering position", tool: "ISO 11591 field of vision checklist", pages: ["visibility-checklist.html"] },
-    { id: "maxload",   esr: "3.2",   title: "Stability, freeboard and maximum load", tool: "Maximum load worksheet (ISO 12217)", pages: ["max-load-worksheet.html"] },
+    { id: "maxload",   esr: "3.2",   title: "Stability, freeboard and maximum load", tool: "Maximum load worksheet (ISO 12217)", pages: ["max-load-worksheet.html"], master: true },
     { id: "window",    esr: "3.4",   title: "Openings in hull, deck and superstructure", tool: "Window calculator", pages: ["Window calculator bpm.html"] },
     { id: "bilge",     esr: "3.5",   title: "Flooding",                  tool: "Flooding and dewatering tool",      pages: ["tools/hull-openings-bilge-checklist.html"] },
     { id: "footbasin", esr: "3.5",   title: "Flooding",                  tool: "Foot basin drainage checklist",     pages: ["footbasin-10-3-checklist.html"] },
@@ -301,7 +301,10 @@
         var plain = !u[2] && u[3] !== "cat" && u[3] !== "country" && u[3] !== "month" && el.tagName !== "SELECT" && typeof u[1] !== "function";
 
         var pageDefault = u[4] !== undefined && String(el.value) === String(u[4]) && String(raw) !== String(u[4]);
-        if (raw !== undefined && raw !== "" && (isEmpty(el) || pageDefault)) {
+        /* master tools (Maximum Load Worksheet): the Boat Data Sheet always wins, so every page shows the same boat */
+        var master = !!tool.master && raw !== undefined && raw !== "";
+        if (master && el.tagName === "SELECT") { el.disabled = true; el.style.background = "#eceae4"; el.style.color = "#1a1a1a"; el.title = "Set in the Boat Data Sheet. Change it there."; }
+        if (raw !== undefined && raw !== "" && (isEmpty(el) || pageDefault || master)) {
           var v = u[2] ? conv[u[2]](raw) : raw;
           if (el.tagName === "SELECT") {
             var o = pickOption(el, v, u[3]);
