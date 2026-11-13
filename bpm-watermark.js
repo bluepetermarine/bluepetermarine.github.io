@@ -112,6 +112,49 @@
   if (document.body) addPrintLayer();
   else document.addEventListener("DOMContentLoaded", addPrintLayer);
 
+  /* ---------- 7. on-screen watermark (pages marked data-screen="1") ----------
+     Animations and visual cards show a faint "Prepared for ..." pattern and a
+     corner label on screen as well, so screenshots and screen recordings carry
+     the client name. Right-click, dragging and text selection are switched off. */
+  var screenOptIn = thisScript && thisScript.getAttribute("data-screen") === "1";
+  function addScreenLayer() {
+    if (document.getElementById("bpm-wm-screen")) return;
+    var st = document.createElement("style");
+    st.textContent =
+      "#bpm-wm-screen{position:fixed;top:0;left:0;width:100%;height:100%;z-index:2147483646;pointer-events:none}" +
+      "#bpm-wm-tag{position:fixed;right:10px;bottom:8px;z-index:2147483647;pointer-events:none;" +
+      "font:600 11px/1.3 Arial,Helvetica,sans-serif;color:rgba(" + NAVY + ",.55);background:rgba(255,255,255,.7);" +
+      "padding:3px 8px;border-radius:4px}" +
+      "@media print{#bpm-wm-screen,#bpm-wm-tag{display:none}}" +
+      "body{-webkit-user-select:none;user-select:none}svg,img{-webkit-user-drag:none}";
+    document.head.appendChild(st);
+    var w = Math.max(420, TEXT.length * 9 + 100);
+    var d = document.createElement("div");
+    d.id = "bpm-wm-screen";
+    d.setAttribute("aria-hidden", "true");
+    var t = function (x, y) {
+      return '<text x="' + x + '" y="' + y + '" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" fill="rgb(' + NAVY + ')" fill-opacity="0.07">' + esc(TEXT) + "</text>";
+    };
+    d.innerHTML =
+      '<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%">' +
+      '<defs><pattern id="bpm-wm-spat" width="' + w + '" height="220" patternUnits="userSpaceOnUse" patternTransform="rotate(-30)">' +
+      t(10, 70) + t(10 - w / 2, 180) + t(10 + w / 2, 180) +
+      "</pattern></defs>" +
+      '<rect width="100%" height="100%" fill="url(#bpm-wm-spat)"/></svg>';
+    document.body.appendChild(d);
+    var tag = document.createElement("div");
+    tag.id = "bpm-wm-tag";
+    tag.setAttribute("aria-hidden", "true");
+    tag.textContent = TEXT;
+    document.body.appendChild(tag);
+    document.addEventListener("contextmenu", function (e) { e.preventDefault(); }, true);
+    document.addEventListener("dragstart", function (e) { e.preventDefault(); }, true);
+  }
+  if (screenOptIn) {
+    if (document.body) addScreenLayer();
+    else document.addEventListener("DOMContentLoaded", addScreenLayer);
+  }
+
   /* ---------- shared: stamp a canvas ---------- */
   function stamp(ctx, w, h) {
     ctx.save();
