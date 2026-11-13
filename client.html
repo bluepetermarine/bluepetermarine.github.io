@@ -152,7 +152,7 @@
    keys.json is never cached and carries the build number of the last publish. When this page is
    older (a saved copy, or a tab left open), reload it once with the new number. */
 (function(){
-  var BUILD = "20261113160808";
+  var BUILD = "20261113163456";
   function check(){
     if (BUILD.indexOf("BPM_BUILD") >= 0) return;   /* unpublished source copy */
     fetch("keys.json?t=" + Date.now(), { cache:"no-store" }).then(function(r){ return r.ok ? r.json() : null; }).then(function(k){
