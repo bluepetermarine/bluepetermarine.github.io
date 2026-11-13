@@ -50,7 +50,7 @@
     ? "Prepared for " + info.n + (info.p ? " \u00B7 Project " + info.p : "") + " \u00B7 Blue Peter Marine"
     : "\u00A9 " + new Date().getFullYear() + " Blue Peter Marine \u00B7 www.ceinspector.com \u00B7 Not for reproduction";
   var NAVY = "26,46,74";
-  var PDF_LIB = "https://cdnjs.cloudflare.com/ajax/libs/pdf-lib/1.17.1/pdf-lib.min.js";
+  var PDF_LIB = ROOT + "lib/pdf-lib.min.js";
   var thisScript = document.currentScript;
   var imagesOptIn = thisScript && thisScript.getAttribute("data-images") === "1";
   window.BPM_WATERMARK = TEXT;
