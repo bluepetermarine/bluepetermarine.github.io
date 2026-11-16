@@ -189,6 +189,131 @@
     { key: "lpgFlued", label: "Open-flued LPG appliances, total rating F", type: "number", optional: true, unit: "kW", use: [["vent", "#fluedRating", null, null, "0"]] }
   ];
 
+  /* ---------- other languages ----------
+     English is the source, in TOOLS and FIELDS above. Each further language lists only the texts:
+       tools:  id  -> { title, tool }
+       fields: key -> { label, hint, unit, options: { value: text } }
+     Stored values never change with the language (a boat type is saved as "motor", not as its label).
+     French terms follow the French editions of the EN ISO standards and Directive 2013/53/UE. */
+  var L10N = { fr: {
+    ui: {
+      prefilled: "Prérempli à partir de la fiche de données du bateau. Vous pouvez le modifier ici.",
+      setInSheet: "Défini dans la fiche de données du bateau. Modifiez-le là-bas.",
+      chip: "Données du bateau : {boat}{n} · Ouvrir la fiche",
+      chipFields: " · {n} champs préremplis",
+      chipEmpty: "Remplissez une fois la fiche de données du bateau pour préremplir cet outil",
+      yourProject: "votre projet"
+    },
+    tools: {
+      win:       { title: "Identification des bateaux", tool: "Générateur de WIN" },
+      plate:     { title: "Plaque du constructeur du bateau", tool: "Générateur de plaque du constructeur" },
+      reboard:   { title: "Prévention des chutes par-dessus bord et moyens permettant de remonter à bord", tool: "Générateur de rapport d'essai ISO 15085" },
+      vis:       { title: "Visibilité à partir du poste de barre principal", tool: "Liste de contrôle du champ de vision ISO 11591" },
+      maxload:   { title: "Stabilité, franc-bord et charge maximale", tool: "Feuille de calcul de la charge maximale (ISO 12217)" },
+      window:    { title: "Ouvertures dans la coque, le pont et la superstructure", tool: "Calculateur de fenêtres" },
+      bilge:     { title: "Envahissement", tool: "Outil envahissement et assèchement" },
+      footbasin: { title: "Envahissement", tool: "Liste de contrôle du drainage du bac à pieds" },
+      cleat:     { title: "Ancrage, amarrage et remorquage", tool: "Liste de contrôle des points d'ancrage ISO 15084" },
+      avoid:     { title: "Caractéristiques concernant les manœuvres", tool: "Essai d'évitement d'une ligne ISO 11592-2" },
+      fuel:      { title: "Circuit d'alimentation et réservoirs à carburant", tool: "Listes de contrôle des réservoirs à carburant ISO 21487" },
+      cable:     { title: "Système électrique", tool: "Calculateur d'installations électriques ISO 13297" },
+      vdrop:     { title: "Système électrique", tool: "Calculateur de chute de tension" },
+      vent:      { title: "Appareils à gaz", tool: "Calculateur de ventilation GPL ISO 10239" }
+    },
+    fields: {
+      projectNumber: { label: "Numéro de projet", hint: "Sert à classer vos données et figure sur chaque rapport" },
+      manufacturer: { label: "Fabricant", hint: "Nom commercial déposé ou marque déposée" },
+      model: { label: "Nom du modèle", hint: "Désignation du modèle, par exemple Voyager 650" },
+      designCategory: { label: "Catégorie de conception", hint: "Catégorie de conception la plus élevée revendiquée",
+        options: { A: "A — En haute mer", B: "B — Au large", C: "C — À proximité de la côte", D: "D — En eaux abritées" } },
+      boatType: { label: "Type de bateau",
+        options: { motor: "Bateau à moteur, monocoque", motor_multi: "Bateau à moteur, multicoque (catamaran à moteur)", sail_mono: "Voilier monocoque", sail_multi: "Voilier multicoque", inflatable: "Bateau pneumatique ou semi-rigide" } },
+      engineFuel: { label: "Moteur de propulsion", hint: "Carburant du ou des moteurs de propulsion. Détermine les normes et les exigences applicables",
+        options: { none: "Sans moteur (voile ou pagaie uniquement)", diesel: "Diesel", petrol: "Essence", electric: "Électrique", hybrid: "Hybride (diesel et électrique)", lpg: "Moteur au GPL (gaz)" } },
+      generator: { label: "Groupe électrogène à bord", hint: "Y compris un petit groupe de secours, par exemple sur un bateau électrique",
+        options: { none: "Pas de groupe électrogène", diesel: "Groupe électrogène diesel", petrol: "Groupe électrogène essence", lpg: "Groupe électrogène au GPL" } },
+      modelYear: { label: "Année modèle", hint: "L'année modèle est l'année où il est prévu de mettre le bateau sur le marché. Le fabricant l'attribue au modèle (ISO 10087). C'est la dernière partie du numéro d'identification du bateau (WIN) et elle peut différer de l'année de fabrication : un bateau construit en octobre 2026 peut être de l'année modèle 2027. Quatre chiffres, par exemple 2027" },
+      winCraftType: { label: "Type de bateau pour le WIN",
+        options: { "Monohull with Transom": "Monocoque avec tableau arrière", "Monohull without Transom": "Monocoque sans tableau arrière", "Catamaran": "Catamaran", "Trimaran": "Trimaran", "Inflatable Boat": "Bateau pneumatique" } },
+      countryCode: { label: "Code du pays du fabricant", unit: "2 lettres", hint: "Code de pays ISO, par exemple ZA" },
+      manufacturerCode: { label: "Code d'identification du fabricant (MIC)", unit: "3 caractères" },
+      serialNumber: { label: "Numéro de série de la coque", unit: "5 caractères" },
+      buildMonth: { label: "Mois de fabrication",
+        options: { "1": "Janvier", "2": "Février", "3": "Mars", "4": "Avril", "5": "Mai", "6": "Juin", "7": "Juillet", "8": "Août", "9": "Septembre", "10": "Octobre", "11": "Novembre", "12": "Décembre" } },
+      buildYear: { label: "Année de fabrication" },
+      mfrStreet: { label: "Adresse du fabricant : rue", hint: "Rue et numéro uniquement. La ville, le code postal et le pays ont leurs propres champs" },
+      mfrTown: { label: "Ville du fabricant" },
+      mfrPostCode: { label: "Code postal du fabricant" },
+      mfrCountry: { label: "Pays du fabricant", hint: "Nom complet du pays, par exemple Afrique du Sud" },
+      notifiedBody: { label: "Numéro d'identification de l'organisme notifié", hint: "Uniquement si un organisme notifié intervient : son numéro à quatre chiffres, par exemple 0609" },
+      mfrOutsideEU: { label: "Fabricant établi hors de l'UE", hint: "Un fabricant établi hors de l'UE désigne un mandataire établi dans l'UE (directive 2013/53/UE, article 8)",
+        options: { no: "Non, le fabricant est établi dans l'UE", yes: "Oui, hors de l'UE : un mandataire est désigné" } },
+      repName: { label: "Nom du mandataire" },
+      repStreet: { label: "Adresse du mandataire : rue", hint: "Rue et numéro uniquement" },
+      repTown: { label: "Ville du mandataire" },
+      repPostCode: { label: "Code postal du mandataire" },
+      repCountry: { label: "Pays du mandataire", hint: "Un État membre de l'UE" },
+      nbName: { label: "Nom de l'organisme notifié" },
+      nbStreet: { label: "Adresse de l'organisme notifié : rue", hint: "Rue et numéro uniquement" },
+      nbTown: { label: "Ville de l'organisme notifié" },
+      nbPostCode: { label: "Code postal de l'organisme notifié" },
+      nbCountry: { label: "Pays de l'organisme notifié" },
+      deckType: { label: "Pont", hint: "Entièrement fermé : pont et superstructure étanches sur tout le bateau. Partiellement protégé : ponté en partie, par exemple un pont avant avec un cockpit ouvert. Ouvert : pas de pont, ou seulement de petits pontages aux extrémités",
+        options: { full: "Entièrement fermé", part: "Partiellement protégé", open: "Ouvert" } },
+      integralExhaust: { label: "Échappement intégré", hint: "Échappement intégré : les gaz d'échappement sortent par le moteur ou l'embase elle-même, en général sous l'eau par le moyeu de l'hélice : tous les moteurs hors-bord et les embases arrière avec échappement par l'hélice. Un moteur intérieur ou à embase arrière avec une sortie d'échappement séparée dans la coque ou le tableau arrière n'a pas d'échappement intégré. Détermine si le constructeur du bateau doit évaluer le bruit (directive 2013/53/UE, annexe I.C)",
+        options: { yes: "Oui", no: "Non" } },
+      hullMaterial: { label: "Matériau de construction de la coque",
+        options: { frp: "Plastique renforcé de fibres, moulé", al: "Aluminium, alliages d'aluminium", steel: "Acier, alliages d'acier", wood: "Bois", other: "Autre" } },
+      hullMaterialOther: { label: "Autre matériau de coque (préciser)" },
+      module: { label: "Module d'évaluation de la conception et de la construction" },
+      maxPersons: { label: "Nombre maximal de personnes", unit: "personnes", hint: "Pour la catégorie de conception la plus élevée" },
+      maxLoad: { label: "Charge maximale recommandée", hint: "Exigence essentielle 3.6 et plaque du constructeur : personnes (75 kg chacune), effets personnels, provisions, cargaison, réservoirs portatifs, annexe et équipements supplémentaires, SANS le contenu des réservoirs fixes de carburant et d'eau. Pour un calcul correct, utilisez la feuille de calcul de la charge maximale (exigence essentielle 3.6)" },
+      propulsion: { label: "Installation du moteur",
+        options: { none: "Sans moteur", outboard: "Moteur hors-bord", sterndrive: "Embase arrière, échappement séparé", sterndrive_ie: "Embase arrière avec échappement intégré (par l'embase)", inboard_prop: "Moteur intérieur avec hélice", inboard_shaft: "Moteur intérieur avec ligne d'arbre", saildrive: "Sail-drive", waterjet: "Hydrojet", pod: "Pod", other: "Autre" } },
+      engineCount: { label: "Nombre de moteurs de propulsion", hint: "1 pour un seul moteur, 2 pour deux moteurs" },
+      maxPower: { label: "Puissance maximale assignée du moteur", hint: "Laisser vide s'il n'y a pas de moteur" },
+      lh: { label: "Longueur de coque, LH", hint: "ISO 8666" },
+      maxSpeed: { label: "Vitesse maximale", unit: "nœuds" },
+      lwl: { label: "Longueur de flottaison, LWL", hint: "ISO 8666, bateau droit, dans son assiette de conception. Pour un multicoque, la coque individuelle la plus longue. Ce n'est pas la LWL en condition d'arrivée en charge utilisée par la feuille de calcul de la charge maximale" },
+      beam: { label: "Bau de coque, BH", hint: "ISO 8666, pour la déclaration de conformité" },
+      bcb: { label: "Bau entre centres de coques, BCB", hint: "Catamarans et trimarans uniquement : distance transversale entre les centres de carène des coques extérieures (ISO 12217-2, 3.4.5). Détermine si le bateau est évalué comme un monocoque (LH > 5 BCB)" },
+      draught: { label: "Tirant d'eau maximal, Tmax", hint: "ISO 8666, pour la déclaration de conformité" },
+      mldc: { label: "Déplacement en charge, mLDC", hint: "ISO 8666 et ISO 12217, condition de charge maximale : bateau lège plus la charge maximale, AVEC les réservoirs fixes de carburant et d'eau remplis à 95 % (et non la condition d'arrivée en charge, réservoirs à 10 %). Pour un calcul correct, utilisez la feuille de calcul de la charge maximale (exigence essentielle 3.6)" },
+      tankManufacturer: { label: "Fabricant du réservoir à carburant", hint: "Uniquement pour un réservoir acheté tout fait : l'entreprise qui l'a fabriqué. Laisser vide pour un réservoir que vous construisez vous-même" },
+      tankModel: { label: "Modèle ou type du réservoir à carburant", hint: "Uniquement pour un réservoir acheté tout fait : la référence du modèle ou du type figurant sur la déclaration de conformité du fabricant du réservoir (ISO 21487). Laisser vide pour un réservoir que vous construisez vous-même" },
+      tankMaterial: { label: "Matériau du réservoir à carburant",
+        options: { "Aluminium alloy": "Métal : alliage d'aluminium", "Stainless steel": "Métal : acier inoxydable", "Copper": "Métal : cuivre, étamé intérieurement", "Mild steel": "Métal : acier doux, galvanisé à chaud", "Aluminized steel": "Métal : acier aluminisé",
+                   hdpe: "Plastique : polyéthylène haute densité (PEHD), par exemple rotomoulé", ldpe: "Plastique : polyéthylène basse densité (PEBD)", frp: "Plastique : plastique renforcé de fibres (PRF / PRV), non intégré", "other-nm": "Autre matériau non métallique" } },
+      tankCapacity: { label: "Capacité du réservoir à carburant" },
+      dcVoltage: { label: "Tension du système à courant continu",
+        options: { "12": "12 V c.c.", "24": "24 V c.c.", "48": "48 V c.c." } },
+      acPhase: { label: "Système à courant alternatif", hint: "Les installations triphasées peuvent aussi utiliser l'EN 60092-507",
+        options: { none: "Pas de système à courant alternatif", single: "Courant alternatif monophasé", three: "Courant alternatif triphasé" } },
+      acVoltage: { label: "Tension du système à courant alternatif", hint: "Laisser vide s'il n'y a pas de système à courant alternatif" },
+      lpgUnflued: { label: "Appareils au GPL sans conduit de fumée, puissance totale U" },
+      lpgFlued: { label: "Appareils au GPL à flamme nue avec conduit de fumée, puissance totale F" }
+    }
+  } };
+
+  function lang() {
+    if (root.BPMI18n) return root.BPMI18n.lang;
+    try { return localStorage.getItem("bpm.lang") || "en"; } catch (e) { return "en"; }
+  }
+  function tr(kind, id, prop, english) {
+    var l = L10N[lang()], o = l && l[kind] && l[kind][id];
+    return (o && o[prop] != null) ? o[prop] : english;
+  }
+  function toolText(t, prop) { return tr("tools", t.id, prop, t[prop]); }
+  function fieldText(f, prop) { return tr("fields", f.key, prop, f[prop]); }
+  function optionText(f, value, english) {
+    var o = tr("fields", f.key, "options", null);
+    return (o && o[value] != null) ? o[value] : english;
+  }
+  function ui(key, english, values) {
+    var l = L10N[lang()], s = (l && l.ui && l.ui[key] != null) ? l.ui[key] : english;
+    return values ? s.replace(/\{(\w+)\}/g, function (m, n) { return values[n] != null ? values[n] : m; }) : s;
+  }
+
   /* ---------- storage ---------- */
   function readStore() {
     try { var s = JSON.parse(localStorage.getItem(STORE_KEY) || "null"); if (s && s.boats) return s; } catch (e) {}
@@ -256,7 +381,7 @@
     if (el.getAttribute("data-bpm-filled")) return;
     el.setAttribute("data-bpm-filled", "1");
     el.style.boxShadow = "inset 3px 0 0 #c8860a";
-    el.title = "Pre-filled from the Boat Data Sheet. You can change it here.";
+    el.title = ui("prefilled", "Pre-filled from the Boat Data Sheet. You can change it here.");
   }
 
   function pageMatches(page) {
@@ -303,7 +428,7 @@
         var pageDefault = u[4] !== undefined && String(el.value) === String(u[4]) && String(raw) !== String(u[4]);
         /* master tools (Maximum Load Worksheet): the Boat Data Sheet always wins, so every page shows the same boat */
         var master = !!tool.master && raw !== undefined && raw !== "";
-        if (master && el.tagName === "SELECT") { el.disabled = true; el.style.background = "#eceae4"; el.style.color = "#1a1a1a"; el.title = "Set in the Boat Data Sheet. Change it there."; }
+        if (master && el.tagName === "SELECT") { el.disabled = true; el.style.background = "#eceae4"; el.style.color = "#1a1a1a"; el.title = ui("setInSheet", "Set in the Boat Data Sheet. Change it there."); }
         if (raw !== undefined && raw !== "" && (isEmpty(el) || pageDefault || master)) {
           var v = u[2] ? conv[u[2]](raw) : raw;
           if (el.tagName === "SELECT") {
@@ -324,7 +449,7 @@
         }
       });
     });
-    return { tool: tool, filled: filled, boat: data.projectNumber || (boat ? "your project" : "") };
+    return { tool: tool, filled: filled, boat: data.projectNumber || (boat ? ui("yourProject", "your project") : "") };
   }
 
   function chip(res) {
@@ -334,7 +459,9 @@
     c.href = SHEET;
     c.target = "_blank";
     c.rel = "noopener";
-    c.textContent = res.boat ? ("Boat data: " + res.boat + (res.filled ? " · " + res.filled + " fields pre-filled" : "") + " · Open sheet") : "Fill the Boat Data Sheet once to pre-fill this tool";
+    c.textContent = res.boat
+      ? ui("chip", "Boat data: {boat}{n} · Open sheet", { boat: res.boat, n: res.filled ? ui("chipFields", " · {n} fields pre-filled", { n: res.filled }) : "" })
+      : ui("chipEmpty", "Fill the Boat Data Sheet once to pre-fill this tool");
     c.setAttribute("style", "position:fixed;right:14px;bottom:14px;z-index:99999;background:#1a2e4a;color:#fff;text-decoration:none;" +
       "font:600 13px/1.3 Barlow,Arial,sans-serif;padding:8px 12px;border-radius:6px;border-left:4px solid #c8860a;box-shadow:0 2px 8px rgba(0,0,0,.25);max-width:calc(100vw - 28px)");
     var printCss = document.createElement("style");
@@ -359,7 +486,8 @@
     SITE: SITE, STORE_KEY: STORE_KEY, TOOLS: TOOLS, FIELDS: FIELDS,
     readStore: readStore, writeStore: writeStore, currentBoat: currentBoat,
     toolById: toolById, fieldsForTool: fieldsForTool, toolsForField: toolsForField,
-    fillPage: fillPage
+    fillPage: fillPage,
+    L10N: L10N, toolText: toolText, fieldText: fieldText, optionText: optionText
   };
 
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", boot); else boot();
