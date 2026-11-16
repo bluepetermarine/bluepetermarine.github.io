@@ -1,6 +1,6 @@
 /*!
  * Blue Peter Marine — RCD Navigator Boat Data Sheet engine
- * One shared data set per boat, entered once on boat-data-sheet.html,
+ * One shared data set per boat, entered once in step 1 of the RCD Navigator (rcd-navigator.html#setup),
  * read by every RCD Navigator tool that needs it.
  *
  * Single source of truth:
@@ -16,7 +16,7 @@
 
   var SITE = "https://bluepetermarine.github.io/";
   var STORE_KEY = "bpm.boatdata.v1";
-  var SHEET = SITE + "boat-data-sheet.html";
+  var SHEET = SITE + "rcd-navigator.html#setup";   /* step 1 "Your boat"; the separate boat-data-sheet.html was retired */
 
   /* ---------- Tools, in essential requirement order ---------- */
   var TOOLS = [
@@ -197,11 +197,11 @@
      French terms follow the French editions of the EN ISO standards and Directive 2013/53/UE. */
   var L10N = { fr: {
     ui: {
-      prefilled: "Prérempli à partir de la fiche de données du bateau. Vous pouvez le modifier ici.",
-      setInSheet: "Défini dans la fiche de données du bateau. Modifiez-le là-bas.",
-      chip: "Données du bateau : {boat}{n} · Ouvrir la fiche",
+      prefilled: "Prérempli à partir des données du bateau (étape 1 du RCD Navigator). Vous pouvez le modifier ici.",
+      setInSheet: "Défini à l'étape 1 du RCD Navigator. Modifiez-le là-bas.",
+      chip: "Données du bateau : {boat}{n} · Modifier dans le RCD Navigator",
       chipFields: " · {n} champs préremplis",
-      chipEmpty: "Remplissez une fois la fiche de données du bateau pour préremplir cet outil",
+      chipEmpty: "Remplissez une fois l'étape 1 du RCD Navigator pour préremplir cet outil",
       yourProject: "votre projet"
     },
     tools: {
@@ -381,7 +381,7 @@
     if (el.getAttribute("data-bpm-filled")) return;
     el.setAttribute("data-bpm-filled", "1");
     el.style.boxShadow = "inset 3px 0 0 #c8860a";
-    el.title = ui("prefilled", "Pre-filled from the Boat Data Sheet. You can change it here.");
+    el.title = ui("prefilled", "Pre-filled from your boat data (RCD Navigator step 1). You can change it here.");
   }
 
   function pageMatches(page) {
@@ -428,7 +428,7 @@
         var pageDefault = u[4] !== undefined && String(el.value) === String(u[4]) && String(raw) !== String(u[4]);
         /* master tools (Maximum Load Worksheet): the Boat Data Sheet always wins, so every page shows the same boat */
         var master = !!tool.master && raw !== undefined && raw !== "";
-        if (master && el.tagName === "SELECT") { el.disabled = true; el.style.background = "#eceae4"; el.style.color = "#1a1a1a"; el.title = ui("setInSheet", "Set in the Boat Data Sheet. Change it there."); }
+        if (master && el.tagName === "SELECT") { el.disabled = true; el.style.background = "#eceae4"; el.style.color = "#1a1a1a"; el.title = ui("setInSheet", "Set in RCD Navigator step 1. Change it there."); }
         if (raw !== undefined && raw !== "" && (isEmpty(el) || pageDefault || master)) {
           var v = u[2] ? conv[u[2]](raw) : raw;
           if (el.tagName === "SELECT") {
@@ -460,8 +460,8 @@
     c.target = "_blank";
     c.rel = "noopener";
     c.textContent = res.boat
-      ? ui("chip", "Boat data: {boat}{n} · Open sheet", { boat: res.boat, n: res.filled ? ui("chipFields", " · {n} fields pre-filled", { n: res.filled }) : "" })
-      : ui("chipEmpty", "Fill the Boat Data Sheet once to pre-fill this tool");
+      ? ui("chip", "Boat data: {boat}{n} · Edit in the RCD Navigator", { boat: res.boat, n: res.filled ? ui("chipFields", " · {n} fields pre-filled", { n: res.filled }) : "" })
+      : ui("chipEmpty", "Fill in step 1 of the RCD Navigator once to pre-fill this tool");
     c.setAttribute("style", "position:fixed;right:14px;bottom:14px;z-index:99999;background:#1a2e4a;color:#fff;text-decoration:none;" +
       "font:600 13px/1.3 Barlow,Arial,sans-serif;padding:8px 12px;border-radius:6px;border-left:4px solid #c8860a;box-shadow:0 2px 8px rgba(0,0,0,.25);max-width:calc(100vw - 28px)");
     var printCss = document.createElement("style");
