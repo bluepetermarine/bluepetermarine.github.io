@@ -115,16 +115,20 @@
   var TXT = {
     en: {
       askTitle: "Save into your project folder?",
-      askText: "Files you save can go straight into a folder on this computer, sorted in a subfolder for each essential requirement (for example “{folder}”). Choose the project folder once. You can change this later in the RCD Navigator, under the documentation summary.",
-      askChoose: "Choose project folder", askNo: "Download as usual",
+      askText: "Files you save can go straight into a folder on this computer or into your Google Drive, sorted in a subfolder for each essential requirement (for example “{folder}”). Choose once. You can change this later in the RCD Navigator, under the documentation summary.",
+      askChoose: "Choose project folder", askNo: "Download as usual", askDrive: "Save to Google Drive",
+      askTextNoFolder: "Files you save can go straight into your Google Drive, in a folder for this project with a subfolder for each essential requirement (for example \u201c{folder}\u201d). You sign in with your own Google account once. You can change this later in the RCD Navigator, under the documentation summary.",
+      savedDrive: "Saved in Google Drive: {folder}", driveFailed: "Could not save in Google Drive, the file was downloaded instead.",
       saved: "Saved in {folder}", savedRoot: "Saved in your project folder",
       failed: "Could not save in the folder, the file was downloaded instead.",
       attached: "Also attached under {esr} in the RCD Navigator"
     },
     fr: {
       askTitle: "Enregistrer dans le dossier du projet ?",
-      askText: "Les fichiers que vous enregistrez peuvent aller directement dans un dossier de cet ordinateur, rangés dans un sous-dossier par exigence essentielle (par exemple « {folder} »). Choisissez le dossier du projet une seule fois. Vous pouvez modifier ce choix plus tard dans le RCD Navigator, sous le résumé de la documentation.",
-      askChoose: "Choisir le dossier du projet", askNo: "Télécharger comme d'habitude",
+      askText: "Les fichiers que vous enregistrez peuvent aller directement dans un dossier de cet ordinateur ou dans votre Google Drive, rangés dans un sous-dossier par exigence essentielle (par exemple « {folder} »). Choisissez une seule fois. Vous pouvez modifier ce choix plus tard dans le RCD Navigator, sous le résumé de la documentation.",
+      askChoose: "Choisir le dossier du projet", askNo: "Télécharger comme d'habitude", askDrive: "Enregistrer dans Google Drive",
+      askTextNoFolder: "Les fichiers que vous enregistrez peuvent aller directement dans votre Google Drive, dans un dossier pour ce projet avec un sous-dossier par exigence essentielle (par exemple \u00ab {folder} \u00bb). Vous vous connectez une seule fois avec votre propre compte Google. Vous pouvez modifier ce choix plus tard dans le RCD Navigator, sous le résumé de la documentation.",
+      savedDrive: "Enregistré dans Google Drive : {folder}", driveFailed: "Enregistrement dans Google Drive impossible, le fichier a été téléchargé.",
       saved: "Enregistré dans {folder}", savedRoot: "Enregistré dans le dossier du projet",
       failed: "Enregistrement dans le dossier impossible, le fichier a été téléchargé.",
       attached: "Également joint sous {esr} dans le RCD Navigator"
@@ -216,6 +220,7 @@
     });
   }
   function folderLabel() {
+    if (getMode() === "gdrive") return Promise.resolve(driveRootName());
     if (!supported) return Promise.resolve(null);
     return kvGet("root").then(function (h) { return h ? (h.name || "\u2026") : null; }).catch(function () { return null; });
   }
@@ -242,8 +247,114 @@
     });
   }
 
+  /* ---------- Google Drive (drive.file: only files this app creates) ---------- */
+  var GCID = "6014196945-tmo3gl4e11jnsfblabfncujg4ifs1slk.apps.googleusercontent.com";
+  var GSCOPE = "https://www.googleapis.com/auth/drive.file";
+  var FOLDER_MIME = "application/vnd.google-apps.folder";
+  var gTok = null, gExp = 0, gisP = null, gRoot = null, gSub = {};
+  try { var st0 = JSON.parse(sessionStorage.getItem("bpm.gdrive.tok") || "null"); if (st0 && st0.e > Date.now()) { gTok = st0.t; gExp = st0.e; } } catch (e) {}
+  function projectNo() {
+    try { var info = JSON.parse(localStorage.getItem("bpm_client") || "null"); return info && info.p ? String(info.p).trim() : ""; } catch (e) { return ""; }
+  }
+  function driveRootName() { var p = projectNo(); return "RCD Navigator" + (p ? " - " + p : ""); }
+  function loadGis() {
+    if (window.google && google.accounts && google.accounts.oauth2) return Promise.resolve();
+    if (gisP) return gisP;
+    gisP = new Promise(function (res, rej) {
+      var sc = document.createElement("script");
+      sc.src = "https://accounts.google.com/gsi/client"; sc.async = true;
+      sc.onload = function () { res(); }; sc.onerror = function () { gisP = null; rej(new Error("Google sign-in could not load")); };
+      (document.head || document.documentElement).appendChild(sc);
+    });
+    return gisP;
+  }
+  function driveToken(interactive) {
+    if (gTok && Date.now() < gExp - 60000) return Promise.resolve(gTok);
+    if (!interactive) return Promise.reject(new Error("not signed in"));
+    return loadGis().then(function () {
+      return new Promise(function (res, rej) {
+        var c = google.accounts.oauth2.initTokenClient({
+          client_id: GCID, scope: GSCOPE,
+          callback: function (r) {
+            if (!r || r.error || !r.access_token) { var e = new Error((r && r.error) || "no token"); if (r && r.error === "access_denied") e.name = "AbortError"; return rej(e); }
+            gTok = r.access_token; gExp = Date.now() + (Number(r.expires_in) || 3600) * 1000;
+            try { sessionStorage.setItem("bpm.gdrive.tok", JSON.stringify({ t: gTok, e: gExp })); } catch (e2) {}
+            res(gTok);
+          },
+          error_callback: function (err) { var e = new Error((err && err.type) || "sign-in failed"); if (err && err.type === "popup_closed") e.name = "AbortError"; rej(e); }
+        });
+        c.requestAccessToken();
+      });
+    });
+  }
+  function driveFetch(url, opt, interactive, retried) {
+    return driveToken(interactive).then(function (t) {
+      opt = opt || {}; opt.headers = opt.headers || {}; opt.headers.Authorization = "Bearer " + t;
+      return fetch(url, opt).then(function (r) {
+        if (r.status === 401 && !retried) { gTok = null; try { sessionStorage.removeItem("bpm.gdrive.tok"); } catch (e) {} return driveFetch(url, opt, interactive, true); }
+        if (!r.ok) return r.text().then(function (x) { throw new Error("Google Drive " + r.status + ": " + x.slice(0, 200)); });
+        return r.json();
+      });
+    });
+  }
+  function qs(v) { return String(v).replace(/\\/g, "\\\\").replace(/'/g, "\\'"); }
+  function driveList(q, interactive) {
+    return driveFetch("https://www.googleapis.com/drive/v3/files?pageSize=200&fields=files(id,name)&q=" + encodeURIComponent(q), null, interactive)
+      .then(function (j) { return j.files || []; });
+  }
+  function driveFolder(name, parent, interactive) {
+    return driveFetch("https://www.googleapis.com/drive/v3/files?fields=id,name", {
+      method: "POST", headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: name, mimeType: FOLDER_MIME, parents: [parent] })
+    }, interactive);
+  }
+  /* project folder in My Drive: "RCD Navigator - <project number>" */
+  function driveRoot(interactive) {
+    var name = driveRootName();
+    if (gRoot && gRoot.name === name) return Promise.resolve(gRoot);
+    return driveList("mimeType='" + FOLDER_MIME + "' and trashed=false and 'root' in parents and name='" + qs(name) + "'", interactive).then(function (f) {
+      return f[0] || driveFolder(name, "root", interactive);
+    }).then(function (f) { gRoot = f; gSub = {}; return f; });
+  }
+  /* requirement subfolder: reuse one that starts with the same number (any language) */
+  function driveEsr(root, esr, interactive) {
+    if (gSub[esr]) return Promise.resolve(gSub[esr]);
+    var prefix = numOf(esr) + " ";
+    return driveList("mimeType='" + FOLDER_MIME + "' and trashed=false and '" + root.id + "' in parents", interactive).then(function (f) {
+      for (var i = 0; i < f.length; i++) if (f[i].name.indexOf(prefix) === 0) return f[i];
+      return driveFolder(folderName(esr), root.id, interactive);
+    }).then(function (f) { gSub[esr] = f; return f; });
+  }
+  function driveWrite(esr, name, blob, interactive) {
+    return driveRoot(interactive).then(function (root) {
+      return (esr ? driveEsr(root, esr, interactive) : Promise.resolve(root)).then(function (dir) {
+        return driveList("trashed=false and '" + dir.id + "' in parents and name='" + qs(name) + "'", interactive).then(function (same) {
+          var type = blob.type || "application/octet-stream";
+          if (same[0]) {     // saving again replaces the earlier version
+            return driveFetch("https://www.googleapis.com/upload/drive/v3/files/" + same[0].id + "?uploadType=media&fields=id",
+              { method: "PATCH", headers: { "Content-Type": type }, body: blob }, interactive);
+          }
+          var b = "bpm" + Date.now();
+          var body = new Blob(["--" + b + "\r\nContent-Type: application/json; charset=UTF-8\r\n\r\n" +
+            JSON.stringify({ name: name, parents: [dir.id] }) + "\r\n--" + b + "\r\nContent-Type: " + type + "\r\n\r\n", blob, "\r\n--" + b + "--"]);
+          return driveFetch("https://www.googleapis.com/upload/drive/v3/files?uploadType=multipart&fields=id",
+            { method: "POST", headers: { "Content-Type": "multipart/related; boundary=" + b }, body: body }, interactive);
+        }).then(function () { return esr ? root.name + " / " + dir.name : root.name; });
+      });
+    });
+  }
+  /* sign in (needs a click) and make Google Drive the place to save */
+  function useDrive() {
+    return driveToken(true).then(function () { return driveRoot(true); }).then(function (r) { setMode("gdrive"); return r; });
+  }
+  function driveFolderUrl() {
+    return driveRoot(false).then(function (r) { return "https://drive.google.com/drive/folders/" + r.id; }).catch(function () { return "https://drive.google.com/"; });
+  }
+  if (getMode() === "gdrive") loadGis().catch(function () {});   // ready before the first click
+
   /* write a file; esr null = the project folder itself. Resolves with the folder name. */
-  function writeFile(esr, name, blob, interactive) {
+  function writeFile(esr, name, blob, interactive, target) {
+    if ((target || getMode()) === "gdrive") return driveWrite(esr, name, blob, interactive !== false);
     return rootDir(interactive !== false).then(function (root) {
       if (!root) throw new Error("no folder");
       return (esr ? esrDir(root, esr) : Promise.resolve(root)).then(function (dir) {
@@ -324,7 +435,7 @@
       var box = document.createElement("div");
       box.style.cssText = CSS + "background:#fff;max-width:460px;border-radius:8px;padding:20px 22px;box-shadow:0 8px 30px rgba(0,0,0,.3);border-top:4px solid #c8860a";
       var h = document.createElement("div"); h.style.cssText = "font-weight:700;font-size:17px;margin-bottom:8px"; h.textContent = tx("askTitle");
-      var p = document.createElement("div"); p.style.cssText = "font-size:14px;line-height:1.5;margin-bottom:16px"; p.textContent = tx("askText", { folder: example });
+      var p = document.createElement("div"); p.style.cssText = "font-size:14px;line-height:1.5;margin-bottom:16px"; p.textContent = tx(supported ? "askText" : "askTextNoFolder", { folder: example });
       var row = document.createElement("div"); row.style.cssText = "display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end";
       function btn(label, primary, val) {
         var b = document.createElement("button"); b.type = "button"; b.textContent = label;
@@ -334,7 +445,9 @@
         return b;
       }
       row.appendChild(btn(tx("askNo"), false, "download"));
-      row.appendChild(btn(tx("askChoose"), true, "folder"));
+      row.appendChild(btn(tx("askDrive"), !supported, "gdrive"));
+      if (supported) row.appendChild(btn(tx("askChoose"), true, "folder"));
+      loadGis().catch(function () {});
       box.appendChild(h); box.appendChild(p); box.appendChild(row); bg.appendChild(box);
       bg.addEventListener("click", function (e) { if (e.target === bg) { bg.remove(); res(null); } });
       (document.body || document.documentElement).appendChild(bg);
@@ -398,21 +511,24 @@
     if (!root) blobP.then(function (b) { return attach(esr, name, b); }).catch(function () {});
 
     var mode = getMode();
-    if (!supported || mode === "download") return false;     // ordinary download, with the new name
+    if (mode === "download" || (mode === "folder" && !supported)) return false;     // ordinary download, with the new name
     var dest = root ? null : esr;
-    var go = mode === "folder" ? Promise.resolve("folder") : ask(folderName(esr));
+    var go = (mode === "folder" || mode === "gdrive") ? Promise.resolve(mode) : ask(folderName(esr));
     go.then(function (choice) {
-      if (choice !== "folder") {
+      if (choice !== "folder" && choice !== "gdrive") {
         if (choice === "download") setMode("download");
         return blobP.then(function (b) { plainDownload(b, name); });
       }
       return blobP.then(function (b) {
-        return writeFile(dest, name, b, true).then(function (where) {
-          toast(dest ? tx("saved", { folder: where }) : tx("savedRoot"),
+        var save = choice === "gdrive" ? useDrive().then(function () { return writeFile(dest, name, b, true, "gdrive"); })
+                                       : writeFile(dest, name, b, true, "folder");
+        return save.then(function (where) {
+          toast(choice === "gdrive" ? tx("savedDrive", { folder: where }) : dest ? tx("saved", { folder: where }) : tx("savedRoot"),
             (!root && PAGE_ESR !== "_general" && !/rcd-navigator\.html$/i.test(location.pathname)) ? tx("attached", { esr: esr }) : "");
         }).catch(function (err) {
           if (err && err.name === "AbortError") return;     // picker closed: nothing saved, nothing downloaded
-          toast(tx("failed"));
+          try { console.warn("[bpm-folders]", err); } catch (e) {}
+          toast(tx(choice === "gdrive" ? "driveFailed" : "failed"));
           plainDownload(b, name);
         });
       });
@@ -447,6 +563,8 @@
     folderLabel: folderLabel,
     forget: forget,
     writeFile: writeFile,
+    useDrive: useDrive,
+    driveFolderUrl: driveFolderUrl,
     toast: toast
   };
 })();
