@@ -65,6 +65,7 @@
     if (String(name).indexOf(PROJ) >= 0) return name;
     return PROJ + "_" + name;
   }
+  window.BPM_PROJNAME = projName;   /* used by bpm-folders.js */
   function renameDownload(a) {
     try {
       if (!PROJ || !a || !a.hasAttribute || !a.hasAttribute("download")) return;
@@ -375,6 +376,7 @@
       if (a.hasAttribute("download")) {
         var d = document.createElement("a");
         d.href = blobUrl; d.download = a.getAttribute("download") || decodeURIComponent(file);
+        d.setAttribute("data-bpm-file", "none");   /* documents of this site: not filed by bpm-folders.js */
         document.body.appendChild(d); d.click(); d.remove();
         if (win) win.close();
       } else if (win) { win.location.href = blobUrl + hash; }
