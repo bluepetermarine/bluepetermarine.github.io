@@ -168,7 +168,9 @@
 
   /* ---------- storage of the folder choice ---------- */
   var MODE_KEY = "bpm.folders";            // "folder" | "download" | (not chosen yet)
-  var supported = typeof window.showDirectoryPicker === "function" && window.isSecureContext !== false && window.top === window.self;
+  /* folder access works on the page itself and inside a frame of this site (client.html shows the Navigator in a frame) */
+  function sameOriginTop() { try { return window.top === window.self || window.top.location.origin === location.origin; } catch (e) { return false; } }
+  var supported = typeof window.showDirectoryPicker === "function" && window.isSecureContext !== false && sameOriginTop();
   function getMode() { try { return localStorage.getItem(MODE_KEY) || ""; } catch (e) { return ""; } }
   function setMode(m) { try { if (m) localStorage.setItem(MODE_KEY, m); else localStorage.removeItem(MODE_KEY); } catch (e) {} }
 
